@@ -9,9 +9,24 @@
             * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
         * MapReduce
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
+* VersionControl
+    * Git
+        * [GitHub&GitBook&Typora最佳实践](src/versioncontrol/git/GitHub&GitBook&Typora最佳实践.md)
 * Virtualization
     * VMware
         * [VMware系统安装](src/virtualization/vmware/VMware系统安装.md)
         * [VMware部署Hadoop生态环境](src/virtualization/vmware/VMware部署Hadoop生态环境.md)
+    * Docker
+        * [Docker架构](src/virtualization/docker/Docker架构.md)
+        * [Docker命令](src/virtualization/docker/Docker命令.md)
+        * [Dockerfile参考](src/virtualization/docker/Dockerfile参考.md)
+* OS
+    * Linux
+        * [Linux命令](src/os/linux/Linux命令.md)
+        * [iTerm的使用](src/os/linux/iTerm的使用.md)
+* IDE
+    * IntelliJ IDEA
+        * [IDEA配置Java开发环境](src/ide/intellijidea/IDEA配置Java开发环境.md)
+        * [IDEA创建GitHub项目](src/ide/intellijidea/IDEA创建GitHub项目.md)
 * [后记]
 
