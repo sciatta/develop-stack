@@ -4,6 +4,7 @@
 * Java
 * BigData
     * Hadoop
+        * [Hadoop配置](src/bigdata/hadoop/Hadoop配置.md)
         * HDFS
             * [HDFS命令](src/bigdata/hadoop/hdfs/HDFS命令.md)
             * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
@@ -11,7 +12,7 @@
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
 * VersionControl
     * Git
-        * [GitHub&GitBook&Typora最佳实践](src/versioncontrol/git/GitHub&GitBook&Typora最佳实践.md)
+        * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
 * Virtualization
     * VMware
         * [VMware系统安装](src/virtualization/vmware/VMware系统安装.md)

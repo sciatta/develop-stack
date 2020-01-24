@@ -1,5 +1,3 @@
-# GitHub&GitBook&Typora最佳实践
-
 # 概述
 
 目前有众多的知识管理软件，对于比较私密的文档使用印象笔记，不仅支持Markdown这种轻量级的标记语言，也支持复杂的富文本语言，但是一些比较有用的功能则需要收费，比如查看历史版本、离线访问、容量限制。最近，使用了一下阿里的语雀，书写体验、排版和易操作方面确实属于不错的一款产品，可是，某一天断网了，不支持离线访问是硬伤。因此，想要寻找如下一款产品满足如下需求：
@@ -35,12 +33,12 @@
 **Typora**
 
 - 编辑SUMMARY.md描述项目的目录和文件结构
-- 在develop-stack目录执行 `gitbook init` 。GitBook会查找SUMMARY.md文件中描述的目录和文件，如果没有则会将其创建。注意，如果删除SUMMARY.md描述项目的目录和文件结构，执行 gitbook init 命令不会删除相应的目录或文件，需要手动维护。
+- 在develop-stack目录执行 `gitbook init` 。GitBook会查找SUMMARY.md文件中描述的目录和文件，如果没有则会将其创建。<font color=red>注意，如果删除SUMMARY.md描述项目的目录和文件结构，执行 gitbook init 命令不会删除相应的目录或文件，需要手动维护</font>。
 
 **GitBook**
 
-* 本地运行 `gitbook serve --port 8088` 开启GitBook服务。通过 http://localhost:8080 访问本地服务。在执行命令的同时会执行构建命令 `gitbook build` 生成 `_book` 目录。注意， `_book` 目录是临时目录，每次构建时全部重建。如果退出服务的话，执行 `control + c` 即可
-* 本地构建 `gitbook build ./ docs` 。注意，`docs` 目录是临时目录。
+* 本地运行 `gitbook serve --port 8088` 开启GitBook服务。通过 http://localhost:8080 访问本地服务。在执行命令的同时会执行构建命令 `gitbook build` 生成 `_book` 目录。<font color=red>注意， `_book` 目录是临时目录，每次构建时全部重建</font>。如果退出服务的话，执行 `control + c` 即可
+* 本地构建 `gitbook build ./ docs` 。
 
 **GitHub**
 
@@ -73,6 +71,7 @@
 ```
 
 ## expandable-chapters
+
 gitbook默认目录没有折叠效果。
 
 ```json
@@ -82,6 +81,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## code
+
 在代码区域的右上角添加一个复制按钮，点击一键复制代码。
 
 ```json
@@ -91,6 +91,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## splitter
+
 左侧目录和右侧文章可以拖动调节宽度。
 
 ```json
@@ -102,6 +103,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## search-pro
+
 支持中英文。
 
 ```json
@@ -115,6 +117,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ##pageview-count
+
 记录每个文章页面被访问的次数。本质是访问 https://hitcounter.pythonanywhere.com/
 
 ```json
@@ -124,6 +127,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## tbfed-pagefooter
+
 在每个文章下面标注版权信息和文章时间。
 
 ```json
@@ -142,6 +146,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## popup
+
 点击可以在新窗口展示图片。
 
 ```json
@@ -171,6 +176,7 @@ gitbook默认目录没有折叠效果。
 ```
 
 ## github-buttons
+
 给 GitBook 添加 GitHub 的图标来显示 star 和 follow。
 
 ```json
@@ -207,9 +213,9 @@ gitbook默认目录没有折叠效果。
 }
 ```
 
-## ga
+## Google统计
 
-添加 Google 统计
+添加Google统计
 
 Google统计 https://analytics.google.com/ 在一个平台上可以全面分析业务数据，进而做出更明智的决策。在网站注册，获取跟踪ID 
 
@@ -224,9 +230,9 @@ Google统计 https://analytics.google.com/ 在一个平台上可以全面分析�
 }
 ```
 
-## baidu
+## BaiDu
 
-添加百度统计
+添加BaiDu统计
 
 百度统计https://tongji.baidu.com/。在网站注册，获取跟踪ID 
 
@@ -345,7 +351,7 @@ Gitbook 捐赠打赏插件
 ping -c 3 sciatta.github.io
 ```
 
-注意，ping的时候不需要加仓库的名称。
+<font color=red>注意，ping的时候不需要加仓库的名称</font>。
 
 - 配置阿里云
 
