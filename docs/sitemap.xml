@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 <url> <loc>http://www.sciatta.com/./</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/hadoop/Hadoop配置.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/hdfs/HDFS命令.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/hdfs/HDFS核心功能原理.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/mapreduce/MapReduce工作原理.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>http://www.sciatta.com/src/versioncontrol/git/GitHub&amp;GitBook&amp;Typora最佳实践.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/versioncontrol/git/GitBook&amp;GitHub&amp;Typora最佳实践.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/vmware/VMware系统安装.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/vmware/VMware部署Hadoop生态环境.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/docker/Docker架构.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
