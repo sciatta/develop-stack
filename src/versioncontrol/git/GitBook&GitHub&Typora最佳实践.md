@@ -234,11 +234,11 @@ Google统计 https://analytics.google.com/ 在一个平台上可以全面分析�
 
 添加BaiDu统计
 
-百度统计https://tongji.baidu.com/。在网站注册，获取跟踪ID 
+百度统计 https://tongji.baidu.com/ 在网站注册，获取跟踪ID 
 
 ```json
 {
-    "plugin": ["baidu"],
+    "plugin": ["baidu-v3"],
     "pluginsConfig": {
         "baidu": {
             "token": "c6612709c010da681bbd4b785968a638"
