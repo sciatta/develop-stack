@@ -10,6 +10,8 @@
             * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
         * MapReduce
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
+        * YARN
+            * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
 * VersionControl
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
