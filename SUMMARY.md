@@ -12,6 +12,9 @@
         * YARN
             * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
         * [HDFS&MapReduce&YARN端口映射](src/bigdata/hadoop/HDFS&MapReduce&YARN端口映射.md)
+* Database
+    * MySQL
+        * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
 * VersionControl
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)

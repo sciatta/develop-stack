@@ -61,7 +61,7 @@ Container 是 YARN 中的资源抽象，它封装了某个节点上的多维度�
 5. 当 RM 收到 submitApplication() 的请求时，就将该请求发给 scheduler，scheduler 分配 container，并与对应的 NM 通信，要求其在这个 container 中启动 AM。
 6. MapReduce 作业的 AM 是一个主类为 MRAppMaster 的 Java 应用，其通过构造一些 bookkeeping 对象来监控作业的进度，得到任务的进度和完成报告。
 7. MRAppMaster 通过 HDFS 得到由 client 计算好的输入 split。然后为每个输入 split 创建 MapTask，根据 `mapreduce.job.reduces` 创建 ReduceTask。
-8. 如果作业很小，AM会选择在其自己的 JVM 中运行任务；如果不是小作业，那么 AM 向 RM 请求 container 来运行所有的 MapTask 和 ReduceTask。请求是通过心跳来传输的，包括每个 MapTask 的数据位置（如存放输入split的主机名和机架）。scheduler 利用这些信息来调度任务，尽量将任务分配给存储数据的节点，或退而分配给和存放输入 split 节点相同机架的节点。
+8. 如果作业很小，AM会选择在其自己的 JVM 中运行任务；如果不是小作业，那么 AM 向 RM 请求 container 来运行所有的 MapTask 和 ReduceTask。请求是通过心跳来传输的，包括每个 MapTask 的数据位置（如存放输入split的主机名和机架）。scheduler 利用这些信息来调度任务，尽量将任务分配给存储数据的节点，或退而分配给同机架的其他节点。
 9. 当一个任务由 RM 调度分配一个 container 后，AM与该 NM 通信，要求其在这个 container 中启动任务。其中，任务是一个主类为 YarnChild 的 Java 应用执行。
 10. YarnChild 在运行任务之前首先本地化任务需要的资源，如作业配置、JAR文件、以及HDFS的所有文件。将任务启动命令写到一个脚本中，并通过运行该脚本启动任务。
 11. YarnChild 运行 MapTask 或 ReduceTask。YarnChild运行在一个专用的JVM中，但是YARN不支持JVM重用。
