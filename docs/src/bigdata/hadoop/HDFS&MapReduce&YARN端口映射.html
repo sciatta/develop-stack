@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Hadoop配置 · GitBook</title>
+        <title>HDFS&MapReduce&YARN端口映射 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -94,6 +94,8 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    
+    <link rel="prev" href="yarn/YARN架构.html" />
     
 
     <style>
@@ -187,20 +189,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.3.1.1" data-path="Hadoop配置.html">
-            
-                <a href="Hadoop配置.html">
-            
-                    
-                    Hadoop配置
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.3.1.2" >
+        <li class="chapter " data-level="1.3.1.1" >
             
                 <span>
             
@@ -214,7 +203,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1.2.1" data-path="hdfs/HDFS命令.html">
+        <li class="chapter " data-level="1.3.1.1.1" data-path="hdfs/HDFS命令.html">
             
                 <a href="hdfs/HDFS命令.html">
             
@@ -227,7 +216,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.1.2.2" data-path="hdfs/HDFS核心功能原理.html">
+        <li class="chapter " data-level="1.3.1.1.2" data-path="hdfs/HDFS核心功能原理.html">
             
                 <a href="hdfs/HDFS核心功能原理.html">
             
@@ -245,7 +234,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.1.3" >
+        <li class="chapter " data-level="1.3.1.2" >
             
                 <span>
             
@@ -259,7 +248,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1.3.1" data-path="mapreduce/MapReduce工作原理.html">
+        <li class="chapter " data-level="1.3.1.2.1" data-path="mapreduce/MapReduce工作原理.html">
             
                 <a href="mapreduce/MapReduce工作原理.html">
             
@@ -274,6 +263,51 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.3.1" data-path="yarn/YARN架构.html">
+            
+                <a href="yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.1.4" data-path="HDFS&MapReduce&YARN端口映射.html">
+            
+                <a href="HDFS&MapReduce&YARN端口映射.html">
+            
+                    
+                    HDFS&MapReduce&YARN端口映射
+            
+                </a>
+            
+
             
         </li>
     
@@ -631,7 +665,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../../.." >Hadoop配置</a>
+        <a href="../../.." >HDFS&MapReduce&YARN端口映射</a>
     </h1>
 </div>
 
@@ -646,45 +680,89 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x7AEF;&#x53E3;&#x6620;&#x5C04;"><b>1. </b>&#x7AEF;&#x53E3;&#x6620;&#x5C04;</a></li><ul><li><span class="title-icon "></span><a href="#core-sitexml"><b>1.1. </b>core-site.xml</a></li><ul><li><span class="title-icon "></span><a href="#fsdefaultfs"><b>1.1.1. </b>fs.defaultFS</a></li></ul><li><span class="title-icon "></span><a href="#hdfs-sitexml"><b>1.2. </b>hdfs-site.xml</a></li><ul><li><span class="title-icon "></span><a href="#dfsnamenodehttp-address"><b>1.2.1. </b>dfs.namenode.http-address</a></li><li><span class="title-icon "></span><a href="#dfsnamenodesecondaryhttp-address"><b>1.2.2. </b>dfs.namenode.secondary.http-address</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x6570;&#x636E;&#x76EE;&#x5F55;"><b>2. </b>&#x6570;&#x636E;&#x76EE;&#x5F55;</a></li><ul><li><span class="title-icon "></span><a href="#hdfs-sitexml_1"><b>2.1. </b>hdfs-site.xml</a></li><ul><li><span class="title-icon "></span><a href="#dfsnamenodenamedir"><b>2.1.1. </b>dfs.namenode.name.dir</a></li><li><span class="title-icon "></span><a href="#dfsnamenodeeditsdir"><b>2.1.2. </b>dfs.namenode.edits.dir</a></li><li><span class="title-icon "></span><a href="#dfsnamenodecheckpointdir"><b>2.1.3. </b>dfs.namenode.checkpoint.dir</a></li><li><span class="title-icon "></span><a href="#dfsnamenodecheckpointeditsdir"><b>2.1.4. </b>dfs.namenode.checkpoint.edits.dir</a></li><li><span class="title-icon "></span><a href="#dfsdatanodedatadir"><b>2.1.5. </b>dfs.datanode.data.dir</a></li></ul></ul></ul></div><a href="#&#x7AEF;&#x53E3;&#x6620;&#x5C04;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x7AEF;&#x53E3;&#x6620;&#x5C04;"><a name="&#x7AEF;&#x53E3;&#x6620;&#x5C04;" class="anchor-navigation-ex-anchor" href="#&#x7AEF;&#x53E3;&#x6620;&#x5C04;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x7AEF;&#x53E3;&#x6620;&#x5C04;</h1>
-<h2 id="core-sitexml"><a name="core-sitexml" class="anchor-navigation-ex-anchor" href="#core-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>1.1. core-site.xml</h2>
-<h3 id="fsdefaultfs"><a name="fsdefaultfs" class="anchor-navigation-ex-anchor" href="#fsdefaultfs"><i class="fa fa-link" aria-hidden="true"></i></a>1.1.1. fs.defaultFS</h3>
-<p><code>8020</code></p>
-<p>NameNode&#x7684;RPC&#x5730;&#x5740;  </p>
-<h2 id="hdfs-sitexml"><a name="hdfs-sitexml" class="anchor-navigation-ex-anchor" href="#hdfs-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>1.2. hdfs-site.xml</h2>
-<h3 id="dfsnamenodehttp-address"><a name="dfsnamenodehttp-address" class="anchor-navigation-ex-anchor" href="#dfsnamenodehttp-address"><i class="fa fa-link" aria-hidden="true"></i></a>1.2.1. dfs.namenode.http-address</h3>
-<p><code>50070</code></p>
-<p>NameNode&#x7684;http&#x5730;&#x5740;</p>
-<h3 id="dfsnamenodesecondaryhttp-address"><a name="dfsnamenodesecondaryhttp-address" class="anchor-navigation-ex-anchor" href="#dfsnamenodesecondaryhttp-address"><i class="fa fa-link" aria-hidden="true"></i></a>1.2.2. dfs.namenode.secondary.http-address</h3>
-<p><code>50090</code></p>
-<p>SecondaryNameNode&#x7684;http&#x5730;&#x5740;  </p>
-<h1 id="&#x6570;&#x636E;&#x76EE;&#x5F55;"><a name="&#x6570;&#x636E;&#x76EE;&#x5F55;" class="anchor-navigation-ex-anchor" href="#&#x6570;&#x636E;&#x76EE;&#x5F55;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x6570;&#x636E;&#x76EE;&#x5F55;</h1>
-<h2 id="hdfs-sitexml_1"><a name="hdfs-sitexml_1" class="anchor-navigation-ex-anchor" href="#hdfs-sitexml_1"><i class="fa fa-link" aria-hidden="true"></i></a>2.1. hdfs-site.xml</h2>
-<h3 id="dfsnamenodenamedir"><a name="dfsnamenodenamedir" class="anchor-navigation-ex-anchor" href="#dfsnamenodenamedir"><i class="fa fa-link" aria-hidden="true"></i></a>2.1.1. dfs.namenode.name.dir</h3>
-<p><code>file:///bigdata/install/hadoop-2.6.0-cdh5.14.2/hadoopDatas/namenodeDatas/</code></p>
-<ul>
-<li><p>NameNode fsimage</p>
-</li>
-<li><p>&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x591A;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x76EE;&#x5F55;&#x5B58;&#x653E;&#x76F8;&#x540C;&#x7684;fsimage</p>
-</li>
-</ul>
-<h3 id="dfsnamenodeeditsdir"><a name="dfsnamenodeeditsdir" class="anchor-navigation-ex-anchor" href="#dfsnamenodeeditsdir"><i class="fa fa-link" aria-hidden="true"></i></a>2.1.2. dfs.namenode.edits.dir</h3>
-<p><code>file:///bigdata/install/hadoop-2.6.0-cdh5.14.2/hadoopDatas/dfs/nn/edits</code></p>
-<p>NameNode edits</p>
-<h3 id="dfsnamenodecheckpointdir"><a name="dfsnamenodecheckpointdir" class="anchor-navigation-ex-anchor" href="#dfsnamenodecheckpointdir"><i class="fa fa-link" aria-hidden="true"></i></a>2.1.3. dfs.namenode.checkpoint.dir</h3>
-<p><code>file:///bigdata/install/hadoop-2.6.0-cdh5.14.2/hadoopDatas/dfs/snn/name</code></p>
-<p>SecondNameNode fsimage</p>
-<h3 id="dfsnamenodecheckpointeditsdir"><a name="dfsnamenodecheckpointeditsdir" class="anchor-navigation-ex-anchor" href="#dfsnamenodecheckpointeditsdir"><i class="fa fa-link" aria-hidden="true"></i></a>2.1.4. dfs.namenode.checkpoint.edits.dir</h3>
-<p><code>file:///bigdata/install/hadoop-2.6.0-cdh5.14.2/hadoopDatas/dfs/nn/snn/edits</code></p>
-<p>SecondNameNode edits</p>
-<h3 id="dfsdatanodedatadir"><a name="dfsdatanodedatadir" class="anchor-navigation-ex-anchor" href="#dfsdatanodedatadir"><i class="fa fa-link" aria-hidden="true"></i></a>2.1.5. dfs.datanode.data.dir</h3>
-<p><code>file:///bigdata/install/hadoop-2.6.0-cdh5.14.2/hadoopDatas/datanodeDatas</code></p>
-<ul>
-<li>DataNode</li>
-<li>&#x53EF;&#x4EE5;&#x914D;&#x7F6E;&#x591A;&#x4E2A;&#x76EE;&#x5F55;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x76EE;&#x5F55;&#x5B58;&#x653E;&#x4E0D;&#x540C;&#x7684;&#x6570;&#x636E;&#x6587;&#x4EF6; </li>
-</ul>
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#hdfs"><b>1. </b>HDFS</a></li><li><span class="title-icon "></span><a href="#mapreduce"><b>2. </b>MapReduce</a></li><li><span class="title-icon "></span><a href="#yarn"><b>3. </b>YARN</a></li></ul></div><a href="#hdfs" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="hdfs"><a name="hdfs" class="anchor-navigation-ex-anchor" href="#hdfs"><i class="fa fa-link" aria-hidden="true"></i></a>1. HDFS</h1>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x4F4D;&#x7F6E;</th>
+<th>&#x9ED8;&#x8BA4;</th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fs.defaultFS</td>
+<td>core-site.xml</td>
+<td>8020</td>
+<td>NameNode&#x7684;RPC&#x5730;&#x5740;</td>
+</tr>
+<tr>
+<td>dfs.namenode.http-address</td>
+<td>hdfs-site.xml</td>
+<td>50070</td>
+<td>NameNode&#x7684;http&#x5730;&#x5740;</td>
+</tr>
+<tr>
+<td>dfs.namenode.secondary.http-address</td>
+<td>hdfs-site.xml</td>
+<td>50090</td>
+<td>SecondaryNameNode&#x7684;http&#x5730;&#x5740;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="mapreduce"><a name="mapreduce" class="anchor-navigation-ex-anchor" href="#mapreduce"><i class="fa fa-link" aria-hidden="true"></i></a>2. MapReduce</h1>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x4F4D;&#x7F6E;</th>
+<th>&#x9ED8;&#x8BA4;</th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mapreduce.jobhistory.address</td>
+<td>mapred-site.xml</td>
+<td>10020</td>
+<td>jobhistory&#x7684;RPC&#x5730;&#x5740;</td>
+</tr>
+<tr>
+<td>mapreduce.jobhistory.webapp.address</td>
+<td>mapred-site.xml</td>
+<td>19888</td>
+<td>jobhistory&#x7684;http&#x5730;&#x5740;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="yarn"><a name="yarn" class="anchor-navigation-ex-anchor" href="#yarn"><i class="fa fa-link" aria-hidden="true"></i></a>3. YARN</h1>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x4F4D;&#x7F6E;</th>
+<th>&#x9ED8;&#x8BA4;</th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yarn.resourcemanager.webapp.address</td>
+<td>yarn-site.xml</td>
+<td>8088</td>
+<td>yarn&#x7684;http&#x5730;&#x5740;</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>8032</td>
+<td>ResourceManager&#x7684;RPC&#x5730;&#x5740;</td>
+</tr>
+</tbody>
+</table>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
-2020-01-24 16:02:10
+2020-02-05 11:05:17
 </span></footer>
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
                                 
@@ -713,6 +791,10 @@
 
             
                 
+                <a href="yarn/YARN架构.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: YARN架构">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
                 
             
         
@@ -721,7 +803,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Hadoop配置","level":"1.3.1.1","depth":3,"next":{"title":"HDFS","level":"1.3.1.2","depth":3,"ref":"","articles":[{"title":"HDFS命令","level":"1.3.1.2.1","depth":4,"path":"src/bigdata/hadoop/hdfs/HDFS命令.md","ref":"src/bigdata/hadoop/hdfs/HDFS命令.md","articles":[]},{"title":"HDFS核心功能原理","level":"1.3.1.2.2","depth":4,"path":"src/bigdata/hadoop/hdfs/HDFS核心功能原理.md","ref":"src/bigdata/hadoop/hdfs/HDFS核心功能原理.md","articles":[]}]},"previous":{"title":"Hadoop","level":"1.3.1","depth":2,"ref":"","articles":[{"title":"Hadoop配置","level":"1.3.1.1","depth":3,"path":"src/bigdata/hadoop/Hadoop配置.md","ref":"src/bigdata/hadoop/Hadoop配置.md","articles":[]},{"title":"HDFS","level":"1.3.1.2","depth":3,"ref":"","articles":[{"title":"HDFS命令","level":"1.3.1.2.1","depth":4,"path":"src/bigdata/hadoop/hdfs/HDFS命令.md","ref":"src/bigdata/hadoop/hdfs/HDFS命令.md","articles":[]},{"title":"HDFS核心功能原理","level":"1.3.1.2.2","depth":4,"path":"src/bigdata/hadoop/hdfs/HDFS核心功能原理.md","ref":"src/bigdata/hadoop/hdfs/HDFS核心功能原理.md","articles":[]}]},{"title":"MapReduce","level":"1.3.1.3","depth":3,"ref":"","articles":[{"title":"MapReduce工作原理","level":"1.3.1.3.1","depth":4,"path":"src/bigdata/hadoop/mapreduce/MapReduce工作原理.md","ref":"src/bigdata/hadoop/mapreduce/MapReduce工作原理.md","articles":[]}]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hadoop/Hadoop配置.md","mtime":"2020-01-24T08:02:10.212Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-01T07:41:09.183Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"HDFS&MapReduce&YARN端口映射","level":"1.3.1.4","depth":3,"next":{"title":"VersionControl","level":"1.4","depth":1,"ref":"","articles":[{"title":"Git","level":"1.4.1","depth":2,"ref":"","articles":[{"title":"GitBook&GitHub&Typora最佳实践","level":"1.4.1.1","depth":3,"path":"src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md","ref":"src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md","articles":[]}]}]},"previous":{"title":"YARN架构","level":"1.3.1.3.1","depth":4,"path":"src/bigdata/hadoop/yarn/YARN架构.md","ref":"src/bigdata/hadoop/yarn/YARN架构.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hadoop/HDFS&MapReduce&YARN端口映射.md","mtime":"2020-02-05T03:05:17.287Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-05T04:11:20.382Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
