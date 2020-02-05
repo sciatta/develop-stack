@@ -4,7 +4,6 @@
 * Java
 * BigData
     * Hadoop
-        * [Hadoop配置](src/bigdata/hadoop/Hadoop配置.md)
         * HDFS
             * [HDFS命令](src/bigdata/hadoop/hdfs/HDFS命令.md)
             * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
@@ -12,6 +11,7 @@
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
         * YARN
             * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
+        * [HDFS&MapReduce&YARN端口映射](src/bigdata/hadoop/HDFS&MapReduce&YARN端口映射.md)
 * VersionControl
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
