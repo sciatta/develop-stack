@@ -12,6 +12,8 @@
         * YARN
             * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
         * [HDFS&MapReduce&YARN端口映射](src/bigdata/hadoop/HDFS&MapReduce&YARN端口映射.md)
+    * Hive
+        * [Hive安装部署](src/bigdata/hive/Hive安装部署.md)
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
