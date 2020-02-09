@@ -6,6 +6,9 @@
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/mapreduce/MapReduce工作原理.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/yarn/YARN架构.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/HDFS&amp;MapReduce&amp;YARN端口映射.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/hive/Hive安装部署.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/hive/大数据分析利器之Hive.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/database/mysql/CentOS7安装MySQL5.7.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/versioncontrol/git/GitBook&amp;GitHub&amp;Typora最佳实践.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/vmware/VMware系统安装.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/vmware/VMware部署Hadoop生态环境.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
