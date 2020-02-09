@@ -1,0 +1,1319 @@
+# 数据仓库
+
+## 基本概念
+
+- 数据仓库的英文名称为Data Warehouse，可简写为DW或DWH。
+- 数据仓库的目的是构建**面向分析**的集成化数据环境，为企业提供决策支持（Decision Support）。它出于<font color=red>分析性报告和决策支持</font>的目的而创建。
+- 数据仓库本身并不“生产”任何数据，同时自身也不需要“消费”任何的数据，数据来源于外部，并且开放给外部应用，这也是为什么叫“仓库”，而不叫“工厂”的原因。
+
+
+
+## 主要特征
+
+数据仓库是面向主题的（Subject-Oriented）、集成的（Integrated）、非易失的（Non-Volatile）和时变的（Time-Variant）数据集合，用以支持管理决策。
+
+- 主题的（Subject-Oriented）
+
+  数据仓库是一般从用户实际需求出发，将不同平台的数据源按设定主题进行划分整合，与传统的面向事务的操作型数据库不同，具有较高的抽象性。面向主题的数据组织方式，就是在较高层次对分析对象数据的一个完整、统一并一致的描述，能完整及统一地刻画各个分析对象所涉及的有关企业的各项数据，以及数据之间的联系。
+
+- 集成的（Integrated）
+
+  数据仓库中存储的数据大部分来源于传统的数据库，但并不是将原有数据简单的直接导入，而是需要进行预处理。这是因为事务型数据中的数据一般都是有噪声的、不完整的和数据形式不统一的。这些“脏数据”的直接导入将对在数据仓库基础上进行的数据挖掘造成混乱。“脏数据”在进入数据仓库之前必须经过<font color=red>抽取、清洗、转换</font>才能生成从面向事务转而面向主题的数据集合。数据集成是数据仓库建设中最重要，也是最为复杂的一步。
+
+- 非易失的（Non-Volatile）
+
+  数据仓库中的数据主要为决策者分析提供数据依据。决策依据的数据是不允许进行修改的。即数据保存到数据仓库后，用户仅能通过分析工具进行查询和分析，而不能修改。数据的更新升级主要都在数据集成环节完成，过期的数据将在数据仓库中直接筛除。
+
+- 时变的（Time-Variant）
+
+  数据仓库数据会随时间变化而定期更新，不可更新是针对应用而言，即用户分析处理时不更新数据。每隔一段固定的时间间隔后，抽取运行数据库系统中产生的数据，转换后集成到数据仓库中。随着时间的变化，数据以更高的综合层次被不断综合，以适应趋势分析的要求。当数据超过数据仓库的存储期限，或对分析无用时，从数据仓库中删除这些数据。关于数据仓库的结构和维护信息保存在数据仓库的元数据(Metadata)中，数据仓库维护工作由系统根据其中的定义自动进行或由系统管理员定期维护。
+
+   
+
+## 数据仓库和数据库的区别
+
+- 数据库与数据仓库的区别实际讲的是OLTP 与 OLAP 的区别。 
+- 操作型处理，叫<font color=red>联机事务处理 OLTP（On-Line Transaction Processing）</font>，也可以称面向交易的处理系统，它是针对具体业务在数据库联机的日常操作，通常对少数记录进行查询、修改。用户较为关心操作的响应时间、数据的安全性、完整性和并发支持的用户数等问题。传统的数据库系统作为数据管理的主要手段，主要用于操作型处理OLTP。 
+- 分析型处理，叫<font color=red>联机分析处理 OLAP（On-Line Analytical Processing）</font>，一般针对**某些主题的历史数据**进行分析，支持管理决策。
+- 数据仓库的出现，并不是要取代数据库。
+  - 数据库是面向事务的设计，数据仓库是面向主题设计的。
+  - 数据库一般存储业务数据，数据仓库存储的一般是**历史数据**。
+  - **数据库**设计是尽量避免冗余，一般针对某一业务应用进行设计；比如一张简单的User表，记录用户名、密码等简单数据即可，符合业务应用，但是不符合分析；**数据仓库**在设计是有意引入<font color=red>冗余</font>，依照分析需求，分析维度、分析指标进行设计。
+  - 数据库是为捕获数据而设计，数据仓库是为分析数据而设计。
+    - 以银行业务为例。数据库是事务系统的数据平台，客户在银行做的每笔交易都会写入数据库，被记录下来，这里，可以简单地理解为用数据库记账。数据仓库是分析系统的数据平台，它从事务系统获取数据，并做汇总、加工，为决策者提供决策的依据。比如，某银行某分行一个月发生多少交易，该分行当前存款余额是多少。如果存款又多，消费交易又多，那么该地区就有必要设立ATM了。 
+    - 显然，银行的交易量是巨大的，通常以百万甚至千万次来计算。事务系统是实时的，这就要求时效性，客户存一笔钱需要几十秒是无法忍受的，这就要求数据库只能存储很短一段时间的数据。而分析系统是事后的，它要提供**关注时间段内**所有的有效数据。这些数据是海量的，汇总计算起来也要慢一些，但是，只要能够提供有效的分析数据就达到目的了。 
+  - 数据仓库，是在数据库已经大量存在的情况下，为了进一步挖掘数据资源、为了决策需要而产生的，它决不是所谓的“大型数据库”。
+
+
+
+## 分层架构
+
+- 按照数据流入流出的过程，数据仓库架构可分为三层——**源数据层**、**数据仓库层**、**数据应用层。**                            
+- 数据仓库的数据来源于不同的源数据，并提供多样的数据应用，数据自下而上流入数据仓库后向上层开放应用，而数据仓库只是中间集成化数据管理的一个平台。
+- 源数据层（ODS Operational Data Store）：此层数据无任何更改，直接沿用外围系统数据结构和数据，不对外开放；为临时存储层，是接口数据的临时存储区域，为后一步的数据处理做准备。
+- 数据仓库层（DW Data Warehouse）：也称为细节层，DW层的数据应该是一致的、准确的、干净的数据，即对源系统数据进行了清洗（去除了杂质）后的数据。
+- 数据应用层（DA Data Application）：前端应用直接读取的数据源；根据报表、专题分析需求而计算生成的数据。
+- 数据仓库从各数据源获取数据及在数据仓库内的数据转换和流动都可以认为是ETL（抽取Extra, 转化Transfer, 装载Load）的过程，ETL是数据仓库的流水线，也可以认为是数据仓库的血液，它维系着数据仓库中数据的新陈代谢，而数据仓库日常的管理和维护工作的大部分精力就是保持ETL的正常和稳定。
+- 为什么要对数据仓库分层？
+  - <font color=red>用空间换时间</font>，通过大量的预处理来提升应用系统的用户体验（效率），因此数据仓库会存在大量**冗余**的数据；不分层的话，如果源业务系统的业务规则发生变化将会影响整个数据清洗过程，工作量巨大。
+  - 通过数据分层管理可以简化数据清洗的过程，因为把原来一步的工作分到了多个步骤去完成，相当于把一个复杂的工作拆成了多个简单的工作，把一个大的黑盒变成了一个白盒，每一层的处理逻辑都相对简单和容易理解，这样我们比较容易保证每一个步骤的正确性，当数据发生错误的时候，往往我们只需要局部调整某个步骤即可。
+
+
+
+# Hive
+
+## 概念
+
+Hive是基于Hadoop的一个<font color=red>数据仓库工具</font>。
+
+- 可以将结构化的数据文件映射为一张数据库表，并提供类SQL查询功能。
+- 其本质是将SQL转换为MapReduce的任务进行运算，底层由HDFS来提供数据的存储支持，即Hive可以理解为一个将SQL转换为MapReduce任务的工具，甚至更进一步可以说Hive就是一个MapReduce的客户端。
+
+
+
+## 与数据库区别
+
+| 对比项       | Hive                    | RDBMS                  |
+| ------------ | ----------------------- | ---------------------- |
+| 查询语言     | HQL                     | SQL                    |
+| 数据存储     | HDFS                    | Raw Device or local FS |
+| 执行器       | MapReduce               | Executor               |
+| 数据插入     | 支持批量导入/单条插入   | 支持批量导入/单条插入  |
+| 数据操作     | 覆盖追加                | 行级更新删除           |
+| 处理数据规模 | 大                      | 小                     |
+| 执行延迟     | 高                      | 低                     |
+| 分区         | 支持                    | 支持                   |
+| 索引         | 0.8版本之后加入简单索引 | 支持复杂索引           |
+| 扩展性       | 高（好）                | 有限（差）             |
+| 数据加载模式 | 读时模式（快）          | 写时模式（慢）         |
+| 应用场景     | 海量数据查询            | 实时查询               |
+
+- Hive 具有 SQL 数据库的外表，但应用场景完全不同。
+- Hive 只适合用来做海量离线数据统计分析，也就是数据仓库。
+
+
+
+## 优缺点
+
+- 优点
+  - **操作接口采用类SQL语法**，提供快速开发的能力（简单、容易上手）。
+  - **避免了去写MapReduce**，减少开发人员的学习成本。
+  - **Hive支持用户自定义函数**，用户可以根据自己的需求来实现自己的函数。
+- 缺点
+  - **Hive 的查询延迟很严重**
+  - **Hive 不支持事务**
+
+
+
+## 架构原理
+
+![hive_overview](大数据分析利器之Hive.assets/hive_overview.png)
+
+
+
+- 用户接口：Client
+  - CLI（hive shell）
+  - JDBC/ODBC（java访问hive）
+  - WEBUI（浏览器访问hive，可以使用HUE）
+- 元数据：Metastore
+  - 元数据包括：表名、表所属的数据库（默认是default）、表的拥有者、列/分区字段、表的类型（是否是外部表）、表的数据所在目录等；
+  - 默认存储在自带的derby数据库中，推荐使用MySQL存储Metastore
+- Hadoop集群
+  - 使用HDFS进行存储，使用MapReduce进行计算
+- Driver：驱动器
+  - 解析器（SQL Parser） 
+    - 将SQL字符串转换成抽象语法树AST
+    - 对AST进行语法分析，比如表是否存在、字段是否存在、SQL语义是否有误
+  - 编译器（Physical Plan）：将AST编译生成逻辑执行计划
+  - 优化器（Query Optimizer）：对逻辑执行计划进行优化
+  - 执行器（Execution）：把逻辑执行计划转换成可以运行的物理计划。对于Hive来说默认就是MapReduce任务
+
+
+
+## 交互方式
+
+### Hive交互式shell
+
+<font color=red>不推荐</font>
+
+- 启动 hive CLI
+
+```bash
+# Hive CLI is deprecated and migration to Beeline is recommended.
+hive
+```
+
+
+
+- 执行语句
+
+```mysql
+-- 列出数据库
+show databases;
+
+-- 退出
+quit;
+```
+
+
+
+### JDBC服务
+
+<font color=red>推荐</font>
+
+- 启动 hiveserver2 服务
+
+```bash
+# 前台启动
+hive --service hiveserver2
+
+# nohup 不挂断的运行
+# & 后台运行
+# 0 – stdin (standard input) | 1 – stdout (standard output) | 2 – stderr (standard error) 
+# 将2重定向到&1，&1再重定向到文件中
+nohup hive --service hiveserver2 > /home/hadoop/hiveserver2log/hs2.log 2>&1 &   
+
+# 检查后台服务，会有一个RunJar进程
+jps
+```
+
+
+
+- beeline连接hiveserver2服务
+
+```bash
+# 启动客户端
+beeline
+```
+
+
+
+- 连接数据库服务
+
+```mysql
+-- 输入用户名hadoop，密码hadoop(首次需要设置)
+!connect jdbc:hive2://node03:10000
+
+-- 列出数据库
+show databases;
+
+-- 查看帮助
+help
+
+-- 退出
+!quit
+```
+
+
+
+### Hive命令
+
+<font color=red>数仓搭建好后，执行脚本</font>
+
+- 执行HQL语句
+
+```bash
+# 使用 –e 参数来直接执行hql语句
+hive -e "show databases"
+```
+
+
+
+- 执行HQL脚本
+
+创建脚本
+
+```bash
+vi myhive.hql
+```
+
+
+
+脚本内容
+
+```mysql
+create database if not exists myhive;
+```
+
+
+
+执行脚本
+
+```bash
+# 执行
+hive -f myhive.hql
+
+# 检查
+hive -e "show databases"
+```
+
+
+
+## 数据类型
+
+### 基本数据类型
+
+|  类型名称  |              描述               |    举例    |
+| :--------: | :-----------------------------: | :--------: |
+|  boolean   |           true/false            |    true    |
+|  tinyint   |        1字节的有符号整数        |     1      |
+|  smallint  |        2字节的有符号整数        |     1      |
+|  **int**   |        4字节的有符号整数        |     1      |
+| **bigint** |        8字节的有符号整数        |     1      |
+|   float    |        4字节单精度浮点数        |    1.0     |
+| **double** |        8字节单精度浮点数        |    1.0     |
+| **string** |       字符串（不设长度）        |   “abc”    |
+|  varchar   | 字符串（1-65355长度，超长截断） |   “abc”    |
+| timestamp  |             时间戳              | 1563157873 |
+|    date    |              日期               |  20190715  |
+
+
+
+### 复合数据类型
+
+| 类型名称 |               描述               |                 定义                  |
+| :------: | :------------------------------: | :-----------------------------------: |
+|  array   | 一组有序的字段，字段类型必须相同 |           `col array<int>`            |
+|   map    |         一组无序的键值对         |         `col map<string,int>`         |
+|  struct  | 一组命名的字段，字段类型可以不同 | `col struct<a:string,b:int,c:double>` |
+
+- array类型字段的元素访问方式
+
+  准备数据 t_array.txt 
+
+  ```txt
+  1 zhangsan beijing,shanghai
+  2 lisi shanghai,tianjin,wuhan
+  ```
+
+  
+
+  建表
+
+  ```mysql
+  -- 建表
+  -- field间空格分隔
+  -- array用,分隔
+  create table myhive.t_array(id string,name string,locations array<string>) 
+  row format delimited 
+  fields terminated by ' ' 
+  collection items terminated by ',';
+  
+  -- 加载数据
+  load data local inpath '/home/hadoop/hivedatas/t_array.txt' into table myhive.t_array;
+  
+  -- 查询
+  select * from myhive.t_array;
+  -- 通过下标获取元素
+  select id,name,locations[0],locations[1] from myhive.t_array;
+  -- 记录的数组元素若不存在，则为NULL
+  select id,name,locations[0],locations[1],locations[2] from myhive.t_array;
+  ```
+
+  
+
+- map类型字段的元素访问方式
+
+  准备数据 t_map.txt
+
+  ```txt
+  1 name:zhangsan#age:30
+  2 name:lisi#age:40
+  ```
+
+  
+
+  建表
+
+  ```mysql
+  -- 建表
+  -- field间空格分隔
+  -- map中的每一个kv对以#分隔（本质是集合），kv以:分隔
+  create table myhive.t_map(id string,info map<string,string>) 
+  row format delimited 
+  fields terminated by ' ' 
+  collection items terminated by '#' 
+  map keys terminated by ':';
+  
+  -- 加载数据
+  load data local inpath '/home/hadoop/hivedatas/t_map.txt' into table myhive.t_map;
+  
+  -- 查询
+  select * from myhive.t_map;
+  -- 通过键获取值
+  -- 只能单独访问map的k或v，不能直接访问集合kv对
+  select id,info['name'],info['age'] from t_map;
+  ```
+
+  
+
+- struct类型字段的元素访问方式
+
+  准备数据 t_struct.txt 
+
+  ```txt
+  1 zhangsan:30:beijing
+  2 lisi:40:shanghai
+  ```
+
+  
+
+  建表
+
+  ```mysql
+  -- 建表
+  create table myhive.t_struct(id string,info struct<name:string, age:int,address:String>)  row format delimited 
+  fields terminated by ' ' 
+  collection items terminated by ':' ;
+  
+  -- 加载数据
+  load data local inpath '/home/hadoop/hivedatas/t_struct.txt' into table myhive.t_struct;
+  
+  -- 查询
+  select * from myhive.t_struct;
+  -- 类似对象获取属性方法
+  select id,info.name,info.age,info.address from myhive.t_struct;
+  ```
+
+  
+
+## DDL（Data Definition Language）
+
+### 数据库DDL操作
+
+#### 创建数据库
+
+```mysql
+-- 重复创建失败 Database test already exists
+create database test;
+
+-- 不存在才创建
+-- 默认hdfs存储路径：/user/hive/warehouse/test.db
+-- 在hdfs中数据库映射为目录
+create database if not exists test;
+```
+
+
+
+#### 列出数据库
+
+```mysql
+-- 列出所有数据库
+show databases;
+
+-- 模糊查询数据库
+show databases like '*t*';
+```
+
+
+
+#### 查询数据库信息
+
+```mysql
+-- 数据库信息
+desc database test;
+
+-- 数据库扩展信息
+desc database extended test;
+```
+
+
+
+#### 切换数据库
+
+```mysql
+-- 切换到当前数据库
+use test;
+```
+
+
+
+#### 删除数据库
+
+```mysql
+-- 删除存在数据库
+-- 删除不存在的数据库失败 Database does not exist: test
+drop database test;
+
+-- 存在才删除
+drop database if exists test;
+
+-- 当数据库有表存在时，需要级联强制删除
+-- 慎用
+drop database if exists myhive cascade;
+```
+
+
+
+### 表DDL操作
+
+#### 创建内部表
+
+- 直接建表
+
+```mysql
+use myhive;
+-- 在hdfs中表映射为目录
+create table stu(id int, name string);
+
+-- 可以通过 insert into 向hive表中插入数据
+-- 但不建议这么做，因为每个 insert into 转换成MapReduce后会生成一个小文件
+-- 在hdfs中表数据映射为文件
+insert into stu(id,name) values(1,"zhangsan");
+insert into stu(id,name) values(2,"lisi");
+
+-- 查询表数据
+select * from stu;
+```
+
+
+
+- 查询建表
+
+```mysql
+-- 通过 AS 查询语句完成建表，将子查询的结果存入新表
+-- hdfs只有一个文件
+create table if not exists myhive.stu1 as select id, name from stu;
+```
+
+
+
+- like建表
+
+```mysql
+-- 根据已存在表的结构建表，没有数据
+create table if not exists myhive.stu2 like stu;
+```
+
+
+
+- 创建内部表并指定字段之间的分隔符，指定文件的存储格式，以及数据存放的位置
+
+```mysql
+-- 默认 \001（非打印字符）分隔 field
+-- 自定义 \t 分隔 field
+create table if not exists myhive.stu3(id int, name string)
+row format delimited fields terminated by '\t'
+stored as textfile
+location '/user/stu3';
+
+-- hdfs文件以\t分隔存储每行数据的各个字段
+insert into myhive.stu3(id,name) values(1,"zhangsan");
+```
+
+
+
+#### 创建外部表
+
+- 外部表加载hdfs其他路径下已存在的数据文件，因此外部表不会独占数据文件，当删除表时，不会删除相应的数据文件
+- 创建外部表需要加 external 关键字
+- location 字段可以指定，也可以不指定
+  - 当不指定location时，默认存放在指定数据库位置下。若没有指定数据库，则保存在default数据库下
+  - 当指定location时，使用location作为数据目录，数据库下不会再创建相应表的文件夹
+
+```mysql
+create external table myhive.teacher (t_id string, t_name string)
+row format delimited fields terminated by '\t';
+```
+
+
+
+- 插入数据
+  - 通过 insert into 方式<font color=red>不推荐</font>
+  - 通过 load data 方式加载数据到内部表或外部表
+
+```mysql
+-- 加载本地文件
+-- 拷贝
+load data local inpath '/home/hadoop/hivedatas/teacher.csv' into table myhive.teacher;
+
+-- 加载hdfs文件
+-- 剪切
+-- overwrite 覆盖原有数据；否则追加
+load data inpath '/hivetest/teacher.csv' overwrite into table myhive.teacher;
+```
+
+
+
+- 内部表与外部表的互相转换
+  - 内部表删除后，表的元数据和真实数据都被删除
+  - 外部表删除后，仅仅只是把该表的元数据删除，真实数据还在，后期可以恢复
+  - <font color=red>使用时机</font>
+    - 内部表由于删除表的时候会同步删除HDFS的数据文件，所以确定如果一个表仅仅是你独占使用，其他人不使用的时候就可以创建内部表，如果一个表的文件数据其他人也要使用，那么就创建外部表
+    - 外部表用在数据仓库的ODS层
+    - 内部表用在数据仓库的DW层
+
+```mysql
+-- 内部表转换为外部表
+-- EXTERNAL_TABLE
+alter table stu set tblproperties('EXTERNAL'='TRUE');
+
+-- 外部表转换为内部表
+alter table teacher set tblproperties('EXTERNAL'='FALSE');
+```
+
+
+
+#### 创建分区表
+
+- 如果hive当中所有的数据都存入到一个目录下，那么在使用MR计算程序的时候，读取整个目录下面的所有文件来进行计算（<font color=red>全量扫描，性能低</font>），就会变得特别慢，因为数据量太大了
+- 实际工作中一般都是计算前一天的数据（日增），所以我们只需要将前一天的数据挑出来放到一个目录下面即可，专门去计算前一天的数据
+- 这样就可以使用hive当中的分区表，通过<font color=red>分目录</font>的形式，将每一天的数据都分成为一个目录，然后我们计算数据的时候，通过指定前一天的目录即可只计算前一天的数据
+- 在大数据中，最常用的一种思想就是分治，我们可以把大的文件切割划分成一个个的小文件，这样每次操作一个小的文件就会很容易了，同样的道理，在hive当中也是支持这种思想的，就是我们可以把大的数据，按照每天，或者每小时进行切分成一个个的小的文件，这样去操作小的文件就会容易得多
+
+
+
+- 创建分区表
+
+```mysql
+-- 按month分区，不需要是表字段
+-- 分区对应数据库表的一个字段，分区下所有数据的分区字段值相同
+-- load data 之后才会出现分区文件夹
+create table myhive.score(s_id string, c_id string, s_score int) 
+partitioned by (month string) 
+row format delimited fields terminated by '\t';
+
+-- 按year、month和day分区
+create table myhive.score1 (s_id string, c_id string, s_score int) 
+partitioned by (year string, month string, day string) 
+row format delimited fields terminated by '\t';
+```
+
+
+
+- 加载数据
+
+```mysql
+-- score
+-- month=201806对应hdfs的文件夹名
+load data local inpath '/home/hadoop/hivedatas/score.csv' into table myhive.score 
+partition (month='201806');
+
+-- score1
+-- score1/year=2018/month=06/day=01
+load data local inpath '/home/hadoop/hivedatas/score.csv' into table myhive.score1 
+partition (year='2018', month='06', day='01');
+```
+
+
+
+- 查询表分区
+
+````mysql
+show partitions myhive.score;
+````
+
+
+
+- 添加表分区
+
+```mysql
+-- 添加之后就可以在hdfs看到相应的文件夹
+alter table myhive.score add partition(month='201805');
+
+-- 同时添加多个分区
+alter table myhive.score add partition(month='201804') partition(month='201803');
+```
+
+
+
+- 删除表分区
+
+```mysql
+alter table myhive.score drop partition(month='201806');
+```
+
+
+
+- 综合举例
+
+```mysql
+-- hdsf 创建日期目录，每日增加日期文件夹和数据
+hdfs -mkdir /hivetest/day=20180607
+-- 上传数据
+hdfs dfs -put score.csv /hivetest/day=20180607
+
+-- 创建外部分区表，同时指定数据位置
+-- 表删除后，实际数据不删除
+create external table myhive.score2(s_id string, c_id string, s_score int) 
+partitioned by (day string) 
+row format delimited fields terminated by '\t' 
+location '/hivetest';
+
+-- 可以观察到虽然创建表成功，但没有创建相应的分区，也就是没有相应的MetaStore元数据
+show partition myhive.score2;
+-- 表数据是空的
+select * from myhive.score2;
+
+-- 解决办法：1、添加表分区(繁琐)；2、metastore check repair命令自动添加元数据
+msck repair table myhive.score2;
+
+-- day=20180607
+show partitions myhive.score2;
+-- 数据加载成功
+select * from myhive.score2;
+```
+
+
+
+#### 创建分桶表
+
+- 分桶是相对分区进行更细粒度的划分
+  - <font color=red>Hive表或分区表可进一步的分桶</font>
+  - 分桶将整个数据内容按照某列取hash值，对桶的个数取模的方式决定该条记录存放在哪个桶当中；具有相同hash值的数据进入到同一个文件中
+
+- 作用
+  - 取样sampling更高效
+  - 提升某些查询操作效率，例如map side join
+
+
+
+- 开启参数支持
+
+```mysql
+-- 开启对分桶表的支持
+-- set hive.enforce.bucketing; 可以查询是否支持分桶，默认是false
+set hive.enforce.bucketing=true;
+
+-- 设置与桶相同的reduce个数（默认只有一个reduce）
+set mapreduce.job.reduces=4;
+```
+
+
+
+- 创建分桶表
+
+```mysql
+-- 创建分桶表
+-- 分桶字段是表的字段
+create table myhive.user_buckets_demo(id int, name string)
+clustered by(id) into 4 buckets 
+row format delimited fields terminated by '\t';
+
+-- 创建普通表
+create table myhive.user_demo(id int, name string)
+row format delimited fields terminated by '\t';
+```
+
+
+
+- 准备数据 buckets.txt
+
+```txt
+1	anzhulababy1
+2	anzhulababy2
+3	anzhulababy3
+4	anzhulababy4
+5	anzhulababy5
+6	anzhulababy6
+7	anzhulababy7
+8	anzhulababy8
+9	anzhulababy9
+10	anzhulababy10
+```
+
+
+
+- 加载数据
+
+```mysql
+-- 普通表加载数据
+load data local inpath '/home/hadoop/hivedatas/buckets.txt' overwrite into table myhive.user_demo;
+
+-- 加载数据到分桶表
+-- 可以在hdsf中观察user_buckets_demo表所属的文件夹下共有4个文件(对于4个ReduceTask)
+insert into table myhive.user_buckets_demo select * from myhive.user_demo;
+```
+
+
+
+- 抽样查询分桶表的数据
+
+TABLESAMPLE语法：`TABLESAMPLE (BUCKET x OUT OF y [ON colname])` 。其中，x表示从第几个桶开始采样数据，桶序号从1开始，y表示桶数，colname表示每一行被采样的列。
+
+```mysql
+-- 将user_demo以id作为采样列，划分为两个桶，返回第一个桶的数据
+select * from myhive.user_demo tablesample(bucket 1 out of 2 on id);
+
+-- 以随机数作为采样列，因此每一次返回的数据不同
+select * from myhive.user_demo tablesample(bucket 1 out of 2 on rand());
+
+-- 显然，对 user_demo 采样，需对全表扫描。如果该表事先就是分桶表的话，采样效率会更高
+-- user_buckets_demo 本事是分桶表，共有4桶
+-- y 取值2，含义是分两桶，取第一桶采样数据。但表本身有4桶，共取两桶数据 4/2=2 作为采样数据，分别是第一桶和第三桶
+-- 对数据除以4取余数，值为0，1，2，3
+-- 第1桶 [0] 4 8
+-- 第2桶 [1] 1 5 9
+-- 第3桶 [2] 2 6 10
+-- 第4桶 [3] 3 7
+select * from myhive.user_buckets_demo tablesample(bucket 1 out of 2);
+
+-- 4/8=1/2 取第一桶的1/2作为采样数据
+select * from myhive.user_buckets_demo tablesample(bucket 1 out of 8);
+```
+
+
+
+#### 删除表
+
+```mysql
+drop table myhive.stu2;
+```
+
+
+
+#### 修改表结构信息
+
+- 修改表名
+
+```mysql
+use myhive;
+alter table teacher2 rename to teacher1;
+```
+
+
+
+- 增加列
+
+```mysql
+use myhive;
+-- 已有记录的新增字段值为NULL
+alter table stu1 add columns(address string,age int);
+```
+
+
+
+- 修改列
+
+```mysql
+use myhive;
+alter table stu1 change column address address_id int;
+```
+
+
+
+#### 列出数据库表
+
+```mysql
+use myhive;
+
+show tables;
+```
+
+
+
+#### 查询表结构信息
+
+```mysql
+-- 简要信息，只有字段名、类型和描述
+desc myhive.stu;
+
+-- 详细信息
+-- MANAGED_TABLE 内部表
+desc formatted myhive.stu;
+```
+
+
+
+## DML（Data Manipulation Language）
+
+### 数据导入
+
+#### 直接向表中插入数据
+
+<font color=red>强烈不建议</font>
+
+```mysql
+create table myhive.score3 like score;
+-- 生成MR，对应hdfs一个小文件
+insert into table myhive.score3 partition(month ='201807') values ('001','002','100');
+```
+
+
+
+#### 通过load加载数据
+
+<font color=red>重要</font>
+
+```mysql
+-- overwrite只覆盖指定分区数据
+-- 不会生成MR
+load data local inpath '/home/hadoop/hivedatas/score.csv' overwrite into table myhive.score3 partition(month='201806');
+```
+
+
+
+#### 通过查询加载数据
+
+<font color=red>重要</font>
+
+```mysql
+create table myhive.score5 like score;
+-- 生成MR，所有数据对应一个文件
+-- overwrite覆盖原有数据
+insert overwrite table myhive.score5 partition(month='201806') select s_id,c_id,s_score from myhive.score3;
+```
+
+
+
+#### 通过查询创建表并加载数据
+
+```mysql
+create table myhive.score6 as select * from score;
+```
+
+
+
+#### 创建表时指定location
+
+```mysql
+create external table myhive.score7 (s_id string,c_id string,s_score int) 
+row format delimited fields terminated by '\t' 
+location '/hivetest/score';
+```
+
+
+
+上传数据文件
+
+```bash
+# 上传文件到指定位置
+hdfs dfs -put score.csv /hivetest/score
+```
+
+
+
+#### 通过导入导出的数据
+
+```mysql
+create table myhive.teacher2 like teacher;
+
+-- hdfs目录结构：
+-- /hivetest/teacher/_metadata
+-- /hivetest/teacher/data/teacher.csv
+export table myhive.teacher to '/hivetest/teacher';
+
+-- 导入数据
+import table myhive.teacher2 from '/hivetest/teacher';
+```
+
+
+
+### 数据导出
+
+#### insert 导出
+
+```mysql
+-- 导出到本地
+-- 生成MR，结果字段默认分隔为'\001'
+insert overwrite local directory '/home/hadoop/hivedatas/stu' select * from myhive.stu1;
+
+-- 格式化输出结果
+insert overwrite local directory '/home/hadoop/hivedatas/stu2' row format delimited fields terminated by ',' select * from myhive.stu1;
+
+-- 导出到hdfs
+insert overwrite directory '/hivetest/export/stu' row format delimited fields terminated by  ','  select * from myhive.stu1;
+```
+
+
+
+#### Hive 命令
+
+```mysql
+-- 字段间以 \t 分隔
+hive -e 'select * from myhive.stu1;' > /home/hadoop/hivedatas/student.txt
+```
+
+
+
+#### export导出到HDFS
+
+```mysql
+export table myhive.stu1 to '/hivetest/student';
+```
+
+
+
+### 静态分区
+
+<font color=red>需手动指定分区</font>
+
+- 创建分区表
+
+```mysql
+create table myhive.order_partition(
+order_number string,
+order_price  double,
+order_time string)
+partitioned BY(month string)
+row format delimited fields terminated by '\t';
+```
+
+
+
+- 准备数据 order.txt
+
+```txt
+10001	100	2019-03-02
+10002	200	2019-03-02
+10003	300	2019-03-02
+10004	400	2019-03-03
+10005	500	2019-03-03
+10006	600	2019-03-03
+10007	700	2019-03-04
+10008	800	2019-03-04
+10009	900	2019-03-04
+```
+
+
+
+- 加载数据
+
+```mysql
+-- 加载数据时手动指定分区
+-- 执行成功后，分区和数据全部建立
+load data local inpath '/home/hadoop/hivedatas/order.txt' overwrite into table myhive.order_partition partition(month='2019-03');
+
+-- 查询数据
+select * from myhive.order_partition where month='2019-03';
+```
+
+
+
+### 动态分区
+
+<font color=red>数据导入时自动创建分区</font>
+
+- 创建表
+
+```mysql
+-- 创建普通表
+create table myhive.t_order(
+order_number string,
+order_price  double, 
+order_time   string)
+row format delimited fields terminated by '\t';
+
+-- 创建目标分区表
+create table myhive.order_dynamic_partition(
+order_number string,
+order_price  double)
+partitioned BY(order_time string)
+row format delimited fields terminated by '\t';
+```
+
+
+
+- 准备数据 order_partition.txt
+
+**注意数据格式的规则正确性，否则会出现异常分区，导致查询数据出现问题**
+
+```txt
+10001	100	2019-03-02
+10002	200	2019-03-02
+10003	300	2019-03-02
+10004	400	2019-03-03
+10005	500	2019-03-03
+10006	600	2019-03-03
+10007	700	2019-03-04
+10008	800	2019-03-04
+10009	900	2019-03-04
+```
+
+
+
+- 加载数据
+
+```mysql
+-- 向普通表加载数据
+load data local inpath '/home/hadoop/hivedatas/order_partition.txt' overwrite into table myhive.t_order;
+
+-- 支持自动分区需设置参数
+-- 自动分区
+set hive.exec.dynamic.partition=true; 
+-- 非严格模式
+set hive.exec.dynamic.partition.mode=nonstrict; 
+
+-- 加载数据
+insert into table myhive.order_dynamic_partition partition(order_time) select order_number, order_price, order_time from t_order;
+
+-- 查询数据
+select * from myhive.order_dynamic_partition where order_time='2019-03-02';
+select * from myhive.order_dynamic_partition where order_time='2019-03-03';
+select * from myhive.order_dynamic_partition where order_time='2019-03-04';
+```
+
+
+
+### 查询数据
+
+#### 基本
+
+- SQL 语言大小写不敏感
+- SQL 可以写在一行或者多行
+- 关键字不能被缩写也不能分行
+- 各子句一般要分行写
+- 使用缩进提高语句的可读性
+
+
+
+- 算术运算符
+
+| 运算符   | 描述           |
+| -------- | -------------- |
+| A+B      | A和B 相加      |
+| A-B      | A减去B         |
+| A*B      | A和B 相乘      |
+| A/B      | A除以B         |
+| A%B      | A对B取余       |
+| A&B      | A和B按位取与   |
+| A&#124;B | A和B按位取或   |
+| A^B      | A和B按位取异或 |
+| ~A       | A按位取反      |
+
+
+
+- 比较运算符
+
+|         操作符          | 支持的数据类型 |                             描述                             |
+| :---------------------: | :------------: | :----------------------------------------------------------: |
+|           A=B           |  基本数据类型  |             如果A等于B则返回true，反之返回false              |
+|          A<=>B          |  基本数据类型  | 如果A和B都为NULL，则返回true，其他的和等号（=）操作符的结果一致，如果任一为NULL则结果为NULL |
+|       A<>B, A!=B        |  基本数据类型  | A或者B为NULL则返回NULL；如果A不等于B，则返回true，反之返回false |
+|           A<B           |  基本数据类型  | A或者B为NULL，则返回NULL；如果A小于B，则返回true，反之返回false |
+|          A<=B           |  基本数据类型  | A或者B为NULL，则返回NULL；如果A小于等于B，则返回true，反之返回false |
+|           A>B           |  基本数据类型  | A或者B为NULL，则返回NULL；如果A大于B，则返回true，反之返回false |
+|          A>=B           |  基本数据类型  | A或者B为NULL，则返回NULL；如果A大于等于B，则返回true，反之返回false |
+| A [NOT] BETWEEN B AND C |  基本数据类型  | 如果A，B或者C任一为NULL，则结果为NULL。如果A的值大于等于B而且小于或等于C，则结果为true，反之为false。如果使用NOT关键字则可达到相反的效果。 |
+|        A IS NULL        |  所有数据类型  |           如果A等于NULL，则返回true，反之返回false           |
+|      A IS NOT NULL      |  所有数据类型  |          如果A不等于NULL，则返回true，反之返回false          |
+|    IN(数值1, 数值2)     |  所有数据类型  |                  使用 IN运算显示列表中的值                   |
+|     A [NOT] LIKE B      |  STRING 类型   | B是一个SQL下的简单正则表达式，如果A与其匹配的话，则返回true；反之返回false。B的表达式说明如下：‘x%’表示A必须以字母‘x’开头，‘%x’表示A必须以字母’x’结尾，而‘%x%’表示A包含有字母’x’,可以位于开头，结尾或者字符串中间。如果使用NOT关键字则可达到相反的效果。like不是正则，而是通配符 |
+|  A RLIKE B, A REGEXP B  |  STRING 类型   | B是一个正则表达式，如果A与其匹配，则返回true；反之返回false。匹配使用的是JDK中的正则表达式接口实现的，因为正则也依据其中的规则。例如，正则表达式必须和整个字符串A相匹配，而不是只需与其字符串匹配。 |
+
+
+
+- 逻辑运算符
+
+|  操作符  |  操作  |                   描述                    |
+| :------: | :----: | :---------------------------------------: |
+| A AND  B | 逻辑并 |    如果A和B都是true则为true，否则false    |
+| A  OR  B | 逻辑或 | 如果A或B或两者都是true则为true，否则false |
+|  NOT  A  | 逻辑否 |      如果A为false则为true，否则false      |
+
+
+
+- 查询
+
+```mysql
+-- 全表查询
+select * from myhive.stu1;
+
+-- 选择特定字段查询
+select id,name from myhive.stu1;
+
+-- 重命名字段
+select id,name as stuName from myhive.stu1;
+-- as可以省略
+select id,name stuName from myhive.stu1;
+
+-- 限制返回行数
+select * from myhive.score limit 5;
+
+-- 条件过滤
+select * from myhive.score where s_score > 60;
+```
+
+
+
+- 函数
+
+```mysql
+-- 求总行数
+select count(*) cnt from myhive.score;
+
+-- 求某一字段的最大值
+select max(s_score) from myhive.score;
+
+-- 求某一字段的最小值
+select min(s_score) from myhive.score;
+
+-- 求字段值的总和
+select sum(s_score) from myhive.score;
+
+-- 求字段值的平均数
+select avg(s_score) from myhive.score;
+```
+
+
+
+#### 分组
+
+- Group By语句通常会和**聚合函数**一起使用，按照一个或者多个列对结果进行分组，然后对每个组执行聚合操作。
+
+
+
+- group by
+
+```mysql
+-- 先按s_id分组,在对字段s_score求平均数
+select s_id, avg(s_score) from myhive.score group by s_id;
+```
+
+
+
+- having
+
+  <font color=red>having 与 where 不同点</font>
+
+  - where针对表中的列发挥作用，查询数据；having针对查询结果中的列发挥作用，筛选数据
+  - where后面不能使用分组函数，而having后面可以使用分组函数
+  - having只用于group by分组统计语句
+
+
+
+```mysql
+select s_id, avg(s_score) as avgScore from myhive.score group by s_id having avgScore > 60;
+```
+
+
+
+#### 连接
+
+- Hive支持通常的SQL JOIN语句，但是只支持**等值**连接，不支持非等值连接。
+
+
+
+- 表的别名
+  - 使用别名可以简化查询
+  - 使用表名前缀可以提高执行效率
+
+```mysql
+-- 创建表
+create table myhive.course (c_id string, c_name string, t_id string) 
+row format delimited fields terminated by '\t';
+
+-- 加载数据
+load data local inpath '/home/hadoop/hivedatas/course.csv' overwrite into table myhive.course;
+
+-- join查询
+select * from myhive.teacher t join myhive.course c on t.t_id = c.t_id;
+```
+
+
+
+- 内连接 inner join
+  - 只有进行连接的两个表中都存在与连接条件相匹配的数据才会被保留下来
+
+```mysql
+use myhive;
+select * from teacher t inner join course c on t.t_id = c.t_id;
+```
+
+
+
+- 左外连接 left outer join
+  - join操作符左边表中符合**where**子句的所有记录将会被返回
+  - 如果右边表的指定字段没有符合条件的值，就使用null值替代
+
+```mysql
+use myhive;
+select * from teacher t left outer join course c on t.t_id = c.t_id;
+```
+
+
+
+- 右外连接 right outer join
+  - join操作符右边表中符合**where**子句的所有记录将会被返回
+  - 如果左边表的指定字段没有符合条件的值，就使用null值替代
+
+```mysql
+ use myhive;
+ select * from teacher t right outer join course c on t.t_id = c.t_id;
+```
+
+
+
+- 满外连接 full outer join
+  - 将会返回所有表中符合**where**语句条件的所有记录
+  - 如果任一表的指定字段没有符合条件的值的话，那么就使用null值替代
+
+```mysql
+use myhive;
+select * from teacher t full outer join course c on t.t_id = c.t_id;
+```
+
+
+
+- 多表连接
+
+```mysql
+use myhive;
+
+select * from teacher t 
+left join course c on t.t_id = c.t_id 
+left join score s on c.c_id = s.c_id 
+left join stu1 on s.s_id = stu1.id;
+```
+
+
+
+#### 排序
+
+- order by 全局排序
+  - <font color=red>全局排序，只有一个reduce</font>
+  - asc (ascend) 升序 （默认）、desc (descend) 降序
+  - order by 子句在select语句的结尾
+
+```mysql
+use myhive;
+
+-- 降序
+select * from score s order by s_score desc;
+
+-- 聚合函数别名排序
+select s_id, avg(s_score) avgscore from score group by s_id order by avgscore desc; 
+```
+
+
+
+- sort by 局部排序
+  - <font color=red>每个reducer内部进行排序，对全局结果集来说不是排序</font>
+
+```mysql
+use myhive;
+
+-- 设置参数
+set mapreduce.job.reduces=3;
+
+-- 3个ReduceTask内部有序，而对于整个数据结果是无序的
+select * from score s sort by s.s_score;
+```
+
+
+
+- distribute by 分区排序（MR）
+  - **类似MR中partition**，采用hash算法，在map端将查询的结果中指定字段的hash值相同的结果分发到对应的reduce文件中
+  - 结合sort by使用
+  - **distribute by** 语句要写在 **sort by** 语句之前
+
+```mysql
+use myhive;
+
+set mapreduce.job.reduces=3;
+
+-- 期望3个分区文件，且内部有序
+insert overwrite local directory '/home/hadoop/hivedatas/distribute' row format delimited fields terminated by '\t' select * from score distribute by s_id sort by s_score;
+```
+
+
+
+- cluster by 桶排序
+  - 当 distribute by 和 sort by 字段相同时，可以使用 cluster by 方式代替
+
+```mysql
+use myhive;
+
+insert overwrite local directory '/home/hadoop/hivedatas/cluster' row format delimited fields terminated by '\t' select * from score cluster by s_score;
+```
+

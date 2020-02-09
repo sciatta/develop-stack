@@ -164,7 +164,7 @@ hive
 
 查看数据库
 
-```hive
+```mysql
 show databases;
 ```
 
@@ -172,7 +172,7 @@ show databases;
 
 退出
 
-```hive
+```mysql
 quit;
 ```
 
