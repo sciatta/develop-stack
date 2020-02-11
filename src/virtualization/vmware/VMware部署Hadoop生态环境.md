@@ -206,6 +206,7 @@ cp zoo_sample.cfg zoo.cfg
 mkdir -p /bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas
 vi zoo.cfg
 
+# 注释原 dataDir=/tmp/zookeeper
 dataDir=/bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas
 autopurge.snapRetainCount=3
 autopurge.purgeInterval=1
