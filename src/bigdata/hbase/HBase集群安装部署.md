@@ -188,14 +188,6 @@ source /etc/profile
 # 启动 hdfs
 start-dfs.sh
 
-# node01 执行
-# 启动 yarn
-start-yarn.sh
-
-# node01 执行
-# 启动 jobhistory
-mr-jobhistory-daemon.sh start historyserver
-
 # node01 node02 node03 分别执行
 # 启动 zookeeper
 # 检查 zkServer.sh status
@@ -219,27 +211,8 @@ stop-hbase.sh
 # 停止 zookeeper
 zkServer.sh stop
 
-# node01执行
-# 停止 jobhistory
-mr-jobhistory-daemon.sh stop historyserver
-
-# node01执行
-# 停止 yarn
-stop-yarn.sh
-
 # node01 执行
 # 停止 hdfs
 stop-dfs.sh
 ```
-
-
-
-- web页面
-
-| 服务       | web页面                    |
-| ---------- | -------------------------- |
-| hdfs       | http://192.168.2.100:50070 |
-| yarn       | http://192.168.2.100:8088  |
-| jobhistory | http://192.168.2.100:19888 |
-| hbase      | http://192.168.2.100:60010 |
 
