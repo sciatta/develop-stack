@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Hive安装部署 · GitBook</title>
+        <title>HBase集群安装部署 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -94,7 +94,7 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="大数据分析利器之Hive.html" />
+    <link rel="next" href="大数据数据库之HBase.html" />
     
     
 
@@ -330,9 +330,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.3.2.1" data-path="Hive安装部署.html">
+        <li class="chapter " data-level="1.3.2.1" data-path="../hive/Hive安装部署.html">
             
-                <a href="Hive安装部署.html">
+                <a href="../hive/Hive安装部署.html">
             
                     
                     Hive安装部署
@@ -343,9 +343,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2.2" data-path="大数据分析利器之Hive.html">
+        <li class="chapter " data-level="1.3.2.2" data-path="../hive/大数据分析利器之Hive.html">
             
-                <a href="大数据分析利器之Hive.html">
+                <a href="../hive/大数据分析利器之Hive.html">
             
                     
                     大数据分析利器之Hive
@@ -375,9 +375,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.3.1" data-path="../hbase/HBase集群安装部署.html">
+        <li class="chapter active" data-level="1.3.3.1" data-path="HBase集群安装部署.html">
             
-                <a href="../hbase/HBase集群安装部署.html">
+                <a href="HBase集群安装部署.html">
             
                     
                     HBase集群安装部署
@@ -388,9 +388,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.3.2" data-path="../hbase/大数据数据库之HBase.html">
+        <li class="chapter " data-level="1.3.3.2" data-path="大数据数据库之HBase.html">
             
-                <a href="../hbase/大数据数据库之HBase.html">
+                <a href="大数据数据库之HBase.html">
             
                     
                     大数据数据库之HBase
@@ -806,7 +806,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../../.." >Hive安装部署</a>
+        <a href="../../.." >HBase集群安装部署</a>
     </h1>
 </div>
 
@@ -821,113 +821,183 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;"><b>1. </b>&#x5148;&#x51B3;&#x6761;&#x4EF6;</a></li><li><span class="title-icon "></span><a href="#&#x5B89;&#x88C5;"><b>2. </b>&#x5B89;&#x88C5;</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><b>3. </b>&#x4FEE;&#x6539;&#x914D;&#x7F6E;</a></li><ul><li><span class="title-icon "></span><a href="#hive-envsh"><b>3.1. </b>hive-env.sh</a></li><li><span class="title-icon "></span><a href="#hive-sitexml"><b>3.2. </b>hive-site.xml</a></li><li><span class="title-icon "></span><a href="#hive-log4jproperties"><b>3.3. </b>hive-log4j.properties</a></li></ul><li><span class="title-icon "></span><a href="#&#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;"><b>4. </b>&#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;</a></li><li><span class="title-icon "></span><a href="#&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><b>5. </b>&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</a></li><li><span class="title-icon "></span><a href="#&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;"><b>6. </b>&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;</a></li></ul></div><a href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x5148;&#x51B3;&#x6761;&#x4EF6;"><a name="&#x5148;&#x51B3;&#x6761;&#x4EF6;" class="anchor-navigation-ex-anchor" href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x5148;&#x51B3;&#x6761;&#x4EF6;</h1>
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;"><b>1. </b>&#x5148;&#x51B3;&#x6761;&#x4EF6;</a></li><li><span class="title-icon "></span><a href="#&#x670D;&#x52A1;&#x89C4;&#x5212;"><b>2. </b>&#x670D;&#x52A1;&#x89C4;&#x5212;</a></li><li><span class="title-icon "></span><a href="#&#x5B89;&#x88C5;"><b>3. </b>&#x5B89;&#x88C5;</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><b>4. </b>&#x4FEE;&#x6539;&#x914D;&#x7F6E;</a></li><ul><li><span class="title-icon "></span><a href="#hbase-envsh"><b>4.1. </b>hbase-env.sh</a></li><li><span class="title-icon "></span><a href="#hbase-sitexml"><b>4.2. </b>hbase-site.xml</a></li><li><span class="title-icon "></span><a href="#regionservers"><b>4.3. </b>regionservers</a></li><li><span class="title-icon "></span><a href="#back-masters"><b>4.4. </b>back-masters</a></li></ul><li><span class="title-icon "></span><a href="#&#x5206;&#x53D1;"><b>5. </b>&#x5206;&#x53D1;</a></li><li><span class="title-icon "></span><a href="#&#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;"><b>6. </b>&#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;</a></li><li><span class="title-icon "></span><a href="#&#x6DFB;&#x52A0;hbase&#x73AF;&#x5883;&#x53D8;&#x91CF;"><b>7. </b>&#x6DFB;&#x52A0;HBase&#x73AF;&#x5883;&#x53D8;&#x91CF;</a></li><li><span class="title-icon "></span><a href="#hbase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;"><b>8. </b>HBase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;</a></li></ul></div><a href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x5148;&#x51B3;&#x6761;&#x4EF6;"><a name="&#x5148;&#x51B3;&#x6761;&#x4EF6;" class="anchor-navigation-ex-anchor" href="#&#x5148;&#x51B3;&#x6761;&#x4EF6;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x5148;&#x51B3;&#x6761;&#x4EF6;</h1>
 <ul>
-<li>hive&#x662F;&#x4E00;&#x4E2A;&#x6784;&#x5EFA;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x5DE5;&#x5177;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5728;&#x4E00;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5B89;&#x88C5;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5728;&#x591A;&#x53F0;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x5B89;&#x88C5;&#x3002;</li>
-<li>&#x4F7F;&#x7528;hadoop&#x666E;&#x901A;&#x7528;&#x6237;&#x5728;node03&#x4E0A;&#x5B89;&#x88C5;</li>
-<li>&#x642D;&#x5EFA;&#x597D;&#x4E09;&#x8282;&#x70B9;Hadoop&#x96C6;&#x7FA4;</li>
-<li>node03&#x4E0A;&#x5B89;&#x88C5;MySQL&#x670D;&#x52A1;</li>
+<li>&#x5B89;&#x88C5;&#x5BF9;&#x5E94;&#x7248;&#x672C;&#x7684;hadoop&#x96C6;&#x7FA4;&#x5E76;&#x542F;&#x52A8;</li>
+<li>&#x5B89;&#x88C5;&#x5BF9;&#x5E94;&#x7248;&#x672C;&#x7684;zookeeper&#x96C6;&#x7FA4;&#x5E76;&#x542F;&#x52A8;</li>
 </ul>
-<h1 id="&#x5B89;&#x88C5;"><a name="&#x5B89;&#x88C5;" class="anchor-navigation-ex-anchor" href="#&#x5B89;&#x88C5;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x5B89;&#x88C5;</h1>
-<pre><code class="lang-bash"><span class="hljs-comment"># &#x62F7;&#x8D1D;&#x5230;node03&#x4E0A;</span>
-scp hive-1.1.0-cdh5.14.2.tar.gz hadoop@192.168.2.102:/bigdata/soft
+<h1 id="&#x670D;&#x52A1;&#x89C4;&#x5212;"><a name="&#x670D;&#x52A1;&#x89C4;&#x5212;" class="anchor-navigation-ex-anchor" href="#&#x670D;&#x52A1;&#x89C4;&#x5212;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x670D;&#x52A1;&#x89C4;&#x5212;</h1>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>HMaster</th>
+<th>&#x5907;&#x4EFD;HMaster</th>
+<th>HRegionServer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>192.168.1.100 node01</td>
+<td>&#x221A;</td>
+<td></td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>192.168.1.101 node02</td>
+<td></td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>192.168.1.102 node03</td>
+<td></td>
+<td></td>
+<td>&#x221A;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="&#x5B89;&#x88C5;"><a name="&#x5B89;&#x88C5;" class="anchor-navigation-ex-anchor" href="#&#x5B89;&#x88C5;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x5B89;&#x88C5;</h1>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x4E0A;&#x4F20;&#x538B;&#x7F29;&#x5305;&#x5230;node01</span>
+scp hbase-1.2.0-cdh5.14.2.tar.gz hadoop@192.168.2.100:/bigdata/soft
 
-<span class="hljs-comment"># &#x89E3;&#x538B;</span>
-<span class="hljs-built_in">cd</span> /bigdata/soft
-tar -xzvf hive-1.1.0-cdh5.14.2.tar.gz -C /bigdata/install/
+<span class="hljs-comment"># &#x89E3;&#x538B;&#x7F29;</span>
+tar -xzvf hbase-1.2.0-cdh5.14.2.tar.gz -C /bigdata/install/
 </code></pre>
-<h1 id="&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><a name="&#x4FEE;&#x6539;&#x914D;&#x7F6E;" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x4FEE;&#x6539;&#x914D;&#x7F6E;</h1>
-<h2 id="hive-envsh"><a name="hive-envsh" class="anchor-navigation-ex-anchor" href="#hive-envsh"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. hive-env.sh</h2>
-<pre><code class="lang-bash"><span class="hljs-built_in">cd</span> /bigdata/install/hive-1.1.0-cdh5.14.2/conf
-mv hive-env.sh.template hive-env.sh
-vi hive-env.sh
+<h1 id="&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><a name="&#x4FEE;&#x6539;&#x914D;&#x7F6E;" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;&#x914D;&#x7F6E;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x4FEE;&#x6539;&#x914D;&#x7F6E;</h1>
+<h2 id="hbase-envsh"><a name="hbase-envsh" class="anchor-navigation-ex-anchor" href="#hbase-envsh"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. hbase-env.sh</h2>
+<pre><code class="lang-bash"><span class="hljs-built_in">cd</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/conf
+vi hbase-env.sh
 </code></pre>
-<p>&#x4FEE;&#x6539;&#x5185;&#x5BB9;</p>
-<pre><code class="lang-shell"># &#x914D;&#x7F6E;HADOOP_HOME&#x8DEF;&#x5F84;
-export HADOOP_HOME=/bigdata/install/hadoop-2.6.0-cdh5.14.2/
-
-# &#x914D;&#x7F6E;HIVE_CONF_DIR&#x8DEF;&#x5F84;
-export HIVE_CONF_DIR=/bigdata/install/hive-1.1.0-cdh5.14.2/conf
+<pre><code class="lang-shell">export JAVA_HOME=/bigdata/install/jdk1.8.0_141
+export HBASE_MANAGES_ZK=false
 </code></pre>
-<h2 id="hive-sitexml"><a name="hive-sitexml" class="anchor-navigation-ex-anchor" href="#hive-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. hive-site.xml</h2>
-<pre><code class="lang-bash">vi hive-site.xml
+<h2 id="hbase-sitexml"><a name="hbase-sitexml" class="anchor-navigation-ex-anchor" href="#hbase-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. hbase-site.xml</h2>
+<pre><code class="lang-bash">vi hbase-site.xml
 </code></pre>
-<p>&#x4FEE;&#x6539;&#x5185;&#x5BB9;</p>
-<pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml-stylesheet type=<span class="hljs-string">&quot;text/xsl&quot;</span> href=<span class="hljs-string">&quot;configuration.xsl&quot;</span><span class="hljs-meta">?&gt;</span></span>
-<span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionURL<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>jdbc:mysql://node03:3306/hive?createDatabaseIfNotExist=true&amp;amp;characterEncoding=latin1&amp;amp;useSSL=false<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>com.mysql.jdbc.Driver<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>root<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>root<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.cli.print.current.db<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.cli.print.header<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.server2.thrift.bind.host<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.rootdir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>hdfs://node01:8020/hbase<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>  
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.cluster.distributed<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- 0.98&#x540E;&#x7684;&#x65B0;&#x53D8;&#x52A8;&#xFF0C;&#x4E4B;&#x524D;&#x7248;&#x672C;&#x6CA1;&#x6709;.port&#x3002;&#x9ED8;&#x8BA4;&#x7AEF;&#x53E3;&#x4E3A;60000 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.master.port<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>16000<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01,node02,node03<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6B64;&#x5C5E;&#x6027;&#x53EF;&#x7701;&#x7565;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x5C31;&#x662F;2181 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.zookeeper.property.clientPort<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>2181<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.zookeeper.property.dataDir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6B64;&#x5C5E;&#x6027;&#x53EF;&#x7701;&#x7565;&#xFF0C;&#x9ED8;&#x8BA4;&#x503C;&#x5C31;&#x662F;/hbase --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>zookeeper.znode.parent<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/hbase<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
 </code></pre>
-<h2 id="hive-log4jproperties"><a name="hive-log4jproperties" class="anchor-navigation-ex-anchor" href="#hive-log4jproperties"><i class="fa fa-link" aria-hidden="true"></i></a>3.3. hive-log4j.properties</h2>
-<pre><code class="lang-bash"><span class="hljs-comment"># &#x521B;&#x5EFA;hive&#x65E5;&#x5FD7;&#x5B58;&#x50A8;&#x76EE;&#x5F55;</span>
-mkdir -p /bigdata/install/hive-1.1.0-cdh5.14.2/logs/
+<h2 id="regionservers"><a name="regionservers" class="anchor-navigation-ex-anchor" href="#regionservers"><i class="fa fa-link" aria-hidden="true"></i></a>4.3. regionservers</h2>
+<pre><code class="lang-bash">vi regionservers
+</code></pre>
+<ul>
+<li>&#x6307;&#x5B9A;HBase&#x96C6;&#x7FA4;&#x7684;&#x4ECE;&#x8282;&#x70B9;&#xFF1B;&#x539F;&#x5185;&#x5BB9;&#x6E05;&#x7A7A;&#xFF0C;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x4E09;&#x884C;</li>
+</ul>
+<pre><code class="lang-txt">node01
+node02
+node03
+</code></pre>
+<h2 id="back-masters"><a name="back-masters" class="anchor-navigation-ex-anchor" href="#back-masters"><i class="fa fa-link" aria-hidden="true"></i></a>4.4. back-masters</h2>
+<ul>
+<li>&#x521B;&#x5EFA;back-masters&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x5305;&#x542B;&#x5907;&#x4EFD;HMaster&#x8282;&#x70B9;&#x7684;&#x4E3B;&#x673A;&#x540D;&#xFF0C;&#x6BCF;&#x4E2A;&#x673A;&#x5668;&#x72EC;&#x5360;&#x4E00;&#x884C;&#xFF0C;&#x5B9E;&#x73B0;HMaster&#x7684;&#x9AD8;&#x53EF;&#x7528;</li>
+</ul>
+<pre><code class="lang-bash">vi backup-masters
+</code></pre>
+<ul>
+<li>&#x5C06;node02&#x4F5C;&#x4E3A;&#x5907;&#x4EFD;&#x7684;HMaster&#x8282;&#x70B9;</li>
+</ul>
+<pre><code class="lang-text">node02
+</code></pre>
+<h1 id="&#x5206;&#x53D1;"><a name="&#x5206;&#x53D1;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x53D1;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x5206;&#x53D1;</h1>
+<pre><code class="lang-bash"><span class="hljs-built_in">cd</span> /bigdata/install
+scp -r hbase-1.2.0-cdh5.14.2/ node02:<span class="hljs-variable">$PWD</span>
+scp -r hbase-1.2.0-cdh5.14.2/ node03:<span class="hljs-variable">$PWD</span>
+</code></pre>
+<h1 id="&#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;"><a name="&#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;" class="anchor-navigation-ex-anchor" href="#&#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;"><i class="fa fa-link" aria-hidden="true"></i></a>6. &#x521B;&#x5EFA;&#x8F6F;&#x8FDE;&#x63A5;</h1>
+<ul>
+<li>&#x6CE8;&#x610F;&#xFF1A;<font color="red">&#x4E09;&#x53F0;&#x673A;&#x5668;</font>&#x5747;&#x505A;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;</li>
+<li>&#x56E0;&#x4E3A;HBase&#x96C6;&#x7FA4;&#x9700;&#x8981;&#x8BFB;&#x53D6;hadoop&#x7684;core-site.xml&#x3001;hdfs-site.xml&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4FE1;&#x606F;&#xFF0C;&#x6240;&#x4EE5;&#x6211;&#x4EEC;&#x4E09;&#x53F0;&#x673A;&#x5668;&#x90FD;&#x8981;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF0C;&#x5728;&#x76F8;&#x5E94;&#x7684;&#x76EE;&#x5F55;&#x521B;&#x5EFA;&#x8FD9;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x8F6F;&#x8FDE;&#x63A5;</li>
+</ul>
+<pre><code class="lang-bash">ln <span class="hljs-_">-s</span> /bigdata/install/hadoop-2.6.0-cdh5.14.2/etc/hadoop/core-site.xml  /bigdata/install/hbase-1.2.0-cdh5.14.2/conf/core-site.xml
 
-<span class="hljs-built_in">cd</span> /bigdata/install/hive-1.1.0-cdh5.14.2/conf
-mv hive-log4j.properties.template hive-log4j.properties
-vi hive-log4j.properties
+ln <span class="hljs-_">-s</span> /bigdata/install/hadoop-2.6.0-cdh5.14.2/etc/hadoop/hdfs-site.xml  /bigdata/install/hbase-1.2.0-cdh5.14.2/conf/hdfs-site.xml
 </code></pre>
-<p>&#x4FEE;&#x6539;&#x5185;&#x5BB9;</p>
-<pre><code class="lang-properties">hive.log.dir=/bigdata/install/hive-1.1.0-cdh5.14.2/logs/
+<h1 id="&#x6DFB;&#x52A0;hbase&#x73AF;&#x5883;&#x53D8;&#x91CF;"><a name="&#x6DFB;&#x52A0;hbase&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="anchor-navigation-ex-anchor" href="#&#x6DFB;&#x52A0;hbase&#x73AF;&#x5883;&#x53D8;&#x91CF;"><i class="fa fa-link" aria-hidden="true"></i></a>7. &#x6DFB;&#x52A0;HBase&#x73AF;&#x5883;&#x53D8;&#x91CF;</h1>
+<ul>
+<li>&#x6CE8;&#x610F;&#xFF1A;<font color="red">&#x4E09;&#x53F0;&#x673A;&#x5668;</font>&#x5747;&#x505A;&#x5982;&#x4E0B;&#x64CD;&#x4F5C;</li>
+</ul>
+<pre><code class="lang-bash">sudo vi /etc/profile
 </code></pre>
-<h1 id="&#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;"><a name="&#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;" class="anchor-navigation-ex-anchor" href="#&#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x62F7;&#x8D1D;mysql&#x9A71;&#x52A8;&#x5305;</h1>
-<pre><code class="lang-bash">scp mysql-connector-java-5.1.38.jar hadoop@192.168.2.102:/bigdata/soft
+<ul>
+<li>&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x6DFB;&#x52A0;&#x5982;&#x4E0B;&#x5185;&#x5BB9;</li>
+</ul>
+<pre><code>export HBASE_HOME=/bigdata/install/hbase-1.2.0-cdh5.14.2
+export PATH=$PATH:$HBASE_HOME/bin
+</code></pre><ul>
+<li>&#x91CD;&#x65B0;&#x7F16;&#x8BD1;/etc/profile&#x4F7F;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7ACB;&#x5373;&#x751F;&#x6548;</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-built_in">source</span> /etc/profile
+</code></pre>
+<h1 id="hbase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;"><a name="hbase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;" class="anchor-navigation-ex-anchor" href="#hbase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;"><i class="fa fa-link" aria-hidden="true"></i></a>8. HBase&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;</h1>
+<ul>
+<li>&#x542F;&#x52A8;</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-comment"># node01 &#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x542F;&#x52A8; hdfs</span>
+start-dfs.sh
 
-<span class="hljs-comment"># &#x7531;&#x4E8E;&#x8FD0;&#x884C;hive&#x65F6;&#xFF0C;&#x9700;&#x8981;&#x5411;mysql&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x8BFB;&#x5199;&#x5143;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x5C06;mysql&#x7684;&#x9A71;&#x52A8;&#x5305;&#x4E0A;&#x4F20;&#x5230;hive&#x7684;lib&#x76EE;&#x5F55;&#x4E0B;</span>
-cp mysql-connector-java-5.1.38.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/
+<span class="hljs-comment"># node01 node02 node03 &#x5206;&#x522B;&#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x542F;&#x52A8; zookeeper</span>
+<span class="hljs-comment"># &#x68C0;&#x67E5; zkServer.sh status</span>
+zkServer.sh start
+
+<span class="hljs-comment"># node01 &#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x542F;&#x52A8; hbase</span>
+start-hbase.sh
 </code></pre>
-<h1 id="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><a name="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="anchor-navigation-ex-anchor" href="#&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</h1>
-<p>root&#x7528;&#x6237;&#x4E0B;&#x6267;&#x884C;</p>
-<pre><code class="lang-bash">su root
-vi /etc/profile
+<ul>
+<li>&#x505C;&#x6B62;</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-comment"># node01&#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x505C;&#x6B62; hbase</span>
+stop-hbase.sh
+
+<span class="hljs-comment"># node01 node02 node03 &#x5206;&#x522B;&#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x505C;&#x6B62; zookeeper</span>
+zkServer.sh stop
+
+<span class="hljs-comment"># node01 &#x6267;&#x884C;</span>
+<span class="hljs-comment"># &#x505C;&#x6B62; hdfs</span>
+stop-dfs.sh
 </code></pre>
-<p>&#x4FEE;&#x6539;&#x5185;&#x5BB9;</p>
-<pre><code class="lang-properties">export HIVE_HOME=/bigdata/install/hive-1.1.0-cdh5.14.2
-export PATH=$PATH:$HIVE_HOME/bin
-</code></pre>
-<p>&#x5207;&#x6362;&#x56DE;hadoop</p>
-<pre><code class="lang-bash">su hadoop
-<span class="hljs-built_in">source</span> /etc/profile
-</code></pre>
-<h1 id="&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;"><a name="&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;" class="anchor-navigation-ex-anchor" href="#&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;"><i class="fa fa-link" aria-hidden="true"></i></a>6. &#x9A8C;&#x8BC1;&#x5B89;&#x88C5;</h1>
-<p>Node03&#x6267;&#x884C;</p>
-<pre><code class="lang-bash"><span class="hljs-comment"># &#x542F;&#x52A8;hive cli&#x547D;&#x4EE4;&#x884C;&#x5BA2;&#x6237;&#x7AEF;</span>
-hive
-</code></pre>
-<p>&#x67E5;&#x770B;&#x6570;&#x636E;&#x5E93;</p>
-<pre><code class="lang-mysql">show databases;
-</code></pre>
-<p>&#x9000;&#x51FA;</p>
-<pre><code class="lang-mysql">quit;
-</code></pre>
+<ul>
+<li>&#x8BBF;&#x95EE;web&#x9875;&#x9762;</li>
+</ul>
+<p><a href="http://node01:60010" target="_blank">http://node01:60010</a> </p>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
-2020-02-06 14:19:42
+2020-02-21 15:46:35
 </span></footer>
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
                                 
@@ -957,7 +1027,7 @@ hive
             
                 
                 
-                <a href="大数据分析利器之Hive.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 大数据分析利器之Hive">
+                <a href="大数据数据库之HBase.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 大数据数据库之HBase">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -968,7 +1038,7 @@ hive
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Hive安装部署","level":"1.3.2.1","depth":3,"next":{"title":"大数据分析利器之Hive","level":"1.3.2.2","depth":3,"path":"src/bigdata/hive/大数据分析利器之Hive.md","ref":"src/bigdata/hive/大数据分析利器之Hive.md","articles":[]},"previous":{"title":"Hive","level":"1.3.2","depth":2,"ref":"","articles":[{"title":"Hive安装部署","level":"1.3.2.1","depth":3,"path":"src/bigdata/hive/Hive安装部署.md","ref":"src/bigdata/hive/Hive安装部署.md","articles":[]},{"title":"大数据分析利器之Hive","level":"1.3.2.2","depth":3,"path":"src/bigdata/hive/大数据分析利器之Hive.md","ref":"src/bigdata/hive/大数据分析利器之Hive.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hive/Hive安装部署.md","mtime":"2020-02-06T06:19:42.929Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-22T08:13:45.653Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"HBase集群安装部署","level":"1.3.3.1","depth":3,"next":{"title":"大数据数据库之HBase","level":"1.3.3.2","depth":3,"path":"src/bigdata/hbase/大数据数据库之HBase.md","ref":"src/bigdata/hbase/大数据数据库之HBase.md","articles":[]},"previous":{"title":"HBase","level":"1.3.3","depth":2,"ref":"","articles":[{"title":"HBase集群安装部署","level":"1.3.3.1","depth":3,"path":"src/bigdata/hbase/HBase集群安装部署.md","ref":"src/bigdata/hbase/HBase集群安装部署.md","articles":[]},{"title":"大数据数据库之HBase","level":"1.3.3.2","depth":3,"path":"src/bigdata/hbase/大数据数据库之HBase.md","ref":"src/bigdata/hbase/大数据数据库之HBase.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hbase/HBase集群安装部署.md","mtime":"2020-02-21T07:46:35.767Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-22T08:13:45.653Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

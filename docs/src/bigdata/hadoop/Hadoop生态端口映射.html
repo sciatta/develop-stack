@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>HDFS&MapReduce&YARN端口映射 · GitBook</title>
+        <title>Hadoop生态端口映射 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -298,12 +298,12 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3.1.4" data-path="HDFS&MapReduce&YARN端口映射.html">
+        <li class="chapter active" data-level="1.3.1.4" data-path="Hadoop生态端口映射.html">
             
-                <a href="HDFS&MapReduce&YARN端口映射.html">
+                <a href="Hadoop生态端口映射.html">
             
                     
-                    HDFS&MapReduce&YARN端口映射
+                    Hadoop生态端口映射
             
                 </a>
             
@@ -349,6 +349,51 @@
             
                     
                     大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../hbase/HBase集群安装部署.html">
+            
+                <a href="../hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../hbase/大数据数据库之HBase.html">
+            
+                <a href="../hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
             
                 </a>
             
@@ -761,7 +806,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../../.." >HDFS&MapReduce&YARN端口映射</a>
+        <a href="../../.." >Hadoop生态端口映射</a>
     </h1>
 </div>
 
@@ -776,7 +821,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#hdfs"><b>1. </b>HDFS</a></li><li><span class="title-icon "></span><a href="#mapreduce"><b>2. </b>MapReduce</a></li><li><span class="title-icon "></span><a href="#yarn"><b>3. </b>YARN</a></li></ul></div><a href="#hdfs" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="hdfs"><a name="hdfs" class="anchor-navigation-ex-anchor" href="#hdfs"><i class="fa fa-link" aria-hidden="true"></i></a>1. HDFS</h1>
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#hdfs"><b>1. </b>HDFS</a></li><li><span class="title-icon "></span><a href="#mapreduce"><b>2. </b>MapReduce</a></li><li><span class="title-icon "></span><a href="#yarn"><b>3. </b>YARN</a></li><li><span class="title-icon "></span><a href="#hbase"><b>4. </b>HBase</a></li></ul></div><a href="#hdfs" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="hdfs"><a name="hdfs" class="anchor-navigation-ex-anchor" href="#hdfs"><i class="fa fa-link" aria-hidden="true"></i></a>1. HDFS</h1>
 <table>
 <thead>
 <tr>
@@ -791,19 +836,37 @@
 <td>fs.defaultFS</td>
 <td>core-site.xml</td>
 <td>8020</td>
-<td>NameNode&#x7684;RPC&#x5730;&#x5740;</td>
+<td>NameNode&#x7684;RPC&#x7AEF;&#x53E3;</td>
 </tr>
 <tr>
 <td>dfs.namenode.http-address</td>
 <td>hdfs-site.xml</td>
 <td>50070</td>
-<td>NameNode&#x7684;http&#x5730;&#x5740;</td>
+<td>NameNode&#x7684;WebUI&#x7AEF;&#x53E3;</td>
 </tr>
 <tr>
 <td>dfs.namenode.secondary.http-address</td>
 <td>hdfs-site.xml</td>
 <td>50090</td>
-<td>SecondaryNameNode&#x7684;http&#x5730;&#x5740;</td>
+<td>SecondaryNameNode&#x7684;http&#x7AEF;&#x53E3;</td>
+</tr>
+<tr>
+<td>dfs.namenode.secondary.https-address</td>
+<td>hdfs-site.xml</td>
+<td>50091</td>
+<td>SecondaryNameNode&#x7684;https&#x7AEF;&#x53E3;</td>
+</tr>
+<tr>
+<td>dfs.datanode.address</td>
+<td>hdfs-site.xml</td>
+<td>50010</td>
+<td>DataNode&#x7684;RPC&#x7AEF;&#x53E3;</td>
+</tr>
+<tr>
+<td>dfs.datanode.http.address</td>
+<td>hdfs-site.xml</td>
+<td>50075</td>
+<td>DataNode&#x7684;http&#x7AEF;&#x53E3;</td>
 </tr>
 </tbody>
 </table>
@@ -822,13 +885,13 @@
 <td>mapreduce.jobhistory.address</td>
 <td>mapred-site.xml</td>
 <td>10020</td>
-<td>jobhistory&#x7684;RPC&#x5730;&#x5740;</td>
+<td>jobhistory&#x7684;RPC&#x7AEF;&#x53E3;</td>
 </tr>
 <tr>
 <td>mapreduce.jobhistory.webapp.address</td>
 <td>mapred-site.xml</td>
 <td>19888</td>
-<td>jobhistory&#x7684;http&#x5730;&#x5740;</td>
+<td>jobhistory&#x7684;WebUI&#x7AEF;&#x53E3;</td>
 </tr>
 </tbody>
 </table>
@@ -847,18 +910,49 @@
 <td>yarn.resourcemanager.webapp.address</td>
 <td>yarn-site.xml</td>
 <td>8088</td>
-<td>yarn&#x7684;http&#x5730;&#x5740;</td>
+<td>yarn&#x7684;WebUI&#x7AEF;&#x53E3;</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>yarn.resourcemanager.address</td>
+<td>yarn-site.xml</td>
 <td>8032</td>
-<td>ResourceManager&#x7684;RPC&#x5730;&#x5740;</td>
+<td>ResourceManager&#x7684;RPC&#x7AEF;&#x53E3;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="hbase"><a name="hbase" class="anchor-navigation-ex-anchor" href="#hbase"><i class="fa fa-link" aria-hidden="true"></i></a>4. HBase</h1>
+<table>
+<thead>
+<tr>
+<th>&#x53C2;&#x6570;</th>
+<th>&#x4F4D;&#x7F6E;</th>
+<th>&#x9ED8;&#x8BA4;</th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hbase.master.port</td>
+<td>hbase-site.xml</td>
+<td>16000</td>
+<td>HMaster&#x7ED1;&#x5B9A;&#x7684;&#x7AEF;&#x53E3;</td>
+</tr>
+<tr>
+<td>hbase.zookeeper.property.clientPort</td>
+<td>hbase-site.xml</td>
+<td>2181</td>
+<td>&#x5BA2;&#x6237;&#x7AEF;&#x8FDE;&#x63A5;Zookeeper&#x7684;&#x7AEF;&#x53E3;&#xFF0C;&#x6765;&#x81EA;&#x4E8E;Zookeeper&#x7684;zoo.cfg</td>
+</tr>
+<tr>
+<td>hbase.regionserver.info.port</td>
+<td>hbase-site.xml</td>
+<td>60030</td>
+<td>HBase&#x7684;WebUI&#x7AEF;&#x53E3;</td>
 </tr>
 </tbody>
 </table>
 <footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
-2020-02-05 11:05:17
+2020-02-21 17:20:09
 </span></footer>
 <script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
                                 
@@ -899,7 +993,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"HDFS&MapReduce&YARN端口映射","level":"1.3.1.4","depth":3,"next":{"title":"Hive","level":"1.3.2","depth":2,"ref":"","articles":[{"title":"Hive安装部署","level":"1.3.2.1","depth":3,"path":"src/bigdata/hive/Hive安装部署.md","ref":"src/bigdata/hive/Hive安装部署.md","articles":[]},{"title":"大数据分析利器之Hive","level":"1.3.2.2","depth":3,"path":"src/bigdata/hive/大数据分析利器之Hive.md","ref":"src/bigdata/hive/大数据分析利器之Hive.md","articles":[]}]},"previous":{"title":"YARN架构","level":"1.3.1.3.1","depth":4,"path":"src/bigdata/hadoop/yarn/YARN架构.md","ref":"src/bigdata/hadoop/yarn/YARN架构.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hadoop/HDFS&MapReduce&YARN端口映射.md","mtime":"2020-02-05T03:05:17.287Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-09T12:33:18.115Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Hadoop生态端口映射","level":"1.3.1.4","depth":3,"next":{"title":"Hive","level":"1.3.2","depth":2,"ref":"","articles":[{"title":"Hive安装部署","level":"1.3.2.1","depth":3,"path":"src/bigdata/hive/Hive安装部署.md","ref":"src/bigdata/hive/Hive安装部署.md","articles":[]},{"title":"大数据分析利器之Hive","level":"1.3.2.2","depth":3,"path":"src/bigdata/hive/大数据分析利器之Hive.md","ref":"src/bigdata/hive/大数据分析利器之Hive.md","articles":[]}]},"previous":{"title":"YARN架构","level":"1.3.1.3.1","depth":4,"path":"src/bigdata/hadoop/yarn/YARN架构.md","ref":"src/bigdata/hadoop/yarn/YARN架构.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/bigdata/hadoop/Hadoop生态端口映射.md","mtime":"2020-02-21T09:20:09.660Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-22T08:13:45.653Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
