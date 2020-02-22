@@ -216,3 +216,8 @@ zkServer.sh stop
 stop-dfs.sh
 ```
 
+
+
+- 访问web页面
+
+http://node01:60010

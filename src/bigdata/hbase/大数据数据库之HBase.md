@@ -155,6 +155,9 @@ help 'create'
 ```bash
 # 退出shell
 exit
+
+# 当输入语法错误，导致client不工作
+>`
 ```
 
 
@@ -439,9 +442,9 @@ truncate 'user'
    - 可以通过 `scan 'hbase:meta'` 来查看Meta表信息
 
 2. Client与Meta表所在的HRegionServer连接，进而获取请求rowkey所在Region的位置信息。
-   
+  
 - 在Client缓存Meta表的位置信息，以及rowkey所在Region的位置信息，后续请求直接使用Meta Cache即可。除非Region迁移导致缓存失效，则需要重新获取相关位置信息并更新Client的Meta Cache。
-   
+  
 3. Client同rowkey所在Region的HRegionServer连接，查找并定位所在的Region。首先在MemStore查找数据；如果没有，再从BlockCache上查找；如果没有，再到HFile上进行查找。
    - MemStore是写缓存
    - BlockCache是读缓存，是 LRU（Least Recently Used）缓存。
@@ -836,3 +839,326 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
   
 
+# 系统集成
+
+## 与MapReduce集成
+
+利用MapReduce的分布式计算，提高数据导入HBase表效率
+
+1. 与HRegionServer交互，通过集成HBase框架的TableMapper和TableReducer实现。
+
+   - HBase表到HBase表
+   - Hdfs文件到HBase表
+
+   写入HBase数据时，同直接调用API写数据流程类似，仍需要占用HRegionServer大量资源。
+
+   
+
+2. 不与HRegionServer交互，通过MapReduce直接将数据输出为HBase识别的HFile文件格式，然后再加载到HBase表中。
+
+   - <font color=red>hadoop jar 在集群运行程序时可能会找不到hbase类</font>，则需要做如下配置
+
+     一次生效（建议）
+
+     ```bash
+     export HBASE_HOME=/bigdata/install/hbase-1.2.0-cdh5.14.2/
+     export HADOOP_HOME=/bigdata/install/hadoop-2.6.0-cdh5.14.2/
+     export HADOOP_CLASSPATH=`${HBASE_HOME}/bin/hbase mapredcp`
+     ```
+
+     
+
+     永久生效
+
+     ```bash
+     # 修改hadoop-env.sh
+     # add hbase lib
+     if [ -z $HBASE_HOME  ];
+     then
+        export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}
+     else
+        export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${HBASE_HOME}/lib'/*'
+     fi 
+     
+     # 配置即时生效
+     source hadoop-env.sh
+     ```
+
+     
+
+   - 执行成功输出hdfs文件 `/test/hbase/huser/cf/21dc0757cbfe41a7bb8552818d0478ba` 会生成目标列族 `cf` 下的HFile
+
+     ```txt
+     HBase在hdfs存储表默认在 /hbase/data/default 目录下
+     
+     如/hbase/data/default/user/36c7b176416c41bb1534676a2b50fdf9/info/03ccf327a86649ba9fee7ed734eafe56
+     user 为表名
+     36c7b176416c41bb1534676a2b50fdf9 为RegionId
+     info 为列族名
+     03ccf327a86649ba9fee7ed734eafe56 是HFile
+     ```
+
+     
+
+   - 加载到表。清空 `/test/hbase/huser/cf ` 目录下数据，转移到表相应Region的列族下 `/hbase/data/default/user1/031ed91d57c19615d009b21fde809f57/cf/	ae8b0ffabb374946922ef704b9f4a918_SeqId_5_` 
+
+
+
+## 与Hive集成
+
+### 概述
+
+- Hive
+  - 数据仓库
+    Hive的本质相当于将HDFS中已经存储的文件在Mysql中做了一个映射，以方便使用HQL去管理查询
+  - 用于数据分析、清洗
+    Hive适用于离线的数据分析和清洗，延迟较高
+  - 基于HDFS、MapReduce
+    Hive存储的数据依旧在DataNode上，编写的HQL语句最终转换为MapReduce代码执行
+
+
+
+- HBase
+  - 数据库
+    是一种面向列存储的非关系型数据库
+  - 用于存储结构化和非结构化的数据
+    适用于单表非关系型数据的存储，不适合做关联查询，类似JOIN等操作
+  - 基于HDFS
+    数据持久化存储的体现形式是Hfile，存放于DataNode中，被ResionServer以region的形式进行管理
+  - 延迟较低，接入在线业务使用
+    面对大量的企业数据，HBase可以支持单表大量数据的存储，同时提供了高效的数据访问速度
+
+
+
+总结：Hive和HBase是两种基于Hadoop的不同技术，Hive是一种类SQL的引擎，并且运行MapReduce任务，HBase是一种在Hadoop之上的 NoSQL 的Key/vale数据库。这两种工具是可以同时使用的。Hive可以用来进行统计查询，HBase可以用来进行实时查询，数据也可以从Hive写到HBase，或者从HBase写回Hive。
+
+### 整合配置
+
+- HBase jar建立软连接到Hive的lib目录下
+
+  node03执行
+
+  ```bash
+  ln -s /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-client-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-client-1.2.0-cdh5.14.2.jar
+  
+  ln -s /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-hadoop2-compat-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-hadoop2-compat-1.2.0-cdh5.14.2.jar
+  
+  ln -s /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-hadoop-compat-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-hadoop-compat-1.2.0-cdh5.14.2.jar
+  
+  ln -s /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-it-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-it-1.2.0-cdh5.14.2.jar
+  
+  ln -s /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-server-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-server-1.2.0-cdh5.14.2.jar
+  ```
+
+
+
+- 修改配置
+
+  node03执行
+
+  - hive-site.xml
+
+  ```xml
+  <property>
+  	<name>hive.zookeeper.quorum</name>
+  	<value>node01,node02,node03</value>
+  </property>
+  <property>
+  	<name>hbase.zookeeper.quorum</name>
+  	<value>node01,node02,node03</value>
+  </property>
+  ```
+  
+  - hive-env.sh
+  
+  ```bash
+  export HBASE_HOME=/bigdata/install/hbase-1.2.0-cdh5.14.2/
+  ```
+  
+  
+
+### Hive分析结果保存到HBase表
+
+- Hive创建数据库和表
+
+  ```mysql
+  create database course;
+  use course;
+  
+  create external table if not exists course.score(id int, cname string, score int) 
+  row format delimited fields terminated by '\t' 
+  stored as textfile;
+  ```
+
+
+
+- 准备数据
+
+  hive-hbase
+
+  ```txt
+  1	zhangsan	80
+  2	lisi	60
+  3	wangwu	30
+  4	zhaoliu	70
+  ```
+
+
+
+- Hive加载数据
+
+  ```mysql
+  load data local inpath '/home/hadoop/hivedatas/hive-hbase' into table score;
+  select * from score;
+  ```
+
+  
+
+- 创建Hive内部表与HBase映射
+
+  ```mysql
+  -- hbase.columns.mapping hbase表的column要和hive表的field一一对应
+  create table course.hbase_score(id int, cname string, score int) 
+  stored by 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+  with serdeproperties("hbase.columns.mapping" = ":key, cf:name, cf:score") tblproperties("hbase.table.name" = "hbase_score");
+  ```
+
+  
+
+- 向Hive内部表插入数据
+
+  ```mysql
+  insert overwrite table course.hbase_score select id, cname, score from course.score;
+  ```
+
+  
+
+- 向HBase表插入数据
+
+  ```bash
+  # 如果没有向hive映射的field赋值，则为null
+  put 'hbase_score', '10', 'cf:name', 'rain'
+  put 'hbase_score', '10', 'cf:score', 10
+  ```
+
+
+
+总结
+
+- 存储
+
+  数据存储在HBase端，节省存储空间。数据量小的情况下存储在MemStore中，执行 `flush 'hbase_score'` 刷写到磁盘
+
+- 同步
+
+  当向Hive内部表或HBase表插入数据时，两边都会同步数据
+
+- 删除
+
+  删除Hive内部表，HBase映射表同步删除；但删除HBase映射表，Hive内部表不会同步删除，但查询时会提示HBase映射表不存在
+
+
+
+### Hive外部表映射HBase已存表进行分析
+
+- 创建Hive外部表映射HBase表
+
+  ```mysql
+  CREATE external TABLE course.hbase2hive(id int, name string, age int) 
+  STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
+  WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key, info:name, info:age") TBLPROPERTIES("hbase.table.name" ="user");
+  ```
+
+  
+
+- 查询Hive外部表
+
+  ```mysql
+  select * from course.hbase2hive;
+  ```
+
+
+
+- 向Hive外部表插入数据
+
+  ```mysql
+  insert into table hbase2hive values(00000012, 'cat', 2);
+  ```
+
+
+
+- 向Hbase表插入数据
+
+  ```bash
+  put 'user','00000011','info:name','wizard'
+  ```
+
+  
+
+总结
+
+- 存储
+
+  因为Hbase表映射的是Hive外部表，所以数据存储在HBase端
+
+- 同步
+
+  当向Hive外部表或HBase表插入数据时，两边都会同步数据
+
+- 删除
+
+  删除Hive外部表，不影响Hbase表；删除Hbase表，不会删除Hive外部表，但查询时会提示HBase表不存在，需要手动删除
+
+
+
+# HBase 的 RowKey 设计
+
+## 设计原则
+
+### 长度原则
+
+- RowKey 是一个二进制字节流，可以是任意字符串，最大长度64kb，实际应用中一般为<font color=red>10-100bytes</font>，以byte[]形式保存，一般设计成<font color=red>定长</font>
+
+* 建议尽可能短（提高检索效率），但也不能太短，否则 RowKey 前缀重复的概率增大
+* 设计过长会降低 MemStore 内存的利用率（key/value，RowKey是key的一部分）和HFile存储数据的效率
+
+
+
+### 散列原则
+
+- 建议将 RowKey 的高位作为**散列字段**，这样将提高数据均衡分布在每个 RegionServer ，以实现负载均衡
+- 如果没有散列字段，首字段直接是时间信息。所有的数据都会集中在一个 RegionServer 上，这样在数据检索的时候负载会集中在个别的 RegionServer 上，造成热点问题，会降低查询效率
+
+
+
+### 唯一原则
+
+- 必须在设计上保证其唯一性，RowKey 是按照字典顺序排序存储的。因此，设计 RowKey 的时候，要充分利用这个排序的特点，可以将经常读取的数据存储到一块，将最近可能会被访问的数据存储到一块
+
+
+
+## 热点问题
+
+检索 HBase 记录首先要通过 RowKey 来定位数据行。当大量的 Client 访问 HBase 集群的一个或少数几个节点，造成少数 RegionServer 的读/写请求过多、负载过大，而其他 RegionServer 负载却很小，就造成了“热点”现象。
+
+
+
+### 解决方案
+
+- 预分区
+  预分区的目的让表的数据可以均衡的分散在集群中，而不是默认只有一个 Region 分布在集群的一个节点上。
+
+- 加盐
+
+  这里所说的加盐不是密码学中的加盐，而是在 RowKey 的前面增加随机数，具体就是给 RowKey 分配一个随机前缀以使得它和之前的 RowKey 的前缀不同
+
+
+- 哈希
+
+  哈希会使同一行永远用一个前缀加盐。哈希也可以使负载分散到整个集群，但是读却是可以预测的。使用确定的哈希可以让 Client 重构完整的 RowKey，可以使用 `get` 操作准确获取某一个行数据，如 `rowkey=MD5(username).subString(0,10)+时间戳` 
+
+
+- 反转
+  反转固定长度或者数字格式的 RowKey，这样可以使得 RowKey 中经常改变的部分（最没有意义的部分）放在前面。可以有效的随机 RowKey，但牺牲了RowKey 的有序性。
+
+ 
