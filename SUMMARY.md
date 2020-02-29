@@ -18,6 +18,8 @@
     * HBase
         * [HBase集群安装部署](src/bigdata/hbase/HBase集群安装部署.md)
         * [大数据数据库之HBase](src/bigdata/hbase/大数据数据库之HBase.md)
+    * Flume
+        * [Flume实战](src/bigdata/flume/Flume实战.md)
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
@@ -38,7 +40,10 @@
         * [iTerm的使用](src/os/linux/iTerm的使用.md)
 * IDE
     * IntelliJ IDEA
-        * [IDEA配置Java开发环境](src/ide/intellijidea/IDEA配置Java开发环境.md)
+        * [IDEA配置开发环境](src/ide/intellijidea/IDEA配置开发环境.md)
         * [IDEA创建GitHub项目](src/ide/intellijidea/IDEA创建GitHub项目.md)
+* CloudPlatform
+    * vultr
+        * [Shadowsocks服务端配置](src/cloudplatform/vultr/Shadowsocks服务端配置.md)
 * [后记]
 
