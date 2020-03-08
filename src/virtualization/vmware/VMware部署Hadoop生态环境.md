@@ -148,7 +148,7 @@ source /etc/profile
 
 
 
-## hadoop用户免密码登
+## hadoop用户免密码登录
 
 三台机器在hadoop用户下执行以下命令生成公钥与私钥
 
@@ -163,110 +163,6 @@ ssh-copy-id node01
 cd /home/hadoop/.ssh/
 scp authorized_keys node02:$PWD
 scp authorized_keys node03:$PWD
-```
-
-
-
-# 安装zookeeper集群
-
-<font color=red>注意：三台机器一定要保证时钟同步</font>
-
-
-
-## zookeeper分发到node01
-
-### 分发
-
-本机执行
-
-```bash
-scp zookeeper-3.4.5-cdh5.14.2.tar.gz hadoop@192.168.2.100:/bigdata/soft
-```
-
-
-
-### 解压
-
-node01执行
-
-```bash
-cd /bigdata/soft
-tar -zxvf zookeeper-3.4.5-cdh5.14.2.tar.gz  -C /bigdata/install/
-```
-
-
-
-### 修改配置文件
-
-node01执行
-
-```bash
-cd /bigdata/install/zookeeper-3.4.5-cdh5.14.2/conf
-cp zoo_sample.cfg zoo.cfg
-mkdir -p /bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas
-vi zoo.cfg
-
-# 注释原 dataDir=/tmp/zookeeper
-dataDir=/bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas
-autopurge.snapRetainCount=3
-autopurge.purgeInterval=1
-server.1=node01:2888:3888
-server.2=node02:2888:3888
-server.3=node03:2888:3888
-```
-
-
-
-### 添加myid配置
-
-node01执行
-
-```bash
-echo 1 > /bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas/myid
-```
-
-
-
-## zookeeper分发到node02和node03
-
-### 分发
-
-node01执行
-
-```bash
-scp -r /bigdata/install/zookeeper-3.4.5-cdh5.14.2/ node02:/bigdata/install/ 
-scp -r /bigdata/install/zookeeper-3.4.5-cdh5.14.2/ node03:/bigdata/install/
-```
-
-
-
-### 修改myid配置
-
-node02执行
-
-```bash
-echo 2 > /bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas/myid
-```
-
-
-
-node03执行
-
-```bash
-echo 3 > /bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas/myid
-```
-
-
-
-## 启动zookeeper服务
-
-三台机器分别执行
-
-```bash
-/bigdata/install/zookeeper-3.4.5-cdh5.14.2/bin/zkServer.sh start
-
-# 查看启动状态
-/bigdata/install/zookeeper-3.4.5-cdh5.14.2/bin/zkServer.sh status
 ```
 
 

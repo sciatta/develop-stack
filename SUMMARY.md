@@ -11,7 +11,9 @@
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
         * YARN
             * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
-        * [Hadoop生态端口映射](src/bigdata/hadoop/Hadoop生态端口映射.md)
+    * ZooKeeper
+        * [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
+        * [ZooKeeper分布式协调框架](src/bigdata/zookeeper/ZooKeeper分布式协调框架.md)
     * Hive
         * [Hive安装部署](src/bigdata/hive/Hive安装部署.md)
         * [大数据分析利器之Hive](src/bigdata/hive/大数据分析利器之Hive.md)
