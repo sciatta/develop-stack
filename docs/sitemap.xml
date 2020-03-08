@@ -5,11 +5,13 @@
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/hdfs/HDFS核心功能原理.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/mapreduce/MapReduce工作原理.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hadoop/yarn/YARN架构.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>http://www.sciatta.com/src/bigdata/hadoop/Hadoop生态端口映射.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/zookeeper/ZooKeeper集群安装部署.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/zookeeper/ZooKeeper分布式协调框架.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hive/Hive安装部署.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hive/大数据分析利器之Hive.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hbase/HBase集群安装部署.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/bigdata/hbase/大数据数据库之HBase.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/bigdata/flume/Flume实战.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/database/mysql/CentOS7安装MySQL5.7.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/versioncontrol/git/GitBook&amp;GitHub&amp;Typora最佳实践.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/virtualization/vmware/VMware系统安装.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
@@ -19,6 +21,7 @@
 <url> <loc>http://www.sciatta.com/src/virtualization/docker/Dockerfile参考.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/os/linux/Linux命令.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/os/linux/iTerm的使用.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>http://www.sciatta.com/src/ide/intellijidea/IDEA配置Java开发环境.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/ide/intellijidea/IDEA配置开发环境.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://www.sciatta.com/src/ide/intellijidea/IDEA创建GitHub项目.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://www.sciatta.com/src/cloudplatform/vultr/Shadowsocks服务端配置.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 </urlset>
