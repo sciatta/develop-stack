@@ -24,6 +24,10 @@
         * [Flume实战](src/bigdata/flume/Flume实战.md)
     * Spark
         * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
+        * SparkCore
+            * [SparkCore核心功能](src/bigdata/spark/sparkcore/SparkCore核心功能.md)
+        * SparkSQL
+            * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
         * [Spark内存计算框架](src/bigdata/spark/Spark内存计算框架.md)
 * Database
     * MySQL
