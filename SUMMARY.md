@@ -26,9 +26,9 @@
         * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
         * SparkCore
             * [SparkCore核心功能](src/bigdata/spark/sparkcore/SparkCore核心功能.md)
+            * [Spark调优](src/bigdata/spark/sparkcore/Spark调优.md)
         * SparkSQL
             * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
-        * [Spark内存计算框架](src/bigdata/spark/Spark内存计算框架.md)
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
