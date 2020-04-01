@@ -641,7 +641,7 @@ row format delimited fields terminated by '\t'
 location '/hivetest';
 
 -- 可以观察到虽然创建表成功，但没有创建相应的分区，也就是没有相应的MetaStore元数据
-show partition myhive.score2;
+show partitions myhive.score2;
 -- 表数据是空的
 select * from myhive.score2;
 
@@ -721,7 +721,7 @@ row format delimited fields terminated by '\t';
 load data local inpath '/home/hadoop/hivedatas/buckets.txt' overwrite into table myhive.user_demo;
 
 -- 加载数据到分桶表
--- 可以在hdsf中观察user_buckets_demo表所属的文件夹下共有4个文件(对于4个ReduceTask)
+-- 可以在hdsf中观察user_buckets_demo表所属的文件夹下共有4个文件(对应4个ReduceTask)
 insert into table myhive.user_buckets_demo select * from myhive.user_demo;
 ```
 
@@ -739,7 +739,7 @@ select * from myhive.user_demo tablesample(bucket 1 out of 2 on id);
 select * from myhive.user_demo tablesample(bucket 1 out of 2 on rand());
 
 -- 显然，对 user_demo 采样，需对全表扫描。如果该表事先就是分桶表的话，采样效率会更高
--- user_buckets_demo 本事是分桶表，共有4桶
+-- user_buckets_demo 本身是分桶表，共有4桶
 -- y 取值2，含义是分两桶，取第一桶采样数据。但表本身有4桶，共取两桶数据 4/2=2 作为采样数据，分别是第一桶和第三桶
 -- 对数据除以4取余数，值为0，1，2，3
 -- 第1桶 [0] 4 8
@@ -1315,5 +1315,162 @@ insert overwrite local directory '/home/hadoop/hivedatas/distribute' row format 
 use myhive;
 
 insert overwrite local directory '/home/hadoop/hivedatas/cluster' row format delimited fields terminated by '\t' select * from score cluster by s_score;
+```
+
+
+
+## 参数传递
+
+### 配置方式
+
+- 配置文件 hive-site.xml
+
+  - 用户自定义配置文件：$HIVE_CONF_DIR/hive-site.xml 
+  - 默认配置文件：$HIVE_CONF_DIR/hive-default.xml 
+  - 用户自定义配置会覆盖默认配置
+  - **对本机启动的所有hive进程有效**
+
+- 命令行参数 启动hive客户端的时候可以设置参数
+
+  - `--hiveconf param=value` 
+  - **对本次启动的Session有效（对于Server方式启动，则是所有请求的Sessions）**
+
+- 参数声明 进入客户端以后设置的一些参数  set  
+
+  - set param=value;
+
+  - **作用域是session级的**
+
+上述三种设定方式的优先级依次递增。即参数声明覆盖命令行参数，命令行参数覆盖配置文件设定。注意某些系统级的参数，例如log4j相关的设定，必须用前两种方式设定，因为那些参数的读取在Session建立以前已经完成了。
+
+### 使用变量传递参数
+
+- hive0.9以及之前的版本不支持传参
+- hive1.0版本之后支持 `hive -f` 传递参数
+
+- 在hive当中我们一般可以使用 `hivevar` 或 `hiveconf` 来进行参数的传递
+
+#### hiveconf
+
+- hive **执行上下文的属性**（配置参数），可覆盖覆盖hive-site.xml（hive-default.xml）中的参数值，如用户执行目录、日志打印级别、执行队列等。
+
+- 传值
+
+  ```bash
+  hive --hiveconf key=value
+  ```
+
+- 使用
+
+  ```bash
+  # 使用hiveconf作为前缀
+  ${hiveconf:key} 
+  ```
+
+  
+
+#### hivevar
+
+- hive **运行时的变量** 替换
+
+- 传值
+
+  ```bash
+  hive --hivevar key=value
+  ```
+
+- 使用
+
+  ```bash
+  # 使用hivevar前缀
+  ${hivevar:key}
+  # 不使用前缀
+  ${key}
+  ```
+
+  
+
+#### define
+
+- define与hivevar用途完全一样，简写 `-d`
+
+## 自定义函数
+
+### 开发程序
+
+需要继承UDF类，同时需要提供evaluate方法，由hive框架反射调用用户自定义逻辑
+
+```java
+import org.apache.hadoop.hive.ql.exec.UDF;
+import org.apache.hadoop.io.Text;
+
+public class UpCaseUDF extends UDF {
+    // 默认情况下UDF需要提供evaluate方法，hive默认调用
+    public Text evaluate(Text text) {
+        if (text == null)
+            return null;
+
+        return new Text(text.toString().toUpperCase());
+    }
+}
+```
+
+
+
+### 程序发布
+
+上传程序到hive的任意目录
+
+```bash
+scp hadoop-hive-example-1.0-SNAPSHOT.jar hadoop@node03:/home/hadoop
+```
+
+
+
+### 使用自定义函数
+
+#### 临时函数
+
+注册临时函数只对当前session有效
+
+```mysql
+-- 向hive客户端添加jar，只对当前session有效
+add jar /home/hadoop/hadoop-hive-example-1.0-SNAPSHOT.jar;
+
+-- 注册自定义函数
+create temporary function myupcase as 'com.sciatta.hadoop.hive.example.func.UpCaseUDF';
+
+-- 查看是否注册成功
+show functions like 'my*';
+
+-- 测试
+select myupcase('abc');
+```
+
+
+
+#### 永久函数
+
+```mysql
+use myhive;
+
+-- 只对当前session有效
+-- 在hive-site.xml配置hive.aux.jars.path使得jar永久有效
+add jar /home/hadoop/hadoop-hive-example-1.0-SNAPSHOT.jar;
+
+-- 查看添加的jar
+list jars;
+
+-- 注册永久函数
+create function myupcase as 'com.sciatta.hadoop.hive.example.func.UpCaseUDF';
+
+-- 测试
+select myupcase('abc');
+
+-- 退出后检查函数是否仍然存在
+show functions like 'my*';
+
+-- 删除永久函数
+drop function myupcase;
 ```
 

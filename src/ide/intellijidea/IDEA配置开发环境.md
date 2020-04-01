@@ -69,17 +69,63 @@ source ~/.zshrc
 
 
 
-### 混编Scala
+### Java混编Scala
 
 - src/main 新建 Directory | scala
-- Mark Directory as | Sources Root
+  - Mark Directory as | Sources Root
 
+- src/test 新建 Directory | scala
+  - Mark Directory as | Test Sources Root
 
+- 配置maven插件
+
+  ```xml
+  <plugin>
+  	<groupId>org.apache.maven.plugins</groupId>
+  	<artifactId>maven-compiler-plugin</artifactId>
+  	<executions>
+  		<execution>
+  			<phase>compile</phase>
+  				<goals>
+  					<goal>compile</goal>
+  				</goals>
+  		</execution>
+  	</executions>
+  	<configuration>
+  		<source>1.8</source>
+  		<target>1.8</target>
+  		<encoding>UTF-8</encoding>
+  	</configuration>
+  </plugin>
+  
+  <plugin>
+  	<groupId>net.alchim31.maven</groupId>
+  	<artifactId>scala-maven-plugin</artifactId>
+  	<executions>
+  		<execution>
+  			<id>scala-compile-first</id>
+  			<phase>process-resources</phase>
+  			<goals>
+  				<goal>add-source</goal>
+  				<goal>compile</goal>
+  			</goals>
+  		</execution>
+  		<execution>
+  			<id>scala-test-compile</id>
+  			<phase>process-test-resources</phase>
+  			<goals>
+  				<goal>testCompile</goal>
+  			</goals>
+  		</execution>
+  	</executions>
+  </plugin>
+  ```
+
+  
 
 ### 打包运行
 
 - maven | package
-- scala -classpath /Users/yangxiaoyu/Desktop/hadoop-scala-example-1.0-SNAPSHOT.jar First
 
 
 
