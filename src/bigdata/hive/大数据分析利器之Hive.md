@@ -1474,3 +1474,235 @@ show functions like 'my*';
 drop function myupcase;
 ```
 
+
+
+## 数据压缩
+
+### Map输出阶段压缩
+
+减少MapTask和ReduceTask间的数据传输量
+
+```mysql
+-- 开启hive中间传输数据压缩功能
+set hive.exec.compress.intermediate=true;
+
+-- 开启mapreduce中map输出压缩功能
+set mapreduce.map.output.compress=true;
+
+-- 设置mapreduce中map输出数据的压缩方式
+set mapreduce.map.output.compress.codec=org.apache.hadoop.io.compress.SnappyCodec;
+```
+
+
+
+### Reduce输出阶段压缩
+
+```mysql
+-- 开启hive最终输出数据压缩功能
+set hive.exec.compress.output=true;
+
+-- 开启mapreduce最终输出数据压缩
+set mapreduce.output.fileoutputformat.compress=true;
+
+-- 设置mapreduce最终数据输出压缩方式
+set mapreduce.output.fileoutputformat.compress.codec=org.apache.hadoop.io.compress.SnappyCodec;
+
+-- 设置mapreduce最终数据输出压缩为块压缩
+set mapreduce.output.fileoutputformat.compress.type=BLOCK;
+```
+
+
+
+## 文件存储格式
+
+### 存储方式
+
+Hive支持的存储数据的格式主要有：
+
+- 行式存储
+
+  - TEXTFILE
+
+    默认格式，数据不做压缩，磁盘开销大，数据解析开销大。可结合Gzip、Bzip2使用（系统自动检查，执行查询时自动解压），但使用这种方式，hive不会对数据进行切分，从而无法对数据进行并行操作。
+
+  - SEQUENCEFILE
+
+- 列式存储
+
+  - ORC
+
+    Orc（Optimized Row Columnar）是hive 0.11版里引入的新的存储格式。在读取文件时，会seek到文件尾部读PostScript，从里面解析到File Footer长度，再读FileFooter，从里面解析到各个Stripe信息，再读各个Stripe，即**从后往前读**。
+
+    - 一个orc文件可以分为若干个Stripe，一个stripe可以分为三个部分
+      - Index Data：一个轻量级的index，默认是每隔1W行做一个索引。这里做的索引只是记录某行的各字段在Row Data中的offset。
+      - Row Data：存的是具体的数据，先取部分行，然后对这些行按列进行存储。对每个列进行了编码，分成多个Stream来存储。
+      - Stripe Footer：存的是各个stripe的元数据信息。
+
+    - 每个文件有一个File Footer，这里面存的是每个Stripe的行数，每个Column的数据类型信息等。
+    - 每个文件的尾部是一个PostScript，这里面记录了整个文件的压缩类型以及FileFooter的长度信息等。
+
+  - PARQUET
+
+    Parquet是面向分析型业务的列式存储格式，由Twitter和Cloudera合作开发，2015年5月从Apache的孵化器里毕业成为Apache顶级项目。Parquet文件是以二进制方式存储的，所以是不可以直接读取的，文件中包括该文件的数据和元数据，因此Parquet格式文件是自解析的。通常情况下，在存储Parquet数据的时候会按照Block大小设置**行组**的大小，由于一般情况下每一个Mapper任务处理数据的最小单位是一个Block，这样可以把每一个行组由一个Mapper任务处理，增大任务执行并行度。
+
+
+**行式存储的特点：** 查询满足条件的一整行数据的时候，列存储则需要去每个聚集的字段找到对应的每个列的值，行存储只需要找到其中一个值，其余的值都在相邻地方，所以此时行存储查询的速度更快。
+
+**列式存储的特点：** 因为每个字段的数据聚集存储，在查询只需要少数几个字段的时候，能大大减少读取的数据量；每个字段的数据类型一定是相同的，列式存储可以针对性的设计更好的设计压缩算法。
+
+![hive_filestore_format](大数据分析利器之Hive.assets/hive_filestore_format.png)
+
+
+
+### 主流文件存储格式对比实验
+
+测试文件：19M	log.data
+
+#### 压缩比
+
+- TEXTFILE
+
+  ```mysql
+  -- 创建表
+  use myhive;
+  create table log_text (
+  track_time string,
+  url string,
+  session_id string,
+  referer string,
+  ip string,
+  end_user_id string,
+  city_id string)
+  ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+  STORED AS TEXTFILE;
+  
+  -- 加载数据
+  load data local inpath '/home/hadoop/hivedatas/log.data' into table log_text;
+  ```
+
+  通过命令 `hdfs dfs -du -h /user/hive/warehouse/myhive.db/log_text/log.data` 查看 18.1 M
+
+- ORC
+
+  默认使用zlib压缩
+
+  ```mysql
+  -- 创建表
+  create table log_orc (
+  track_time string,
+  url string,
+  session_id string,
+  referer string,
+  ip string,
+  end_user_id string,
+  city_id string)
+  ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+  STORED AS ORC;
+  
+  -- 加载数据
+  insert into table log_orc select * from log_text;
+  ```
+
+  通过命令 `hdfs dfs -du -h /user/hive/warehouse/myhive.db/log_orc/000000_0` 查看 2.8 M
+
+- PARQUET
+
+  ```mysql
+  -- 创建表
+  create table log_parquet (
+  track_time string,
+  url string,
+  session_id string,
+  referer string,
+  ip string,
+  end_user_id string,
+  city_id string)
+  ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+  STORED AS PARQUET;  
+  
+  -- 加载数据
+  insert into table log_parquet select * from log_text;
+  ```
+
+  通过命令 `hdfs dfs -du -h /user/hive/warehouse/myhive.db/log_parquet/000000_0` 查看 13.1 M
+
+总结：ORC > PARQUET > TEXTFILE
+
+#### 查询速度
+
+```mysql
+-- 1 row selected (13.533 seconds)
+select count(*) from log_text;
+
+-- 1 row selected (13.03 seconds)
+select count(*) from log_orc;
+
+-- 1 row selected (14.266 seconds)
+select count(*) from log_parquet;
+```
+
+总结：ORC > TEXTFILE > PARQUET
+
+### ORC结合压缩对比试验
+
+ORC存储方式的压缩：
+
+| Key                      | Default    | Notes                                                        |
+| ------------------------ | ---------- | ------------------------------------------------------------ |
+| orc.compress             | ZLIB       | high level   compression (one of NONE, ZLIB, SNAPPY)         |
+| orc.compress.size        | 262,144    | number of bytes in   each compression chunk                  |
+| orc.stripe.size          | 67,108,864 | number of bytes in   each stripe                             |
+| orc.row.index.stride     | 10,000     | number of rows   between index entries (must be >= 1000)     |
+| orc.create.index         | true       | whether to create row   indexes                              |
+| orc.bloom.filter.columns | ""         | comma separated list of column names for which bloom filter   should be created |
+| orc.bloom.filter.fpp     | 0.05       | false positive probability for bloom filter (must >0.0 and   <1.0) |
+
+#### 非压缩
+
+```mysql
+-- 建表
+create table log_orc_none(
+track_time string,
+url string,
+session_id string,
+referer string,
+ip string,
+end_user_id string,
+city_id string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS orc tblproperties ("orc.compress"="NONE");
+
+-- 导入数据
+insert into table log_orc_none select * from log_text;
+```
+
+占用空间：7.7 M
+
+#### SNAPPY压缩
+
+```mysql
+-- 建表
+create table log_orc_snappy(
+track_time string,
+url string,
+session_id string,
+referer string,
+ip string,
+end_user_id string,
+city_id string)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS orc tblproperties ("orc.compress"="SNAPPY");
+
+-- 导入数据
+insert into table log_orc_snappy select * from log_text;
+```
+
+占用空间：3.8 M
+
+#### ZLIB
+
+占用空间：2.8 M
+
+### 数据存储和压缩
+
+在实际的项目开发当中，hive表的数据存储格式一 般选择：**orc** 或 parquet。压缩方式一般选择 **snappy**。
