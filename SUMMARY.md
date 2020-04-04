@@ -17,6 +17,7 @@
     * Hive
         * [Hive安装部署](src/bigdata/hive/Hive安装部署.md)
         * [大数据分析利器之Hive](src/bigdata/hive/大数据分析利器之Hive.md)
+        * [Hive调优](src/bigdata/hive/Hive调优.md)
     * HBase
         * [HBase集群安装部署](src/bigdata/hbase/HBase集群安装部署.md)
         * [大数据数据库之HBase](src/bigdata/hbase/大数据数据库之HBase.md)
