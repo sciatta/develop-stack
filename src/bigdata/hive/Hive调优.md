@@ -211,6 +211,8 @@ set mapred.job.reuse.jvm.num.tasks=10;
 
 # 压缩
 
+使用压缩的优势是可以最小化所需要的磁盘存储空间，以及减少磁盘和网络io操作
+
 - Hive表中间数据压缩
 
   ```mysql
