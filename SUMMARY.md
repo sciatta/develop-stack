@@ -21,6 +21,10 @@
     * HBase
         * [HBase集群安装部署](src/bigdata/hbase/HBase集群安装部署.md)
         * [大数据数据库之HBase](src/bigdata/hbase/大数据数据库之HBase.md)
+    * AuxiliaryFramework
+        * Sqoop
+            * [Sqoop安装部署](src/bigdata/auxiliaryframework/sqoop/Sqoop安装部署.md)
+            * [Sqoop数据迁移](src/bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.md)
     * Flume
         * [Flume实战](src/bigdata/flume/Flume实战.md)
     * Spark
@@ -30,6 +34,7 @@
             * [Spark调优](src/bigdata/spark/sparkcore/Spark调优.md)
         * SparkSQL
             * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
+    * [大数据问题汇总](src/bigdata/大数据问题汇总.md)
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
