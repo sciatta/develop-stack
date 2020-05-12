@@ -321,5 +321,55 @@ Kafka是大数据领域无处不在的消息中间件，目前广泛使用在企
 
 # 整合flume
 
+## flume 配置
+
+flume-kafka.conf
+
+```properties
+a1.sources = r1
+a1.channels = c1
+a1.sinks = k1
+
+a1.sources.r1.type = exec
+a1.sources.r1.command = tail -F /home/hadoop/flumedatas/taillogs/access_log
+a1.sources.r1.channels = c1
+
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 1000
+a1.channels.c1.transactionCapacity = 100
+
+a1.sinks.k1.channel = c1
+a1.sinks.k1.type = org.apache.flume.sink.kafka.KafkaSink
+a1.sinks.k1.kafka.topic = flumetest
+a1.sinks.k1.kafka.bootstrap.servers = node01:9092,node02:9092,node03:9092
+a1.sinks.k1.kafka.flumeBatchSize = 20
+a1.sinks.k1.kafka.producer.acks = 1
+```
+
+## 创建topic
+
+```shell
+bin/kafka-topics.sh --create --topic flumetest --partitions 2 --replication-factor 2  --zookeeper node01:2181,node02:2181,node03:2181
+```
+
+## 启动flume
+
+```shell
+flume-ng agent -n a1 -c /bigdata/install/apache-flume-1.6.0-cdh5.14.2-bin/conf -f flume-kafka.conf -Dflume.root.logger=info,console
+```
+
+## 向flume发送数据
+
+```shell
+echo "hello" >> /home/hadoop/flumedatas/taillogs/access_log
+echo "flume to kafka" >> /home/hadoop/flumedatas/taillogs/access_log
+```
+
+## 验证kafka数据写入成功
+
+```shell
+bin/kafka-console-consumer.sh --topic flumetest --bootstrap-server node01:9092,node02:9092,node03:9092  --from-beginning
+```
+
 
 
