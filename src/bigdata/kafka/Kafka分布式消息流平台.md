@@ -373,3 +373,335 @@ bin/kafka-console-consumer.sh --topic flumetest --bootstrap-server node01:9092,n
 
 
 
+# 内核原理
+
+## HW&LEO基本概念
+
+1. Base Offset：是起始位移，该副本中第一条消息的offset，如下图，这里的起始位移是0，如果一个日志文件写满1G后（默认1G后会log rolling），这个起始位移就不是0开始了。
+2. HW（high watermark）：副本的高水印值，replica中leader副本和follower副本都会有这个值，通过它可以得知副本中已提交或已备份消息的范围，leader副本中的HW，决定了消费者能消费的最新消息能到哪个offset。如下图所示，HW值为8，代表offset为 [0,8) 的8条消息都可以被消费到，它们是对消费者可见的，而[8,13) 这5条消息由于未提交，对消费者是不可见的。注意HW最多达到LEO值，这时消费的消息范围就是[0,13) 。
+3. LEO（log end offset）：日志末端位移，**代表日志文件中下一条待写入消息的offset**，这个offset上实际是没有消息的。不管是leader副本还是follower副本，都有这个值。当leader副本收到生产者的一条消息，LEO通常会自增1，而follower副本需要从leader副本fetch到数据后，才会增加它的LEO，最后leader副本会比较自己的LEO以及满足条件的follower副本上的LEO，选取两者中较小值作为新的HW，来更新自己的HW值。
+4. ISR（in-sync replica）：就是同leader partition保持同步的follower partition的数量，只有处于ISR列表中的follower才可以在leader宕机之后被选举为新的leader，因为在这个ISR列表里代表他的数据同leader是同步的。
+
+![kafka_HW&LEO](Kafka分布式消息流平台.assets/kafka_HW&LEO.png)
+
+## HW&LEO更新流程
+
+LEO和HW的更新，需要区分leader副本和follower副本。
+
+- LEO
+  包括leader副本和follower副本。
+
+  - leader LEO：leader的LEO就保存在其所在的broker的缓存里，当leader副本log文件写入消息后，就会更新自己的LEO。
+  - remote LEO和follower LEO：remote LEO是保存在leader副本上的follower副本的LEO，<font color=red>可以看出leader副本上保存所有副本的LEO，当然也包括自己的</font>。follower LEO就是follower副本的LEO，因此follower相关的LEO需要考虑两种情况:
+    - 如果是remote LEO，更新前leader需要确认follower的fetch请求包含的offset，这个offset就是follower副本的LEO，根据它对remote LEO进行更新。如果未收到fetch请求，或者fetch请求在请求队列中排队，则不做更新。可以看出在leader副本给follower副本返回数据之前，remote LEO就先更新了。
+    - 如果是follower LEO，它的更新是在follower副本得到leader副本发送的数据并随后写入到log文件，就会更新自己的LEO。
+
+- HW
+  包括leader副本和follower副本。
+
+  - leader HW：它的更新是有条件的：
+
+    - producer向leader写消息，会尝试更新。
+    - leader处理follower的fetch请求，先读取log数据，然后尝试更新HW。
+    - 副本成为leader副本时，会尝试更新HW。
+    - broker崩溃可能会波及leader副本，也需要尝试更新。
+
+    更新时会比较所有满足条件的副本的LEO，包括自己的LEO和remote LEO，选取最小值作为更新后的leader HW。这里的满足条件时：
+
+    - 处于ISR中
+    - 副本LEO落后于leader LEO的时长不大于replica.lag.time.max.ms参数值（默认值是10秒），或者落后Leader的条数不大于预定值replica.lag.max.messages（默认值是4000）
+
+  - follower HW：更新发生在follower副本更新LEO之后，一旦follower向log写完数据，它就会尝试更新HW值。比较自己的LEO值与fetch响应中leader副本的HW值，取最小者作为follower副本的HW值。可以看出，如果follower的LEO值超过了leader的HW值，那么follower HW值是不会超过leader HW值的。
+
+![kafka_HW&LEO_update](Kafka分布式消息流平台.assets/kafka_HW&LEO_update.png)
+
+
+
+ ## producer消息发送流程
+
+![kafka_producer_send_flow](Kafka分布式消息流平台.assets/kafka_producer_send_flow.png)
+
+
+
+消息发送过程中，涉及两个线程协同工作。主线程首先将业务数据封装成ProducerRecord对象，之后调用send()方法将消息放入RecordAccumulator（消息收集器，也是主线程和sender线程共享的缓冲区）中暂存。Sender线程负责将消息信息构成请求，最终执行网络I/O的线程，它从RecordAccumulator中取出消息并批量发送出去。
+
+1. ProducerInterceptors对消息进行拦截。
+2. Serializer对消息的key和value进行序列化。
+3. Partitioner为消息选择合适的Partition。
+4. RecordAccumulator收集消息，实现批量发送。RecordAccumulator是一个缓冲区，可以缓存一批数据，把topic的每一个分区数据存在一个队列中，然后封装消息成一个一个的batch批次，最后实现数据分批次批量发送。
+5. Sender从RecordAccumulator获取消息。
+6. 构造ClientRequest。
+7. 将ClientRequest交给NetworkClient准备发送。
+8. NetworkClient将请求送入KafkaChannel的缓存。
+9. 执行网络I/O，发送请求到kafka集群。
+10. 收到响应，调用ClientRequest的回调函数。
+11. 调用RecordBatch的回调函数，最终调用每个消息上注册的回调函数。
+
+
+
+## consumer 消费原理
+
+### Coordinator
+
+Coordinator一般指的是运行在broker上的group Coordinator，用于管理Consumer Group中各个成员，每个KafkaServer都有一个GroupCoordinator实例，管理多个消费者组，主要用于offset位移管理和Consumer Rebalance。
+
+#### Coordinator存储的信息
+
+对于每个Consumer Group，Coordinator会存储以下信息：
+
+1. 对每个存在的topic，可以有多个消费组group订阅同一个topic（对应消息系统中的广播）
+2. 对每个Consumer Group，元数据如下：
+   - 订阅的topics列表
+   - Consumer Group配置信息，包括session timeout等
+   - 组中每个Consumer的元数据。包括主机名，consumer id
+   - 每个正在消费的topic partition的当前offsets
+   - Partition的ownership元数据，包括consumer消费的partitions映射关系
+
+#### 如何确定consumer group的coordinator
+
+consumer group如何确定自己的coordinator是谁呢？ 简单来说分为两步：
+
+1. 确定consumer group位移信息写入 `__consumer_offsets` 这个topic的哪个分区。具体计算公式：
+   `__consumers_offsets-partition = Math.abs(groupId.hashCode() % groupMetadataTopicPartitionCount)`
+
+   注意：groupMetadataTopicPartitionCount由offsets.topic.num.partitions指定，默认是50个分区。
+
+2. 该分区leader所在的broker就是被选定的coordinator
+
+
+
+### offset管理
+
+老版本的位移是提交到zookeeper中的，目录结构是：`/consumers/<group.id>/offsets/<topic>/<partitionId>`，但是zookeeper并不适合进行大批量的读写操作，尤其是写操作。
+
+因此，kafka提供了另一种解决方案：增加 `__consumer_offsets`，将offset信息写入这个topic，摆脱对zookeeper的依赖。`__consumer_offsets` 中的消息保存了每个consumer group某一时刻提交的offset信息，key是group.id+topic+分区号，value是offset。`__consumers_offsets` 配置了compact策略，使得它总是能够保存最新的位移信息，既控制了该topic总体的日志容量，也能实现保存最新offset的目的。
+
+
+
+### Rebalance
+
+rebalance本质上是一种协议，规定了一个consumer group下的所有consumer如何达成一致来分配订阅topic的每个分区。比如某个group下有20个consumer，它订阅了一个具有100个分区的topic。正常情况下，Kafka平均会为每个consumer分配5个分区。这个分配的过程就叫rebalance。
+
+#### 触发条件
+
+1. 组成员发生变更。如：新consumer加入组、已有consumer主动离开组或已有consumer崩溃。
+2. 订阅主题数发生变更。
+3. 订阅主题的分区数发生变更。
+
+#### 协议（protocol）
+rebalance本质上是一组协议。group与coordinator共同使用它来完成group的rebalance。目前kafka提供了5个协议来处理与consumer group coordination相关的问题：
+
+- Heartbeat请求：consumer需要定期给coordinator发送心跳来表明自己还活着
+- LeaveGroup请求：主动告诉coordinator我要离开consumer group
+- SyncGroup请求：group leader把分配方案告诉组内所有成员
+- JoinGroup请求：成员请求加入组
+- DescribeGroup请求：显示组的所有信息，包括成员信息，协议名称，分配方案，订阅信息等。通常该请求是给管理员使用
+
+##### liveness
+consumer如何向coordinator证明自己还活着？ 通过定时向coordinator发送Heartbeat请求。如果超过了设定的超时时间，那么coordinator就认为这个consumer已经挂了。一旦coordinator认为某个consumer挂了，那么它就会开启新一轮rebalance，并且在当前其他consumer的心跳response中添加“REBALANCE_IN_PROGRESS”，告诉其他consumer重新申请加入组。
+
+##### Rebalance过程
+
+rebalance的前提是coordinator已经确定。总体而言，rebalance分为2步：Join和Sync。
+
+1. Join， 顾名思义就是加入组。这一步中，所有成员都向coordinator发送JoinGroup请求，请求入组。一旦所有成员都发送了JoinGroup请求，coordinator会从中选择一个consumer担任leader的角色，并把组成员信息以及订阅信息发给leader——注意leader和coordinator不是一个概念。leader负责消费分配方案的制定。
+2. Sync，这一步leader开始分配消费方案，即哪个consumer负责消费哪些topic的哪些partition。一旦完成分配，leader会将这个方案封装进SyncGroup请求中发给coordinator，非leader也会发SyncGroup请求，只是内容为空。coordinator接收到分配方案之后会把方案塞进SyncGroup的response中发给各个consumer。这样组内的所有成员就都知道自己应该消费哪些分区了。
+
+![kafka_consumer_rebalance](Kafka分布式消息流平台.assets/kafka_consumer_rebalance.png)
+
+#### Rebalance分配方案策略
+
+##### 分配方案策略
+
+假设topic有12个分区分别是：p0，p1，p2，p3，p4，p5，p6，p7，p8，p9，p10，p11；三个消费者分别是：c1，c2，c3
+
+- RangeAssignor 范围策略（默认）
+
+  c1：p0，p1，p2，p3
+
+  c2：p4，p5，p6，p7
+
+  c3：p8，p9，p10，p11
+
+  假设c1宕机：
+
+  ~~c1~~
+
+  c2：p0，p1，p2，p3，p4，p5
+
+  c3：p6，p7，p8，p9，p10，p11
+
+- RoundRobinAssignor 轮询策略
+
+  c1：p0，p3，p6，p9
+
+  c2：p1，p4，p7，p10
+
+  c3：p2，p5，p8，p11
+
+  假设c1宕机：
+
+  ~~c1~~
+
+  c2：p0，p2，p4，p6，p8，p10
+
+  c3：p1，p3，p5，p7，p9，p11
+
+以上两种方案，假设c1宕机，触发Rebalance，都会出现无视历史分配方案的缺陷。
+
+- StickyAssignor 黏性策略
+
+  c1：p0，p1，p2，p3
+
+  c2：p4，p5，p6，p7
+
+  c3：p8，p9，p10，p11
+
+  假设c1宕机：
+
+  ~~c1~~
+
+  c2：p0，p1，p4，p5，p6，p7
+
+  c3：p2，p3，p8，p9，p10，p11
+
+采用了”有黏性”的策略对所有consumer实例进行分配，可以规避极端情况下的数据倾斜并且在两次rebalance间最大限度地维持了之前的分配方案。
+
+##### 使用场景和配置
+
+如果group下所有consumer实例的订阅是相同的，那么使用round-robin会带来更公平的分配方案，否则使用range策略的效果更好。
+
+用户可以根据consumer参数 `partition.assignment.strategy` 来进行设置。
+
+
+
+# 核心参数
+
+## Producer
+
+- 常见异常处理
+  - LeaderNotAvailableException
+    - Leader副本不可用，导致写入数据失败，等待Leader重新选举。
+  - NotControllerException
+    - Controller不可用，等待Controller重新选举。
+  - NetworkException
+    - 网络异常。
+  - retries
+    - 重新发送数据的次数。默认为0，表示不重试。
+  - retry.backoff.ms
+    - 两次重试之间的时间间隔。默认为100ms。
+  - max.in.flight.requests.per.connection
+    - 每个网络连接已经发送但还没有收到服务端响应的请求个数最大值。
+    - 消息重试是可能导致消息乱序的（**如果乱序的消息属于不同分区，则不会出现问题；但如果属于同一个分区，则会违反分区内间隔有序规范**），可以使用 `max.in.flight.requests.per.connection` 参数设置为1，这样可以保证producer必须把一个请求发送的数据发送成功了再发送后面的请求。避免数据出现乱序。
+- 提升消息吞吐量
+  - buffer.memory
+    - 设置发送消息的缓冲区。默认值是33554432（32MB）。
+    - 如果发送消息出去的速度小于写入消息进去的速度，就会导致缓冲区写满，此时生产消息就会阻塞。
+  - compression.type
+    - producer用于压缩数据的压缩类型。默认是none表示无压缩。可以指定gzip、snappy。
+    - 压缩最好用于批量处理，批量处理消息越多，压缩性能越好。
+  - batch.size
+    - producer批处理消息记录数，以减少请求次数。改善client与server之间的性能。默认是16384Bytes，即16kB，也就是一个batch满了16kB就发送出去。
+    - 如果batch太小，会导致频繁网络请求，吞吐量下降；如果batch太大，会导致一条消息需要等待很久才能被发送出去，而且会让内存缓冲区有很大压力，过多数据缓冲在内存里。
+  - linger.ms
+    - 消息等待发送时间。默认是0，消息被立即发送。
+    - 假设设置为100毫秒，消息进入一个batch，如果100毫秒内，这个batch满了16kB（默认size），自然就会发送出去；但是如果100毫秒内，batch没满，那么也必须把消息发送出去。即不能让消息的发送延迟时间太长，避免给内存造成过大压力。
+- 请求超时
+  - max.request.size
+    - 控制发送出去的消息的大小，默认是1048576字节（1MB）。
+    - 很多消息可能会超过1MB，一般企业设置为10MB。
+  - request.timeout.ms
+    - 请求发送后的超时时间限制，默认是30秒。如果30秒收不到响应，那么就会抛出一个TimeoutException。
+- ACK参数
+  - acks
+    - 0。生产者发数据，不需要等待Leader应答，数据丢失的风险最高，但吞吐量也是最高的。对于一些实时数据分析场景，对数据准确性要求不高的场景适用。
+    - 1。需要等待Leader应答。在Leader还没有同步Follower数据时宕机，也会存在丢失数据的可能。
+    - -1 或 all。需要等待Leader应答，并且Leader已同步ISR列表中的所有副本。数据最安全，但性能最差。
+  - min.insync.replicas
+    - ISR列表最小副本数。最小为2，才能保证数据不会丢失。
+
+
+
+ ## Broker
+
+server.properties配置文件核心参数
+
+- broker.id
+
+  每个broker都必须设置唯一id。
+
+- log.dirs
+
+  kafka所有数据写入这个目录下的磁盘文件中，如果说机器上有多块物理硬盘，那么可以把多个目录挂载到不同的物理硬盘上，然后这里可以设置多个目录，这样kafka可以将数据分散到多块物理硬盘，多个硬盘的磁头可以并行写，这样可以提升吞吐量。
+
+- zookeeper.connect
+
+  指向ZooKeeper集群。
+
+- listeners
+
+  broker监听客户端发起请求的端口号，默认是9092。
+
+- unclean.leader.election.enable
+
+  默认是false（1.0版本之后），只能选举ISR列表的follower成为新的leader。
+
+- delete.topic.enable
+
+  默认true，允许删除topic。
+
+- log.retention.hours
+
+  保留数据时间（默认168小时，即7天）。
+
+
+
+## Consumer
+
+- heartbeat.interval.ms
+
+  默认值：3000
+  consumer心跳时间，必须得保持心跳才能知道consumer是否故障了，然后如果故障之后，就会通过心跳下发rebalance的指令给其他的consumer通知他们进行rebalance的操作。
+
+- session.timeout.ms
+
+  默认值：10000	
+  kafka多长时间感知不到一个consumer就认为他故障了，默认是10秒。
+
+- max.poll.interval.ms
+
+  默认值：300000
+  如果在两次poll操作之间，超过了这个时间，那么就会认为这个consume处理能力不足，会被踢出消费组，分区分配给其他Consumer去消费。
+
+- fetch.max.bytes
+
+  默认值：1048576
+  获取一条消息最大的字节数，一般建议设置大一些。
+
+- max.poll.records
+
+  默认值：500条
+  一次poll返回消息的最大条数。
+
+- connections.max.idle.ms
+
+  默认值：540000
+  consumer跟broker的socket连接如果空闲超过了一定的时间，此时就会自动回收连接，但是下次消费就要重新建立socket连接，这个建议设置为-1，不去回收。
+
+- auto.offset.reset
+
+  默认值：latest
+
+  - earliest: 当各分区有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费。
+  - latest: 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据。
+  - none: topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常。
+
+- enable.auto.commit
+
+  默认值：true
+  设置为自动提交offset。
+
+- auto.commit.interval.ms
+
+  默认值：60 * 1000
+  自动提交偏移量的时间间隔。
