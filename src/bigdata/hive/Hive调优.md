@@ -329,3 +329,77 @@ EXPLAIN [EXTENDED|DEPENDENCY|AUTHORIZATION] query
   - 过多的启动和初始化reduce会消耗时间和资源
   - 同时过多的reduce会生成很多个文件，也有可能出现小文件问题
 
+
+
+# 合并小文件
+
+在Map-only的任务结束时合并小文件
+
+```mysql
+set hive.merge.mapfiles = true
+```
+
+在Map-Reduce的任务结束时合并小文件
+
+```mysql
+set hive.merge.mapredfiles = true
+```
+
+合并文件大小
+
+```mysql
+set hive.merge.size.per.task = 256*1000*1000
+```
+
+输出文件的平均大小小于该值时，启动一个独立的map-reduce任务进行文件合并
+
+```mysql
+set hive.merge.smallfiles.avgsize=16000000
+```
+
+
+
+# 排序
+
+对于排序问题，能够不用全局排序就一定不要使用全局排序order by（只有一个ReduceTask，效率低），如果一定要使用order by一定要加上limit。
+
+
+
+# MapTask尽量多处理数据
+
+能够在MapTask处理完成的任务，尽量在MapTask多处理任务，避免数据通过shuffle到ReduceTask，通过网络拷贝导致性能低下。
+
+- map aggr
+- map join
+
+
+
+ # 尽量减少IO操作
+
+- 多表插入
+
+  Hive支持多表插入，可以在同一个查询中使用多个insert子句，这样的好处是我们只需要扫描一遍源表就可以生成多个不相交的输出。可以减少表的扫描，从而减少 JOB 中 MR的 STAGE 数量，达到优化的目的。
+
+  ```mysql
+  -- 多表插入的关键点在于将所要执行查询的表语句 "from 表名"，放在最开头位置
+  from test1
+  insert overwrite table test2 partition (age) select name,address,school,age
+  insert overwrite table test3 select name,address
+  ```
+
+- 一次计算，多次使用
+
+  - 提高代码可读性，简化SQL
+  - 一次分析，多次使用
+
+  ```mysql
+  -- with as就类似于一个视图或临时表，可以用来存储一部分的sql语句作为别名，不同的是 with as 属于一次性的，而且必须要和其他sql一起使用才可以
+  WITH t1 AS (
+          SELECT * FROM carinfo
+      ), 
+       t2 AS (
+          SELECT * FROM car_blacklist
+      )
+  SELECT * FROM t1, t2
+  ```
+
