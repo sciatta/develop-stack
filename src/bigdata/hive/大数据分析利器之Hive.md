@@ -1556,6 +1556,89 @@ insert overwrite local directory '/home/hadoop/hivedatas/cluster' row format del
 
 
 
+### 多维分析
+
+#### grouping sets
+
+```mysql
+use game_center;
+
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex grouping sets((channel_id,role_sex),(channel_id),(role_sex));
+
++-------------+-----------+---------------+--+
+| channel_id  | role_sex  | total_person  |
++-------------+-----------+---------------+--+
+| NULL        | 0         | 102692        |
+| NULL        | 1         | 82487         |
+| 1           | NULL      | 172018        |
+| 1           | 0         | 94226         |
+| 1           | 1         | 77792         |
+| 2           | NULL      | 13161         |
+| 2           | 0         | 8466          |
+| 2           | 1         | 4695          |
++-------------+-----------+---------------+--+
+
+# 等价于
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex 
+union all select channel_id,null as role_sex,count(1) as total_person from ods_role_create group by channel_id 
+union all select null as channel_id,role_sex,count(1) as total_person from ods_role_create group by role_sex;
+```
+
+
+
+#### with cube
+
+```mysql
+use game_center;
+
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex with cube;
+
++-------------+-----------+---------------+--+
+| channel_id  | role_sex  | total_person  |
++-------------+-----------+---------------+--+
+| NULL        | NULL      | 185179        |
+| NULL        | 0         | 102692        |
+| NULL        | 1         | 82487         |
+| 1           | NULL      | 172018        |
+| 1           | 0         | 94226         |
+| 1           | 1         | 77792         |
+| 2           | NULL      | 13161         |
+| 2           | 0         | 8466          |
+| 2           | 1         | 4695          |
++-------------+-----------+---------------+--+
+
+# 等价于
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex grouping sets ((channel_id,role_sex),(channel_id),(role_sex),());
+```
+
+
+
+#### with rollup
+
+```mysql
+use game_center;
+
+# 从由至左递减维度分析
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex with rollup;
+
++-------------+-----------+---------------+--+
+| channel_id  | role_sex  | total_person  |
++-------------+-----------+---------------+--+
+| NULL        | NULL      | 185179        |
+| 1           | NULL      | 172018        |
+| 1           | 0         | 94226         |
+| 1           | 1         | 77792         |
+| 2           | NULL      | 13161         |
+| 2           | 0         | 8466          |
+| 2           | 1         | 4695          |
++-------------+-----------+---------------+--+
+
+# 等价于
+select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex grouping sets ((channel_id,role_sex),(channel_id),());
+```
+
+
+
 ## 参数传递
 
 ### 配置方式
@@ -1975,3 +2058,196 @@ insert into table log_orc_snappy select * from log_text;
 ### 数据存储和压缩
 
 <font color=red>在实际的项目开发当中，hive表的数据存储格式一 般选择：**orc** 或 parquet。压缩方式一般选择 **snappy**</font>。
+
+
+
+## 数据仓库的拉链表
+
+### 什么是拉链表
+
+拉链表是针对数据仓库设计中**表存储数据的方式**而定义的，顾名思义，所谓拉链，就是记录历史。记录一个事物从开始，一直到当前状态的所有变化的信息。
+
+在数据分析中，有时会需要维护一些历史状态，比如订单状态变化、评分变化等，为了保存下来这些状态变化的路径，可以通过拉链表实现。
+
+### 使用场景
+
+拉链表主要用于解决数仓当中一些**缓慢变化维**的数据，需要保存历史各个版本
+
+- 数据量比较大，但业务要求每次需要查询全量历史，每天存储一份全量数据太占用存储空间
+- 记录变更不大，比如只有状态和更新时间有变动，其它字段都不变
+
+### 实现过程
+
+- 在记录末尾增加start_date和end_date字段来实现。<font color=red>start_date表示该条记录的生命周期开始时间，end_date表示该条记录的生命周期结束时间</font>。
+- 同一ID按时间排序后，如果有较新的记录，则当前记录的end_date等于较新记录的start_date-1；如果没有较新的记录，则当前记录的end_date等于一个默认值，比如9999-12-31，表示该条记录目前处于有效状态。
+- 如果查询当前所有有效的记录，则 `select * from user where end_date = '9999-12-31'`。
+- 如果查询2017-01-02的历史快照，则 `select * from user where start_date <= '2017-01-02' and end_date >= '2017-01-02'`。（注意特殊日期9999-12-31）
+
+### 举例
+
+1. 以订单表为例
+2. 只考虑实现，不考虑性能
+3. 时间粒度：天 day；即每一个订单每天最多一条最新记录
+4. 建模之前需要按照Kimball思想“四步走”战略
+
+#### 准备数据
+
+每一天的增量数据（modifiedtime作为条件）可以由sqoop导入到hive表中
+
+1. orderid
+2. createtime
+3. **modifiedtime**
+4. status
+
+2016-08-20
+
+```txt
+1	2016-08-20	2016-08-20	创建
+2	2016-08-20	2016-08-20	创建
+3	2016-08-20	2016-08-20	创建
+```
+
+2016-08-21
+
+```txt
+1	2016-08-20	2016-08-21	支付
+2	2016-08-20	2016-08-21	完成
+4	2016-08-21	2016-08-21	创建
+```
+
+2016-08-22
+
+```txt
+1	2016-08-20	2016-08-22	完成
+3	2016-08-20	2016-08-22	支付
+4	2016-08-21	2016-08-22	支付
+5	2016-08-22	2016-08-22	创建
+```
+
+#### 创建hive表
+
+```mysql
+create database if not exists chain_action;
+use chain_action;
+
+-- 临时表，导入每一天的增量数据
+drop table if exists ods_orders_tmp;
+CREATE TABLE ods_orders_tmp
+(
+    orderid      INT,
+    createtime   STRING,
+    modifiedtime STRING,
+    status       STRING
+) row format delimited fields terminated by '\t';
+
+-- 全量表，按天分区
+drop table if exists ods_orders_inc;
+CREATE TABLE ods_orders_inc
+(
+    orderid      INT,
+    createtime   STRING,
+    modifiedtime STRING,
+    status       STRING
+) PARTITIONED BY (day STRING)
+    row format delimited fields terminated by '\t';
+
+-- 拉链表，保存全量数据
+drop table if exists dw_orders_his;
+CREATE TABLE dw_orders_his
+(
+    orderid       INT,
+    createtime    STRING,
+    modifiedtime  STRING,
+    status        STRING,
+    start_date STRING,
+    end_date   STRING
+) row format delimited fields terminated by '\t';
+```
+
+#### 数据脚本
+
+chain_action.sh
+
+```shell
+#!/bin/bash
+
+HIVEBIN=/bigdata/install/hive-1.1.0-cdh5.14.2/bin/hive
+
+if [ -n "$1" ] ; then
+	import_date=$1
+else
+	echo "请指定导入日期"
+	exit 1
+fi
+
+sql="
+use chain_action;
+
+set hive.exec.dynamic.partition=true; 
+set hive.exec.dynamic.partition.mode=nonstrict; 
+set hive.exec.mode.local.auto=true;  
+set hive.exec.mode.local.auto.inputbytes.max=262144;
+set hive.exec.mode.local.auto.input.files.max=5;
+
+-- 临时表加载数据
+load data local inpath '/home/hadoop/hivedatas/order_chain/${import_date}' overwrite into table ods_orders_tmp;
+
+-- 全量表导入
+-- 包括：1、当天创建；2、当天修改之前创建的数据
+insert overwrite table ods_orders_inc partition (day = '${import_date}') select orderid, createtime, modifiedtime, status from ods_orders_tmp where (createtime = '${import_date}' and modifiedtime = '${import_date}') OR modifiedtime = '${import_date}';
+
+-- 导入拉链表前，先导入到拉链表临时表
+drop table if exists dw_orders_his_tmp;
+-- 计算拉链表临时表（dw_orders_his + ods_orders_inc）
+-- union all 的第一个查询，以dw_orders_his为准，和ods_orders_inc增量数据匹配，如果匹配表明数据被修改，因此dw_orders_his最后一条数据的end_date更新为导入日期（生命周期结束），不是最后一条数据的仍为原来日期；如果不匹配仍为原来日期
+-- union all 的第二个查询，以ods_orders_inc为准，因为全部都是最新数据（有效期范围数据），所以end_date更新为9999-12-31；modifiedtime作为start_date，生命周期开始
+CREATE TABLE dw_orders_his_tmp AS
+SELECT orderid,
+       createtime,
+       modifiedtime,
+       status,
+       start_date,
+       end_date
+FROM (
+         SELECT a.orderid,
+                a.createtime,
+                a.modifiedtime,
+                a.status,
+                a.start_date,
+                CASE
+                    WHEN b.orderid IS NOT NULL AND a.end_date > '${import_date}' THEN date_add(b.modifiedtime,-1)
+                    ELSE a.end_date END AS end_date
+         FROM dw_orders_his a
+                  left outer join (SELECT * FROM ods_orders_inc WHERE day = '${import_date}') b
+                                  ON (a.orderid = b.orderid)
+         UNION ALL
+         SELECT orderid,
+                createtime,
+                modifiedtime,
+                status,
+                modifiedtime AS start_date,
+                '9999-12-31' AS end_date
+         FROM ods_orders_inc
+         WHERE day = '${import_date}'
+     ) x
+ORDER BY orderid, start_date;
+-- 灌入拉链表
+INSERT overwrite TABLE dw_orders_his SELECT * FROM dw_orders_his_tmp;
+"
+
+$HIVEBIN -e "$sql"
+```
+
+#### 执行脚本
+
+```shell
+# 2016-08-20
+sh chain_action.sh 2016-08-20
+
+# 2016-08-21
+sh chain_action.sh 2016-08-21
+
+# 2016-08-22
+sh chain_action.sh 2016-08-22
+```
+
