@@ -431,6 +431,10 @@ bin/sqoop job --exec myjob
 
 - 导出数据
 
+  <font color=red>全量导出，如果目标表没有主键或唯一索引，若目标表已有导出的数据则会出现重复数据；如果目标表有主键或唯一索引，若目标表已有导出的数据则会出现Duplicate异常，导出失败。</font>
+
+  <font color=red>因此，要保证目标表是空表，或至少保证导出数据在目标表中不存在。</font>
+
   ```shell
   bin/sqoop export \
   --connect jdbc:mysql://node03:3306/userdb \
@@ -438,7 +442,8 @@ bin/sqoop job --exec myjob
   --password root \
   --table emp \
   --export-dir /user/hive/warehouse/sqooptohive.db/emp/ \
-  --num-mappers 1
+  --num-mappers 1 \
+  --input-fields-terminated-by '\001'
   ```
 
 - NULL值的使用
@@ -456,6 +461,82 @@ bin/sqoop job --exec myjob
   --input-fields-terminated-by '\001' \
   --input-null-string '\\N' --input-null-non-string '\\N' \
   --num-mappers 1
+  ```
+
+- 增量导出 updateonly
+
+  ```shell
+  # --columns 要导出的mysql数据列，但要同hive字段顺序保持一致；对于由系统控制字段如create_time和update_time，不要包括在内（在设计表时，注意将由系统控制字段放在表的最后）
+  
+  # --update-key 可以包含多个列，用逗号隔开，用于匹配mysql唯一数据；且指定字段(多个)必须出现在--columns中；不必是主键或唯一索引
+  
+  # --update-mode updateonly 只对mysql已有数据更新
+  
+  bin/sqoop export \
+  --connect jdbc:mysql://node03:3306/userdb \
+  --username root --password root --table emp \
+  --export-dir /user/hive/warehouse/sqooptohive.db/emp/ \
+  -m 1 --fields-terminated-by '\001' \
+  --columns id,name,deg,salary,dept \
+  --update-key id --update-mode updateonly
+  ```
+
+- 增量导出 allowinsert
+
+  ``` shell
+  # --update-key 必须注意，指定的字段必须是主键或唯一索引，否则会出现重复数据。原理是，首先向mysql插入，如果出现重复唯一主键错误时，然后尝试更新
+  
+  # --columns 是hive中的字段，可以没有id，对应mysql中的字段；而--update-key id 是mysql的字段，主键自增
+  
+  # --update-mode allowinsert mysql已有数据则更新，没有数据则插入
+  
+  # alter table emp add primary key(id);
+  
+  bin/sqoop export \
+  --connect jdbc:mysql://node03:3306/userdb \
+  --username root --password root --table emp \
+  --export-dir /user/hive/warehouse/sqooptohive.db/emp/ \
+  -m 1 --fields-terminated-by '\001' \
+  --columns id,name,deg,salary,dept \
+  --update-key id --update-mode allowinsert
+  ```
+
+- 临时表
+
+  由于Sqoop将导出过程分解为多个事务，因此失败的导出作业可能会导致将部分数据提交到数据库。这可能进一步导致后续作业由于某些情况下的插入冲突而失败，或导致其他作业中的重复数据。可以通过 --staging-table 选项指定临时表来解决此问题，该选项充当用于暂存导出数据的辅助表。<font color=red>分阶段数据最终在单个事务中移动到目标表</font>。
+
+  创建临时表
+
+  ```mysql
+  -- 创建临时表
+  CREATE TABLE `emp_tmp`
+  (
+      `id`          INT(11)            DEFAULT NULL,
+      `name`        VARCHAR(100)       DEFAULT NULL,
+      `deg`         VARCHAR(100)       DEFAULT NULL,
+      `salary`      INT(11)            DEFAULT NULL,
+      `dept`        VARCHAR(10)        DEFAULT NULL,
+      `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      `is_delete`   BIGINT(20)         DEFAULT '1'
+  ) ENGINE = INNODB
+    DEFAULT CHARSET = latin1;
+  ```
+
+  导出数据
+
+  ```shell
+  # --staging-table 在插入目标表之前将暂存数据的表
+  # --clear-staging-table 在数据处理之前删除临时表中所有数据
+  # 不可与 --update-key 更新模式共用，更新已存在数据（会出现重复数据或者主键重复）
+  bin/sqoop export \
+  --connect jdbc:mysql://node03:3306/userdb \
+  --username root --password root --table emp \
+  --export-dir /user/hive/warehouse/sqooptohive.db/emp/ \
+  -m 1 --fields-terminated-by '\001' \
+  --columns id,name,deg,salary,dept \
+  --update-mode allowinsert \
+  --staging-table emp_tmp --clear-staging-table
   ```
 
   
