@@ -46,6 +46,7 @@
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
+        * [SQL经典50题](src/database/mysql/SQL经典50题.md)
 * VersionControl
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
