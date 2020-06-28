@@ -38,7 +38,7 @@
 
 - 无法高效的对大量小文件进行存储
 
-1. 存储大量小文件，会占用NameNone大量内存存储元数据。但NameNode的内存总是有限的；
+1. 存储大量小文件，会占用NameNode大量内存存储元数据。但NameNode的内存总是有限的；
 2. 小文件存储的寻址时间会超过读取时间，违反了HDFS的设计目标。
 
 - 不支持并发写入、文件随机修改
@@ -102,28 +102,6 @@
 
 
 
-## 分析源码
-
-
-
-## 解惑
-
-- [x] Lease（租约）  
-
-在HDFS写文件中是通过Lease（租约）来维护写文件凭证的，所以得到一个文件的写权限之后将其租约进行存储并定时更新。
-
-
-
-- [ ] block、package数据格式，如何校验（TCP协议，为什么会出现丢包），输出的基本单位（package），如何输出
-
-
-
-- [ ] hdfs block的上限是多少？
-
-
-
-
-
 # hdfs读取流程
 
 ## 概述
@@ -140,28 +118,6 @@
 4. FSDataInputStream调用就近DanaNode获取block1。DanaNode开始传输数据给客户端，从磁盘里面读取数据输入流，以Packet为单位来做校验。ClientNode以Packet为单位接收数据，先在本地缓存，然后写入目标文件。
    - 文件仍存在未读取的block2，则继续执行4。直到文件所有数据读取完成。
 5. 全部数据接收完成，关闭数据流FSDataInputStream。
-
-
-
-## 分析源码
-
-
-
-## 解惑
-
-- [ ] 文件块信息LocatedBlocks包含哪些重要信息？
-
-
-
-- [ ] 重传机制
-
-
-
-- [ ] DataNode优先位置策略
-
-
-
-- [ ] 数据的版本问题
 
 
 
@@ -210,19 +166,6 @@ NameNode对集群中元数据进行管理，外围节点需要频繁随机存取
 
 
 
-## 解惑
-
-- [ ] 如何回放？
-
-
-
-- [ ] NameNode内存不够，如何解决？
-
-1. 联邦机制（什么是？）
-2. 增加物理内存。
-
-
-
 # DataNode工作机制和数据存储
 
 ## 工作机制
@@ -251,14 +194,6 @@ timeout  = 2 * dfs.namenode.heartbeat.recheck-interval + 10 * dfs.heartbeat.inte
 dfs.namenode.heartbeat.recheck-interval 300000ms
 dfs.heartbeat.interval 3s
 ```
-
-
-
-## 解惑
-
-- [x] 一个DataNode上存储的所有数据块可以有相同的，为什么？
-
-一般出于安全性和高可用性考虑，并不会把一个block的多个副本放在同一个datanode上。但也不是绝对。例如，三个datanode，副本默认是三个的话，那么正常来说，每个节点上存储一个block副本是最好的（安全、可靠性高，单节点出现问题，并不会丢失数据），如果把3个副本都放在一个节点上，一旦这个节点出现问题，数据就可能丢失了；如果副本数是5个的话，那么就存在同一个datanode有多个副本了，即<font color=red>副本数比datanode数多的时候，必然存在一个datanode上存放多个相同block了</font>。
 
 
 
