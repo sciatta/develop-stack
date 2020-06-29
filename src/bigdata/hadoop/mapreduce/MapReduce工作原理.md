@@ -378,7 +378,7 @@ Reduce阶段压缩
     - 使用分区器需要首先了解数据的特性。`TotalOrderPartitioner` 中，可以通过对原始数据进行抽样得到的结果集来**预设分区边界值**。
     - `TotalOrderPartitioner` 中的范围分区器可以通过预设的分区边界值进行分区。因此它也可以很好地用在矫正数据中的部分键的数据倾斜问题。
   - 数据大小倾斜的自定义策略
-    - 在map端或reduce端的数据大小倾斜都会对缓存造成较大的影响，乃至导致OutOfMemoryError异常。处理这种情况并不容易。可以参考以下方法：设置`mapreduce.input.linerecordreader.line.maxlength` 来限制RecordReader读取的最大长度。RecordReader在TextInputFormat和KeyValueTextInputFormat类中使用。默认长度没有上限。
+    - 在map端或reduce端的数据大小倾斜都会对缓存造成较大的影响，乃至导致OutOfMemoryError异常。可以设置`mapreduce.input.linerecordreader.line.maxlength` 来限制RecordReader读取的最大长度。RecordReader在TextInputFormat和KeyValueTextInputFormat类中使用。默认长度没有上限。
 
 
 
@@ -421,8 +421,3 @@ select o.id,o.date,p.name,p.categoryid,p.price from order o join product p on o.
 适用于关联小表情况，在程序初始化时保存全局hdfs缓存文件路径，后续在mapper启动时一次读取小表数据放入缓存。这样，就可以在map阶段join操作，完全利用MapTask的并发算力，快速完成join操作。
 
 注意，在不设置ReduceTask的情况下，默认仍有一个ReduceTask，可以观察输出文件 `part-r-00000` 第二位是r，表示由ReduceTask输出；因为所有逻辑都在MapTask中完成，不需要ReduceTask，因此设置 `job.setNumReduceTasks(0);` ，可以观察输出文件 `part-m-00000`  第二位是m，表示由MapTask输出。
-
-
-
-
-
