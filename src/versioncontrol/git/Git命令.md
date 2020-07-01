@@ -193,6 +193,9 @@ git commit -m '第一次版本提交'
 
 # 跳过 add
 git commit -a
+
+# 修改上一次提交，可用于修改误写注释
+git commit --amend
 ```
 
 

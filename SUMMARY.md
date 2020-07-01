@@ -51,7 +51,6 @@
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
         * [Git命令](src/versioncontrol/git/Git命令.md)
-    * [VersionControl问题汇总](src/versioncontrol/VersionControl问题汇总.md)
 * Virtualization
     * VMware
         * [VMware系统安装](src/virtualization/vmware/VMware系统安装.md)
