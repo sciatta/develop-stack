@@ -1,6 +1,8 @@
 # GitHub空项目
 
-在GitHub上创建空项目，如：hadoop-main
+## GitHub上创建空项目
+
+如：hadoop-main
 
 
 
@@ -12,7 +14,6 @@
 
 - 后续默认选择
 
-- 初始化project `git flow init` 后续在develop分支开发
 
 
 
@@ -70,3 +71,25 @@ content root: /Users/yangxiaoyu/work/bigdata/project/hadoop-main/hadoop-hdfs/had
 <packaging>jar</packaging>
 ```
 
+
+
+# GitHub已有项目
+
+## GitHub下载源码
+
+```shell
+# 下载源码
+git clone https://github.com/sciatta/hadoop.git
+
+# 切换到目标版本
+cd hadoop
+git checkout -b work-2.7.0 release-2.7.0
+```
+
+
+
+## 导入GitHub项目
+
+`open | 指定项目路径`
+
+加载即可。如果是maven项目，则等待更新依赖，成功后会正确显示maven项目。
