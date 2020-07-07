@@ -7,6 +7,7 @@
         * HDFS
             * [HDFS命令](src/bigdata/hadoop/hdfs/HDFS命令.md)
             * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
+            * [HDFS源码分析](src/bigdata/hadoop/hdfs/HDFS源码分析.md)
         * MapReduce
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
         * YARN
