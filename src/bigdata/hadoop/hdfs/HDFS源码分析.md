@@ -224,6 +224,22 @@ log4j.appender.stdout.layout.ConversionPattern=%d{ISO8601} %-5p %c{2} (%F:%M(%L)
 
 
 
+### 修正NameNodeRpcServer找不到类ClientNamenodeProtocol的问题
+
+因为ClientNamenodeProtocol所在的类ClientNamenodeProtocolProtos过大，idea无法加载。
+
+`Help | Edit Custom Properties... | Create`
+
+idea.properties
+
+```properties
+idea.max.intellisense.filesize=5000
+```
+
+重启idea。
+
+
+
 # NameNode
 
 ## 启动脚本
@@ -285,6 +301,14 @@ log4j.appender.stdout.layout.ConversionPattern=%d{ISO8601} %-5p %c{2} (%F:%M(%L)
 ![hdfs_namenode_fsnamesystem_loadimage](HDFS源码分析.assets/hdfs_namenode_fsnamesystem_loadimage.png)
 
 ### RpcServer
+
+#### 启动
+
+![hdfs_namenode_rpcserver](HDFS源码分析.assets/hdfs_namenode_rpcserver.png)
+
+#### 核心类结构
+
+![hdfs_namenode_rpcserver_class](HDFS源码分析.assets/hdfs_namenode_rpcserver_class.png)
 
 
 
