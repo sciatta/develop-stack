@@ -266,18 +266,6 @@ idea.max.intellisense.filesize=5000
 
 
 
-## 启动流程
-
-- 加载配置文件core-default.xml、 core-site.xml、hdfs-default.xml和hdfs-site.xml。其中，core-default.xml和hdfs-default.xml存在于项目的类路径下
-- 启动HttpServer
-- 加载元数据
-- 启动RpcServer
-- 启动FSNamesystem
-  - 资源检查
-  - 数据块报送
-
-
-
 ## 核心功能
 
 ### HttpServer
@@ -310,9 +298,57 @@ idea.max.intellisense.filesize=5000
 
 ![hdfs_namenode_rpcserver_class](HDFS源码分析.assets/hdfs_namenode_rpcserver_class.png)
 
+### SafeMode
 
+![hdfs_namenode_safemode](HDFS源码分析.assets/hdfs_namenode_safemode.png)
 
+1. NameNode从磁盘加载初始化FSNamesystem
 
+2. 在初始化FSNamesystem实例过程中，会实例化SafeModeInfo，初始化参数：
 
+   - threshold阈值，控制BlockSafe数量。默认0.999。
+   - datanodeThreshold阈值，控制DataNode是Active状态的数量。默认0。
+   - extension，控制当到达数据块阈值限制，需要达到的稳定时间限制，才会判断是否可以退出SafeMode。默认0。
+   - safeReplication，控制BlockSafe的最小副本数。默认1。
 
+   此时 `reached=-1` ，即SafeMode是 `off` 状态。
 
+3. 创建NameNodeResourceChecker实例，初始化参数：
+
+   - volumes，NN存放edits的本地目录，以及其他需要检查的卷。
+   - duReserved，控制待检查卷的最小磁盘容量。默认100M。
+   - minimumRedundantVolumes，控制最小冗余卷。默认1。
+
+   同时，对待检查卷进行校验是否存在足够的磁盘空间，以防止edits无法写入导致数据丢失。
+
+4. 从元数据获取COMPLETE状态的Block数量 `blockTotal` ，以及要达到阈值的数据块数为 `blockTotal*threshold` ，然后调用checkMode方法。
+
+   <font color=red>进入安全模式的条件：</font>
+
+   - 数据块阈值不等于0，并且DataNode报送数据块数小于要到达阈值的数据块数
+   - DataNode阈值不为0，并且Active状态DataNode数小于DataNode阈值数
+   - NN资源不可用
+
+   如果是首次启动hdfs，因为还没有数据块产生，所以不满足进入安全模式的条件，此时退出安全模式 `reached=-1` ，即SafeMode是 `off` 状态。
+
+   如果不是首次启动hdfs，并且满足进入安全模式的条件，此时进入安全模式  `reached=0` ，即SafeMode是 `on` 状态。
+
+5. NameNode调用FSNamesystem的startActiveServices方法
+
+6. FSNamesystem创建并启动**NameNodeResourceMonitor**线程，其作用就是对待检查卷进行校验是否存在足够的磁盘空间。
+
+   - 如果有充足磁盘空间，则休眠一段时间后，持续检查。
+   - 如果没有足够磁盘空间，则<font color=red>永久</font>进入安全模式  `reached=0` ，即SafeMode是 `on` 状态。
+
+7. DataNode启动向NameNode注册后，通过RPC服务报送所有Block
+
+8. NameNodeRpcServer调用BlockManager，增加BlockSafe。只统计副本状态是FINALIZED，然后通过此副本所在的DataNode节点数来统计此时该block的副本数。<font color=red>注意：DataNode向NameNode报送所有Block，NameNode处理的过程是有写锁的，因此会阻塞同时间其他DataNode的报送</font>。
+
+9. BlockManager调用FSNamesystem，传入此时该block的副本数
+
+10. FSNamesystem调用SafeModeInfo，传入此时该block的副本数，如果此时的副本数满足 `safeReplication` ，则累加报送数据块数BlockSafe。同时，调用checkMode方法检查是否满足退出安全模式条件。如果不满足，则继续等待其他DataNode报送所有Block
+
+11. 一旦checkMode方法检查当前不满足进入安全模式的条件，则会设置 `reached>0` 即为不满足进入安全模式的时间。然后启动**SafeModeMonitor**线程监控是否可以离开安全模式。其作用就是如果数据块报送没有到达extension稳定时间限制，则不允许离开安全模式。
+
+    - 当数据块报送到达稳定时间限制，并且不满足进入安全模式条件，则可以退出安全模式 `reached=-1` ，即SafeMode是 `off` 状态。同时，SafeModeMonitor线程退出。
+    - 否则，线程持续运行检查。
