@@ -894,8 +894,16 @@ ifconfig eth0 192.168.1.56 netmask 255.255.255.0 broadcast 192.168.1.255
 ## netstat
 
 ```shell
-# 详细网络情况
-netstat -a
+# -a 列出所有的连接状态，包括 tcp/udp/unix socket 等
+# -u udp only 
+# -t tcp only
+# -l 仅列出有在 Listen 的服务网络状态
+# -n 不使用主机名称和服务名称，使用 IP 和 port number
+# -P 列出pid
+netstat -tulnp
+
+# 安装netstat
+yum install -y net-tools
 ```
 
 
@@ -1144,6 +1152,36 @@ free -h
 
 
 
+## locale
+
+```shell
+# 显示目前所支持的语系
+locale
+```
+
+
+
+## jobs
+
+```shell
+# & 在后台运行
+vi start-dfs.sh &
+
+# 查看当前bash中有哪些工作
+jobs -l
+
+# 从后台调到前台运行
+fg %1
+
+# 从前台暂停到后台运行
+control+z
+
+# 结束工作任务
+control+c
+```
+
+
+
 # 系统设置
 
 ## clear
@@ -1229,11 +1267,29 @@ rpm -qi dejagnu-1.4.2-10.noarch.rpm
 
 
 
+## yum
+
+```shell
+# 线上安装
+yum install -y vim
+```
+
+
+
 ## set
 
 ```shell
 # 显示环境变量
 set
+```
+
+
+
+## env
+
+```shell
+# 显示环境变量
+env
 ```
 
 
