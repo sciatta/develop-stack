@@ -377,6 +377,21 @@ awk '$2 !~ /th/ {print $2,$4}' log.txt
 
 
 
+## tail
+
+```shell
+# -n 查看文件内容，显示后n行内容；默认后10行
+tail -n 10 start-dfs.sh
+
+# -F 监控文件末尾改变情况，实时输出
+tail -F start-dfs.sh -n 2
+
+# 显示从第100行到末尾
+tail -n +100 start-dfs.sh
+```
+
+
+
 # 文档编辑
 
 ## grep
@@ -732,6 +747,20 @@ ls -al
 
 
 
+## iostat
+
+```shell
+# -m 每秒兆字节
+# -x 显示扩展信息
+# 2 每个2秒刷新一次
+iostat -mx 2
+
+# 安装iostat
+sudo yum install -y sysstat
+```
+
+
+
 # 磁盘维护
 
 ## lsblk
@@ -1072,6 +1101,12 @@ nice -n 19
 ```shell
 # 实时显示进程信息
 top
+
+# 输入h显示帮助信息
+h
+
+# 显示多核CPU使用率
+1
 ```
 
 
