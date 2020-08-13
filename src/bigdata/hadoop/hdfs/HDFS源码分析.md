@@ -240,65 +240,149 @@ idea.max.intellisense.filesize=5000
 
 
 
-# NameNode
+# 启动脚本
 
-## 启动脚本
+## start-dfs.sh
+
+在主节点执行 `start-dfs.sh` ，分别可在主节点启动NameNode，以及在配置的从节点启动DataNode
+
+- 包含 `hadoop-config.sh` 导出环境配置变量
+  - 包含 `hadoop-layout.sh`
+  - 包含 `hadoop-env.sh` 导出环境变量，如：JAVA_HOME，可以避免ssh登录后执行的JAVA_HOME不正确的问题
+  - 消费选项
+    - `--config`
+    - `--loglevel`
+    - `--hosts` 或 `--hostnames`
+
+- <font color=red>启动NameNode</font>
+
+  - 调用 `hadoop-daemons.sh` ，传入参数
+
+    ```shell
+    # hostnames是NameNode节点名称
+    --config "$HADOOP_CONF_DIR" \
+    --hostnames "$NAMENODES" \
+    --script "$bin/hdfs" start namenode $nameStartOpt
+    ```
+
+- <font color=red>启动DataNode</font>
+  - 调用 `hadoop-daemons.sh` ，传入参数
+
+    ```shell
+    --config "$HADOOP_CONF_DIR" \
+    --script "$bin/hdfs" start datanode $dataStartOpt
+    ```
+
+
+
+### hadoop-daemons.sh
+
+- 包含 `hadoop-config.sh` 
+
+  - 对于启动NameNode会消费 `--hostnames` 解析出NameNode的节点名称，赋予变量HADOOP_SLAVE_NAMES
+
+- 调用 `slaves.sh` ，传入参数
+
+  ```shell
+  # 命令间加 \; ssh登录后，才可以正常执行命令
+  --config $HADOOP_CONF_DIR cd "$HADOOP_PREFIX" \; "$bin/hadoop-daemon.sh" --config $HADOOP_CONF_DIR "$@"
+  ```
+
+
+
+### slaves.sh
+
+- 包含 `hadoop-config.sh` 
+
+- 包含 `hadoop-env.sh` 
+
+- 获取节点（NameNode或DataNode）名称并遍历，<font color=red>ssh远程登录后</font>，执行 `cd` 命令 并 调用 `hadoop-daemon.sh`，传入参数
+
+  ```shell
+  # $@不包含消费的参数
+  --config $HADOOP_CONF_DIR "$@"
+  ```
+
+  - 对于启动NameNode，通过HADOOP_SLAVE_NAMES，获取NameNode节点名称
+  - 对于启动DataNode，通过slaves文件获取DataNode节点名称
+
+
 
 ### hadoop-daemon.sh
 
-`hadoop-daemon.sh start namenode` 在主节点启动NameNode
+- 包含 `hadoop-config.sh` 
 
-- 包含 `hadoop-config.sh` 导出环境配置变量
-  - 包含 `hadoop-env.sh` 导出环境变量，如：JAVA_HOME，可以避免ssh登录后执行的JAVA_HOME不正确的问题
-- 包含 `hadoop-env.sh` 导出环境变量
-- 调用 `hdfs`
+- 消费选项
 
-### start-dfs.sh
+  - `--script`
 
-`start-dfs.sh` 在主节点启动NameNode和DataNode
+- 包含 `hadoop-env.sh` 
 
-- 调用 `hadoop-daemon.sh`
+- 启动
 
-### hdfs
+  - NameNode
 
-- 包含 `hadoop-config.sh` 导出环境配置变量
-- 入口类 `org.apache.hadoop.hdfs.server.namenode.NameNode` 。运行主类，启动NameNode服务
+    - 调用 `hdfs` ，传入参数
+
+      ```shell
+      --config $HADOOP_CONF_DIR $command "$@"
+      ```
+
+  - DataNode（同NameNode）
+
+- 停止
+
+  - NameNode
+    - kill
+  - DataNode（同NameNode）
 
 
 
-## 核心功能
+###hdfs
 
-### HttpServer
+- 包含 `hadoop-config.sh` 
+- NameNode
+  - 入口类 `org.apache.hadoop.hdfs.server.namenode.NameNode` ，启动NameNode服务
+- DataNode
+  - 入口类 `org.apache.hadoop.hdfs.server.datanode.DataNode` ，启动DataNode服务
+
+
+
+# NameNode
+
+## HttpServer
 
 对外提供HTTPServer服务，用户可以通过浏览器访问元数据、文件和日志等。
 
 ![hdfs_namenode_httpserver](HDFS源码分析.assets/hdfs_namenode_httpserver.png)
 
-### FSNamesystem
+## FSNamesystem
 
-#### 目录结构
+### 目录结构
 
 
 
-#### 格式化
+### 格式化
 
 ![hdfs_namenode_fsnamesystem_format](HDFS源码分析.assets/hdfs_namenode_fsnamesystem_format.png)
 
-#### 加载镜像
+### 加载镜像
 
 ![hdfs_namenode_fsnamesystem_loadimage](HDFS源码分析.assets/hdfs_namenode_fsnamesystem_loadimage.png)
 
-### RpcServer
+## RpcServer
 
-#### 启动
+### 启动
 
 ![hdfs_namenode_rpcserver](HDFS源码分析.assets/hdfs_namenode_rpcserver.png)
 
-#### 核心类结构
+
+
+### 核心类结构
 
 ![hdfs_namenode_rpcserver_class](HDFS源码分析.assets/hdfs_namenode_rpcserver_class.png)
 
-### SafeMode
+## SafeMode
 
 ![hdfs_namenode_safemode](HDFS源码分析.assets/hdfs_namenode_safemode.png)
 
@@ -352,3 +436,45 @@ idea.max.intellisense.filesize=5000
 
     - 当数据块报送到达稳定时间限制，并且不满足进入安全模式条件，则可以退出安全模式 `reached=-1` ，即SafeMode是 `off` 状态。同时，SafeModeMonitor线程退出。
     - 否则，线程持续运行检查。
+
+
+
+# DataNode
+
+## DataXceiver
+
+DataXceiverServer 守护线程，接收Client数据
+
+50010（tcp）
+
+
+
+## DataNodeHttpServer
+
+httpserver2 向NN内部提供http服务
+
+50075（http）
+
+50475（https）
+
+
+
+## IpcServer
+
+50020
+
+
+
+## BlockPoolManager
+
+bpByNameserviceId：namespaceid--bpos
+
+握手
+
+获取NameSpace，NN的VERSION
+
+- NamespaceID
+- ClusterId
+- BlockPoolId
+- CTime
+

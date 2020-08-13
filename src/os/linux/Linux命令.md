@@ -249,6 +249,13 @@ touch services
 
 # 文件不存在，创建空文件
 touch file1
+
+# 创建一个名称为 --name 的文件(同 -name)
+# 错误：touch --name 无法识别的选项；-和--后面接option
+# 修正：touch -- --name	-- 后面不会再包含option，被认为是 filenames 和 arguments
+touch -- --name
+# 错误：cat --name 无法识别的选项
+cat -- --name
 ```
 
 
@@ -389,6 +396,31 @@ tail -F start-dfs.sh -n 2
 # 显示从第100行到末尾
 tail -n +100 start-dfs.sh
 ```
+
+
+
+## dirname
+
+```shell
+# 获取当前路径的父路径
+# 只有文件名 .
+dirname a
+
+# /a
+dirname /a/b
+```
+
+
+
+## basename
+
+```shell
+# 获取当前路径的文件名
+# b
+/a/b
+```
+
+
 
 
 
@@ -640,6 +672,8 @@ cd a/b
 
 # 若目录名称省略，则变换至使用者的 home 目录
 cd
+
+
 ```
 
 ## df
