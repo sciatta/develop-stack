@@ -350,11 +350,38 @@ idea.max.intellisense.filesize=5000
 
 # NameNode
 
-## HttpServer
+## HttpServer2
 
-对外提供HTTPServer服务，用户可以通过浏览器访问元数据、文件和日志等。
+对外提供HTTP服务，用户可以通过浏览器访问元数据、文件和日志等。
 
 ![hdfs_namenode_httpserver](HDFS源码分析.assets/hdfs_namenode_httpserver.png)
+
+1. NameNode创建NameNodeHttpServer实例
+
+2. NameNode调用NameNodeHttpServer的start方法
+
+   - 创建HttpServer2.Builder，由其构建HttpServer2，创建嵌入式Jetty服务
+
+3. NameNodeHttpServer为HttpServer2配置相关servlet
+
+   - /startupProgress 对应 StartupProgressServlet.class
+   - /getDelegationToken 对应 GetDelegationTokenServlet.class
+   - /renewDelegationToken 对应 RenewDelegationTokenServlet.class
+   - /cancelDelegationToken 对应 CancelDelegationTokenServlet.class
+   - /fsck 对应 FsckServlet.class
+   - /imagetransfer 对应 ImageServlet.class
+   - /listPaths/* 对应 ListPathsServlet.class
+   - /data/* 对应 FileDataServlet.class
+   - /fileChecksum/* 对应 FileChecksumServlets.RedirectServlet.class
+   - /contentSummary/* 对应 ContentSummaryServlet.class
+
+   <font color=red>注意：此处可以扩展自定义servlet服务。</font>
+
+4. 启动HttpServer2服务
+
+5. 外部用户可以通过http协议访问50070端口或https协议访问50470端口，来获取web服务器提供的servlet服务
+
+
 
 ## FSNamesystem
 
