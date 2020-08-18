@@ -403,11 +403,31 @@ idea.max.intellisense.filesize=5000
 
 ![hdfs_namenode_rpcserver](HDFS源码分析.assets/hdfs_namenode_rpcserver.png)
 
+1. NameNode创建NameNodeRpcServer，设置RPC Protocol引擎，关联业务层和Protobuf层
+
+2. NameNodeRpcServer创建RPC.Builder，绑定Protocol接口、实现、主机名和端口，构建<font color=red>Service端</font>的RPC.Server，主要监听来自DataNode的请求
+
+   - 从 `hdfs-site.xml` 的参数 `dfs.namenode.servicerpc-address` 获取主机名和端口号。如无法获取，则不会构建Service端的RPC.Server。
+
+3. NameNodeRpcServer创建RPC.Builder，绑定Protocol接口、实现、主机名和端口，构建<font color=red>Client端</font>的RPC.Server，主要监听来自Hadoop客户端的请求
+
+   - 从 `core-site.xml` 的参数 `fs.defaultFS` 获取主机名和端口号。
+
+4. Hadoop客户端和DataNode可以配置 `core-site.xml` 的参数 `fs.defaultFS` 指定具体的主机名和端口号，rpc访问NameNode服务。
+
 
 
 ### 核心类结构
 
 ![hdfs_namenode_rpcserver_class](HDFS源码分析.assets/hdfs_namenode_rpcserver_class.png)
+
+1. NameNodeProtocols继承自ClientProtocol，是业务层接口，NameNodeRpcServer是其实现类，封装业务层的业务逻辑。
+2. 底层Rpc框架使用的是protobuf，由框架自动生成实现BlockingService接口的匿名类，其依赖于BlockingInterface接口的实现类。
+3. ClientNamenodeProtocolPB继承BlockingInterface接口，ClientNamenodeProtocolServerSideTranslatorPB是其实现类，其依赖业务层接口ClientProtocol的实现，起到了连接业务层和Protobuf层的作用。
+4. 构建RPC.Server，绑定ClientNamenodeProtocolPB接口和BlockingService接口的实现类。
+5. RPC.Server收到请求并调用的是<font color=red>ClientNamenodeProtocolPB接口</font>的方法，则将请求委托给相应BlockingService接口的实现类，接着将请求委托给ClientNamenodeProtocolServerSideTranslatorPB，最后将请求委托给NameNodeRpcServer完成NameNode端的业务处理。
+
+
 
 ## SafeMode
 
