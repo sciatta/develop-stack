@@ -494,9 +494,18 @@ idea.max.intellisense.filesize=5000
 
 ## DataXceiver
 
-DataXceiverServer 守护线程，接收Client数据
+负责同Hadoop Client交互，读写数据
 
-50010（tcp）
+![hdfs_datanode_dataxceiver](HDFS源码分析.assets/hdfs_datanode_dataxceiver.png)
+
+1. DataNode初始化守护线程Daemon实例dataXceiverServer，其执行的工作任务是DataXceiverServer实例xserver，此工作任务线程常驻内存
+2. DataNode启动守护线程dataXceiverServer
+   - 工作任务xserver开始运行，xserver调用TcpPeerServer实例peerServer的accept方法，其委托ServerSocket监听50010端口，等待Hadoop Client请求而阻塞
+   - Hadoop Client向DataNode发送数据，peerServer将ServerSocket返回的socket封装为BasicInetPeer实例peer传递给xserver
+3. xserver将请求peer分配守护线程并启动，其执行的工作任务是DataXceiver实例，负责读写数据
+4. xserver继续调用peerServer的accept方法
+
+
 
 
 
