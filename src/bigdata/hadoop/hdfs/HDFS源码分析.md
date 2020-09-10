@@ -350,7 +350,7 @@ idea.max.intellisense.filesize=5000
 
 # NameNode
 
-## HttpServer2
+## NameNodeHttpServer
 
 对外提供HTTP服务，用户可以通过浏览器访问元数据、文件和日志等。
 
@@ -494,28 +494,32 @@ idea.max.intellisense.filesize=5000
 
 ## DataXceiver
 
-负责同Hadoop Client交互，读写数据
+DataNode维护了一个server socket，用于同 Hadoop Client 或 其他 DataNode 读写数据
 
 ![hdfs_datanode_dataxceiver](HDFS源码分析.assets/hdfs_datanode_dataxceiver.png)
 
 1. DataNode初始化守护线程Daemon实例dataXceiverServer，其执行的工作任务是DataXceiverServer实例xserver，此工作任务线程常驻内存
 2. DataNode启动守护线程dataXceiverServer
    - 工作任务xserver开始运行，xserver调用TcpPeerServer实例peerServer的accept方法，其委托ServerSocket监听50010端口，等待Hadoop Client请求而阻塞
-   - Hadoop Client向DataNode发送数据，peerServer将ServerSocket返回的socket封装为BasicInetPeer实例peer传递给xserver
+   - Hadoop Client 或 其他 DataNode 向DataNode发送数据，peerServer将ServerSocket返回的socket封装为BasicInetPeer实例peer传递给xserver
 3. xserver将请求peer分配守护线程并启动，其执行的工作任务是DataXceiver实例，负责读写数据
 4. xserver继续调用peerServer的accept方法
 
 
 
+## HttpServer
+
+向集群内部提供http服务
+
+![hdfs_datanode_httpserver](HDFS源码分析.assets/hdfs_datanode_httpserver.png)
 
 
-## DataNodeHttpServer
 
-httpserver2 向NN内部提供http服务
-
-50075（http）
-
-50475（https）
+1. DataNode通过HttpServer2.Builder构建HttpServer2，HttpServer2对jetty封装，提供web容器功能，其端口由系统动态生成。配置内部servlet
+   - /streamFile/* 对应 StreamFile
+   - /getFileChecksum/* 对应 FileChecksumServlets.GetServlet
+   - /blockScannerReport 对应 BlockScanner.Servlet
+2. DataNode创建DatanodeHttpServer，DatanodeHttpServer对netty封装，提供并发性更高的网络通信框架，其http端口是50075，https端口是50475。
 
 
 
