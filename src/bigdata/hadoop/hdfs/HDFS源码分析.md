@@ -404,16 +404,16 @@ idea.max.intellisense.filesize=5000
 ![hdfs_namenode_rpcserver](HDFS源码分析.assets/hdfs_namenode_rpcserver.png)
 
 1. NameNode创建NameNodeRpcServer，设置RPC Protocol引擎，关联业务层和Protobuf层
-
 2. NameNodeRpcServer创建RPC.Builder，绑定Protocol接口、实现、主机名和端口，构建<font color=red>Service端</font>的RPC.Server，主要监听来自DataNode的请求
 
    - 从 `hdfs-site.xml` 的参数 `dfs.namenode.servicerpc-address` 获取主机名和端口号。如无法获取，则不会构建Service端的RPC.Server。
-
 3. NameNodeRpcServer创建RPC.Builder，绑定Protocol接口、实现、主机名和端口，构建<font color=red>Client端</font>的RPC.Server，主要监听来自Hadoop客户端的请求
 
    - 从 `core-site.xml` 的参数 `fs.defaultFS` 获取主机名和端口号。
-
 4. Hadoop客户端和DataNode可以配置 `core-site.xml` 的参数 `fs.defaultFS` 指定具体的主机名和端口号，rpc访问NameNode服务。
+   - Datanode
+     - 启动：握手、注册
+     - 运行：心跳、数据块汇报
 
 
 
@@ -525,20 +525,35 @@ DataNode维护了一个server socket，用于同 Hadoop Client 或 其他 DataNo
 
 ## IpcServer
 
-50020
+![hdfs_datanode_ipcserver](HDFS源码分析.assets/hdfs_datanode_ipcserver.png)
+
+DataNode通过RPC.Builder创建RPC.Server实例ipcServer，默认50020端口。
 
 
 
 ## BlockPoolManager
 
-bpByNameserviceId：namespaceid--bpos
+BlockPoolManager负责管理DataNode的BPOfferService对象，所有操作BPOfferService对象的操作必须通过BlockPoolManager类。BPOfferService的BPServiceActor线程负责同NameNode握手、注册、心跳以及数据块汇报。DataNode可以通过同对应NameNode握手返回相应namespace信息初始化对应blockpool的本地storage。
 
-握手
+![hdfs_datanode_blockpoolmanager](HDFS源码分析.assets/hdfs_datanode_blockpoolmanager.png)
 
-获取NameSpace，NN的VERSION
+1. DataNode创建BlockPoolManager，其管理DataNode的BPOfferService对象
+2. BlockPoolManager刷新NameNode
+   - 以此格式 `<ns id, <nn id, socket ddress>>` 通过**配置文件**获取集群NameNode通信地址，其中配置文件中NameService的参数为
+     - `dfs.nameservices` 获取NameService配置nsid
+     - `dfs.ha.namenodes.nsid` 获取NameService下NameNode节点配置nnid，包括active和standby两个NameNode配置
+     - `dfs.namenode.rpc-address.nsid.nnid` 获取指定NameNode节点的rpc通信地址
+   - 以配置为基准，BlockPoolManager遍历nameservice分别创建BPOfferService，BPOfferService遍历NameService下配置的NameNode节点分别创建BPServiceActor，其最终负责同 active 或 standby NameNode 进行rpc访问
+   - 启动所有BPServiceActor线程
+3. BPServiceActor线程首次运行，同NameNode握手和注册
+   - 同NameNode握手获取namespace，比较版本信息；此时，DataNode就可以初始化blockpoolid对应的storage
+   - 向NameNode注册
+4. BPServiceActor线程持续运行，向NameNode定时发送心跳和数据块汇报
+   - 默认每3秒一次向NameNode发送心跳，NameNode回传需要DataNode执行的命令
+   - 数据块汇报
+     - 增量数据块报送，包括三种状态的数据块：1、正在接收；2、已接收；3、删除。默认5分钟报送一次；若报送不成功，则不需要等待，下一次直接报送
+     - 全量数据块报送，NameNode回传需要DataNode执行的命令。默认6小时一次全量数据块报送
+     - 缓冲数据块报送，NameNode回传需要DataNode执行的命令。默认10秒一次缓存数据块报送
 
-- NamespaceID
-- ClusterId
-- BlockPoolId
-- CTime
+
 
