@@ -43,7 +43,7 @@
 
 - 不支持并发写入、文件随机修改
 
-1. 一个文件只能有一个线程写，不允许多个线程多时写；
+1. 一个文件只能有一个线程写，不允许多个线程同时写；
 2. 仅支持数据append，不支持文件的随机修改。
 
 
@@ -59,33 +59,24 @@
 写入本地file文件，假设文件200M，则共有2个块，block1为128M（hdfs默认块大小为128M），block2为72M。默认三个副本。
 
 1. ClientNode向HDFS写入数据，先调用DistributedFileSystem的 `create` 方法获取FSDataOutputStream。
-
 2. DistributedFileSystem调用NameNode的 `create` 方法，发出文件创建请求。NameNode对待上传文件名称和路径做检验，如上传文件是否已存在同名目录，文件是否已经存在，递归创建文件的父目录（如不存在）等。并将操作记录在edits文件中。
-
 3. ClientNode调用FSDataOutputStream向输出流输出数据（假设先写block1）。
-
 4. FSDataOutputStream调用NameNode的 `addBlock` 方法申请block1的blockId和block要存储在哪几个DataNode（假设DataNode1，DataNode2和DataNode3）。若pipeline还没有建立，则根据位置信息建立pipeline。
-
 5. 同返回的第一个DataNode节点DataNode1建立socket连接，向其发送package。同时，此package会保存一份到ackqueue确认队列中。
 
    - 写数据时先将数据写到一个校验块chunk中，写满512字节，对chunk计算校验和checksum值（4字节）。
    - 以带校验和的checksum为单位向本地缓存输出数据（本地缓存占9个chunk），本地缓存满了向package输入数据，一个package占64kb。
    - 当package写满后，将package写入dataqueue数据队列中。
    - 将package从dataqueue数据对列中取出，沿pipeline发送到DataNode1，DataNode1保存，然后将package发送到DataNode2，DataNode2保存，再向DataNode3发送package。DataNode3接收到package，然后保存。
-
 6. package到达DataNode3后做校验，将校验结果逆着pipeline回传给ClientNode。
 
    - DataNode3将校验结果传给DataNode2，DataNode2做校验后将校验结果传给DataNode1，DataNode1做校验后将校验结果传给ClientNode。
    - ClientNode根据校验结果判断，如果”成功“，则将ackqueue确认队列中的package删除；如果”失败“，则将ackqueue确认队列中的package取出，重新放入到dataqueue数据队列末尾，等待重新沿pipeline发送。
-
-7. 当block1的所有package发送完毕。即DataNode1、DataNode2和DataNode3都存在block1的完整副本，则三个DataNode分别调用NameNode的 `blockReceivedAndDeleted`方法。NameNode会更新内存中DataNode和block的关系。
-
-   - ClientNode关闭同DataNode建立的pipeline。
-
-   - 文件仍存在未发送的block2，则继续执行4。直到文件所有数据传输完成。
+7. 当block1的所有package发送完毕，即DataNode1、DataNode2和DataNode3都存在block1的完整副本，ClientNode关闭同DataNode建立的pipeline。如果文件仍存在未发送的block2，则继续执行4、5和6。直到文件所有数据传输完成。
 
 8. 全部数据输出完成，调用FSDataOutputStream的 `close` 方法。
 9. ClientNode调用NameNode的 `complete` 方法，通知NameNode全部数据输出完成。
+10. 三个DataNode周期性（默认5分钟）分别调用NameNode的 `blockReceivedAndDeleted`方法，增量报送数据块状态。NameNode会更新内存中DataNode和block的关系。
 
 
 
