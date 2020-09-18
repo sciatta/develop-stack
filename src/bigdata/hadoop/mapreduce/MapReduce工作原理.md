@@ -16,7 +16,7 @@ MapReduce的核心思想是“<font color=red>分而治之</font>”，把大任
 | ----------------------- | ------------------------------------------------------------ |
 | TextInputFormat         | 1、默认将每个block作为一个split；2、输出的key是行偏移位置，value是每行的内容 |
 | CombineTextInputFormat  | 1、解决小文件导致过多split的问题。涉及到虚拟存储和切片过程，可以自定义split大小；2、输出的key是行偏移位置，value是每行的内容 |
-| KeyValueTextInputFormat | 1、默认将每个block作为一个split；2、以自定义分隔符进行分割，输出相应的key和value |
+| KeyValueTextInputFormat | 1、默认将每个block作为一个split；2、以自定义分隔符进行分割，输出相应的key和value；注意默认情况下分隔符只会取第一个字符 |
 | NLineInputFormat        | 1、以输入文件的N行作为一个split；2、输出的key是行偏移位置，value是每行的内容 |
 
 InputFormat输入格式类
@@ -76,7 +76,7 @@ MapReduce根据输入记录的键对数据集排序。保证输出的每个文�
 
 **第五步：Combine**
 
-对分组后的数据进行规约(combine操作)，降低数据的网络拷贝（可选步骤）
+对分区后的数据进行规约(combine操作)，降低数据的网络拷贝（可选步骤）
 
 Combiner的父类是Reducer，区别在于Combiner是在MapTask节点运行，而Reduce在ReduceTask节点运行，接收全局所有MapTask的输出结果。Combiner的意义在于对MapTask的输出做局部汇总，减少网络传输量。但Combiner应用的前提是不影响最终的业务逻辑。
 
@@ -151,7 +151,7 @@ CombineTextInputFormat切片机制：
 
 如：`MaxInputSplitSize`设置为4M，输入文件大小为8.02M，满足3，则先划分一个4M的逻辑块，剩下人4.02继续判断；4.02满足2，则均分为两个2.01M的逻辑块。
 
-- 切片：将所有虚拟存储逻辑块依次同`MaxInputSplitSize`参数作比较，使得最后划分的切片接近`MaxInputSplitSize`
+- 切片：将所有虚拟存储逻辑块依次同`MaxInputSplitSize`参数作比较，<font color=red>使得最后划分的切片接近`MaxInputSplitSize`</font>
 
 1. 如果大于等于 `MaxInputSplitSize` ，则作为一个切片。继续下一个逻辑块开始判断
 2. 如果小于 ` MaxInputSplitSize` ，则同下一个虚拟存储逻辑块一起作为一个切片。继续1、2步判断，直到满足条件1或所有虚拟存储逻辑块合并完成
@@ -164,10 +164,10 @@ CombineTextInputFormat切片机制：
 
 测试场景 `MaxInputSplitSize` = 4M
 
-| 测试用例          | 虚拟存储               | 切片                                           | MapTask |
-| ----------------- | ---------------------- | ---------------------------------------------- | ------- |
-| 10个文件：0.1K    | 10个0.1k的逻辑块       | 1k（只有一个切片，因为所有文件合并后仍小于4M） | 1       |
-| 2个文件：8.1M、8K | （4M+2.05M+2.05M）、8K | 4M、（2.05M+2.05M）、8K                        | 3       |
+| 测试用例          | 虚拟存储               | 切片                                                         | MapTask |
+| ----------------- | ---------------------- | ------------------------------------------------------------ | ------- |
+| 10个文件：0.1K    | 10个0.1k的逻辑块       | 1k（<font color=red>只有一个切片，因为所有文件合并后仍小于4M</font>） | 1       |
+| 2个文件：8.1M、8K | （4M+2.05M+2.05M）、8K | 4M、（2.05M+2.05M）、8K                                      | 3       |
 
 
 

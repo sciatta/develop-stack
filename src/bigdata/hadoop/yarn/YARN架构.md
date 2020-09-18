@@ -164,7 +164,7 @@ node01执行
 	<value>/bigdata/install/hadoop-2.6.0-cdh5.14.2/etc/hadoop/fair-scheduler.xml</value>
 </property>
 
-<!-- 是否启用资源抢占，如果启用，那么当该队列资源使用yarn.scheduler.fair.preemption.cluster-utilization-threshold 这么多比例的时候，就从其他空闲队列抢占资源 -->
+<!-- 是否启用资源抢占，如果启用，那么当该队列资源使用 yarn.scheduler.fair.preemption.cluster-utilization-threshold 过多比例的时候，就从其他空闲队列抢占资源 -->
 <property>
 	<name>yarn.scheduler.fair.preemption</name>
 	<value>true</value>
@@ -225,13 +225,13 @@ node01执行
 		<maxResources>20480mb,20vcores</maxResources>
 		<maxRunningApps>100</maxRunningApps>
 		<schedulingMode>fair</schedulingMode>
-        <!-- 资源池权重-->
+    <!-- 资源池权重-->
 		<weight>2.0</weight>
-        <!-- 允许提交任务的用户名和组；
+    <!-- 允许提交任务的用户名和组；
              格式为：用户名 用户组
              当有多个用户时候，格式为：用户名1,用户名2 用户名1所属组,用户名2所属组 -->
 		<aclSubmitApps>hadoop hadoop</aclSubmitApps>
-        <!-- 允许管理任务的用户名和组；格式同上 -->
+    <!-- 允许管理任务的用户名和组；格式同上 -->
 		<aclAdministerApps>hadoop hadoop</aclAdministerApps>
 	</queue>
     
