@@ -254,7 +254,7 @@ Watcher是客户端在服务器端注册的事件监听器；Watcher用于监听
 
 ## HDFS HA 方案
 
-NameNode存在单点故障问题，一旦NameNode宕机，直接导致HDFS无法对外提供服务。未解决此问题，可以增加一个备份NameNode，当主NameNode宕机，备NameNode自动快速切换响应外部请求。另外，元数据存在于NameNode的内存中，也存在了如何共享内存元数据的问题。
+NameNode存在单点故障问题，一旦NameNode宕机，直接导致HDFS无法对外提供服务。为了解决此问题，可以增加一个备份NameNode，当主NameNode宕机，备NameNode自动快速切换响应外部请求。另外，元数据存在于NameNode的内存中，也存在了如何共享内存元数据的问题。
 
 Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
@@ -281,7 +281,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
   - ActiveStandbyElector从ZooKeeper获得选举结果
   - 创建成功的 ActiveStandbyElector回调ZKFC的回调方法，将对应的NameNode切换为Active NameNode状态
   - 而创建失败的ActiveStandbyElector回调ZKFC的回调方法，将对应的NameNode切换为Standby NameNode状态
-  - 不管是否选举成功，所有ActiveStandbyElector都会在临时节点ActiveStandbyElectorLock上注册一个Watcher监听器，来监听这个节点的状态变化事件
+  - <font color=red>不管是否选举成功，所有ActiveStandbyElector都会在临时节点ActiveStandbyElectorLock上注册一个Watcher监听器，来监听这个节点的状态变化事件</font>
 
   **非全新集群选举**
 
@@ -290,7 +290,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
   - 此时，Standby NameNode的ActiveStandbyElector注册的Watcher就会监听到此节点的 NodeDeleted事件。
   - 收到这个事件后，此ActiveStandbyElector发起主备选举，成功创建临时节点ActiveStandbyElectorLock，如果创建成功，则Standby NameNode被选举为Active NameNode
 
-- 如何防止脑裂
+- 如何防止脑裂（加入BreadCrumb，引入隔离机制）
   在分布式系统中 **双主** 现象又称为脑裂，由于Zookeeper的 ”假死”、长时间的垃圾回收或其它原因都可能导致 <font color=red>双</font>Active NameNode 现象，此时两个NameNode都可以对外提供服务，无法保证数据一致性。对于生产环境，这种情况的出现是毁灭性的，必须通过自带的 **隔离（Fencing）**机制预防此类情况。
 
   **正常状态**
@@ -316,7 +316,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
 ![zookeeper_hdfs_ha_editlog](ZooKeeper分布式协调框架.assets/zookeeper_hdfs_ha_editlog.png)
 
-集群启动后一个NN处于active状态，并提供服务，处理客户端和DataNode的请求，并把editlog写到本地和share editlog（可以是NFS，QJM等）中。另外一个NN处于Standby状态，它启动的时候加载fsimage，然后周期性的从share editlog中获取editlog，保持与active的状态同步。为了实现standby在active挂掉后迅速提供服务，需要DN同时向两个NN汇报，使得Stadnby保存block to datanode信息，因为NN启动中最费时的工作是处理所有datanode的blockreport。
+集群启动后一个NN处于active状态，并提供服务，处理客户端和DataNode的请求，并把editlog写到本地和share editlog（可以是NFS，QJM等）中。另外一个NN处于Standby状态，它启动的时候加载fsimage，然后周期性的从share editlog中获取editlog，保持与active的状态同步。为了实现standby在active挂掉后迅速提供服务，需要DN同时向两个NN汇报，使得standby保存block to datanode信息，因为NN启动中最费时的工作是处理所有datanode的blockreport。
 
 - 在主备切换过程中，新的Active NameNode必须确保与原Active NamNode元数据同步完成，才能对外提供服务
 - HA集群中不需要运行SecondaryNameNode、CheckpointNode或者BackupNode。事实上，HA架构中运行上述节点，将会出错
@@ -327,7 +327,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
 在单一进程多线程环境下，争抢共享资源，可以利用JUC完美解决。但随着系统发展，单一进程系统进一步发展为多进程分布式系统，这样就产生了如何解决共享资源争抢冲突的问题。可以借助ZooKeeper实现分布式锁方案。
 
-- 方案一
+- 方案一（惊群问题，监控同一个临时节点）
 
   ![zookeeper_distributedlock_thunderingherd](ZooKeeper分布式协调框架.assets/zookeeper_distributedlock_thunderingherd.png)
 
@@ -340,10 +340,10 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
   
 
-- 方案二
+- 方案二（监控上一个临时有序节点）
 
   ![zookeeper_distributedlock](ZooKeeper分布式协调框架.assets/zookeeper_distributedlock.png)
-  1. Client 1、2、3同时向ZooKeeper询问root持久节点/group是否创建，如果未创建，则只会有一个进程创建root节点。Client 1创建root节点，然后创建临时有序节点/group/lock0000000001，然后Client1发现是第一个子节点，则获得锁；Client 2创建临时有序节点/group/lock0000000002，发现不是第一个子节点，则设置上一个/group/lock0000000001节点watcher等待通知；Client 3创建临时有序节点/group/lock0000000003，发现不是第一个子节点，则设置上一个/group/lock0000000002节点watcher等待通知
+  1. Client 1、2、3同时向ZooKeeper询问root持久节点/group是否创建，如果未创建，则只会有一个进程创建root节点。Client 1创建/group根节点，然后创建临时有序节点/group/lock0000000001，然后Client1发现是第一个子节点，则获得锁；Client 2创建临时有序节点/group/lock0000000002，发现不是第一个子节点，则设置上一个/group/lock0000000001节点watcher等待通知；Client 3创建临时有序节点/group/lock0000000003，发现不是第一个子节点，则设置上一个/group/lock0000000002节点watcher等待通知
   2. Client 1 任务结束，删除 /group/lock0000000001 或者 关闭同ZooKeeper的session连接
   3. Client 2 获得通知，检查是否是第一个子节点，如果是则获得锁处理任务；否则，继续监听上一个子节点（Client 1可能异常结束，但非第一个节点）
   4. Client 2 任务结束，删除 /group/lock0000000002
@@ -385,7 +385,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
     原leader处于一个分区，而另外一个分区选举出新的leader，此时集群出现2个leader，导致集群紊乱。
 
--  防止脑裂导致集群中出现多个leader
+-  <font color=red>防止脑裂导致集群中出现多个leader</font>
 
   为什么规则要求 `可用节点数 > 集群总结点数 / 2` ？如果不这样限制，在集群出现脑裂的时候，可能会出现多个子集群同时服务的情况（即子集群各组选举出自己的leader）， 这样对整个zookeeper集群来说是紊乱的。换句话说，如果遵守上述规则进行选举，即使出现脑裂，集群最多也只能出现一个子集群可以提供服务的情况。
 
@@ -418,7 +418,7 @@ Raft 动图演示地址： `http://thesecretlivesofdata.com/raft/`
 
 ### ZooKeeper服务器个数
 
-仲裁模式下，服务器个数选择为<font color=red>奇数</font>。
+仲裁模式下，服务器个数选择为<font color=red>奇数</font>（可以保证脑裂状态下，有一个集群时可用的）。
 
 zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 / 2** 。
 
@@ -435,7 +435,7 @@ zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 /
 | 3     | 2     |
 | 4     | 1     |
 
-若满足 可用节点数 = 5 / 2 + 1 = 3，此时多种脑裂情况都会有一个子集群提供服务。
+若满足leader选举要求，可用节点数 = 5 / 2 + 1 = 3，此时多种脑裂情况都会有一个子集群提供服务。
 
 
 
@@ -447,7 +447,7 @@ zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 /
 | 2     | 2     |
 | 3     | 1     |
 
-若满足 可用节点数 = 4 / 2 + 1 = 3，此时若两个子集群均匀划分，A和B集群都无法满足lead选举的要求
+若满足leader选举要求，可用节点数 = 4 / 2 + 1 = 3，<font color=red>此时若两个子集群均匀划分，A和B集群都无法满足lead选举的要求</font>。
 
 
 
@@ -459,13 +459,13 @@ zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 /
 
   - 假设5个节点
 
-    可用节点数 = 5 / 2 + 1 = 3，允许2个节点宕机
+    可用节点数 = 5 / 2 + 1 = 3，<font color=red>允许2个节点宕机</font>
 
   - 假设6个节点
 
-    可用节点数 = 6 / 2 + 1 = 4，允许2个节点宕机
+    可用节点数 = 6 / 2 + 1 = 4，<font color=red>允许2个节点宕机</font>
 
-  5节点和6节点集群相比，容错能力相同，都允许有2个节点宕机，但5节点的quorum更小，响应速度更快且更节省资源；5节点和4节点集群相比，quorum相同，但5节点的容错能力更强。
+  <font color=red>5节点和6节点集群相比，容错能力相同，都允许有2个节点宕机，但5节点的quorum更小，响应速度更快且更节省资源；5节点和4节点集群相比，quorum相同，但5节点的容错能力更强</font>。
 
 
 
@@ -530,14 +530,14 @@ ZooKeeper服务器的4中状态
 
 
 
-## 状态同步
+## 选举成功后状态同步
 
-当Leader完成选举后，Follower需要与新的Leader同步数据。
+<font color=red>当Leader完成选举后，Follower需要与新的Leader同步数据</font>。
 
 在Leader端做如下工作
 
 - Leader会构建一个NEWLEADER封包，包括当前最大的zxid，发送给所有的Follower或者Observer
-- Leader给每个Follower创建一个线程LearnerHandler来负责处理每个Follower的数据同步请求，同时主线程开始阻塞，只有超过一半的Follower同步完成，同步过程才完成，Leader才能成为真正的Leader
+- Leader给每个Follower创建一个线程LearnerHandler来负责处理每个Follower的数据同步请求，<font color=red>同时主线程开始阻塞，只有超过一半的Follower同步完成，同步过程才完成，Leader才能成为真正的Leader</font>
 - 根据同步算法进行同步操作
 
 在Follower端做如下工作
