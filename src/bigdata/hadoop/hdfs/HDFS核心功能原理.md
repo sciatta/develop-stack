@@ -194,6 +194,9 @@ dfs.heartbeat.interval 3s
 
 hdfs中文件以block存储在DataNode中，而所有文件的元数据全部存储在NameNode的内存中。无论文件大小，都会占用NameNode元数据的内存存储空间，大约占用150K左右。所以，系统中如果有大量小文件的话，会出现DataNode的磁盘容量没有充分利用，而NameNode的内存却被大量消耗，然而NameNode的内存是有容量限制的。所以，需要对小文件治理。
 
+- 占用NameNode的内存空间
+- 索引文件过大使得索引速度变慢
+
 
 
 ## HAR方案
@@ -240,7 +243,7 @@ hdfs dfs -cp har:///main/data.har/* /main/out
 
 ## SequenceFile方案
 
-- SequenceFile是由record构成，每个record是由键值对构成，其中文件名作为record的key，而文件内容作为record的value。Record间随机插入Sync，方便定位到Record的边界。
+- SequenceFile是由record构成（二进制），每个record是由键值对构成，其中文件名作为record的key，而文件内容作为record的value。Record间随机插入Sync，方便定位到Record的边界。
 
 - SequenceFile是可以分割的，所以可以利用MapReduce切分，独立运算。
 
@@ -258,3 +261,15 @@ hdfs dfs -cp har:///main/data.har/* /main/out
 
 
 - 把已有小文件转存为SequenceFile较慢，相比先写小文件，再写SequenceFile而言，直接将数据写入SequenceFile是更好的选择，省去小文件作为中间媒介。
+
+
+
+## CombineTextInputFormat方案
+
+可以将多个小文件合并为一个逻辑split，对应一个MapTask进行处理，避免启动大量MapTask
+
+
+
+## JVM重用方案
+
+对于大量小文件，开启JVM重用可以减少45%运行时间。通过参数 `mapreduce.job.jvm.numtasks` 控制，默认1，即一个JVM运行一个task；当设置为-1时，则没有限制；一般可设置在10~20之间。
