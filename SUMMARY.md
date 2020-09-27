@@ -13,6 +13,7 @@
         * YARN
             * [YARN架构](src/bigdata/hadoop/yarn/YARN架构.md)
         * [Hadoop集群安装部署](src/bigdata/hadoop/Hadoop集群安装部署.md)
+        * [Hadoop HA集群安装部署](src/bigdata/hadoop/Hadoop HA集群安装部署.md)
         * [Hadoop企业级调优](src/bigdata/hadoop/Hadoop企业级调优.md)
     * ZooKeeper
         * [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
