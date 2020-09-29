@@ -967,6 +967,7 @@ TABLESAMPLE语法：`TABLESAMPLE (BUCKET x OUT OF y [ON colname])` 。其中，x
 
 ```mysql
 -- 将user_demo以id作为采样列，划分为两个桶，返回第一个桶的数据
+-- 假设x=1，如果桶数多于y，则每y桶取第一个；如果桶数小于y，则将桶数再按照y进行平均划分，然后再取第一个
 select * from myhive.user_demo tablesample(bucket 1 out of 2 on id);
 
 -- 以随机数作为采样列，因此每一次返回的数据不同
@@ -1216,7 +1217,7 @@ select * from myhive.order_partition where month='2019-03';
 
 ### 动态分区
 
-<font color=red>数据导入时自动创建分区</font>
+利用中间表<font color=red>数据导入时自动创建分区</font>
 
 - 创建表
 
@@ -1405,7 +1406,7 @@ select s_id, avg(s_score) from myhive.score group by s_id;
 
   - where针对表中的列发挥作用，查询数据；having针对查询结果中的列发挥作用，筛选数据
   - where后面不能使用分组函数，而having后面可以使用分组函数
-  - having只用于group by分组统计语句
+  - **having只用于group by分组统计语句**
 
 
 
@@ -1529,7 +1530,7 @@ select * from score s sort by s.s_score;
 
 
 
-- distribute by 分区排序（MR）
+- distribute by + sort by 分区排序（MR）
   - **类似MR中partition**，采用hash算法，在map端将查询的结果中指定字段的hash值相同的结果分发到对应的reduce文件中
   - 结合sort by使用
   - **distribute by** 语句要写在 **sort by** 语句之前
@@ -1618,7 +1619,7 @@ select channel_id,role_sex,count(1) as total_person from ods_role_create group b
 ```mysql
 use game_center;
 
-# 从由至左递减维度分析
+# 从右至左递减维度分析
 select channel_id,role_sex,count(1) as total_person from ods_role_create group by channel_id,role_sex with rollup;
 
 +-------------+-----------+---------------+--+
@@ -2051,7 +2052,7 @@ insert into table log_orc_snappy select * from log_text;
 
 占用空间：3.8 M
 
-#### ZLIB
+#### ZLIB（默认）
 
 占用空间：2.8 M
 
@@ -2079,9 +2080,34 @@ insert into table log_orc_snappy select * from log_text;
 ### 实现过程
 
 - 在记录末尾增加start_date和end_date字段来实现。<font color=red>start_date表示该条记录的生命周期开始时间，end_date表示该条记录的生命周期结束时间</font>。
-- 同一ID按时间排序后，如果有较新的记录，则当前记录的end_date等于较新记录的start_date-1；如果没有较新的记录，则当前记录的end_date等于一个默认值，比如9999-12-31，表示该条记录目前处于有效状态。
-- 如果查询当前所有有效的记录，则 `select * from user where end_date = '9999-12-31'`。
-- 如果查询2017-01-02的历史快照，则 `select * from user where start_date <= '2017-01-02' and end_date >= '2017-01-02'`。（注意特殊日期9999-12-31）
+
+- 同一ID按时间排序后，如果有较新的记录，则当前记录的end_date等于较新记录的start_date-1；如果没有较新的记录，则当前记录的end_date等于一个默认值，比如9999-12-31，表示该条记录目前处于**有效状态**。
+
+- 如果查询当前所有有效的记录，则 `select * from user where end_date = '9999-12-31'`。每一个交易记录应该只有唯一一条有效记录。
+
+- 如果查询2017-01-02的历史快照（当天的交易订单情况，每一个交易应只有唯一记录），则 `select * from user where start_date <= '2017-01-02' and end_date >= '2017-01-02'`。（注意特殊日期9999-12-31）
+
+  - `start_date <= '2017-01-02'` 
+
+    - ~~大于2017-01-02，还没有产生交易~~
+    - 等于2017-01-02，当天开始生命周期，可能是此日期创建交易，或有做过变更
+    - 小于2017-01-02，快照之前就开始生命周期
+
+  - `end_date >= '2017-01-02'` ，
+
+    - ~~小于2017-01-02，快照之前已经结束生命周期，不需要展示~~
+    - 等于2017-01-02，在此日期结束生命周期
+    - 大于2017-01-02，可能不是最新的记录，如 `end_date = '2017-01-09'` ，必然会有至少一条记录的 `start_date = '2017-01-10'` ，此记录需要展示，也就是说在2017-01-02此交易状态未变化；也可能是最新记录，则此时 `end_date = '9999-12-31'`
+
+  - 符合规则举例
+
+    | start_date | end_date   | 说明                                                         |
+    | ---------- | ---------- | ------------------------------------------------------------ |
+    | 2017-01-01 | 2017-01-02 | 1月1日开始生命周期，1月2日结束生命周期                       |
+    | 2017-01-01 | 2017-01-09 | 1月1日开始生命周期，1月2日状态未变化；但1月9日结束生命周期，但不影响快照展示 |
+    | 2017-01-01 | 9999-12-31 | 1月1日开始生命周期，1月2日状态未变化，是最新记录             |
+
+    01月02日开始生命周期情况，也有如上三种情况，分析方法相同。
 
 ### 举例
 
@@ -2189,18 +2215,19 @@ set hive.exec.mode.local.auto=true;
 set hive.exec.mode.local.auto.inputbytes.max=262144;
 set hive.exec.mode.local.auto.input.files.max=5;
 
--- 临时表加载数据
+-- 临时表加载数据，只保存当前导入的数据
 load data local inpath '/home/hadoop/hivedatas/order_chain/${import_date}' overwrite into table ods_orders_tmp;
 
--- 全量表导入
+-- 全量表导入，按天分区
 -- 包括：1、当天创建；2、当天修改之前创建的数据
 insert overwrite table ods_orders_inc partition (day = '${import_date}') select orderid, createtime, modifiedtime, status from ods_orders_tmp where (createtime = '${import_date}' and modifiedtime = '${import_date}') OR modifiedtime = '${import_date}';
 
 -- 导入拉链表前，先导入到拉链表临时表
 drop table if exists dw_orders_his_tmp;
+
 -- 计算拉链表临时表（dw_orders_his + ods_orders_inc）
--- union all 的第一个查询，以dw_orders_his为准，和ods_orders_inc增量数据匹配，如果匹配表明数据被修改，因此dw_orders_his最后一条数据的end_date更新为导入日期（生命周期结束），不是最后一条数据的仍为原来日期；如果不匹配仍为原来日期
--- union all 的第二个查询，以ods_orders_inc为准，因为全部都是最新数据（有效期范围数据），所以end_date更新为9999-12-31；modifiedtime作为start_date，生命周期开始
+-- union all 的第一个查询（作用是更新拉链表已有数据并且匹配增量数据，更新拉链表最后一条记录的声明周期结束日期），以dw_orders_his为准，和ods_orders_inc增量数据匹配，如果匹配表明数据被修改，因此dw_orders_his最后一条数据的end_date更新为导入日期-1（生命周期结束），不是最后一条数据的仍为原来日期；如果不匹配，即增量数据没有修改交易，则仍为原来日期
+-- union all 的第二个查询（作用是更新最新交易生命周期开始和结束日期为最新交易记录），以ods_orders_inc为准，因为全部都是最新数据（有效期范围数据），所以end_date更新为9999-12-31，start_date为当天修改日期作为生命周期的开始日期
 CREATE TABLE dw_orders_his_tmp AS
 SELECT orderid,
        createtime,
@@ -2231,6 +2258,7 @@ FROM (
          WHERE day = '${import_date}'
      ) x
 ORDER BY orderid, start_date;
+
 -- 灌入拉链表
 INSERT overwrite TABLE dw_orders_his SELECT * FROM dw_orders_his_tmp;
 "

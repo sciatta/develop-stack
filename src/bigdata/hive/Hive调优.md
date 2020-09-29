@@ -43,7 +43,7 @@ set hive.exec.mode.local.auto=false;
 
 - 将key相对分散，并且数据量小的表放在join的左边，这样可以有效减少内存溢出错误发生的几率。新版的hive已经对小表 join 大表和大表 join 小表进行了优化。小表放在左边和右边已经没有明显区别
 
-- 可以使用map join让小的维度表（1000条以下的记录条数）先加载内存，在map端完成reduce
+- 可以使用map join让小的维度表（1000条以下的记录条数）先加载内存，在map端完成join操作
 
   ```mysql
   -- 开启mapjoin参数（默认是true）
@@ -279,10 +279,12 @@ EXPLAIN [EXTENDED|DEPENDENCY|AUTHORIZATION] query
 
   - 解决
 
-    - 减少MapTask数，JVM重用
+    - 减少MapTask数
+
+    - JVM重用
 
     - 小文件合并
-
+    
       ```mysql
       set mapred.max.split.size=112345600;
       set mapred.min.split.size.per.node=112345600;

@@ -155,6 +155,8 @@ source /etc/profile
 
 Node03执行
 
+<font color=red>执行前需要先启动hadoop集群和mysql数据库服务</font>
+
 ```bash
 # 启动hive cli命令行客户端
 hive
