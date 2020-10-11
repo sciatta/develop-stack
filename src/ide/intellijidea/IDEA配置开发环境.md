@@ -5,8 +5,8 @@
 ```bash
 vi ~/.zshrc
 
-export SCALA_HOME=/Users/yangxiaoyu/work/install/scala-2.11.8
-export PATH=$SCALA_HOME/bin:$PATH
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_231.jdk/Contents/Home
+export PATH=$JAVA_HOME/bin:$PATH
 
 # 即时生效
 source ~/.zshrc
@@ -25,6 +25,12 @@ source ~/.zshrc
 - Preferences | Build, Execution, Deployment | compiler | java compiler
   1. module 设置为8
   2. project bytecode version 设置为8
+
+- Preferences | Build, Execution, Deployment | Debugger | Stepping
+
+  do not step into the classes
+
+  <font color=red>去掉 java.* 和 javax.*，否则无法进入JDK源码进行调试</font>
 
 
 
@@ -72,11 +78,13 @@ source ~/.zshrc
 ### Java混编Scala
 
 - src/main 新建 Directory | scala
-  - Mark Directory as | Sources Root
-
+  
+- Mark Directory as | Sources Root
+  
 - src/test 新建 Directory | scala
-  - Mark Directory as | Test Sources Root
-
+  
+- Mark Directory as | Test Sources Root
+  
 - 配置maven插件
 
   ```xml
