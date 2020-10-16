@@ -2,6 +2,7 @@
 
 - 安装对应版本的hadoop集群并启动
 - 安装对应版本的zookeeper集群并启动
+  - HBase HA
 
 
 
@@ -74,7 +75,7 @@ vi hbase-site.xml
 		<name>hbase.zookeeper.quorum</name>
 		<value>node01,node02,node03</value>
 	</property>
-    <!-- 此属性可省略，默认值就是2181 -->
+  <!-- 此属性可省略，默认值就是2181 -->
 	<property>
 		<name>hbase.zookeeper.property.clientPort</name>
 		<value>2181</value>
@@ -83,7 +84,7 @@ vi hbase-site.xml
 		<name>hbase.zookeeper.property.dataDir</name>
 		<value>/bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas</value>
 	</property>
-    <!-- 此属性可省略，默认值就是/hbase -->
+  <!-- 此属性可省略，默认值就是/hbase -->
 	<property>
 		<name>zookeeper.znode.parent</name>
 		<value>/hbase</value>

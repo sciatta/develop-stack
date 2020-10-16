@@ -227,8 +227,12 @@ get 'user', 'rk0001', {FILTER => "QualifierFilter(=,'substring:a')"}
 
 ### scan 全表扫描
 
+- scan 'user'    全表扫描
+- scan 'user', {COLUMNS => 'info', STARTROW => 'rk0001', ENDROW => 'rk0003'}    范围扫描
+
 ```bash
 # 查看user表的所有数据
+# 全表扫描
 scan 'user'
 
 # 过滤列族
@@ -248,6 +252,7 @@ scan 'user', {COLUMNS => 'info:name', VERSIONS => 5}
 scan 'user', {COLUMNS => ['info', 'data'], FILTER => "(QualifierFilter(=,'substring:a'))"}
 
 # 指定行键范围 [rk0001, rk0003)
+# 范围匹配，范围 -> Region
 scan 'user', {COLUMNS => 'info', STARTROW => 'rk0001', ENDROW => 'rk0003'}
 
 # row key 模糊查询
@@ -416,7 +421,7 @@ truncate 'user'
 
 - MemStore
   - 一个Store仅包含一个MemStore
-  - 写缓存，在写入数据时，会先写入MemStore缓存，然后在把数据刷写到磁盘
+  - 写缓存。在写入数据时，会先写入MemStore缓存，当MemoStore达到某一个阈值后，会把数据刷写到磁盘
 
 
 
@@ -443,12 +448,13 @@ truncate 'user'
 
 2. Client与Meta表所在的HRegionServer连接，进而获取请求rowkey所在Region的位置信息。
   
-- 在Client缓存Meta表的位置信息，以及rowkey所在Region的位置信息，后续请求直接使用Meta Cache即可。除非Region迁移导致缓存失效，则需要重新获取相关位置信息并更新Client的Meta Cache。
-  
-3. Client同rowkey所在Region的HRegionServer连接，查找并定位所在的Region。首先在MemStore查找数据；如果没有，再从BlockCache上查找；如果没有，再到HFile上进行查找。
-   - MemStore是写缓存
-   - BlockCache是读缓存，是 LRU（Least Recently Used）缓存。
+  - 在Client缓存Meta表的位置信息，以及rowkey所在Region的位置信息，后续请求直接使用Meta Cache即可。除非Region迁移导致缓存失效，则需要重新获取相关位置信息并更新Client的Meta Cache。
 
+3. Client同rowkey所在Region的HRegionServer连接，查找并定位所在的Region。首先在MemStore查找数据；如果没有，再从BlockCache上查找；如果没有，再到HFile上进行查找。
+   - MemStore 写缓存  ——  写入MemoStore，但还未刷写到磁盘
+   - BlockCache 读缓存，是 LRU（Least Recently Used）缓存  ——  已刷写到磁盘，近期读取过
+- HFile 数据持久化  ——  近期未读取，从持久化数据文件读取，同时放到BlockCache一份
+   
 4. 从HFile读取到数据后，先写入到BlockCache中加快后续查找，然后再将结果返回给Client。
 
 
@@ -460,7 +466,7 @@ truncate 'user'
 
 
 1. Client与Zookeeper连接，获取Meta表的位置信息，即Meta表存储在哪一个HRegionServer上。
-2. Client与Meta表所在的HRegionServer连接，进而获取请求rowkey所在Region的位置信息。
+2. Client与Meta表所在的HRegionServer连接，进而获取请求rowkey所在Region的位置信息。（写/更新数据，需要找到所在region的startkey范围）
 3. Client同rowkey所在Region的HRegionServer连接，查找并定位所在的Region。首先在HLog上预写日志，然后写入MemStore缓存。
    - HLog也称为WAL，意为Write ahead log。类似mysql中的binlog，用来做灾难恢复时用，HLog记录数据的所有变更，相当于MemStore的一份快照。一旦MemStore数据丢失，就可以从HLog中恢复。
    - 预写日志和写入MemStore的顺序不可调换，否则内存数据一旦丢失将无法恢复。
@@ -475,7 +481,7 @@ truncate 'user'
 
 MemStore 中累积了足够多的的数据后，整个<font color=red>有序数据集</font>就会被写入一个新的 HFile 文件到 HDFS 上。**HBase 为每个 Column Family 都创建一个 HFile**，里面存储了具体的 **Cell**，也即 KeyValue 数据。随着时间推移，HFile 会不断产生，因为 KeyValue 会不断地从 MemStore 中被刷写到硬盘上。
 
-注意这也是为什么 HBase 要限制 Column Family 数量的一个原因。每个 Column Family 都有一个 MemStore；如果一个 MemStore 满了，所有的 MemStore 都会被刷写到硬盘。
+注意这也是为什么 HBase 要限制 Column Family 数量的一个原因。每个 Column Family 都有一个 MemStore；如果Region的一个 MemStore 满了，该Region的所有的 MemStore 都会被刷写到硬盘。<font color=red>注意，刷写磁盘的基本单元是Region</font>。
 
 同时，它也会记录最后写入的数据的**最大序列号**（**sequence number**），这样系统就能知道目前为止哪些数据已经被持久化了。最大序列号是一个 meta 信息，被存储在每个 HFile 中，来表示持久化进行到哪条数据了，应该从哪里继续。当 Region 启动时，这些序列号会被读取，取其中最大的一个，作为基础序列号，后面的新的数据更新就会在该值的基础上递增产生新的序列号。这个序列号还可以用于从HLog中的什么位置开始恢复数据。
 
@@ -694,8 +700,8 @@ hbase为了防止小文件过多，以保证查询效率，hbase需要在必要�
 
   注意：
 
-  1. 首行和尾行的rowkey是空串
-  2. Region的rowkey范围包括start key，不包括end key
+  1. 首行的`start key`和尾行的`end key`是空串，表示一张表的开始和结束位置
+  2. Region的rowkey范围包括start key，不包括end key，符合左闭右开
 
 - 方式二
 
@@ -755,11 +761,11 @@ hbase为了防止小文件过多，以保证查询效率，hbase需要在必要�
 
   - 设regioncount：是<font color=red>region所属表在当前regionserver上的region的个数</font>
 
-  - 阈值 = regioncount^3 * 128M * 2，当然阈值并不会无限增长，最大不超过MaxRegionFileSize（10G）；当region中最大的store的大小达到该阈值的时候进行region split
+  - 阈值 = regioncount^3 * 128M * 2，当然阈值并不会无限增长，最大不超过MaxRegionFileSize（10G）；当<font color=red>region中最大的store</font>的大小达到该阈值的时候进行region split
 
   - 例如：
     第一次split阈值 = 1^3 * 256 = 256MB 
-    第二次split阈值 = 2^3 * 256 = 2048MB 
+    第二次split阈值 = 2^3 * 256 = 2048MB（当两个中的一个region率先超过2048MB，则此region触发split）
     第三次split阈值 = 3^3 * 256 = 6912MB 
     第四次split阈值 = 4^3 * 256 = 16384MB > 10GB，因此取较小的值10GB 
     后面每次split的size都是10GB了
@@ -809,7 +815,7 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
 
 
-### 通过Merge类冷合并Region
+### 通过Merge类Region
 
 - 创建一张hbase表
 
@@ -854,7 +860,7 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
    
 
-2. 不与HRegionServer交互，通过MapReduce直接将数据输出为HBase识别的HFile文件格式，然后再加载到HBase表中。
+2. 不与HRegionServer交互，通过MapReduce直接将数据输出为HBase识别的HFile文件格式，然后再通过<font color=red>BulkLoad</font>的方式加载到HBase表中。
 
    - <font color=red>hadoop jar 在集群运行程序时可能会找不到hbase类</font>，则需要做如下配置
 
@@ -886,21 +892,17 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
      
 
-   - 执行成功输出hdfs文件 `/test/hbase/huser/cf/21dc0757cbfe41a7bb8552818d0478ba` 会生成目标列族 `cf` 下的HFile
+   - 执行 `com.sciatta.hadoop.hbase.example.mr.bulkload.HdfsToHBase` ，借助 `HFileOutputFormat2` 输出hdfs文件 `/test/hbase/huser/cf/21dc0757cbfe41a7bb8552818d0478ba` 会生成目标指定列族 `cf` 下的HFile
 
-     ```txt
-     HBase在hdfs存储表默认在 /hbase/data/default 目录下
+     - HBase在hdfs存储表默认在 /hbase/data/default 目录下，如 `/hbase/data/default/user/36c7b176416c41bb1534676a2b50fdf9/info/03ccf327a86649ba9fee7ed734eafe56`
+     - user 为表名
+       - 36c7b176416c41bb1534676a2b50fdf9 为RegionId
+       - info 为列族名
+       - 03ccf327a86649ba9fee7ed734eafe56 是HFile
      
-     如/hbase/data/default/user/36c7b176416c41bb1534676a2b50fdf9/info/03ccf327a86649ba9fee7ed734eafe56
-     user 为表名
-     36c7b176416c41bb1534676a2b50fdf9 为RegionId
-     info 为列族名
-     03ccf327a86649ba9fee7ed734eafe56 是HFile
-     ```
-
      
-
-   - 加载到表。清空 `/test/hbase/huser/cf ` 目录下数据，转移到表相应Region的列族下 `/hbase/data/default/user1/031ed91d57c19615d009b21fde809f57/cf/	ae8b0ffabb374946922ef704b9f4a918_SeqId_5_` 
+     
+   - 利用bulkload加载到表。清空 `/test/hbase/huser/cf ` 目录下数据，转移到表相应Region的列族下 `/hbase/data/default/user1/031ed91d57c19615d009b21fde809f57/cf/ae8b0ffabb374946922ef704b9f4a918_SeqId_5_` 
 
 
 
@@ -977,7 +979,7 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
   
   
 
-### Hive分析结果保存到HBase表
+### Hive分析结果保存到HBase表（hive -> hbase）
 
 - Hive创建数据库和表
 
@@ -1059,7 +1061,7 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
 
 
-### Hive外部表映射HBase已存表进行分析
+### Hive外部表映射HBase已存表进行分析（hbase -> hive）
 
 - 创建Hive外部表映射HBase表
 
@@ -1117,7 +1119,7 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
 ### 长度原则
 
-- RowKey 是一个二进制字节流，可以是任意字符串，最大长度64kb，实际应用中一般为<font color=red>10-100bytes</font>，以byte[]形式保存，一般设计成<font color=red>定长</font>
+- RowKey 是一个二进制字节流，可以是任意字符串，最大长度64kb，实际应用中一般为<font color=red>10-100bytes</font>，以byte[]形式保存，一般设计成<font color=red>定长</font>。建议越短越好，不要超过16个字节。
 
 * 建议尽可能短（提高检索效率），但也不能太短，否则 RowKey 前缀重复的概率增大
 * 设计过长会降低 MemStore 内存的利用率（key/value，RowKey是key的一部分）和HFile存储数据的效率
@@ -1133,15 +1135,19 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
 ### 唯一原则
 
-- 必须在设计上保证其唯一性，RowKey 是按照字典顺序排序存储的。因此，设计 RowKey 的时候，要充分利用这个排序的特点，可以将经常读取的数据存储到一块，将最近可能会被访问的数据存储到一块
+- 必须在设计上保证其唯一性，数据以key-value形式存储，相同rowkey会导致覆盖原有数据
+
+
+
+### 排序原则 
+
+- RowKey 是按照字典顺序排序存储的。因此，设计 RowKey 的时候，要充分利用这个排序的特点，可以将经常读取的数据存储到一块，将最近可能会被访问的数据存储到一块
 
 
 
 ## 热点问题
 
 检索 HBase 记录首先要通过 RowKey 来定位数据行。当大量的 Client 访问 HBase 集群的一个或少数几个节点，造成少数 RegionServer 的读/写请求过多、负载过大，而其他 RegionServer 负载却很小，就造成了“热点”现象。
-
-
 
 ### 解决方案
 
@@ -1150,15 +1156,21 @@ Region的合并不是为了性能，而是出于维护的目的。如删除了�
 
 - 加盐
 
-  这里所说的加盐不是密码学中的加盐，而是在 RowKey 的前面增加随机数，具体就是给 RowKey 分配一个随机前缀以使得它和之前的 RowKey 的前缀不同
+  这里所说的加盐不是密码学中的加盐，而是在 RowKey 的前面增加随机数，具体就是给 RowKey 分配一个随机前缀以使得它和之前的 RowKey 的前缀不同，保障数据在Regions间的负载均衡。
+  
+  缺点：因为添加的是随机数，基于原RowKey查询时无法知道随机数是什么，那样在查询的时候就需要去各个可能的Regions中查找（全表扫描），Salting对于读取是利空的。并且加盐这种方式增加了读写时的吞吐量。
 
 
 - 哈希
 
   哈希会使同一行永远用一个前缀加盐。哈希也可以使负载分散到整个集群，但是读却是可以预测的。使用确定的哈希可以让 Client 重构完整的 RowKey，可以使用 `get` 操作准确获取某一个行数据，如 `rowkey=MD5(username).subString(0,10)+时间戳` 
+  
+  缺点：与 Reversing 类似，Hashing 也不利于 Scan，因为打乱了原RowKey的自然顺序。
 
 
 - 反转
   反转固定长度或者数字格式的 RowKey，这样可以使得 RowKey 中经常改变的部分（最没有意义的部分）放在前面。可以有效的随机 RowKey，但牺牲了RowKey 的有序性。
+  
+  缺点：利于Get操作，但不利于Scan操作，因为数据在原RowKey上的自然顺序已经被打乱。
 
  
