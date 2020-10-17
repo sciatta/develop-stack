@@ -19,35 +19,48 @@
         * [Hadoop集群安装部署](src/bigdata/hadoop/Hadoop集群安装部署.md)
         * [Hadoop HA集群安装部署](src/bigdata/hadoop/Hadoop HA集群安装部署.md)
         * [Hadoop企业级调优](src/bigdata/hadoop/Hadoop企业级调优.md)
+        
     * ZooKeeper
         * [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
         * [ZooKeeper分布式协调框架](src/bigdata/zookeeper/ZooKeeper分布式协调框架.md)
+        
     * Hive
         * [Hive安装部署](src/bigdata/hive/Hive安装部署.md)
         * [大数据分析利器之Hive](src/bigdata/hive/大数据分析利器之Hive.md)
         * [Hive调优](src/bigdata/hive/Hive调优.md)
+        
     * HBase
         * [HBase集群安装部署](src/bigdata/hbase/HBase集群安装部署.md)
         * [大数据数据库之HBase](src/bigdata/hbase/大数据数据库之HBase.md)
-    * Flume
-        * [Flume安装部署](src/bigdata/flume/Flume安装部署.md)
-        * [Flume数据采集](src/bigdata/flume/Flume数据采集.md)
-    * Sqoop
-        * [Sqoop安装部署](src/bigdata/sqoop/Sqoop安装部署.md)
-        * [Sqoop数据迁移](src/bigdata/sqoop/Sqoop数据迁移.md)
-    * Azkaban
-        * Kafka
-            * [Kafka集群安装部署](src/bigdata/kafka/Kafka集群安装部署.md)
-            * [Kafka监控工具](src/bigdata/kafka/Kafka监控工具.md)
-            * [Kafka分布式消息流平台](src/bigdata/kafka/Kafka分布式消息流平台.md)
-                * Spark
-            * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
-            * SparkCore
-                * [SparkCore核心功能](src/bigdata/spark/sparkcore/SparkCore核心功能.md)
-                * [Spark调优](src/bigdata/spark/sparkcore/Spark调优.md)
-            * SparkSQL
-                * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
-                    * [BigData问题汇总](src/bigdata/BigData问题汇总.md)
+        
+    * AuxiliaryFramework
+
+        * Flume
+            * [Flume安装部署](src/bigdata/auxiliaryframework/flume/Flume安装部署.md)
+            * [Flume数据采集](src/bigdata/auxiliaryframework/flume/Flume数据采集.md)
+        * Sqoop
+            * [Sqoop安装部署](src/bigdata/auxiliaryframework/sqoop/Sqoop安装部署.md)
+            * [Sqoop数据迁移](src/bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.md)
+        * Azkaban
+            * [Azkaban安装部署](src/bigdata/auxiliaryframework/azkaban/Azkaban安装部署.md)
+            * [Azkaban工作流调度器](src/bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.md)
+
+    * Kafka
+        * [Kafka集群安装部署](src/bigdata/kafka/Kafka集群安装部署.md)
+
+        * [Kafka监控工具](src/bigdata/kafka/Kafka监控工具.md)
+
+        * [Kafka分布式消息流平台](src/bigdata/kafka/Kafka分布式消息流平台.md)
+
+    * Spark
+        * SparkCore
+            * [SparkCore核心功能](src/bigdata/spark/sparkcore/SparkCore核心功能.md)
+            * [Spark调优](src/bigdata/spark/sparkcore/Spark调优.md)
+        * SparkSQL
+            * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
+        * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
+    * [BigData问题汇总](src/bigdata/BigData问题汇总.md)
+
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
