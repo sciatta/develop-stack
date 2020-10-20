@@ -582,7 +582,79 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 # 类加载器
 
+## 类的声明周期
 
+![jvm_class_lifecycle](JVM核心技术.assets/jvm_class_lifecycle.png)
+
+1. 加载：找Class文件
+2. 验证：验证格式、依赖
+3. 准备：静态字段、方法表
+4. 解析：符合解析为引用
+5. 初始化：静态变量、静态代码块
+6. 使用
+7. 卸载
+
+
+
+## 类的加载时机
+
+**在首次主动使用时初始化**
+
+1. 当虚拟机启动时，初始化用户指定的主类，就是启动执行main方法所在的类
+2. 当遇到用以新建目标类实例的new指令时，初始化new指令的目标类，就是new一个类的时候要初始化；
+3. 当遇到调用静态方法的指令时，初始化该静态方法所在的类；
+4. 当遇到访问静态字段的指令时，初始化该静态字段所在的类；
+5. 子类的初始化会触发父类的初始化；
+6. 如果一个接口定义了default方法，那么直接实现或者间接实现该接口的类的初始化，会触发该接口的初始化；
+7. 使用反射API对某个类进行反射调用时，初始化这个类，反射调用要么是已经有实例了，要么是静态方法，都需要初始化；
+8. 当初次调用MethodHandle实例时，初始化该MethodHandle指向的方法所在的类。
+
+**不会初始化（可能会加载）**
+
+1. 通过子类引用父类的静态字段，只会触发父类的初始化，而不会触发子类的初始化；
+2. 定义对象数组，不会触发该类的初始化；
+3. 常量在编译期间会存入调用类的常量池中，本质上没有直接引用定义常量的类，不会触发定义常量所在的类；
+4. 通过类名获取Class对象，不会触发类的初始化，Hello.class不会让Hello类初始化；
+5. 通过Class.forName加载指定类时，如果指定参数initialize为false时，也不会触发类初始化，其实这个参数是告诉虚拟机，是否对类进行初始化。Class.forName("jvm.Hello")默认会加载Hello类；
+6. 通过ClassLoader默认的loadClass方法，也不会触发初始化动作。（加载，但不初始化）。
+
+
+
+## 三类类加载器
+
+- **BootstrapClassLoader** 启动类加载器，其是JVM核心的一部分，由native code实现，没有java引用。当某一个ClassLoader的parent为null时，其parent就是BootstrapClassLoader；加载目录 `$JAVA_HOME/jre/lib` 和 `$JAVA_HOME/jre/classes` ，可以通过 `-Xbootclasspath` 指定路径
+- **ExtClassLoader** 扩展类加载器，加载目录 `$JAVA_HOME/jre/lib/ext` 
+  - 添加引用类放到JDK的lib/ext下
+  - 或 `-Djava.ext.dirs` 指定路径
+- **AppClassLoader** 应用类加载器，加载目录默认是 `.` 当前目录
+  - class文件放到当前路径下
+  - 或 `-classpath` 或 `-cp` 指定路径
+
+
+
+![jvm_classloader](JVM核心技术.assets/jvm_classloader.png)
+
+`sun.misc.Launcher` JVM的入口类，构造函数负责初始化类加载器的层次结构
+
+1. 加载ExtClassLoader，其继承URLClassLoader，但注意ExtClassLoader的parent ClassLoader是null
+2. 加载AppClassLoader，其继承URLClassLoader，AppClassLoader的parent ClassLoader是ExtClassLoader；设置为**当前线程**的上下文类加载器
+
+
+
+**双亲委托**
+
+1. 当加载一个class时，首先从指定ClassLoader中查找，如AppClassLoader的缓存中查找，若找到则直接返回；否则，向上查找父ClassLoader，如ExtClassLoader和BootstrapClassLoader的缓存
+2. 若缓存中没有找到，则自上至下委托给父ClassLoader查找class
+3. 所有class延迟加载
+
+
+
+## 添加引用类的方式
+
+1. 放到 JDK 的 lib/ext 下，或 -Djava.ext.dirs
+2. java -cp / classpath，或 class 文件放到当前路径
+3. 自定义ClassLoader加载
+4. 拿到当前执行类的ClassLoader，反射调用 addUrl 方法添加 Jar 或路径（JDK9无效）
 
 
 
