@@ -5,6 +5,7 @@
     * Java
         * JVM
             * [JVM核心技术](src/language/java/jvm/JVM核心技术.md)
+            * [JVM启动参数](src/language/java/jvm/JVM启动参数.md)
         * Algorithm
             * [数据结构和算法](src/language/java/algorithm/数据结构和算法.md)
     * scala
