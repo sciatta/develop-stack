@@ -686,6 +686,16 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 
 
+# JVM启动参数
+
+具体Java8启动参数说明可以查看 https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html 
+
+
+
+## 内存参数关系
+
+![jvm_memory_parameter_relationship](JVM核心技术.assets/jvm_memory_parameter_relationship.png)
+
 
 
 # 监控工具
