@@ -75,7 +75,9 @@ content root: /Users/yangxiaoyu/work/bigdata/project/hadoop-main/hadoop-hdfs/had
 
 # GitHub已有项目
 
-## GitHub下载源码
+## HTTPS
+
+### GitHub下载源码
 
 ```shell
 # 下载源码
@@ -86,10 +88,92 @@ cd hadoop
 git checkout -b work-2.7.0 release-2.7.0
 ```
 
-
-
-## 导入GitHub项目
+### 导入GitHub项目
 
 `open | 指定项目路径`
 
 加载即可。如果是maven项目，则等待更新依赖，成功后会正确显示maven项目。
+
+
+
+## SSH
+
+### 设置用户信息
+
+```shell
+git config --global user.name "yangxiaoyu"
+git config --global user.email 15058553030@163.com
+
+# 查看设置是否生效
+git config --list
+```
+
+
+
+### 创建 SSH KEY
+
+```shell
+ssh-keygen -t rsa -C "15058553030@163.com"
+
+# 拷贝公钥 id_rsa.pub 内容
+cd /Users/yangxiaoyu/.ssh
+```
+
+
+
+### GITHUB 配置
+
+Settings | SSH and GPG keys | New SSH key | 
+
+- Title: DEV
+
+- Key: id_rsa.pub 内容
+
+```shell
+# 验证是否配置成功
+# Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+ssh -T git@github.com
+```
+
+
+
+### 克隆仓库
+
+```shell
+git clone git@github.com:sciatta/JAVA-000.git
+```
+
+
+
+### 创建Project
+
+Create New Project | Maven
+
+- Name: JAVA-000
+- Location: ~/work/bigdata/project/JAVA-000
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.sciatta</groupId>
+    <artifactId>java-000</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+</project>
+```
+
+
+
+### 创建Module
+
+ JAVA-000 右键 | New Module
+
+- Parent: java-000
+- Name: week-01
+- Location: ~/work/bigdata/project/JAVA-000/Week_01
+
