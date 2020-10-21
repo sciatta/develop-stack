@@ -698,3 +698,181 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 
 
+# GC原理
+
+## 一般原理
+
+### 对象是否可用
+
+- 引用计数
+
+  无法解决循环引用的问题
+
+- 可达性分析
+
+  判断对象是否可达。通过一系列“GC Roots”对象作为起点进行搜索，如果“GC Roots”和一个对象没有可达路径，则该对象是不可达的。对于跨代引用，比如在老年代中没有“GC Roots”引用，但在年轻代中有引用关系，这一类关系记录在RememberSet中。<font color=red>注意此阶段暂停的时间，与堆内存的大小，对象的总数没有直接关系，而是由存活对象的数量决定。所以增加堆内存的大小并不会直接影响标记阶段占用的时间</font>。
+
+  以下对象被认为是“GC Roots”对象：
+
+  1. 当前正在执行的方法里的局部变量和输入参数
+
+  2. 活动线程
+
+  3. 所有类的静态字段
+
+  4. JNI引用
+
+  判断对象是否可回收：
+  
+  1. 可达性分析
+  2. 当对象没有重写finalize()方法或finalize()方法被调用过，JVM认为该对象不可以被救活，因此需要回收该对象
+
+### 垃圾回收算法
+
+- Mark-Sweep（标记清除算法）
+
+  算法：标记阶段标记出所有要回收的对象；清除阶段清除被标记对象的空间。
+
+  优缺点：实现简单，容易产生碎片。
+
+- Mark-Copy（标记复制算法）
+
+  算法：将可用内存划分为大小相等的两块，每次只使用其中的一块。当进行垃圾回收时，把其中存活的对象全部负责到另一块中，然后把已使用的空间一次清除。（遍历“GC Roots”的过程就可以向另一块复制）
+
+  优缺点：不容易产生碎片；当有大量存活对象时，空间利用率低
+
+- Mark-Compact（标记整理算法）
+
+  算法：先标记存活对象，然后把存活对象向一边移动，然后清理边界以外的内存（先遍历“GC Roots”标记存活对象，然后再向一边移动；遍历的过程不可移动，否则可能会替换未遍历的对象）。
+
+  优缺点：不容易产生碎片；内存利用率高；存活对象少且较分散时，移动次数多，效率低
+
+- 分代收集算法
+
+  分代假设：大部分新生对象很快无用；存活较长时间的对象，可能存活更长时间。
+
+  算法：
+
+  1. 由于新生代每次垃圾回收都要回收大部分对象，因此采用Coping算法。新生代分成一块较大的Eden空间和两块较小的Survivor空间。每次只使用Eden和其中一块Survivor空间。当垃圾回收时，把存活对象放到未使用的Survivor空间，情况Eden和之前使用过的Survivor空间。
+  2. 由于老年代每次只回收少量对象，因此采用Mark-Compact算法。
+
+  垃圾回收类型：
+
+  1. Minor GC：从年轻代回收内存
+  2. Major GC：当Eden区内存不足时，清理老年代
+  3. Full GC：当老年代内存不足时，清理整个堆空间
+
+
+
+## 常用GC
+
+### 串行GC（Serial GC）/ ParNewGC
+
+**-XX:+UseSerialGC**
+
+Serial + Serial Old
+
+串行GC对年轻代使用Mark-Copy算法，对老年代使用Mark-Compact算法。两者都是**单线程（STW+单线程）**的垃圾收集器，不能进行并行处理，所以都会触发STW（全线暂停），停止所有应用线程。因此这种GC算法无法利用多核CPU，不管多少CPU内核，JVM GC时，只能使用单个核心。
+
+CPU利用率高，暂停时间长。适用于几百MB堆内存的JVM，而且是单核CPU比较有用。
+
+
+
+**-XX:+UseParNewGC**
+
+ParNew + Serial Old
+
+改进版本的Serial GC，可以配合CMS使用。当使用 `-XX:+UseConcMarkSweepGC` 时，该选项自动可用。
+
+
+
+### 并行GC（Parallel GC）
+
+**-XX:+UseParallelGC**（JDK8默认）
+
+ParallelScavenge + Serial Old
+
+**-XX:+UseParallelOldGC** （-XX:+UseParallelGC设置时，此选项自动打开）
+
+Parallel Scavenge + Parallel Old
+
+年轻代和老年代的垃圾回收都会触发STW事件。年轻代使用Mark-Coping算法；老年代使用Mark-Compact算法。`-XX:ParallelGCThreads=threads` 来指定GC线程数，<font color=red>默认值是CPU核数（因为是STW，GC多线程处理）</font>。
+
+并行垃圾收集器使用于多核服务器，主要目标是增加吞吐量（应用程序线程用时占程序总用时的比例）。因为对系统资源的有效使用，能达到更高的吞吐量。
+
+- GC期间，所有CPU**并行（STW+多线程）**清理，总暂停时间更短
+- 在两次GC周期的间隔期，**没有GC线程运行**，不会消耗任何系统资源
+
+
+
+### 并发CMS GC
+
+Mostly Concurrency Mark and Sweep Garbage Collector
+
+**-XX:+UseConcMarkSweepGC**
+
+ParNew + CMS + Serial Old（备用）
+
+对年轻代采用并行STW方式的Mark-Coping算法；对老年代使用**并发（NO ALL STW+多线程）**的Mark-Sweep算法。**设计目标是避免老年代垃圾收集时出现长时间卡顿**：
+
+1. 不对老年代进行整理，而是使用空闲列表来管理内存空间的回收
+2. 在Mark-Sweep阶段的大部分工作和应用线程一起并发执行
+
+<font color=red>默认情况下CMS使用的并发线程数等于CPU核心数的1/4（因为是NO STW，GC和应用多线程同时处理）</font>。如果服务器是多核CPU，并且主要调优的目标是降低GC停顿导致的系统延迟，则使用CMS是明智选择。CMS也有一些缺点，其中最大的问题是老年代碎片问题，在某些情况下GC会造成不可预测的暂停时间，特别是堆内存较大的情况下。
+
+六个阶段：
+
+1. Initial Mark 初始标记（<font color=red>STW</font>）：只标记与“GC ROOTS”连接的根对象（所以速度非常快）
+2. Concurrent Mark 并发标记：并发标记遍历老年代所有存活对象
+3. Concurrent Preclean 并发预清理：前一阶段并发处理，可能会出现引用变化，所以用卡片标记“脏”区
+4. Final Remark 最终标记（<font color=red>STW</font>）：对“脏“区做最后修正，完成老年代所有存活对象的标记
+5. Concurrent Sweep 并发清除：删除不再使用的对象，回收占用的内存空间
+6. Concurrent Reset 并发重置：重置CMS算法相关的内部数据，为下一次GC循环做准备
+
+
+
+### G1 GC
+
+Garbage First
+
+**-XX:+UseG1GC**（JDK9默认） -XX:MaxGCPauseMillis=50
+
+**G1 GC的设计目标是将STW停顿的时间和分布，变成可预期且可配置的**。
+
+G1 GC有其特定实现：
+
+1. 堆不再分成年轻代和老年代。而是划分多个（通常是2048个）存放对象的小块堆（region）区域。每个小块，可能一会被定义成Eden区，一会被指定为Survivor区，或Old区。逻辑上，所有的Eden区和Survivor区合起来就是年轻代，所有的Old区合起来就是老年代。G1不必每次都收集整个堆空间，可以增量的方式来处理。
+2. 在并发阶段估算每个小堆块存活对象的总和。回收原则是，垃圾最多的小块会被优先收集。
+
+
+
+### ZGC / Shenandoad GC
+
+-XX:+UnlockExperimentalVMOptions **-XX:+UseZGC** -Xmx16g
+
+通过着色指针和读屏障，实现几乎全部的并发执行，几毫秒级别的延迟，线性可扩展。
+
+- GC最大停顿时间不超过10ms
+
+- 堆内存支持范围广，几百Mb，大至4TB的从超大堆内存（JDK13升至16TB）
+
+- 与G1相比，应用吞吐量下降不超过15%
+- 当前只支持Linux x64平台，JDK15后支持MacOs和Windows系统
+
+
+
+-XX:+UnlockExperimentalVMOptions **-XX:+UseShenandoahGC** -Xmx16g
+
+G1的改进版本，跟ZGC类似。
+
+设计为GC线程与应用线程并发执行，通过实现垃圾回收过程的并发处理，改善停顿时间，使得GC执行线程能够在业务处理线程运行过程中进行堆压缩、标记和整理，从而消除绝大部分的暂停时间。
+
+
+
+## 常用GC组合
+
+- Serial + Serial Old 实现单线程低延迟垃圾回收机制
+- ParNew + CMS 实现多线程低延迟垃圾回收机制
+- Parallel Scavenge + Parallel Old 多线程高吞吐量垃圾回收机制（CPU资源都用来最大程度处理业务）
+- G1 GC 堆内存较大，整体平均GC时间可控
+
