@@ -1215,6 +1215,18 @@ su - root
 
 
 
+## cpuinfo
+
+```shell
+# 物理CPU个数
+cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l
+
+# 每个物理cpu中core的个数(即核数)
+cat /proc/cpuinfo | grep "cpu cores" | uniq
+```
+
+
+
 ## free
 
 ```shell
