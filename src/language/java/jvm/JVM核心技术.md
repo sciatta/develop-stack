@@ -805,15 +805,17 @@ ParNew + Serial Old
 
 ### 并行GC（Parallel GC）
 
-**-XX:+UseParallelGC**（JDK8默认）
+**-XX:+UseParallelGC**（<font color=red>JDK8默认；注意如果是单核线程会退化为Mark Sweep Compact GC</font>）
 
-ParallelScavenge + Serial Old
+**-XX:+UseParallelOldGC** 
 
-**-XX:+UseParallelOldGC** （-XX:+UseParallelGC设置时，此选项自动打开）
+**-XX:+UseParallelGC -XX:+UseParallelOldGC** 
 
 Parallel Scavenge + Parallel Old
 
-年轻代和老年代的垃圾回收都会触发STW事件。年轻代使用Mark-Coping算法；老年代使用Mark-Compact算法。`-XX:ParallelGCThreads=threads` 来指定GC线程数，<font color=red>默认值是CPU核数（因为是STW，GC多线程处理）</font>。
+
+
+年轻代和老年代的垃圾回收都会触发STW事件。年轻代使用Mark-Copy算法；老年代使用Mark-Sweep-Compact算法。`-XX:ParallelGCThreads=threads` 来指定GC线程数，<font color=red>默认值是CPU核数（因为是STW，GC多线程处理）</font>。
 
 并行垃圾收集器使用于多核服务器，主要目标是增加吞吐量（应用程序线程用时占程序总用时的比例）。因为对系统资源的有效使用，能达到更高的吞吐量。
 
@@ -830,18 +832,18 @@ Mostly Concurrency Mark and Sweep Garbage Collector
 
 ParNew + CMS + Serial Old（备用）
 
-对年轻代采用并行STW方式的Mark-Coping算法；对老年代使用**并发（NO ALL STW+多线程）**的Mark-Sweep算法。**设计目标是避免老年代垃圾收集时出现长时间卡顿**：
+对年轻代采用并行STW方式的Mark-Copy算法；对老年代使用**并发（NO ALL STW+多线程）**的Mark-Sweep算法。**设计目标是避免老年代垃圾收集时出现长时间卡顿**：
 
 1. 不对老年代进行整理，而是使用空闲列表来管理内存空间的回收
 2. 在Mark-Sweep阶段的大部分工作和应用线程一起并发执行
 
-<font color=red>默认情况下CMS使用的并发线程数等于CPU核心数的1/4（因为是NO STW，GC和应用多线程同时处理）</font>。如果服务器是多核CPU，并且主要调优的目标是降低GC停顿导致的系统延迟，则使用CMS是明智选择。CMS也有一些缺点，其中最大的问题是老年代碎片问题，在某些情况下GC会造成不可预测的暂停时间，特别是堆内存较大的情况下。
+<font color=red>默认情况下CMS使用的并发线程数等于CPU核心数的1/4（因为是NO ALL STW，GC和应用多线程同时处理，需要注意因为是并发，所以GC线程会和应用线程争抢CPU时间）</font>。如果服务器是多核CPU，并且主要调优的目标是降低GC停顿导致的系统延迟，则使用CMS是明智选择。CMS也有一些缺点，其中最大的问题是老年代碎片问题，在某些情况下GC会造成不可预测的暂停时间，特别是堆内存较大的情况下。
 
-六个阶段：
+六个阶段
 
 1. Initial Mark 初始标记（<font color=red>STW</font>）：只标记与“GC ROOTS”连接的根对象（所以速度非常快）
 2. Concurrent Mark 并发标记：并发标记遍历老年代所有存活对象
-3. Concurrent Preclean 并发预清理：前一阶段并发处理，可能会出现引用变化，所以用卡片标记“脏”区
+3. Concurrent Preclean 并发预清理：前一阶段并发处理，所以标记完成后，仍然可能会出现引用变化，所以用卡片标记“脏”区
 4. Final Remark 最终标记（<font color=red>STW</font>）：对“脏“区做最后修正，完成老年代所有存活对象的标记
 5. Concurrent Sweep 并发清除：删除不再使用的对象，回收占用的内存空间
 6. Concurrent Reset 并发重置：重置CMS算法相关的内部数据，为下一次GC循环做准备
@@ -852,7 +854,27 @@ ParNew + CMS + Serial Old（备用）
 
 Garbage First
 
-**-XX:+UseG1GC**（JDK9默认） -XX:MaxGCPauseMillis=50
+**-XX:+UseG1GC**（JDK9默认） 
+
+-XX:G1NewSizePercent	初始年轻代占整个Heap的大小，默认5%
+
+-XX:G1MaxNewSizePercent	最大年轻代占整个Heap的大小，默认60%
+
+-XX:G1HeapRegionSize	按照平均堆的大小 `(MinHeapSize+MaxHeapSize)/2` 划分为2048个目标区块，取同最小RegionSize比较的最大值，但必须满足有效范围1MB~32MB，即不能小于1MB
+
+-XX:MaxGCPauseMillis=50	预期G1每次执行GC操作的暂停时间，单位是毫秒，默认200毫秒
+
+-XX:ConcGCThreads	并发GC线程数。默认是java线程的1/4，减少这个参数的数值可能会提升并行回收的效率，提高系统的吞吐量。如果值过低，参与回收的线程不足，也会导致并行回收机制耗时加长
+
+-XX:+InitiatingHeapOccupancyPercent（IHOP）	G1内部并行回收循环启动的阈值，默认为java heap的45%
+
+-XX:G1HeapWastePercent	G1停止回收的最小内存大小。默认是堆大小的5%
+
+-XX:G1ReservePercent	G1为了保留一些空间用于年代之间的提升。默认是堆大小的10%
+
+-XX:+GCTimeRation	计算花在java应用线程上和花在gc线程上的时间比例，默认是9，同新生代内存的分配比例一致。这个参数的主要目的是使得用户可以控制花在应用上的时间。公式 `100/1+GCTimeRation` ，如果值是9，则10%的时间会花在GC工作上。Parallel的默认值是99，表示1%的时间用在GC上，因为Parallel GC贯穿整个GC，而G1根据region划分，不需要对全局性扫描整个内存堆
+
+
 
 **G1 GC的设计目标是将STW停顿的时间和分布，变成可预期且可配置的**。
 
@@ -860,6 +882,88 @@ G1 GC有其特定实现：
 
 1. 堆不再分成年轻代和老年代。而是划分多个（通常是2048个）存放对象的小块堆（region）区域。每个小块，可能一会被定义成Eden区，一会被指定为Survivor区，或Old区。逻辑上，所有的Eden区和Survivor区合起来就是年轻代，所有的Old区合起来就是老年代。G1不必每次都收集整个堆空间，可以增量的方式来处理。
 2. 在并发阶段估算每个小堆块存活对象的总和。回收原则是，垃圾最多的小块会被优先收集。
+
+
+
+处理步骤
+
+1. 年轻代模式转移暂停
+
+   G1会通过前面一段时间的运行情况来不断调整自己的回收策略和行为，以此保证比较稳定控制暂停时间。在应用程序刚启动时，G1还未执行过（not-yet-executed）并发阶段，也就没有获得任何额外的信息，处于初始的 fully-young 模式。在年轻代空间用满之后，应用线程被暂停，年轻代堆区中的存活对象被复制到存活区，如果还没有存活区，则选择任意一部分空闲的小堆区用作存活区。
+
+2. Concurrent Marking（并发标记）
+
+   G1收集器的很多概念建立在CMS的基础上。G1的并发标记通过 **Snapshot-At-The-Beginning（开始时快照）** 的方式，在标记阶段开始时记下所有的存活对象。即使在标记的同时又有一些变成了垃圾，通过对象的存活信息可以构建出每个小堆区的存活状态，以便回收集能高效地进行选择。
+
+   这些信息在接下来的阶段会用来执行老年代区域的垃圾收集。在两种情况下是完全地并发执行的：
+
+   一、如果在标记阶段确定某个小堆区只包含垃圾；
+
+   二、在STW转移暂停期间，同时包含垃圾和存活对象的老年代小堆区。
+
+   当堆内存的总体使用比例达到一定数值时，就会触发并发标记。默认值为 `45%` ，但也可以通过JVM参数 **`InitiatingHeapOccupancyPercent`** 来设置。和CMS一样，G1的并发标记也是由多个阶段组成，其中一些是完全并发的，还有一些阶段需要暂停应用线程。
+
+   **阶段 1：Initial Mark（初始标记）**此阶段标记所有从GC root 直接可达的对象。在CMS中需要一次STW暂停，但G1里面通常是在转移暂停的同时处理这些事情，所以它的开销是很小的。
+
+   **阶段 2：Root Region Scan（Root区扫描）**此阶段标记所有从”根区域“可达的存活对象。 根区域包括：非空的区域，以及在标记过程中不得不收集的区域。因为在并发标记的过程中迁移对象会造成很多麻烦，所以此阶段必须在下一次转移暂停之前完成。如果必须启动转移暂停，则会先要求根区域扫描中止，等它完成才能继续扫描。
+
+   **阶段 3：Concurrent Mark（并发标记）** 此阶段非常类似于CMS：它只是遍历对象图，并在一个特殊的位图中标记能访问到的对象。为了确保标记开始时的快照准确性，所有应用线程并发对对象图执行的引用更新，G1 要求放弃前面阶段为了标记目的而引用的过时引用。
+
+   这是通过使用 `Pre-Write` 屏障来实现的。Pre-Write屏障的作用是：G1在进行并发标记时，如果程序将对象的某个属性做了变更，就会在 log buffers 中存储之前的引用。
+
+   **阶段 4：Remark（再次标记）** 和CMS类似，这也是一次STW停顿，以完成标记过程。对于G1，它短暂地停止应用线程，停止并发更新日志的写入，处理其中的少量信息，并标记所有在并发标记开始时未被标记的存活对象。这一阶段也执行某些额外的清理。
+
+   **阶段 5：Cleanup（清理）** 最后这个小阶段为即将到来的转移阶段做准备，统计小堆区中所有存活的对象，并将小堆区进行排序，以提升GC的效率。此阶段也为下一次标记执行所有必需的整理工作（house-keeping activities）维护并发标记的内部状态。
+
+   注意所有不包含存活对象的小堆区在此阶段都被回收了。有一部分是并发的，例如空堆区的回收，还有大部分的存活率计算，此阶段也需要一个短暂的STW暂停，以不受应用线程的影响来完成作业。
+
+3. Evacuation Pause：Mixed （混合模式转移暂停）
+
+   并发标记完成之后，G1将执行一次混合收集（mixed collection），不只清理年轻代，还将一部分老年代区域也加入到 collection set 中。混合模式转移暂停（Evacuation pause）不一定紧跟着并发标记阶段。有很多规则和历史数据会影响混合模式的启动时机。比如，假若在老年代中可以并发地腾出很多的小堆区，就没有必要启动混合模式。因此，在并发标记与混合转移暂停之间，很可能会存在多次 fully-young 转移暂停。添加到回收集的老年代小堆区的具体数字及其顺序，也是基于许多规则来判定的。 其中包括指定的软实时性能指标，存活性以及在并发标记期间收集的GC效率等数据，外加一些可配置的JVM选项。混合收集的过程，很大程度上和前面的 fully-young gc 是一样的。
+
+
+
+G1回收器
+
+- YoungGC
+
+  YoungGC并不是说现有的Eden区放满了就会马上触发，G1会计算下现在Eden区回收大概要多久时间，如果回收时间远远小于参数 -XX:MaxGCPauseMills 设定的值，那么增加年轻代的region，继续给新对象存放，不会马上做YoungGC，直到下一次Eden区放满，G1计算回收时间接近参数 -XX:MaxGCPauseMills 设定的值，那么就会触发YoungGC
+
+- MixedGC
+
+  不是FullGC，老年代的堆占有率达到参数(-XX:InitiatingHeapOccupancyPercen)设定的值则触发，回收所有的Young和部分Old（根据期望的GC停顿时间确定old区垃圾收集的优先顺序）以及大对象区，正常情况G1的垃圾收集是先做MixedGC，主要使用复制算法，需要把各个region中存活的对象拷贝到别的region里去，拷贝过程中如果发现没有足够的空region能够承载拷贝对象就会触发一次Full GC
+
+- Full GC
+
+  停止系统程序，然后采用单线程进行标记、清理和压缩整理，用来空闲出来一批Region来供下一次MixedGC使用，这个过程是非常耗时的。
+
+
+
+注意事项
+
+特别需要注意，<font color=red>某些情况G1触发Full GC，这时会退化使用Serial收集器来完成垃圾的清理工作</font>，即使用单线程完成GC工作，GC暂停时间将达到秒级。
+
+1. 并发模式失败
+
+   G1启动标记周期，但在Mix GC之前，老年代被填满，这时G1会放弃标记周期。
+
+   解决：增加堆大小，或者调整周期（如增加线程数 -XX:ConcGCThreads）。
+
+2. 晋升失败
+
+   没有足够的内存供存活对象或晋升对象使用，由此出发Full GC
+
+   解决：
+
+   - 增加-XX:G1ReservePercent预留内存量，并相应增大总的堆大小
+   - 减少-XX:+InitiatingHeapOccupancyPercent提前启动标记线程周期
+   - 增加-XX:ConcGCThreads增加并行标记线程的数目
+
+3. 巨型对象分配失败
+
+   当巨型对象找不到合适的空间进行分配时，就会触发Full GC
+
+   解决：增加堆内存或增大-XX:G1HeapRegionSize
 
 
 

@@ -27,7 +27,7 @@ jinfo <pid>
 
 Monitors Java Virtual Machine (JVM) statistics. This command is experimental and unsupported.
 
-`jstat -gc` 需要重点关注OU（老年代的使用量）、YGCT（年轻代GC消耗的总时间）、FGCT（Full GC 消耗的时间）
+`-gc` 需要重点关注OU（老年代的使用量）、YGCT（年轻代GC消耗的总时间）、FGCT（Full GC 消耗的时间）
 
 ```shell
 # -gcutil Displays a summary about garbage collection statistics.
@@ -78,15 +78,6 @@ Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU 
          2894.6 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
          2895.6 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
          2896.7 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
-
-# 内存参数
-# 堆内存 -Xms 30m -Xmx 1000m
-# 新生代 -XX:NewSize 10m -XX:MaxNewSize 333m
-# 老生代 -XX:OldSize 20m
-# -XX:SurvivorRatio=8（默认8)
-# -XX:NewRatio=2（默认2）
-
-# -XX:CICompilerCount=2 -XX:InitialHeapSize=31457280 -XX:MaxHeapSize=1048576000 -XX:MaxNewSize=349503488 -XX:MinHeapDeltaBytes=196608 -XX:NewSize=10485760 -XX:OldSize=20971520 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseFastUnorderedTimeStamps
 ```
 
 
