@@ -177,6 +177,12 @@ jrunscript
 
 
 
+## jhat 
+
+内存Dump分析工具
+
+
+
 # JDk内置图形化工具
 
 ## jconsole

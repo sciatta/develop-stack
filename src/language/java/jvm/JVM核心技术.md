@@ -785,7 +785,7 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 ### 串行GC（Serial GC）/ ParNewGC
 
-**-XX:+UseSerialGC**
+**`-XX:+UseSerialGC`**
 
 Serial + Serial Old
 
@@ -795,7 +795,7 @@ CPU利用率高，暂停时间长。适用于几百MB堆内存的JVM，而且是
 
 
 
-**-XX:+UseParNewGC**
+**`-XX:+UseParNewGC`**
 
 ParNew + Serial Old
 
@@ -805,11 +805,13 @@ ParNew + Serial Old
 
 ### 并行GC（Parallel GC）
 
-**-XX:+UseParallelGC**（<font color=red>JDK8默认；注意如果是单核线程会退化为Mark Sweep Compact GC</font>）
+**`-XX:+UseParallelGC`**（<font color=red>JDK8默认；注意如果是单核线程会退化为Mark Sweep Compact GC</font>）
 
-**-XX:+UseParallelOldGC** 
+**`-XX:+UseParallelOldGC`** 
 
-**-XX:+UseParallelGC -XX:+UseParallelOldGC** 
+**`-XX:+UseParallelGC -XX:+UseParallelOldGC`** 
+
+以上等价
 
 Parallel Scavenge + Parallel Old
 
@@ -828,7 +830,11 @@ Parallel Scavenge + Parallel Old
 
 Mostly Concurrency Mark and Sweep Garbage Collector
 
-**-XX:+UseConcMarkSweepGC**
+**`-XX:+UseConcMarkSweepGC`**
+
+**`-XX:+UseParNewGC -XX:+UseConcMarkSweepGC`**
+
+以上等价
 
 ParNew + CMS + Serial Old（备用）
 
@@ -854,17 +860,25 @@ ParNew + CMS + Serial Old（备用）
 
 Garbage First
 
-**-XX:+UseG1GC**（JDK9默认） 
+**`-XX:+UseG1GC`**（JDK9默认） 
 
--XX:G1NewSizePercent	初始年轻代占整个Heap的大小，默认5%
+`-XX:G1NewSizePercent` 初始年轻代占整个Heap的大小，默认5%
 
--XX:G1MaxNewSizePercent	最大年轻代占整个Heap的大小，默认60%
+`-XX:G1MaxNewSizePercent` 最大年轻代占整个Heap的大小，默认60%
 
--XX:G1HeapRegionSize	按照平均堆的大小 `(MinHeapSize+MaxHeapSize)/2` 划分为2048个目标区块，取同最小RegionSize比较的最大值，但必须满足有效范围1MB~32MB，即不能小于1MB
+`-XX:G1HeapRegionSize` 按照平均堆的大小 `(MinHeapSize+MaxHeapSize)/2` 划分为2048个目标区块，取同最小RegionSize比较的最大值，但必须满足有效范围1MB~32MB，即不能小于1MB
+
+`-XX:ParallelGCThreads=n` 设置STW阶段并行的worker线程数量。
+
+- 如果逻辑处理器小于等于8，则默认值n等于逻辑处理器的数量
+- 如果逻辑处理器大于8，则默认值n等于处理器数量的 `5/8+3`。在大多数情况下都是比较合理的值。
+- 如果是高配置的SPARC系统，则默认值n大约等于逻辑处理器的 `5/16`
+
+`-XX:ConcGCThreads` 并发标记的GC线程数。默认是 `ParallelGCThreads` 的1/4。
+
+
 
 -XX:MaxGCPauseMillis=50	预期G1每次执行GC操作的暂停时间，单位是毫秒，默认200毫秒
-
--XX:ConcGCThreads	并发GC线程数。默认是java线程的1/4，减少这个参数的数值可能会提升并行回收的效率，提高系统的吞吐量。如果值过低，参与回收的线程不足，也会导致并行回收机制耗时加长
 
 -XX:+InitiatingHeapOccupancyPercent（IHOP）	G1内部并行回收循环启动的阈值，默认为java heap的45%
 
@@ -880,7 +894,7 @@ Garbage First
 
 G1 GC有其特定实现：
 
-1. 堆不再分成年轻代和老年代。而是划分多个（通常是2048个）存放对象的小块堆（region）区域。每个小块，可能一会被定义成Eden区，一会被指定为Survivor区，或Old区。逻辑上，所有的Eden区和Survivor区合起来就是年轻代，所有的Old区合起来就是老年代。G1不必每次都收集整个堆空间，可以增量的方式来处理。
+1. 堆不再分成年轻代和老年代。而是划分多个（通常是2048个）存放对象的小块堆（region）区域。每个小块，可能一会被定义成Eden区，一会被指定为Survivor区，或Old区。逻辑上，所有的Eden区和Survivor区合起来就是年轻代，所有的Old区合起来就是老年代。G1不必每次都收集整个堆空间，可以增量的方式来处理。<font color=red>原则上不能指定G1 GC的年轻代大小</font>。
 2. 在并发阶段估算每个小堆块存活对象的总和。回收原则是，垃圾最多的小块会被优先收集。
 
 
@@ -923,7 +937,7 @@ G1 GC有其特定实现：
 
 
 
-G1回收器
+G1GC回收器
 
 - YoungGC
 
@@ -996,4 +1010,82 @@ G1的改进版本，跟ZGC类似。
 - ParNew + CMS 实现多线程低延迟垃圾回收机制
 - Parallel Scavenge + Parallel Old 多线程高吞吐量垃圾回收机制（CPU资源都用来最大程度处理业务）
 - G1 GC 堆内存较大，整体平均GC时间可控
+
+
+
+# 内存分析调优
+
+## 占用大小
+
+### 对象头和对象引用
+
+在64位JVM中，对象头占用12byte，但需要以8字节（64bit）对齐，因此一个空类的实例至少占用16字节。
+
+在32位JVM中，对象头占用8byte，以4字节对齐。
+
+通常在32位JVM，以及内存小于 -Xmx32G 的64位JVM上（默认开启指针压缩），一个引用占的内存默认是4字节。
+
+### 包装类型
+
+比原生数据类型消耗的内存多。如：
+
+- Integer：int占用4字节；而Integer是对象需要占用16字节，比原生对象多占用 ` (16-4)/4=300%` 的内存空间
+- Long：long占用8字节；而Long是对象需要占用16字节，比原生对象多占用 `(16-8)/8=100%` 的内存空间 
+
+### 数组
+
+一维数组 int[256] 占用1040字节，二维数组 int\[128\]\[2\] 占用3600字节，每一个独立的数组都是一个对象。里面的有效存储空间是一样的，但3600比1040多了246%的额外开销。
+
+![jvm_memory_array](JVM核心技术.assets/jvm_memory_array.png)
+
+### 字符串
+
+String对象的空间随着内部字符数组的增长而增长。String类的对象有24个字节的额外开销。
+
+
+
+## 异常
+
+- OutOfMemoryError：Java heap space
+  - 创建新的对象时，堆内存的空间不足以存放新创建的对象
+  - 超出预期的访问量/数据量（应用设计时，机器有容量限制）
+  - 内存泄露
+- OutOfMemoryError：PermGen space/OutOfMemoryError：Metaspace
+  - 加载到内存中的class数量太多或体积太大，超过了PermGen的大小
+- OutOfMemoryError：Unable to create new native thread
+  - 程序创建的线程数量达到上限值的异常信息
+
+
+
+## 分析调优
+
+### 高分配速率（High Allocation Rate）
+
+分配速率表示单位时间内分配的内存量。通常使用MB/sec作为单位。上一次垃圾收集之后，与下一次GC开始之前的**年轻代使用量**，两者的差值除以时间，就是分配速率。
+
+分配速率过高就会严重影响程序的性能，在JVM中可能会导致巨大的GC开销。最终效果是，影响Minor GC的次数和时间，进而影响吞吐量。
+
+解决
+
+- 在某些情况下，只要增加年轻代大小即可降低分配速率过高所造成的影响。增加年轻代空间并不会降低分配速率，但会减少GC的频率。如果每次GC后只有少量对象存活，minor GC 的暂停时间就不会明显增加。
+
+
+
+### 过早提升（Premature Promotion）
+
+提升效率用于衡量单位时间内从年轻代提升到老年代的数据量。一般使用MB/sec作为单位。
+
+JVM会将长时间存活的对象从年轻代提升到老年代。根据分代假设，可能存在一种情况，老年代中不仅有存活时间长的对象，也可能存在存活时间短的对象。即对象存活的时间还不够长时就被提升到了老年代。Major GC不是为了频繁回收而设计的，但Major GC若需要清除生命短暂的对象，就会导致GC暂停时间过长，会严重影响系统的吞吐量。
+
+过早提升表现
+
+- 短时间内频繁 Full GC
+- 每次 Full GC 后老年代的使用率都很低，在10~20%以下
+- 提升速率接近分配速率
+
+解决
+
+- 增加年轻代大小或增加堆内存，Full GC的次数会减少，只是会对minor GC的持续时间产生影响
+- 减少每次批处理的数量（业务层面）
+- 优化数据结构，减少内存消耗
 
