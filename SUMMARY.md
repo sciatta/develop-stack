@@ -6,15 +6,14 @@
         * JVM
             * [JVM核心技术](src/language/java/jvm/JVM核心技术.md)
             * [JDK工具](src/language/java/jvm/JDK工具.md)
+        * IO
+            * [NIO模型与Netty](src/language/java/io/NIO模型与Netty.md)
         * Algorithm
             * [数据结构和算法](src/language/java/algorithm/数据结构和算法.md)
     * scala
-* [Kafka集群安装部署](src/bigdata/kafka/Kafka集群安装部署.md)
+* [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
     * Hadoop
-        * HDFS
-            * [HDFS命令](src/bigdata/hadoop/hdfs/HDFS命令.md)
-            * [HDFS核心功能原理](src/bigdata/hadoop/hdfs/HDFS核心功能原理.md)
-            * [HDFS源码分析](src/bigdata/hadoop/hdfs/HDFS源码分析.md)
+    * HDFS
         * MapReduce
             * [MapReduce工作原理](src/bigdata/hadoop/mapreduce/MapReduce工作原理.md)
         * YARN
@@ -22,7 +21,7 @@
         * [Hadoop集群安装部署](src/bigdata/hadoop/Hadoop集群安装部署.md)
         * [Hadoop HA集群安装部署](src/bigdata/hadoop/Hadoop HA集群安装部署.md)
         * [Hadoop企业级调优](src/bigdata/hadoop/Hadoop企业级调优.md)
-    * ZooKeeper
+    * [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
         * [ZooKeeper集群安装部署](src/bigdata/zookeeper/ZooKeeper集群安装部署.md)
         * [ZooKeeper分布式协调框架](src/bigdata/zookeeper/ZooKeeper分布式协调框架.md)
     * Hive
@@ -42,7 +41,7 @@
         * Azkaban
             * [Azkaban安装部署](src/bigdata/auxiliaryframework/azkaban/Azkaban安装部署.md)
             * [Azkaban工作流调度器](src/bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.md)
-    * [Kafka集群安装部署](src/bigdata/kafka/Kafka集群安装部署.md)
+    * Kafka
         * [Kafka集群安装部署](src/bigdata/kafka/Kafka集群安装部署.md)
         * [Kafka监控工具](src/bigdata/kafka/Kafka监控工具.md)
         * [Kafka分布式消息流平台](src/bigdata/kafka/Kafka分布式消息流平台.md)
@@ -53,7 +52,6 @@
         * SparkSQL
             * [SparkSQL核心功能](src/bigdata/spark/sparksql/SparkSQL核心功能.md)
         * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
-    * [BigData问题汇总](src/bigdata/BigData问题汇总.md)
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
