@@ -12,6 +12,8 @@
             * [并发编程](src/language/java/concurrency/并发编程.md)
         * Algorithm
             * [数据结构和算法](src/language/java/algorithm/数据结构和算法.md)
+        * Spring
+            * [SpringCore核心功能](src/language/java/spring/SpringCore核心功能.md)
     * scala
 * Bigdata
     * Hadoop
@@ -65,6 +67,7 @@
     * Git
         * [GitBook&GitHub&Typora最佳实践](src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md)
         * [Git命令](src/versioncontrol/git/Git命令.md)
+        * [GitHub应用](src/versioncontrol/git/GitHub应用.md)
 * Virtualization
     * VMware
         * [VMware系统安装](src/virtualization/vmware/VMware系统安装.md)
