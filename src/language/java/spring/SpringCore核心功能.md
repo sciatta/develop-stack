@@ -270,7 +270,7 @@ CGLIB的限制
 
 ## Bean的加载过程
 
-![spring_core_load_bean](SpringCore核心功能.assets/spring_core_load_bean.png)
+![spring_core_ioc_load_bean](SpringCore核心功能.assets/spring_core_ioc_load_bean.png)
 
 
 
@@ -309,9 +309,365 @@ CGLIB的限制
 
 # AOP
 
- 接口类型和非接口类型
+## AOP 概念
 
-cglib字节码增强工具
+- Aspect
+
+  横跨多个类，一个关注点的模块化。例如事务管理。在Spring中，被实现为常规类（基于schema的方式）或 `@Aspect` 注解的常规类。
+
+- Join point
+
+  程序执行时的一个点。例如一个方法的执行或异常处理。在Spring中，Join point表示的是一个执行方法。
+
+- Advice
+
+  一个Aspect在一个特定Join point所采取的行为。Advice的不同类型包括around，before和after。在Spring中，将Advice构建为一个拦截器，在Join point前后维护一个拦截器链。
+
+- Pointcut
+
+  匹配Join point的谓词（函数 -> ture or false）。Advice同Pointcut表达式关联，在任意与Pointcut表达式匹配的Join point上运行。在Spring中，默认使用AspectJ作为Pointcut表达式语言。
+
+- Introduction
+
+  引入额外的方法或字段表示一个新的类型。在Spring中，可以使用新的接口和实现来Introduction到采取特定Advice的对象。
+
+- Target object
+
+  一个被一个或多个Aspect织入Advice的对象。也称为 ”advised object“。在Spring中，使用运行时代理来实现，Target object也是一个被代理的对象。
+
+- AOP proxy
+
+  为实现Aspect契约通过AOP框架创建的对象。在Spring中，AOP proxy是JDK动态代理或CGLIB代理。
+
+- Weaving
+
+  将Aspect同其他类型或对象链接，来创建一个”advised object“。可以在编译期间，加载期间或运行时完成Weaving。在Spring中，在运行时执行Weaving。
+
+
+
+## AOP support
+
+Spring AOP **默认**使用**标准JDK动态代理**，基于接口类型代理。而使用**CGLIB**可以代理非接口类型。
+
+JDK动态代理
+
+- 如果目标对象被代理的方法是其实现的某个接口的方法，那么将会使用JDK动态代理生成代理对象，此时代理对象和目标对象是两个对象，并且都实现了该接口
+- 代理 public interface method
+
+CGLIB
+
+- 如果目标对象是一个类，并且其没有实现任何接口，那么将会使用CGLIB代理生成代理对象，代理类是其子类的对象
+- 代理 public 和 protected method
+
+
+
+### @AspectJ support
+
+<font color=blue>@AspectJ 做为AspectJ 5 release样式引入。Spring像AspectJ 5一样解析注解，使用AspectJ提供的library用于pointcut的解析和匹配。但注意AOP运行时，仍然使用Spring AOP，不会依赖AspectJ的compiler或weaver</font>。
+
+
+
+#### 启用 @AspectJ 支持
+
+@AspectJ支持生效，自动检测@Aspect注解
+
+- Java-style
+
+  ```java
+  @Configuration
+  @ComponentScan({"com.sciatta.hadoop.java.spring.core.aop.log",
+                  "com.sciatta.hadoop.java.spring.core.aop.biz"})
+  @EnableAspectJAutoProxy
+  public class SameAspectDifferentAdvice {
+  }
+  ```
+
+- XML
+
+  ```xml
+  <aop:aspectj-autoproxy/>
+  ```
+
+- 引入依赖jar
+
+  ```xml
+  <dependency>
+  	<groupId>org.aspectj</groupId>
+  	<artifactId>aspectjweaver</artifactId>
+  	<version>1.9.4</version>
+  </dependency>
+  ```
+
+  
+
+#### 声明 Aspect
+
+- 需要加入@Component注解，识别@Aspect，该类首先需要被容器管理
+
+```java
+@Aspect
+@Component
+public class NotVeryUsefulAspect {
+}
+```
+
+
+
+#### 声明 Pointcut
+
+Spring AOP仅支持**方法级别**的Join point。
+
+```java
+@Pointcut("execution(* transfer(..))") // the pointcut expression
+private void anyOldTransfer() {} // the pointcut signature
+```
+
+
+
+<font color=red>Pointcut表达式</font>
+
+- execution & @annotation(annotation-type)
+
+  **粒度是方法**
+
+  - `execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)` **匹配方法签名**
+
+    `?` 表示可以省略
+
+    - modifiers-pattern：方法的可见性，如public，protected
+    - ret-type-pattern：方法的返回值类型，如int，void等
+    - declaring-type-pattern：方法所在类的全路径名，如com.spring.Aspect
+    - name-pattern：方法名类型，如buisinessService()
+    - param-pattern：方法的参数类型，如java.lang.String
+    - throws-pattern：方法抛出的异常类型，如java.lang.Exception
+
+    通配符
+
+    - `*` 通配符，该通配符主要用于匹配单个单词，或者是以某个词为前缀或后缀的单词
+    - `..` 通配符，该通配符表示0个或多个项，主要用于declaring-type-pattern和param-pattern中，如果用于declaring-type-pattern中，则表示匹配当前包及其子包，如果用于param-pattern中，则表示匹配0个或多个参数
+
+  - @annotation(annotation-type) 匹配指定注解的方法
+
+- within & @within(annotation-type)
+
+  **粒度是类**
+
+  可以使用通配符 `*` 和 `..`
+
+  - within(declaring-type-pattern)
+  - @within(annotation-type) 匹配指定注解的类
+
+- args & @args
+
+  在**运行时**匹配指定参数类型和指定参数数量的方法
+
+  只能使用通配符 `..`
+
+  - args(param-pattern)
+  - @args 使用指定注解标注的类作为某个方法的参数时该方法将会被匹配
+
+- this
+
+  表达式中只能指定类或者接口。代理对象（proxy object）是指定类型的实例。
+
+- target & @target
+
+  - 表达式中只能指定类或者接口。被代理的对象（target object）是指定类型的实例。
+
+    <font color=red>this & target 匹配语义</font>
+    - A 是接口，`this(A)` 和 `target(A) ` 使用JDK代理，被代理对象和代理对象都实现了A接口，两者均可匹配
+    - A 是未实现接口的类，`this(A)` 和 `target(A) ` 使用CGLIB代理，被代理对象是A的实例，代理对象是A的子类的实例，因此也是A的实例，两者均可匹配
+    - A 是实现接口的类，`this(A)` 和 `target(A) ` 使用JDK代理，被代理对象是A的实例，而代理对象是实现接口的类的实例，不是同一个类，因此仅匹配 `target(A)` 
+    - @target 执行对象的类有指定注解
+
+- bean
+
+  可以使用通配符 `*` 
+
+  - bean(tradeService) 名称为tradeService的Spring bean的任意Join point
+
+
+
+#### 声明 Advice
+
+- Before Advice
+
+  ```java
+  import org.aspectj.lang.annotation.Aspect;
+  import org.aspectj.lang.annotation.Before;
+  
+  @Aspect
+  public class BeforeExample {
+  
+      @Before("execution(* com.xyz.myapp.dao.*.*(..))")
+      public void doAccessCheck() {
+          // ...
+      }
+  
+  }
+  ```
+
+- After Returning Advice
+
+  - 可以访问实际返回的值，`returning` 的名称要和Advice的参数名称一致
+  - 不可以返回不同的引用
+
+  ```java
+  import org.aspectj.lang.annotation.Aspect;
+  import org.aspectj.lang.annotation.AfterReturning;
+  
+  @Aspect
+  public class AfterReturningExample {
+  
+      @AfterReturning(
+          pointcut="com.xyz.myapp.CommonPointcuts.dataAccessOperation()",
+          returning="retVal")
+      public void doAccessCheck(Object retVal) {
+          // ...
+      }
+    
+  }
+  ```
+
+- After Throwing Advice
+
+  - 可以访问抛出的异常，`throwing` 的名称要和Advice的参数名称一致
+
+  ```java
+  import org.aspectj.lang.annotation.Aspect;
+  import org.aspectj.lang.annotation.AfterThrowing;
+  
+  @Aspect
+  public class AfterThrowingExample {
+  
+      @AfterThrowing(
+          pointcut="com.xyz.myapp.CommonPointcuts.dataAccessOperation()",
+          throwing="ex")
+      public void doRecoveryActions(DataAccessException ex) {
+          // ...
+      }
+  
+  }
+  ```
+
+- After（Finally）Advice
+
+  - 在 `After Returning Advice` 和 `After Throwing Advice` **前**执行
+
+  ```java
+  import org.aspectj.lang.annotation.Aspect;
+  import org.aspectj.lang.annotation.After;
+  
+  @Aspect
+  public class AfterFinallyExample {
+  
+      @After("com.xyz.myapp.CommonPointcuts.dataAccessOperation()")
+      public void doReleaseLock() {
+          // ...
+      }
+  
+  }
+  ```
+
+- Around Advice
+
+  ```java
+  import org.aspectj.lang.annotation.Aspect;
+  import org.aspectj.lang.annotation.Around;
+  import org.aspectj.lang.ProceedingJoinPoint;
+  
+  @Aspect
+  public class AroundExample {
+  
+      @Around("com.xyz.myapp.CommonPointcuts.businessService()")
+      public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable {
+          // start stopwatch
+          Object retVal = pjp.proceed();
+          // stop stopwatch
+          return retVal;
+      }
+  
+  }
+  ```
+
+- Advice Parameters
+
+  任何一个Advice方法都可以声明 `org.aspectj.lang.JoinPoint` 作为第一个参数，注意Around Advice第一个参数的类型是 `ProceedingJoinPoint` ，其是 `JoinPoint` 的子类。
+
+  JoinPoint提供了如下方法
+
+  - `getArgs()`: Returns the method arguments.
+  - `getThis()`: Returns the proxy object.
+  - `getTarget()`: Returns the target object.
+  - `getSignature()`: Returns a description of the method that is being advised.
+  - `toString()`: Prints a useful description of the method being advised.
+
+  向Advice传递参数
+
+  - @Pointcut 可重用的Pointcut表达式，可用于附加到Advice上
+  - @Before 定义Advice
+  - <font color=red>如果在args表达式中使用parameter名称代替类型名称，则在调用Advice时，相应Pointcut签名的参数argument值将作为Advice方法的parameter值传递到Advice</font>
+
+  ```java
+  @Pointcut("com.xyz.myapp.CommonPointcuts.dataAccessOperation() && args(account,..)")
+  private void accountDataAccessOperation(Account account) {}
+  
+  @Before("accountDataAccessOperation(account)")
+  public void validateAccount(Account account) {
+      // ...
+  }
+  ```
+
+  确定参数名称
+
+  - Pointcut表达式的argNames和Advice的参数名称一致
+
+    ```java
+    @Before(value="com.xyz.lib.Pointcuts.anyPublicMethod() && target(bean) && @annotation(auditable)",
+            argNames="bean,auditable")
+    public void audit(JoinPoint jp, Object bean, Auditable auditable) {
+        AuditCode code = auditable.value();
+        // ... use code, bean, and jp
+    }
+    ```
+
+  Advice顺序
+
+  - 相同Aspect，不同Advice
+
+    ![spring_core_aop_same_aspact_different_advice](SpringCore核心功能.assets/spring_core_aop_same_aspact_different_advice.png)
+
+  - 不同Aspect，不同Advice
+
+    ![spring_core_aop_different_aspact_different_advice](SpringCore核心功能.assets/spring_core_aop_different_aspact_different_advice.png)
+
+
+
+#### 声明 Introduction
+
+- @DeclareParents注解在field上，其是功能加强接口
+- @DeclareParents的value是待功能加强的类或接口
+  - `*` 任意单词
+  - `+` 待加强功能的类、子类或实现类
+- @DeclareParents的defaultImpl是功能加强实现类
+
+```java
+@Aspect
+public class UsageTracking {
+		// 增强类功能，即原类拥有接口定义的功能
+    @DeclareParents(value="com.xzy.myapp.service.*+", defaultImpl=DefaultUsageTracked.class)
+    public static UsageTracked mixin;
+
+  	// 匹配pointcut表达式，this表示代理类是接口Print的实例，注入代理类本身
+    @Before("com.xyz.myapp.CommonPointcuts.businessService() && this(usageTracked)")
+    public void recordUsage(UsageTracked usageTracked) {
+        usageTracked.incrementUseCount();
+    }
+
+}
+```
+
+
 
 
 
