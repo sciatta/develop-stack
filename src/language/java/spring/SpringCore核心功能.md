@@ -199,8 +199,8 @@ CGLIB的限制
   FactoryBean接口被当成一个SPI（Service Provider Interface：SPI是一种API，这种API被第三方来实现或扩展。它可以被用来扩展框架或实现组件替换功能）使用
 
   - 一般用于，对于XML无法配置或配置很繁琐的复杂逻辑依赖关系，即xml配置以外的另一种配置bean的方法
-  - FactoryBean返回的bean有singleton或prototype区分，容器管理返回bean和FactoryBean的生命周期
-  - `getBean(factoryBeanName)` 通过工厂返回实际bean
+  - FactoryBean返回的bean有singleton或prototype区分。**如果FactoryBean是Singleton，则其返回的Bean也是Singleton，由容器管理返回bean和FactoryBean的生命周期**
+  - `getBean(factoryBeanName)` 通过FactoryBean返回实际bean
   - `getBean(&factoryBeanName)` 返回工厂实例本身
 
 - ObjectFactory
@@ -292,9 +292,9 @@ CGLIB的限制
    - Lifecycle#stop
 
 3. 容器注入
-   
+  
 - ApplicationContextAware#setApplicationContext
-   
+  
 4. 容器扩展
 
    - BeanPostProcessor
@@ -347,6 +347,8 @@ CGLIB的限制
 
 ## AOP support
 
+### 代理机制
+
 Spring AOP **默认**使用**标准JDK动态代理**，基于接口类型代理。而使用**CGLIB**可以代理非接口类型。
 
 JDK动态代理
@@ -357,17 +359,36 @@ JDK动态代理
 CGLIB
 
 - 如果目标对象是一个类，并且其没有实现任何接口，那么将会使用CGLIB代理生成代理对象，代理类是其子类的对象
+
 - 代理 public 和 protected method
 
+- 无法 Advice final 方法，因为子类不能覆盖这个方法
 
+- 完全使用CGLIB代理
 
-### @AspectJ support
+  基于schema
+
+  ```xml
+  <aop:config proxy-target-class="true">
+      <!-- other beans defined here... -->
+  </aop:config>
+  ```
+
+  基于@AspectJ
+
+  ```xml
+  <aop:aspectj-autoproxy proxy-target-class="true"/>
+  ```
+
+  
+
+### 基于 @AspectJ
 
 <font color=blue>@AspectJ 做为AspectJ 5 release样式引入。Spring像AspectJ 5一样解析注解，使用AspectJ提供的library用于pointcut的解析和匹配。但注意AOP运行时，仍然使用Spring AOP，不会依赖AspectJ的compiler或weaver</font>。
 
 
 
-#### 启用 @AspectJ 支持
+#### 启用 @AspectJ
 
 @AspectJ支持生效，自动检测@Aspect注解
 
@@ -468,7 +489,7 @@ private void anyOldTransfer() {} // the pointcut signature
 
 - this
 
-  表达式中只能指定类或者接口。代理对象（proxy object）是指定类型的实例。
+  表达式中只能指定类或者接口。代理对象（proxy object）是指定类型的实例，可收集Join point上下文。
 
 - target & @target
 
@@ -658,7 +679,7 @@ public class UsageTracking {
     @DeclareParents(value="com.xzy.myapp.service.*+", defaultImpl=DefaultUsageTracked.class)
     public static UsageTracked mixin;
 
-  	// 匹配pointcut表达式，this表示代理类是接口Print的实例，注入代理类本身
+  	// 匹配pointcut表达式，this表示代理类是接口UsageTracked的实例，注入代理类本身
     @Before("com.xyz.myapp.CommonPointcuts.businessService() && this(usageTracked)")
     public void recordUsage(UsageTracked usageTracked) {
         usageTracked.incrementUseCount();
@@ -668,6 +689,238 @@ public class UsageTracking {
 ```
 
 
+
+### 基于 Schema
+
+#### 启用 Schema
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- bean definitions here -->
+
+</beans>
+```
+
+
+
+#### 声明 Aspect
+
+- `<aop:aspect>` 的属性ref引用的是容器管理的一个普通Bean
+
+```xml
+<aop:config>
+    <aop:aspect id="myAspect" ref="aBean">
+        ...
+    </aop:aspect>
+</aop:config>
+
+<bean id="aBean" class="...">
+    ...
+</bean>
+```
+
+
+
+#### 声明 Pointcut
+
+- `<aop:config>` 内部定义的 `<aop:pointcut>` 可以在 Aspect 和 Advisor 中共享
+
+```xml
+<aop:config>
+
+    <aop:pointcut id="businessService"
+        expression="execution(* com.xyz.myapp.service.*.*(..))"/>
+
+</aop:config>
+```
+
+
+
+#### 声明 Advice
+
+- Before Advice
+
+  - `<aop:before>` 的属性method引用的是aBean的doAccessCheck方法
+
+  ```xml
+  <aop:aspect id="beforeExample" ref="aBean">
+  
+      <aop:before
+          pointcut="execution(* com.xyz.myapp.dao.*.*(..))"
+          method="doAccessCheck"/>
+  
+      ...
+  
+  </aop:aspect>
+  ```
+
+  
+
+- After Returning Advice
+
+  ```xml
+  <aop:aspect id="afterReturningExample" ref="aBean">
+  
+      <aop:after-returning
+          pointcut-ref="dataAccessOperation"
+          returning="retVal"
+          method="doAccessCheck"/>
+  
+      ...
+  
+  </aop:aspect>
+  ```
+
+  
+
+- After Throwing Advice
+
+  ```xml
+  <aop:aspect id="afterThrowingExample" ref="aBean">
+  
+      <aop:after-throwing
+          pointcut-ref="dataAccessOperation"
+          throwing="dataAccessEx"
+          method="doRecoveryActions"/>
+  
+      ...
+  
+  </aop:aspect>
+  ```
+
+  
+
+- After（Finally）Advice
+
+  ```xml
+  <aop:aspect id="afterFinallyExample" ref="aBean">
+  
+      <aop:after
+          pointcut-ref="dataAccessOperation"
+          method="doReleaseLock"/>
+  
+      ...
+  
+  </aop:aspect>
+  ```
+
+  
+
+- Around Advice
+
+  ```xml
+  <aop:aspect id="aroundExample" ref="aBean">
+  
+      <aop:around
+          pointcut-ref="businessService"
+          method="doBasicProfiling"/>
+  
+      ...
+  
+  </aop:aspect>
+  ```
+
+  
+
+#### 声明 Introduction
+
+```xml
+<aop:aspect id="usageTrackerAspect" ref="usageTracking">
+
+    <aop:declare-parents
+        types-matching="com.xzy.myapp.service.*+"
+        implement-interface="com.xyz.myapp.service.tracking.UsageTracked"
+        default-impl="com.xyz.myapp.service.tracking.DefaultUsageTracked"/>
+
+    <aop:before
+        pointcut="com.xyz.myapp.CommonPointcuts.businessService()
+            and this(usageTracked)"
+            method="recordUsage"/>
+
+</aop:aspect>
+```
+
+
+
+### 基于 Spring AOP API
+
+#### Pointcut
+
+`org.springframework.aop.Pointcut` 的 `ClassFilter` 用于Class匹配，`MethodMatcher` 用于方法匹配。
+
+`MethodMatcher` 分为静态匹配和动态匹配，由方法 `boolean isRuntime();` 控制，返回true表示动态（运行时）匹配
+
+- 静态匹配：仅匹配方法签名
+
+  - `org.springframework.aop.support.JdkRegexpMethodPointcut`
+
+- 动态匹配：除匹配方法签名外，还会在运行时匹配传入的参数
+
+  - `org.springframework.aop.support.ControlFlowPointcut`
+
+<font color=red>推荐使用静态匹配。在方法被第一次调用的时候，框架会缓存Pointcut表达式的计算结果。而动态匹配在方法的每一次调用时都会再次调用方法匹配。</font>
+
+
+
+#### Advice
+
+- `per-class advice`
+
+  <font color=red>不依赖target的状态或添加新的状态，即该Advice是无状态的。可以被多个Advisor共享。</font>
+
+  - Interception Around Advice
+
+    - MethodInterceptor
+
+      **Spring实现的MethodInterceptor，会沿着MethodInvocation拦截器链向后传递，一直到Joinpoint方法，执行完成后逆向返回。注意区分与AspectJ的Around执行顺序。**
+
+  - Before Advice
+
+    - MethodBeforeAdvice
+
+  - Throws Advice
+
+    - ThrowsAdvice
+
+  - After Returning Advice
+
+    - AfterReturningAdvice
+
+- `per-instance advice` 
+
+  <font color=red>该Advice是有状态的。不可被多个Advisor共享。</font>
+
+  - Introduction Advice
+    - IntroductionInterceptor
+      - DelegatingIntroductionInterceptor
+
+
+
+#### Advisor
+
+在Spring中，Advisor是一个Aspect，仅包含一个关联Pointcut表达式的Advice。
+
+- `org.springframework.aop.support.DefaultPointcutAdvisor`
+  - 在 `ProxyFactoryBean` 中配置的Advice会封装为Advisor，在代理类方法调用过程中，会将Advisor中注册的Advice封装成拦截器，最后注册到拦截器链中。
+  - 提供类和方法匹配
+- `org.springframework.aop.support.DefaultIntroductionAdvisor`
+  - 在 `ProxyFactoryBean` 中，如果是IntroductionAdvisor，则要求Advice必须实现Advisor声明的接口，然后将Advisor的接口添加到 `ProxyFactoryBean` 中，供后续生成代理实例。
+  - 提供类匹配
+
+
+
+#### ProxyFactoryBean
+
+`org.springframework.aop.framework.ProxyFactoryBean` 本身是一个 `FactoryBean` 的子类，所以仍受控于容器。根据参数 `optimize is true` 或 `proxyTargetClass is true` 或 实现某一接口，则使用CglibAopProxy；否则，使用JdkDynamicAopProxy。
+
+其中，JdkDynamicAopProxy实现了InvocationHandler接口，绑定到运行时生成的代理实例上。调用代理实例的方法时，会首先运行拦截器链上的所有拦截器，然后再通过反射调用target方法。
 
 
 
@@ -700,10 +953,3 @@ XML @AutoWire	1.0/2.0	XML 配置/注解注入
 @Bean @Configuration	3.0	Java Config 配置
 
 @Condition @AutoConfigureX	4.0/SpringBoot	全自动注解配置
-
-
-
-# Messaging
-
-JMS
-
