@@ -924,32 +924,40 @@ public class UsageTracking {
 
 
 
-# XML配置原理
+# XML配置扩展
 
-自定义标签 -》schema location
+##  编写 XML schema
 
--》
+描述自定义配置 `.xsd` ，约束 `BeanDefinition`
 
-​	spring.schemas-》检查 XML 配置是否正确
-
-​	spring.handler-》从 DOM 节点 parse 对象
-
--》Bean
+- `targetNamespace` 指定 XML Schema Namespace URI
 
 
 
-自动化xml配置工具spring- xbean
+## 自定义 NamespaceHandler
 
-1、根据 Bean 的字段结构，自动生成 XSD
+自定义 `NamespaceHandler` 实现，注册 `BeanDefinitionParser`，委托其解析自定义命名空间内的元素
 
-2、根据 Bean 的字段结构，配置 XML 文件
+- 继承 `NamespaceHandlerSupport`
 
 
 
-XML @AutoWire	1.0/2.0	XML 配置/注解注入
+## 自定义 BeanDefinitionParser
 
-@Service	2.5	半自动注解配置
+自定义 `BeanDefinitionParser` 实现，解析XML元素，构建 `BeanDefinitionBuilder` ，由其创建 `BeanDefinition`
 
-@Bean @Configuration	3.0	Java Config 配置
+- 继承 `AbstractSingleBeanDefinitionParser`
+- 继承 `AbstractBeanDefinitionParser`
 
-@Condition @AutoConfigureX	4.0/SpringBoot	全自动注解配置
+
+
+## 注册自定义组件
+
+- `META-INF/spring.handlers`
+
+  将 XML Schema Namespace URI 映射到 NamespaceHandler
+
+- `META-INF/spring.schemas`
+
+  将 XML Schema location 映射到类路径下的 `.xsd` 文件。Spring优先查找类路径下的 `.xsd` 文件，找不到才通过网络访问
+
