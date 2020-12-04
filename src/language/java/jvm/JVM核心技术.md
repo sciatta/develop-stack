@@ -783,7 +783,9 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 ## 常用GC
 
-### 串行GC（Serial GC）/ ParNewGC
+### GC分类
+
+#### 串行GC（Serial GC）/ ParNewGC
 
 **`-XX:+UseSerialGC`**
 
@@ -803,7 +805,7 @@ ParNew + Serial Old
 
 
 
-### 并行GC（Parallel GC）
+#### 并行GC（Parallel GC）
 
 **`-XX:+UseParallelGC`**（<font color=red>JDK8默认；注意如果是单核线程会退化为Mark Sweep Compact GC</font>）
 
@@ -826,7 +828,7 @@ Parallel Scavenge + Parallel Old
 
 
 
-### 并发CMS GC
+#### 并发CMS GC
 
 Mostly Concurrency Mark and Sweep Garbage Collector
 
@@ -856,7 +858,7 @@ ParNew + CMS + Serial Old（备用）
 
 
 
-### G1 GC
+#### G1 GC
 
 Garbage First
 
@@ -981,7 +983,7 @@ G1GC回收器
 
 
 
-### ZGC / Shenandoad GC
+#### ZGC / Shenandoad GC
 
 -XX:+UnlockExperimentalVMOptions **-XX:+UseZGC** -Xmx16g
 
@@ -1004,12 +1006,42 @@ G1的改进版本，跟ZGC类似。
 
 
 
-## 常用GC组合
+### GC适用场景
+
+- 串行GC `UseSerialGC`
+  - 对单核、小内存（100M）、停顿无要求的客户端应用适用
+- 并行GC `UseParallelGC`
+  - 对多核、内存较大（4G）、吞吐量优先、停顿不敏感的后台批处理服务适用
+- 并发GC `UseConcMarkSweepGC`
+  - 对多核、内存较大（4G）、响应时间优先的高频交易系统适用
+  - 但由于CMS不压缩整理，导致内存不连续，在内存较大情况下会导致GC停顿时间较长，延迟不可控
+- 改进版并发GC `G1GC`
+  - 对多核、内存很大（8G）、响应时间优先且可控的高频交易系统适用
+  - 但并发模式失败、晋升失败、分配巨型对象失败等情况，会触发Full GC，此时会退化使用Serial收集器单线程来完成垃圾的清理工作，此过程非常耗时应尽量避免
+
+
+
+### 常用GC组合
 
 - Serial + Serial Old 实现单线程低延迟垃圾回收机制
 - ParNew + CMS 实现多线程低延迟垃圾回收机制
 - Parallel Scavenge + Parallel Old 多线程高吞吐量垃圾回收机制（CPU资源都用来最大程度处理业务）
 - G1 GC 堆内存较大，整体平均GC时间可控
+
+
+
+### GC参数占比
+
+| 参数             | 并行GC占比        | G1GC                                                         |
+| ---------------- | ----------------- | ------------------------------------------------------------ |
+| MinHeapSize      | 物理内存1/64      | 物理内存1/64                                                 |
+| MaxHeapSize      | 物理内存1/4       | 物理内存1/4                                                  |
+| NewSize          | MinHeapSize/3     | MinHeapSize*5%                                               |
+| MaxNewSize       | MaxHeapSize/3     | MaxHeapSize*60%                                              |
+| OldSize          | NewSize*2         |                                                              |
+| NewRatio=2       | new:old=1:2       |                                                              |
+| SurvivorRatio=8  | survivor:eden=2:8 |                                                              |
+| G1HeapRegionSize |                   | max((MinHeapSize+MaxHeapSize)/2/2048, 1)<br />注：2048是目标region数量，1是最小RegionSize |
 
 
 
@@ -1088,4 +1120,90 @@ JVM会将长时间存活的对象从年轻代提升到老年代。根据分代�
 - 增加年轻代大小或增加堆内存，Full GC的次数会减少，只是会对minor GC的持续时间产生影响
 - 减少每次批处理的数量（业务层面）
 - 优化数据结构，减少内存消耗
+
+
+
+## 测试分析
+
+### 开启GC日志
+
+#### 串行
+
+java -XX:+UseSerialGC -Xms512m -Xmx512m -Xloggc:gc.serial.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -cp hadoop-java-jvm-1.0-SNAPSHOT.jar com.sciatta.hadoop.java.jvm.gc.GCLogAnalysis 1 2000 100000
+
+```shell
+# young GC 
+# gc前 young（152288/157248=97%）heap(471606/506816=93%)
+# gc后 young（13862/157248=9%） heap（345388/506816=68%）
+# gc后 old增长 (152288-13862)-(471606-345388)=12208k
+2020-10-27T13:55:19.387+0800: 0.583: [GC (Allocation Failure) 2020-10-27T13:55:19.387+0800: 0.583: [DefNew: 152288K->13862K(157248K), 0.0045260 secs] 471606K->345388K(506816K), 0.0045902 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+
+# full GC
+# gc前 young(153638/157248=98%) old(331525/349568=95%) heap(485164/506816=96%)
+# gc后 young(153638/157248=98%) old(211353/349568=60%) heap(211353/506816=42%)
+2020-10-27T13:55:19.406+0800: 0.601: [GC (Allocation Failure) 2020-10-27T13:55:19.406+0800: 0.602: [DefNew: 153638K->153638K(157248K), 0.0000137 secs]2020-10-27T13:55:19.406+0800: 0.602: [Tenured: 331525K->211353K(349568K), 0.0258594 secs] 485164K->211353K(506816K), [Metaspace: 3460K->3460K(1056768K)], 0.0259484 secs] [Times: user=0.03 sys=0.00, real=0.02 secs]
+```
+
+#### 并行
+
+java -XX:+UseParallelGC -Xms512m -Xmx512m -Xloggc:gc.parallel.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -cp hadoop-java-jvm-1.0-SNAPSHOT.jar com.sciatta.hadoop.java.jvm.gc.GCLogAnalysis 1 2000 100000
+
+```shell
+# young GC 
+# gc前 young（131584/153088=86%）heap(131584/502784=26%)
+# gc后 young（14196/153088=9%） heap（14196/502784=3%）
+2020-10-27T14:15:01.204+0800: 0.152: [GC (Allocation Failure) [PSYoungGen: 131584K->14196K(153088K)] 131584K->14196K(502784K), 0.0043789 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+
+# full GC
+# gc前 young(13711/150016=9%) old(335470/349696=96%) heap(349181/499712=70%)
+# gc后 young(0/150016=0%) old(193021/349696=55%) heap(193021/499712=39%)
+2020-10-27T14:15:01.767+0800: 0.715: [Full GC (Ergonomics) [PSYoungGen: 13711K->0K(150016K)] [ParOldGen: 335470K->193021K(349696K)] 349181K->193021K(499712K), [Metaspace: 3459K->3459K(1056768K)], 0.0297430 secs] [Times: user=0.05 sys=0.00, real=0.03 secs]
+```
+
+#### CMS
+
+java -XX:+UseConcMarkSweepGC -Xms512m -Xmx512m -Xloggc:gc.cms.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -cp hadoop-java-jvm-1.0-SNAPSHOT.jar com.sciatta.hadoop.java.jvm.gc.GCLogAnalysis 1 2000 100000
+
+```shell
+# young GC
+# gc前 young（136168/153344=89%）heap(136168/507264=27%)
+# gc后 young（14049/153344=9%） heap（14049/507264=3%）
+2020-10-27T17:44:16.836+0800: 0.126: [GC (Allocation Failure) 2020-10-27T17:44:16.836+0800: 0.126: [ParNew: 136168K->14049K(153344K), 0.0043274 secs] 136168K->14049K(507264K), 0.0044123 secs] [Times: user=0.01 sys=0.00, real=0.00 secs]
+
+# full GC
+# Initial Mark
+# old(182341/353920=52%) heap(202089/507264=40%)
+2020-10-27T17:44:17.114+0800: 0.404: [GC (CMS Initial Mark) [1 CMS-initial-mark: 182341K(353920K)] 202089K(507264K), 0.0004290 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+2020-10-27T17:44:17.114+0800: 0.405: [CMS-concurrent-mark-start]
+2020-10-27T17:44:17.118+0800: 0.408: [CMS-concurrent-mark: 0.004/0.004 secs] [Times: user=0.01 sys=0.00, real=0.01 secs]
+2020-10-27T17:44:17.118+0800: 0.408: [CMS-concurrent-preclean-start]
+2020-10-27T17:44:17.119+0800: 0.409: [CMS-concurrent-preclean: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+2020-10-27T17:44:17.119+0800: 0.409: [CMS-concurrent-abortable-preclean-start]
+2020-10-27T17:44:17.372+0800: 0.662: [CMS-concurrent-abortable-preclean: 0.016/0.253 secs] [Times: user=0.32 sys=0.04, real=0.25 secs]
+# Final Remark
+# young(62599/153344=41%) old(344192/353920=97%) heap(406791/507264=80%)
+2020-10-27T17:44:17.377+0800: 0.667: [GC (CMS Final Remark) [YG occupancy: 62599 K (153344 K)]2020-10-27T17:44:17.377+0800: 0.667: [Rescan (parallel) , 0.0005818 secs]2020-10-27T17:44:17.377+0800: 0.668: [weak refs processing, 0.0000108 secs]2020-10-27T17:44:17.377+0800: 0.668: [class unloading, 0.0002870 secs]2020-10-27T17:44:17.378+0800: 0.668: [scrub symbol table, 0.0003714 secs]2020-10-27T17:44:17.378+0800: 0.668: [scrub string table, 0.0001691 secs][1 CMS-remark: 344192K(353920K)] 406791K(507264K), 0.0015126 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+2020-10-27T17:44:17.378+0800: 0.669: [CMS-concurrent-sweep-start]
+2020-10-27T17:44:17.379+0800: 0.670: [CMS-concurrent-sweep: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+2020-10-27T17:44:17.379+0800: 0.670: [CMS-concurrent-reset-start]
+2020-10-27T17:44:17.381+0800: 0.671: [CMS-concurrent-reset: 0.001/0.001 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+```
+
+#### G1
+
+java -XX:+UseG1GC -Xms512m -Xmx512m -Xloggc:gc.g1.log -XX:+PrintGC -XX:+PrintGCDateStamps -cp hadoop-java-jvm-1.0-SNAPSHOT.jar com.sciatta.hadoop.java.jvm.gc.GCLogAnalysis 1 2000 100000
+
+```shell
+2020-10-27T23:13:22.295+0800: 0.126: [GC pause (G1 Evacuation Pause) (young) 60M->9179K(1024M), 0.0045457 secs]
+
+2020-10-27T23:13:23.020+0800: 0.851: [GC pause (G1 Evacuation Pause) (mixed) 808M->665M(1024M), 0.0036246 secs]
+```
+
+
+
+### 压测工具
+
+使用压测工具 `wrk` 或 `sb`
+
+测试命令 `wrk -t8 -c40 -d30s http://localhost:8088/api/hello`
 
