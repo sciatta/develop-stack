@@ -931,6 +931,16 @@ public class UsageTracking {
 描述自定义配置 `.xsd` ，约束 `BeanDefinition`
 
 - `targetNamespace` 指定 XML Schema Namespace URI
+- `elementFormDefault="qualified"`
+- 自定义的Bean，root节点要有id元素
+  - `xmlns:beans="http://www.springframework.org/schema/beans"`
+  - `<xsd:import namespace="http://www.springframework.org/schema/beans"/>`
+  - `<xsd:extension base="beans:identifiedType">`
+
+<font color=red>注意将 `.xsd` 文件 放在 `resources/META-INF/` 目录下，保证此文件拷贝到 `classes` 目录下，否则在验证XML时，找不到本地的XSD文件，就会使用Http地址，一般如下错误都是由于在类路径下找不到XSD文件引起</font>
+
+- 方案元素中不允许出现除 'xs:appinfo' 和 'xs:documentation' 之外的非空格字符
+- http 502
 
 
 
@@ -939,6 +949,7 @@ public class UsageTracking {
 自定义 `NamespaceHandler` 实现，注册 `BeanDefinitionParser`，委托其解析自定义命名空间内的元素
 
 - 继承 `NamespaceHandlerSupport`
+- 注册 `BeanDefinitionParser`，将自定义元素名称和 `BeanDefinitionParser` 匹配用于后续解析
 
 
 
@@ -946,7 +957,6 @@ public class UsageTracking {
 
 自定义 `BeanDefinitionParser` 实现，解析XML元素，构建 `BeanDefinitionBuilder` ，由其创建 `BeanDefinition`
 
-- 继承 `AbstractSingleBeanDefinitionParser`
 - 继承 `AbstractBeanDefinitionParser`
 
 
