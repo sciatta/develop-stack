@@ -117,10 +117,25 @@ git remote rm github
 
 ## git fetch
 
+<font color=red>fetch和pull的区别</font>
+
+- head指向本地分支master；remotes指向远程分支orgin/master
+- fetch只更新remotes；需要手动merge
+- pull更新remotes和head
+
 ```shell
 # 从远程仓库下载最新分支与数据
 # 此命令执行完后需要执行 git merge origin/master 远程分支到你所在的 master 分支
 git fetch origin master
+```
+
+
+
+## git pull
+
+```shell
+# 拉取远程仓库origin的master分支到本地
+git pull orgin master
 ```
 
 

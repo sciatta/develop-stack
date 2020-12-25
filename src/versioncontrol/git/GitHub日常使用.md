@@ -198,3 +198,19 @@ git push --tags
 
 在远程origin仓库 `https://github.com/sciatta/shardingsphere` 提交 Pull request
 
+- `upstream/main` <- `orgin/develop`
+
+
+
+## 合并upstream最新版本
+
+- 同步本地master
+  - git fetch upstream
+  - git checkout master
+  - git rebase upstream/master
+- 同步本地develop
+  - git checkout develop
+  - git rebase master
+- 更新远程
+  - git push origin master
+  - git push origin develop
