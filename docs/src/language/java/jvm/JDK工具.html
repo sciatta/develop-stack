@@ -1,0 +1,1829 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>JDK工具 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="JVM核心技术.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../../">
+            
+                <a href="../../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Language
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="JVM核心技术.html">
+            
+                <a href="JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.1.1.2" data-path="JDK工具.html">
+            
+                <a href="JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../io/NIO模型与Netty.html">
+            
+                <a href="../io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../concurrency/并发编程.html">
+            
+                <a href="../concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.4.1" data-path="../algorithm/数据结构和算法.html">
+            
+                <a href="../algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.5.1" data-path="../spring/SpringCore核心功能.html">
+            
+                <a href="../spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5.2" data-path="../spring/SpringBoot核心功能.html">
+            
+                <a href="../spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    scala
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Bigdata
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1.1" data-path="../../../bigdata/hadoop/hdfs/HDFS核心功能原理.html">
+            
+                <a href="../../../bigdata/hadoop/hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.1.2" data-path="../../../bigdata/hadoop/hdfs/HDFS命令.html">
+            
+                <a href="../../../bigdata/hadoop/hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.1.3" data-path="../../../bigdata/hadoop/hdfs/HDFS源码分析.html">
+            
+                <a href="../../../bigdata/hadoop/hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.2.1" data-path="../../../bigdata/hadoop/mapreduce/MapReduce工作原理.html">
+            
+                <a href="../../../bigdata/hadoop/mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.3.1" data-path="../../../bigdata/hadoop/yarn/YARN架构.html">
+            
+                <a href="../../../bigdata/hadoop/yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.4" data-path="../../../bigdata/hadoop/Hadoop集群安装部署.html">
+            
+                <a href="../../../bigdata/hadoop/Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.5" data-path="../../../bigdata/hadoop/Hadoop HA集群安装部署.html">
+            
+                <a href="../../../bigdata/hadoop/Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.6" data-path="../../../bigdata/hadoop/Hadoop企业级调优.html">
+            
+                <a href="../../../bigdata/hadoop/Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../../bigdata/zookeeper/ZooKeeper集群安装部署.html">
+            
+                <a href="../../../bigdata/zookeeper/ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="../../../bigdata/zookeeper/ZooKeeper分布式协调框架.html">
+            
+                <a href="../../../bigdata/zookeeper/ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../../../bigdata/hive/Hive安装部署.html">
+            
+                <a href="../../../bigdata/hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../../../bigdata/hive/大数据分析利器之Hive.html">
+            
+                <a href="../../../bigdata/hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../../../bigdata/hive/Hive调优.html">
+            
+                <a href="../../../bigdata/hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="../../../bigdata/hbase/HBase集群安装部署.html">
+            
+                <a href="../../../bigdata/hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="../../../bigdata/hbase/大数据数据库之HBase.html">
+            
+                <a href="../../../bigdata/hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    AuxiliaryFramework
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1.1" data-path="../../../bigdata/auxiliaryframework/flume/Flume安装部署.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.1.2" data-path="../../../bigdata/auxiliaryframework/flume/Flume数据采集.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.2.1" data-path="../../../bigdata/auxiliaryframework/sqoop/Sqoop安装部署.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2.2" data-path="../../../bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.3.1" data-path="../../../bigdata/auxiliaryframework/azkaban/Azkaban安装部署.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3.2" data-path="../../../bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../../../bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../../../bigdata/kafka/Kafka集群安装部署.html">
+            
+                <a href="../../../bigdata/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../../../bigdata/kafka/Kafka监控工具.html">
+            
+                <a href="../../../bigdata/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.3" data-path="../../../bigdata/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../../../bigdata/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1.1" data-path="../../../bigdata/spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../../../bigdata/spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.1.2" data-path="../../../bigdata/spark/sparkcore/Spark调优.html">
+            
+                <a href="../../../bigdata/spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.2.1" data-path="../../../bigdata/spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../../../bigdata/spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.3" data-path="../../../bigdata/spark/Spark集群安装部署.html">
+            
+                <a href="../../../bigdata/spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../../database/mysql/CentOS7安装MySQL5.7.html">
+            
+                <a href="../../../database/mysql/CentOS7安装MySQL5.7.html">
+            
+                    
+                    CentOS7安装MySQL5.7
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="../../../database/redis/Redis核心功能.html">
+            
+                <a href="../../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="../../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.2" data-path="../../../versioncontrol/git/Git命令.html">
+            
+                <a href="../../../versioncontrol/git/Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="../../../versioncontrol/git/GitHub日常使用.html">
+            
+                <a href="../../../versioncontrol/git/GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../../virtualization/docker/Docker架构.html">
+            
+                <a href="../../../virtualization/docker/Docker架构.html">
+            
+                    
+                    Docker架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../../virtualization/docker/Docker命令.html">
+            
+                <a href="../../../virtualization/docker/Docker命令.html">
+            
+                    
+                    Docker命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../../virtualization/docker/Dockerfile参考.html">
+            
+                <a href="../../../virtualization/docker/Dockerfile参考.html">
+            
+                    
+                    Dockerfile参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../../os/linux/Linux命令.html">
+            
+                <a href="../../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../../os/linux/iTerm的使用.html">
+            
+                <a href="../../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.1.2" data-path="../../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1.1" data-path="../../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../../.." >JDK工具</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#jdk&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;"><b>1. </b>JDK&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;</a></li><ul><li><span class="title-icon "></span><a href="#jps"><b>1.1. </b>jps</a></li><li><span class="title-icon "></span><a href="#jinfo"><b>1.2. </b>jinfo</a></li><li><span class="title-icon "></span><a href="#jstat"><b>1.3. </b>jstat*</a></li><li><span class="title-icon "></span><a href="#jmap"><b>1.4. </b>jmap</a></li><li><span class="title-icon "></span><a href="#jstack"><b>1.5. </b>jstack</a></li><li><span class="title-icon "></span><a href="#jcmd"><b>1.6. </b>jcmd*</a></li><li><span class="title-icon "></span><a href="#jrunscriptjjs"><b>1.7. </b>jrunscript/jjs</a></li><li><span class="title-icon "></span><a href="#jhat"><b>1.8. </b>jhat</a></li></ul><li><span class="title-icon "></span><a href="#jdk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;"><b>2. </b>JDk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;</a></li><ul><li><span class="title-icon "></span><a href="#jconsole"><b>2.1. </b>jconsole</a></li><li><span class="title-icon "></span><a href="#jvisualvm"><b>2.2. </b>jvisualvm</a></li><li><span class="title-icon "></span><a href="#jmc"><b>2.3. </b>jmc</a></li></ul></ul></div><a href="#jdk&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="jdk&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;"><a name="jdk&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;" class="anchor-navigation-ex-anchor" href="#jdk&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;"><i class="fa fa-link" aria-hidden="true"></i></a>1. JDK&#x5185;&#x7F6E;&#x547D;&#x4EE4;&#x884C;&#x5DE5;&#x5177;</h1>
+<h2 id="jps"><a name="jps" class="anchor-navigation-ex-anchor" href="#jps"><i class="fa fa-link" aria-hidden="true"></i></a>1.1. jps</h2>
+<p>Lists the instrumented Java Virtual Machines (JVMs) on the target system. This command is experimental and unsupported.</p>
+<pre><code class="lang-shell"># -m Displays the arguments passed to the main method. The output may be null for embedded JVMs.
+# -l Displays the full package name for the application&apos;s main class or the full path name to the application&apos;s JAR file.
+# -v Displays the arguments passed to the JVM.
+jps -mlv
+</code></pre>
+<h2 id="jinfo"><a name="jinfo" class="anchor-navigation-ex-anchor" href="#jinfo"><i class="fa fa-link" aria-hidden="true"></i></a>1.2. jinfo</h2>
+<p>Generates configuration information. This command is experimental and unsupported.</p>
+<pre><code class="lang-shell">jinfo &lt;pid&gt;
+</code></pre>
+<h2 id="jstat"><a name="jstat" class="anchor-navigation-ex-anchor" href="#jstat"><i class="fa fa-link" aria-hidden="true"></i></a>1.3. jstat*</h2>
+<p>Monitors Java Virtual Machine (JVM) statistics. This command is experimental and unsupported.</p>
+<p><code>-gc</code> &#x9700;&#x8981;&#x91CD;&#x70B9;&#x5173;&#x6CE8;OU&#xFF08;&#x8001;&#x5E74;&#x4EE3;&#x7684;&#x4F7F;&#x7528;&#x91CF;&#xFF09;&#x3001;YGCT&#xFF08;&#x5E74;&#x8F7B;&#x4EE3;GC&#x6D88;&#x8017;&#x7684;&#x603B;&#x65F6;&#x95F4;&#xFF09;&#x3001;FGCT&#xFF08;Full GC &#x6D88;&#x8017;&#x7684;&#x65F6;&#x95F4;&#xFF09;</p>
+<pre><code class="lang-shell"># -gcutil Displays a summary about garbage collection statistics.
+# 1000 &#x95F4;&#x9694;&#x65F6;&#x95F4; &#x9ED8;&#x8BA4;&#x6BEB;&#x79D2;
+# 3 &#x663E;&#x793A;&#x6B21;&#x6570;
+# -t &#x7B2C;&#x4E00;&#x5217;&#x663E;&#x793A;&#x81EA;&#x542F;&#x52A8;&#x4EE5;&#x6765;&#x7684;&#x65F6;&#x95F4;&#x6233;&#xFF0C;&#x5355;&#x4F4D;&#x79D2;
+jstat -gcutil -t &lt;pid&gt; 1000 3
+
+# S0: Survivor space 0 utilization as a percentage of the space&apos;s current capacity.
+# S1: Survivor space 1 utilization as a percentage of the space&apos;s current capacity.
+# E: Eden space utilization as a percentage of the space&apos;s current capacity.
+# O: Old space utilization as a percentage of the space&apos;s current capacity.
+# M: Metaspace utilization as a percentage of the space&apos;s current capacity.
+# CCS: Compressed class space utilization as a percentage.
+# YGC: Number of young generation GC events.
+# YGCT: Young generation garbage collection time.
+# FGC: Number of full GC events.
+# FGCT: Full garbage collection time.
+# GCT: Total garbage collection time.
+  Timestamp         S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+         2538.2   1.75   0.00  35.64  60.57  98.26  97.02     38    0.222     2    0.199    0.422
+         2539.3   1.75   0.00  35.64  60.57  98.26  97.02     38    0.222     2    0.199    0.422
+         2540.3   1.75   0.00  35.78  60.57  98.26  97.02     38    0.222     2    0.199    0.422
+
+
+# -gc Garbage-collected heap statistics.
+# jstat -gc -t 7534  1000 3
+jstat -gc -t &lt;pid&gt; 1000 3
+
+# S0C: Current survivor space 0 capacity (kB).
+# S1C: Current survivor space 1 capacity (kB).
+# S0U: Survivor space 0 utilization (kB).
+# S1U: Survivor space 1 utilization (kB).
+# EC: Current eden space capacity (kB).
+# EU: Eden space utilization (kB).
+# OC: Current old space capacity (kB).
+# OU: Old space utilization (kB).
+# MC: Metaspace capacity (kB).
+# MU: Metacspace utilization (kB).
+# CCSC: Compressed class space capacity (kB).
+# CCSU: Compressed class space used (kB).
+# YGC: Number of young generation garbage collection events.
+# YGCT: Young generation garbage collection time.
+# FGC: Number of full GC events.
+# FGCT: Full garbage collection time.
+# GCT: Total garbage collection time.
+Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
+         2894.6 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
+         2895.6 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
+         2896.7 2112.0 2112.0  36.9   0.0   17472.0  11941.0   43300.0    26227.7   37632.0 36976.8 4352.0 4222.2     38    0.222   2      0.199    0.422
+</code></pre>
+<h2 id="jmap"><a name="jmap" class="anchor-navigation-ex-anchor" href="#jmap"><i class="fa fa-link" aria-hidden="true"></i></a>1.4. jmap</h2>
+<p>Prints shared object memory maps or heap memory details for a process, core file, or remote debug server. This command is experimental and unsupported.</p>
+<pre><code class="lang-shell"># -heap &#x6253;&#x5370;&#x5806;&#x5185;&#x5B58;&#x7684;&#x914D;&#x7F6E;&#x548C;&#x4F7F;&#x7528;&#x4FE1;&#x606F;
+jmap -heap 7534
+
+Heap Configuration:
+   MinHeapFreeRatio         = 40    # &#x7A7A;&#x4F59;&#x5806;&#x5C0F;&#x4E8E;40%&#xFF0C;&#x589E;&#x52A0;&#x5230;Xmx
+   MaxHeapFreeRatio         = 70    # &#x7A7A;&#x4F59;&#x5806;&#x5927;&#x4E8E;70%&#xFF0C;&#x51CF;&#x5C0F;&#x5230;Xms
+   MaxHeapSize              = 1048576000 (1000.0MB)
+   NewSize                  = 10485760 (10.0MB)
+   MaxNewSize               = 349503488 (333.3125MB)
+   OldSize                  = 20971520 (20.0MB)
+   NewRatio                 = 2
+   SurvivorRatio            = 8
+   MetaspaceSize            = 21807104 (20.796875MB)
+   CompressedClassSpaceSize = 1073741824 (1024.0MB)
+   MaxMetaspaceSize         = 17592186044415 MB
+   G1HeapRegionSize         = 0 (0.0MB)
+
+Heap Usage:
+New Generation (Eden + 1 Survivor Space):
+   capacity = 20054016 (19.125MB)
+   used     = 363760 (0.3469085693359375MB)
+   free     = 19690256 (18.778091430664062MB)
+   1.8139010161356208% used
+Eden Space:
+   capacity = 17891328 (17.0625MB)
+   used     = 342360 (0.32649993896484375MB)
+   free     = 17548968 (16.736000061035156MB)
+   1.9135527558379122% used
+From Space:
+   capacity = 2162688 (2.0625MB)
+   used     = 21400 (0.02040863037109375MB)
+   free     = 2141288 (2.0420913696289062MB)
+   0.9895093513257576% used
+To Space:
+   capacity = 2162688 (2.0625MB)
+   used     = 0 (0.0MB)
+   free     = 2162688 (2.0625MB)
+   0.0% used
+tenured generation:
+   capacity = 44339200 (42.28515625MB)
+   used     = 30048248 (28.65624237060547MB)
+   free     = 14290952 (13.628913879394531MB)
+   67.76903507505774% used
+
+16028 interned Strings occupying 1479120 bytes.
+
+# &#x67E5;&#x770B;&#x5806;&#x4E2D;&#x7C7B;&#x7684;&#x5B9E;&#x4F8B;&#x5360;&#x7528;&#x7A7A;&#x95F4;&#x7684;histogram
+jmap -histo 7534 &gt; jmap_hdfs
+
+# dump&#x5806;&#x5185;&#x5B58;
+jmap -dump:format=b,file=7534.hprof 7534
+</code></pre>
+<h2 id="jstack"><a name="jstack" class="anchor-navigation-ex-anchor" href="#jstack"><i class="fa fa-link" aria-hidden="true"></i></a>1.5. jstack</h2>
+<p>Prints Java thread stack traces for a Java process, core file, or remote debug server. This command is experimental and unsupported.</p>
+<pre><code class="lang-shell"># &#x957F;&#x5217;&#x8868;&#x6A21;&#x5F0F;&#xFF0C;&#x5C06;&#x7EBF;&#x7A0B;&#x76F8;&#x5173;&#x7684;locks&#x4FE1;&#x606F;&#x4E00;&#x8D77;&#x8F93;&#x51FA;&#xFF0C;&#x6BD4;&#x5982;&#x6301;&#x6709;&#x7684;&#x9501;&#xFF0C;&#x7B49;&#x5F85;&#x7684;&#x9501;
+jstack -l 7534
+</code></pre>
+<h2 id="jcmd"><a name="jcmd" class="anchor-navigation-ex-anchor" href="#jcmd"><i class="fa fa-link" aria-hidden="true"></i></a>1.6. jcmd*</h2>
+<p>Sends diagnostic command requests to a running Java Virtual Machine (JVM).</p>
+<pre><code class="lang-shell">jcmd 7534 help
+</code></pre>
+<h2 id="jrunscriptjjs"><a name="jrunscriptjjs" class="anchor-navigation-ex-anchor" href="#jrunscriptjjs"><i class="fa fa-link" aria-hidden="true"></i></a>1.7. jrunscript/jjs</h2>
+<p>Runs a command-line script shell that supports interactive and batch modes. This command is experimental and unsupported.</p>
+<pre><code class="lang-shell"># -e &#x8BA1;&#x7B97;&#x6307;&#x5B9A;&#x7684;&#x811A;&#x6B65;
+jrunscript -e &quot;cat(&apos;https://www.baidu.com&apos;)&quot;
+
+# &#x542F;&#x52A8;nashorn&#x5F15;&#x64CE;&#x4EA4;&#x4E92;
+jrunscript
+</code></pre>
+<h2 id="jhat"><a name="jhat" class="anchor-navigation-ex-anchor" href="#jhat"><i class="fa fa-link" aria-hidden="true"></i></a>1.8. jhat</h2>
+<p>&#x5185;&#x5B58;Dump&#x5206;&#x6790;&#x5DE5;&#x5177;</p>
+<h1 id="jdk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;"><a name="jdk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;" class="anchor-navigation-ex-anchor" href="#jdk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;"><i class="fa fa-link" aria-hidden="true"></i></a>2. JDk&#x5185;&#x7F6E;&#x56FE;&#x5F62;&#x5316;&#x5DE5;&#x5177;</h1>
+<h2 id="jconsole"><a name="jconsole" class="anchor-navigation-ex-anchor" href="#jconsole"><i class="fa fa-link" aria-hidden="true"></i></a>2.1. jconsole</h2>
+<p>Starts a graphical console that lets you monitor and manage Java applications.</p>
+<h2 id="jvisualvm"><a name="jvisualvm" class="anchor-navigation-ex-anchor" href="#jvisualvm"><i class="fa fa-link" aria-hidden="true"></i></a>2.2. jvisualvm</h2>
+<p>Visually monitors, troubleshoots, and profiles Java applications.</p>
+<h2 id="jmc"><a name="jmc" class="anchor-navigation-ex-anchor" href="#jmc"><i class="fa fa-link" aria-hidden="true"></i></a>2.3. jmc</h2>
+<p>Java Mission Control is a Profiling, Monitoring, and Diagnostics Tools Suite.</p>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2020-12-24 23:50:06
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="JVM核心技术.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: JVM核心技术">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"JDK工具","level":"1.2.1.1.2","depth":4,"next":{"title":"IO","level":"1.2.1.2","depth":3,"ref":"","articles":[{"title":"NIO模型与Netty","level":"1.2.1.2.1","depth":4,"path":"src/language/java/io/NIO模型与Netty.md","ref":"src/language/java/io/NIO模型与Netty.md","articles":[]}]},"previous":{"title":"JVM核心技术","level":"1.2.1.1.1","depth":4,"path":"src/language/java/jvm/JVM核心技术.md","ref":"src/language/java/jvm/JVM核心技术.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/language/java/jvm/JDK工具.md","mtime":"2020-12-24T15:50:06.267Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-29T13:50:17.892Z"},"basePath":"../../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../../gitbook/gitbook.js"></script>
+    <script src="../../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

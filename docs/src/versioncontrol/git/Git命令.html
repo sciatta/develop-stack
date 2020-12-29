@@ -1,0 +1,1906 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Git命令 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="GitHub日常使用.html" />
+    
+    
+    <link rel="prev" href="GitBook&GitHub&Typora最佳实践.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Language
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="../../language/java/jvm/JVM核心技术.html">
+            
+                <a href="../../language/java/jvm/JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.1.2" data-path="../../language/java/jvm/JDK工具.html">
+            
+                <a href="../../language/java/jvm/JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../../language/java/io/NIO模型与Netty.html">
+            
+                <a href="../../language/java/io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../../language/java/concurrency/并发编程.html">
+            
+                <a href="../../language/java/concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.4" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.4.1" data-path="../../language/java/algorithm/数据结构和算法.html">
+            
+                <a href="../../language/java/algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.5.1" data-path="../../language/java/spring/SpringCore核心功能.html">
+            
+                <a href="../../language/java/spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.5.2" data-path="../../language/java/spring/SpringBoot核心功能.html">
+            
+                <a href="../../language/java/spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    scala
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Bigdata
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1.1" data-path="../../bigdata/hadoop/hdfs/HDFS核心功能原理.html">
+            
+                <a href="../../bigdata/hadoop/hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.1.2" data-path="../../bigdata/hadoop/hdfs/HDFS命令.html">
+            
+                <a href="../../bigdata/hadoop/hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.1.3" data-path="../../bigdata/hadoop/hdfs/HDFS源码分析.html">
+            
+                <a href="../../bigdata/hadoop/hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.2.1" data-path="../../bigdata/hadoop/mapreduce/MapReduce工作原理.html">
+            
+                <a href="../../bigdata/hadoop/mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.3.1" data-path="../../bigdata/hadoop/yarn/YARN架构.html">
+            
+                <a href="../../bigdata/hadoop/yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.4" data-path="../../bigdata/hadoop/Hadoop集群安装部署.html">
+            
+                <a href="../../bigdata/hadoop/Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.5" data-path="../../bigdata/hadoop/Hadoop HA集群安装部署.html">
+            
+                <a href="../../bigdata/hadoop/Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.6" data-path="../../bigdata/hadoop/Hadoop企业级调优.html">
+            
+                <a href="../../bigdata/hadoop/Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../bigdata/zookeeper/ZooKeeper集群安装部署.html">
+            
+                <a href="../../bigdata/zookeeper/ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="../../bigdata/zookeeper/ZooKeeper分布式协调框架.html">
+            
+                <a href="../../bigdata/zookeeper/ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../../bigdata/hive/Hive安装部署.html">
+            
+                <a href="../../bigdata/hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../../bigdata/hive/大数据分析利器之Hive.html">
+            
+                <a href="../../bigdata/hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../../bigdata/hive/Hive调优.html">
+            
+                <a href="../../bigdata/hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="../../bigdata/hbase/HBase集群安装部署.html">
+            
+                <a href="../../bigdata/hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="../../bigdata/hbase/大数据数据库之HBase.html">
+            
+                <a href="../../bigdata/hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    AuxiliaryFramework
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1.1" data-path="../../bigdata/auxiliaryframework/flume/Flume安装部署.html">
+            
+                <a href="../../bigdata/auxiliaryframework/flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.1.2" data-path="../../bigdata/auxiliaryframework/flume/Flume数据采集.html">
+            
+                <a href="../../bigdata/auxiliaryframework/flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.2.1" data-path="../../bigdata/auxiliaryframework/sqoop/Sqoop安装部署.html">
+            
+                <a href="../../bigdata/auxiliaryframework/sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2.2" data-path="../../bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.html">
+            
+                <a href="../../bigdata/auxiliaryframework/sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.3.1" data-path="../../bigdata/auxiliaryframework/azkaban/Azkaban安装部署.html">
+            
+                <a href="../../bigdata/auxiliaryframework/azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3.2" data-path="../../bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../../bigdata/auxiliaryframework/azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../../bigdata/kafka/Kafka集群安装部署.html">
+            
+                <a href="../../bigdata/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../../bigdata/kafka/Kafka监控工具.html">
+            
+                <a href="../../bigdata/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.3" data-path="../../bigdata/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../../bigdata/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1.1" data-path="../../bigdata/spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../../bigdata/spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.1.2" data-path="../../bigdata/spark/sparkcore/Spark调优.html">
+            
+                <a href="../../bigdata/spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.2.1" data-path="../../bigdata/spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../../bigdata/spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.3" data-path="../../bigdata/spark/Spark集群安装部署.html">
+            
+                <a href="../../bigdata/spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../database/mysql/CentOS7安装MySQL5.7.html">
+            
+                <a href="../../database/mysql/CentOS7安装MySQL5.7.html">
+            
+                    
+                    CentOS7安装MySQL5.7
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="../../database/redis/Redis核心功能.html">
+            
+                <a href="../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.1.2" data-path="Git命令.html">
+            
+                <a href="Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.1.3" data-path="GitHub日常使用.html">
+            
+                <a href="GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../virtualization/docker/Docker架构.html">
+            
+                <a href="../../virtualization/docker/Docker架构.html">
+            
+                    
+                    Docker架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../virtualization/docker/Docker命令.html">
+            
+                <a href="../../virtualization/docker/Docker命令.html">
+            
+                    
+                    Docker命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../virtualization/docker/Dockerfile参考.html">
+            
+                <a href="../../virtualization/docker/Dockerfile参考.html">
+            
+                    
+                    Dockerfile参考
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../os/linux/Linux命令.html">
+            
+                <a href="../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../os/linux/iTerm的使用.html">
+            
+                <a href="../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.1.2" data-path="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1.1" data-path="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Git命令</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#git&#x914D;&#x7F6E;"><b>1. </b>Git&#x914D;&#x7F6E;</a></li><ul><li><span class="title-icon "></span><a href="#&#x7528;&#x6237;&#x4FE1;&#x606F;"><b>1.1. </b>&#x7528;&#x6237;&#x4FE1;&#x606F;</a></li><li><span class="title-icon "></span><a href="#&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;"><b>1.2. </b>&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;</a></li><li><span class="title-icon "></span><a href="#&#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;"><b>1.3. </b>&#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;</a></li><li><span class="title-icon "></span><a href="#&#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;"><b>1.4. </b>&#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</a></li></ul><li><span class="title-icon "></span><a href="#&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"><b>2. </b>&#x4ED3;&#x5E93;&#x7BA1;&#x7406;</a></li><ul><li><span class="title-icon "></span><a href="#git-init"><b>2.1. </b>git init</a></li><li><span class="title-icon "></span><a href="#git-clone"><b>2.2. </b>git clone</a></li><li><span class="title-icon "></span><a href="#git-remote"><b>2.3. </b>git remote</a></li><li><span class="title-icon "></span><a href="#git-fetch"><b>2.4. </b>git fetch</a></li><li><span class="title-icon "></span><a href="#git-pull"><b>2.5. </b>git pull</a></li><li><span class="title-icon "></span><a href="#git-push"><b>2.6. </b>git push</a></li></ul><li><span class="title-icon "></span><a href="#&#x5FEB;&#x7167;&#x64CD;&#x4F5C;"><b>3. </b>&#x5FEB;&#x7167;&#x64CD;&#x4F5C;</a></li><ul><li><span class="title-icon "></span><a href="#git-add"><b>3.1. </b>git add</a></li><li><span class="title-icon "></span><a href="#git-status"><b>3.2. </b>git status</a></li><li><span class="title-icon "></span><a href="#git-diff"><b>3.3. </b>git diff</a></li><li><span class="title-icon "></span><a href="#git-commit"><b>3.4. </b>git commit</a></li><li><span class="title-icon "></span><a href="#git-reset-head"><b>3.5. </b>git reset HEAD</a></li><li><span class="title-icon "></span><a href="#git-rm"><b>3.6. </b>git rm</a></li><li><span class="title-icon "></span><a href="#git-mv"><b>3.7. </b>git mv</a></li><li><span class="title-icon "></span><a href="#git-log"><b>3.8. </b>git log</a></li></ul><li><span class="title-icon "></span><a href="#&#x5206;&#x652F;&#x7BA1;&#x7406;"><b>4. </b>&#x5206;&#x652F;&#x7BA1;&#x7406;</a></li><ul><li><span class="title-icon "></span><a href="#git-branch"><b>4.1. </b>git branch</a></li><li><span class="title-icon "></span><a href="#git-checkout"><b>4.2. </b>git checkout</a></li><li><span class="title-icon "></span><a href="#git-merge"><b>4.3. </b>git merge</a></li></ul><li><span class="title-icon "></span><a href="#&#x6807;&#x7B7E;&#x7BA1;&#x7406;"><b>5. </b>&#x6807;&#x7B7E;&#x7BA1;&#x7406;</a></li><ul><li><span class="title-icon "></span><a href="#git-tag"><b>5.1. </b>git tag</a></li></ul></ul></div><a href="#git&#x914D;&#x7F6E;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="git&#x914D;&#x7F6E;"><a name="git&#x914D;&#x7F6E;" class="anchor-navigation-ex-anchor" href="#git&#x914D;&#x7F6E;"><i class="fa fa-link" aria-hidden="true"></i></a>1. Git&#x914D;&#x7F6E;</h1>
+<p>Git &#x63D0;&#x4F9B; git config &#x5DE5;&#x5177;&#xFF0C;&#x4E13;&#x95E8;&#x7528;&#x6765;&#x914D;&#x7F6E;&#x6216;&#x8BFB;&#x53D6;&#x76F8;&#x5E94;&#x7684;&#x5DE5;&#x4F5C;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x3002;</p>
+<ul>
+<li>/etc/gitconfig &#x5BF9;&#x6240;&#x6709;&#x7528;&#x6237;&#x6709;&#x6548;&#xFF0C;<code>git config --system</code> &#x8BFB;&#x53D6;&#x6B64;&#x6587;&#x4EF6;</li>
+<li>~/.gitconfig &#x5BF9;&#x5F53;&#x524D;&#x7528;&#x6237;&#x6709;&#x6548;&#xFF0C;<code>git config --global</code> &#x8BFB;&#x53D6;&#x6B64;&#x6587;&#x4EF6;</li>
+<li>&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x4E2D;&#x7684; .git/config &#x5BF9;&#x5F53;&#x524D;&#x9879;&#x76EE;&#x6709;&#x6548;&#xFF0C;<code>git config</code> &#x8BFB;&#x53D6;&#x6B64;&#x6587;&#x4EF6;</li>
+</ul>
+<h2 id="&#x7528;&#x6237;&#x4FE1;&#x606F;"><a name="&#x7528;&#x6237;&#x4FE1;&#x606F;" class="anchor-navigation-ex-anchor" href="#&#x7528;&#x6237;&#x4FE1;&#x606F;"><i class="fa fa-link" aria-hidden="true"></i></a>1.1. &#x7528;&#x6237;&#x4FE1;&#x606F;</h2>
+<pre><code class="lang-shell">git config --global user.name &quot;rain&quot;
+git config --global user.email 15058553030@163.com
+</code></pre>
+<h2 id="&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;"><a name="&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;" class="anchor-navigation-ex-anchor" href="#&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;"><i class="fa fa-link" aria-hidden="true"></i></a>1.2. &#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;</h2>
+<pre><code class="lang-shell">git config --global core.editor emacs
+</code></pre>
+<h2 id="&#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;"><a name="&#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;" class="anchor-navigation-ex-anchor" href="#&#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;"><i class="fa fa-link" aria-hidden="true"></i></a>1.3. &#x5DEE;&#x5F02;&#x5206;&#x6790;&#x5DE5;&#x5177;</h2>
+<pre><code class="lang-shell">git config --global merge.tool vimdiff
+</code></pre>
+<h2 id="&#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;"><a name="&#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;" class="anchor-navigation-ex-anchor" href="#&#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;"><i class="fa fa-link" aria-hidden="true"></i></a>1.4. &#x67E5;&#x770B;&#x914D;&#x7F6E;&#x4FE1;&#x606F;</h2>
+<pre><code class="lang-shell"># &#x67E5;&#x770B;&#x5168;&#x90E8;
+git config --list
+
+# &#x67E5;&#x770B;&#x67D0;&#x4E00;&#x4E2A;
+git config user.name
+</code></pre>
+<h1 id="&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"><a name="&#x4ED3;&#x5E93;&#x7BA1;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x4ED3;&#x5E93;&#x7BA1;&#x7406;</h1>
+<h2 id="git-init"><a name="git-init" class="anchor-navigation-ex-anchor" href="#git-init"><i class="fa fa-link" aria-hidden="true"></i></a>2.1. git init</h2>
+<p>&#x5728;&#x6267;&#x884C;&#x5B8C;&#x6210; git init &#x547D;&#x4EE4;&#x540E;&#xFF0C;Git &#x4ED3;&#x5E93;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x4E2A; .git &#x76EE;&#x5F55;&#xFF0C;&#x8BE5;&#x76EE;&#x5F55;&#x5305;&#x542B;&#x4E86;&#x8D44;&#x6E90;&#x7684;&#x6240;&#x6709;&#x5143;&#x6570;&#x636E;&#xFF0C;&#x5176;&#x4ED6;&#x7684;&#x9879;&#x76EE;&#x76EE;&#x5F55;&#x4FDD;&#x6301;&#x4E0D;&#x53D8;&#x3002;&#x9ED8;&#x8BA4;&#x521B;&#x5EFA;master&#x5206;&#x652F;&#x3002;</p>
+<pre><code class="lang-shell"># &#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x751F;&#x6210;.git&#x76EE;&#x5F55;
+git init
+
+# &#x6307;&#x5B9A;&#x76EE;&#x5F55;&#x4F5C;&#x4E3A;&#x4ED3;&#x5E93;
+git init newrepo
+</code></pre>
+<h2 id="git-clone"><a name="git-clone" class="anchor-navigation-ex-anchor" href="#git-clone"><i class="fa fa-link" aria-hidden="true"></i></a>2.2. git clone</h2>
+<pre><code class="lang-shell"># &#x4F1A;&#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x521B;&#x5EFA;hadoop-main&#x76EE;&#x5F55;
+git clone https://github.com/sciatta/hadoop-main.git
+
+# &#x6307;&#x5B9A;&#x672C;&#x5730;&#x76EE;&#x5F55;
+git clone https://github.com/sciatta/hadoop-main.git hadoop
+</code></pre>
+<h2 id="git-remote"><a name="git-remote" class="anchor-navigation-ex-anchor" href="#git-remote"><i class="fa fa-link" aria-hidden="true"></i></a>2.3. git remote</h2>
+<p>git&#x672C;&#x5730;&#x4ED3;&#x5E93;&#x540C;github&#x4ED3;&#x5E93;&#x6620;&#x5C04;&#x6709;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;</p>
+<ol>
+<li><p>&#x5148;&#x5EFA;&#x7ACB;&#x672C;&#x5730;&#x4ED3;&#x5E93;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x540C;github&#x4ED3;&#x5E93;&#x5173;&#x8054;&#xFF1B;&#x9002;&#x7528;&#x4E8E;&#x5C06;&#x5DF2;&#x6709;&#x9879;&#x76EE;&#x6258;&#x7BA1;&#x5230;github&#x3002;</p>
+<pre><code class="lang-shell"># &#x521B;&#x5EFA;&#x672C;&#x5730;&#x4ED3;&#x5E93;
+git init
+# &#x5173;&#x8054;&#x672C;&#x5730;&#x4ED3;&#x5E93;&#x548C;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;
+git remote add origin https://github.com/sciatta/hadoop-main.git
+# &#x63A8;&#x9001;&#x66F4;&#x65B0;
+git push origin master
+</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>&#x5148;&#x5EFA;&#x7ACB;github&#x4ED3;&#x5E93;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x540C;&#x672C;&#x5730;&#x4ED3;&#x5E93;&#x5173;&#x8054;&#xFF1B;&#x9002;&#x7528;&#x4E8E;&#x5728;&#x5F00;&#x53D1;&#x4E4B;&#x524D;&#xFF0C;&#x5148;&#x5728;github&#x6258;&#x7BA1;&#x9879;&#x76EE;&#x3002;</p>
+<pre><code class="lang-shell"># &#x521B;&#x5EFA;&#x672C;&#x5730;&#x4ED3;&#x5E93;&#xFF0C;&#x540C;&#x65F6;&#x5173;&#x8054;
+git clone https://github.com/sciatta/hadoop-main.git
+</code></pre>
+</li>
+</ol>
+<pre><code class="lang-shell">#  &#x67E5;&#x770B;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;
+git remote
+
+# &#x522B;&#x540D;&#x5BF9;&#x5E94;&#x7684;&#x5B9E;&#x9645;&#x94FE;&#x63A5;&#x5730;&#x5740;
+# &#x5982;&#xFF1A;
+# origin    https://github.com/sciatta/hadoop-main.git (fetch)
+# origin    https://github.com/sciatta/hadoop-main.git (push)
+git remote -v
+
+# &#x5173;&#x8054;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;&#xFF0C;&#x522B;&#x540D;&#x540C;&#x5B9E;&#x9645;&#x94FE;&#x63A5;&#x5730;&#x5740;&#x505A;&#x6620;&#x5C04;
+git remote add github https://github.com/sciatta/hadoop-main.git
+# &#x53D6;&#x6D88;&#x5173;&#x8054;
+git remote rm github
+</code></pre>
+<h2 id="git-fetch"><a name="git-fetch" class="anchor-navigation-ex-anchor" href="#git-fetch"><i class="fa fa-link" aria-hidden="true"></i></a>2.4. git fetch</h2>
+<font color="red">fetch&#x548C;pull&#x7684;&#x533A;&#x522B;</font>
+
+<ul>
+<li>head&#x6307;&#x5411;&#x672C;&#x5730;&#x5206;&#x652F;master&#xFF1B;remotes&#x6307;&#x5411;&#x8FDC;&#x7A0B;&#x5206;&#x652F;orgin/master</li>
+<li>fetch&#x53EA;&#x66F4;&#x65B0;remotes&#xFF1B;&#x9700;&#x8981;&#x624B;&#x52A8;merge</li>
+<li>pull&#x66F4;&#x65B0;remotes&#x548C;head</li>
+</ul>
+<pre><code class="lang-shell"># &#x4ECE;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;&#x4E0B;&#x8F7D;&#x6700;&#x65B0;&#x5206;&#x652F;&#x4E0E;&#x6570;&#x636E;
+# &#x6B64;&#x547D;&#x4EE4;&#x6267;&#x884C;&#x5B8C;&#x540E;&#x9700;&#x8981;&#x6267;&#x884C; git merge origin/master &#x8FDC;&#x7A0B;&#x5206;&#x652F;&#x5230;&#x4F60;&#x6240;&#x5728;&#x7684; master &#x5206;&#x652F;
+git fetch origin master
+</code></pre>
+<h2 id="git-pull"><a name="git-pull" class="anchor-navigation-ex-anchor" href="#git-pull"><i class="fa fa-link" aria-hidden="true"></i></a>2.5. git pull</h2>
+<pre><code class="lang-shell"># &#x62C9;&#x53D6;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;origin&#x7684;master&#x5206;&#x652F;&#x5230;&#x672C;&#x5730;
+git pull orgin master
+</code></pre>
+<h2 id="git-push"><a name="git-push" class="anchor-navigation-ex-anchor" href="#git-push"><i class="fa fa-link" aria-hidden="true"></i></a>2.6. git push</h2>
+<pre><code class="lang-shell"># &#x5C06;master&#x5206;&#x652F;&#x63A8;&#x9001;&#x5230;&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;origin&#x7684;master&#x5206;&#x652F;
+git push origin master
+</code></pre>
+<h1 id="&#x5FEB;&#x7167;&#x64CD;&#x4F5C;"><a name="&#x5FEB;&#x7167;&#x64CD;&#x4F5C;" class="anchor-navigation-ex-anchor" href="#&#x5FEB;&#x7167;&#x64CD;&#x4F5C;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x5FEB;&#x7167;&#x64CD;&#x4F5C;</h1>
+<h2 id="git-add"><a name="git-add" class="anchor-navigation-ex-anchor" href="#git-add"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. git add</h2>
+<p>&#x5C06;&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x5230;&#x7F13;&#x5B58;&#x533A;</p>
+<pre><code class="lang-shell"># &#x5C06;README&#x6587;&#x4EF6;&#x6DFB;&#x52A0;&#x5230;&#x7F13;&#x5B58;
+git add README
+
+# &#x6DFB;&#x52A0;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x7684;&#x6240;&#x6709;&#x6587;&#x4EF6;
+git add -A
+</code></pre>
+<h2 id="git-status"><a name="git-status" class="anchor-navigation-ex-anchor" href="#git-status"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. git status</h2>
+<pre><code class="lang-shell"># &#x67E5;&#x770B;&#x9879;&#x76EE;&#x7684;&#x5F53;&#x524D;&#x72B6;&#x6001;
+git status
+
+# &#x663E;&#x793A;&#x7B80;&#x8981;&#x72B6;&#x6001;
+git status -s
+</code></pre>
+<h2 id="git-diff"><a name="git-diff" class="anchor-navigation-ex-anchor" href="#git-diff"><i class="fa fa-link" aria-hidden="true"></i></a>3.3. git diff</h2>
+<p>&#x67E5;&#x770B;&#x6267;&#x884C; git status &#x7684;&#x7ED3;&#x679C;&#x7684;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</p>
+<pre><code class="lang-shell"># &#x672A;&#x7F13;&#x5B58;&#x7684;&#x6539;&#x52A8;
+git diff
+
+# &#x5DF2;&#x7F13;&#x5B58;&#x7684;&#x6539;&#x52A8;
+git diff --cached
+
+# &#x67E5;&#x770B;&#x5DF2;&#x7F13;&#x5B58;&#x7684;&#x4E0E;&#x672A;&#x7F13;&#x5B58;&#x7684;&#x6240;&#x6709;&#x6539;&#x52A8;
+git diff HEAD
+
+# &#x663E;&#x793A;&#x6458;&#x8981;
+git diff --stat
+</code></pre>
+<h2 id="git-commit"><a name="git-commit" class="anchor-navigation-ex-anchor" href="#git-commit"><i class="fa fa-link" aria-hidden="true"></i></a>3.4. git commit</h2>
+<p>&#x5C06;&#x7F13;&#x5B58;&#x533A;&#x5185;&#x5BB9;&#x6DFB;&#x52A0;&#x5230;&#x4ED3;&#x5E93;&#x4E2D;</p>
+<pre><code class="lang-shell"># &#x6DFB;&#x52A0;&#x5230;&#x672C;&#x5730;&#x4ED3;&#x5E93;&#xFF0C;-m &#x540E;&#x8DDF;&#x6CE8;&#x91CA;
+# &#x5982;&#x679C;&#x6CA1;&#x6709; -m &#x6CE8;&#x91CA;&#x7684;&#x8BDD;&#xFF0C;git&#x4F1A;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x6587;&#x672C;&#x7F16;&#x8F91;&#x5668;
+git commit -m &apos;&#x7B2C;&#x4E00;&#x6B21;&#x7248;&#x672C;&#x63D0;&#x4EA4;&apos;
+
+# &#x8DF3;&#x8FC7; add
+git commit -a
+
+# &#x4FEE;&#x6539;&#x4E0A;&#x4E00;&#x6B21;&#x63D0;&#x4EA4;&#xFF0C;&#x53EF;&#x7528;&#x4E8E;&#x4FEE;&#x6539;&#x8BEF;&#x5199;&#x6CE8;&#x91CA;
+git commit --amend
+</code></pre>
+<h2 id="git-reset-head"><a name="git-reset-head" class="anchor-navigation-ex-anchor" href="#git-reset-head"><i class="fa fa-link" aria-hidden="true"></i></a>3.5. git reset HEAD</h2>
+<p>&#x53D6;&#x6D88;&#x5DF2;&#x7F13;&#x5B58;&#x7684;&#x5185;&#x5BB9;</p>
+<pre><code class="lang-shell">git reset HEAD README
+</code></pre>
+<h2 id="git-rm"><a name="git-rm" class="anchor-navigation-ex-anchor" href="#git-rm"><i class="fa fa-link" aria-hidden="true"></i></a>3.6. git rm</h2>
+<p>&#x4ECE;&#x5DF2;&#x8DDF;&#x8E2A;&#x6587;&#x4EF6;&#x6E05;&#x5355;&#x4E2D;&#x79FB;&#x9664;</p>
+<pre><code class="lang-shell"># &#x4ECE;&#x5DF2;&#x8DDF;&#x8E2A;&#x6587;&#x4EF6;&#x6E05;&#x5355;&#x4E2D;&#x79FB;&#x9664;&#xFF0C;&#x540C;&#x65F6;&#x6E05;&#x9664;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x6587;&#x4EF6;
+git rm README
+
+# &#x4ECE;&#x5DF2;&#x8DDF;&#x8E2A;&#x6587;&#x4EF6;&#x6E05;&#x5355;&#x4E2D;&#x79FB;&#x9664;&#xFF0C;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x6587;&#x4EF6;&#x4ECD;&#x7136;&#x5B58;&#x5728;
+git rm --cached README
+
+# &#x9012;&#x5F52;&#x5220;&#x9664;
+git rm &#x2013;r *
+</code></pre>
+<h2 id="git-mv"><a name="git-mv" class="anchor-navigation-ex-anchor" href="#git-mv"><i class="fa fa-link" aria-hidden="true"></i></a>3.7. git mv</h2>
+<pre><code class="lang-shell"># &#x79FB;&#x52A8;&#x6216;&#x91CD;&#x547D;&#x540D;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x3001;&#x76EE;&#x5F55;&#x3001;&#x8F6F;&#x8FDE;&#x63A5;
+git mv README README.md
+</code></pre>
+<h2 id="git-log"><a name="git-log" class="anchor-navigation-ex-anchor" href="#git-log"><i class="fa fa-link" aria-hidden="true"></i></a>3.8. git log</h2>
+<pre><code class="lang-shell"># &#x56DE;&#x987E;&#x63D0;&#x4EA4;&#x5386;&#x53F2;
+git log
+
+# &#x7B80;&#x6D01;
+git log --oneline
+
+# &#x5F00;&#x542F;&#x62D3;&#x6251;&#x56FE;&#x9009;&#x9879;
+git log --graph
+
+# &#x9006;&#x5411;&#x663E;&#x793A;&#x6240;&#x6709;&#x65E5;&#x5FD7;
+git log --reverse
+</code></pre>
+<h1 id="&#x5206;&#x652F;&#x7BA1;&#x7406;"><a name="&#x5206;&#x652F;&#x7BA1;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x652F;&#x7BA1;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x5206;&#x652F;&#x7BA1;&#x7406;</h1>
+<h2 id="git-branch"><a name="git-branch" class="anchor-navigation-ex-anchor" href="#git-branch"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. git branch</h2>
+<pre><code class="lang-shell"># &#x521B;&#x5EFA;&#x5206;&#x652F;
+git branch abc
+
+# &#x6CA1;&#x6709;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x5217;&#x51FA;&#x5F53;&#x524D;&#x7684;&#x672C;&#x5730;&#x5206;&#x652F;
+git branch
+
+# &#x5217;&#x51FA;&#x672C;&#x5730;&#x548C;&#x8FDC;&#x7A0B;&#x5206;&#x652F;
+git branch -a
+
+# &#x5220;&#x9664;&#x5206;&#x652F;
+git branch -d abc
+</code></pre>
+<h2 id="git-checkout"><a name="git-checkout" class="anchor-navigation-ex-anchor" href="#git-checkout"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. git checkout</h2>
+<pre><code class="lang-shell"># &#x5207;&#x6362;&#x5206;&#x652F;
+git checkout abc
+
+# &#x521B;&#x5EFA;&#x5206;&#x652F;&#xFF0C;&#x4E4B;&#x540E;&#x7ACB;&#x5373;&#x5207;&#x6362;&#x5230;&#x6B64;&#x5206;&#x652F;
+git checkout -b abc
+</code></pre>
+<h2 id="git-merge"><a name="git-merge" class="anchor-navigation-ex-anchor" href="#git-merge"><i class="fa fa-link" aria-hidden="true"></i></a>4.3. git merge</h2>
+<pre><code class="lang-shell"># &#x5408;&#x5E76;&#x5206;&#x652F;
+# &#x5047;&#x8BBE;&#x5F53;&#x524D;&#x5206;&#x652F;&#x662F;abc&#xFF0C;&#x5219;&#x5C06;test&#x5206;&#x652F;&#x5185;&#x5BB9;&#x5408;&#x5E76;&#x5230;&#x5F53;&#x524D;abc&#x5206;&#x652F;
+git merge test
+
+# &#x5408;&#x5E76;&#x65F6;&#x53D1;&#x751F;&#x51B2;&#x7A81;
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&#x5F53;&#x524D;&#x5206;&#x652F;&#x4EE3;&#x7801;
+=======
+&#x5408;&#x5E76;&#x5206;&#x652F;&#x4EE3;&#x7801;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; test
+
+# &#x4FEE;&#x6539;&#x540E; git add &#x901A;&#x77E5; git &#x51B2;&#x7A81;&#x89E3;&#x51B3;&#x5B8C;&#x6BD5;
+</code></pre>
+<h1 id="&#x6807;&#x7B7E;&#x7BA1;&#x7406;"><a name="&#x6807;&#x7B7E;&#x7BA1;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x6807;&#x7B7E;&#x7BA1;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x6807;&#x7B7E;&#x7BA1;&#x7406;</h1>
+<p>&#x5982;&#x679C;&#x8FBE;&#x5230;&#x4E00;&#x4E2A;&#x91CD;&#x8981;&#x7684;&#x9636;&#x6BB5;&#xFF0C;&#x5E76;&#x5E0C;&#x671B;&#x6C38;&#x8FDC;&#x8BB0;&#x4F4F;&#x90A3;&#x4E2A;&#x7279;&#x522B;&#x7684;&#x63D0;&#x4EA4;&#x5FEB;&#x7167;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; git tag &#x7ED9;&#x5B83;&#x6253;&#x4E0A;&#x6807;&#x7B7E;&#x3002;</p>
+<h2 id="git-tag"><a name="git-tag" class="anchor-navigation-ex-anchor" href="#git-tag"><i class="fa fa-link" aria-hidden="true"></i></a>5.1. git tag</h2>
+<pre><code class="lang-shell"># &#x521B;&#x5EFA;&#x5E26;&#x6CE8;&#x91CA;&#x7684;&#x6807;&#x7B7E;
+git tag -a v1.0
+
+# &#x4E3A;&#x5386;&#x53F2;&#x63D0;&#x4EA4;&#x7248;&#x672C;&#x521B;&#x5EFA;&#x6807;&#x7B7E;
+git tag -a v0.9 85fc7e7
+
+# &#x67E5;&#x770B;&#x6240;&#x6709;&#x6807;&#x7B7E;
+git tag
+</code></pre>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2020-12-25 09:22:54
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="GitBook&GitHub&Typora最佳实践.html" class="navigation navigation-prev " aria-label="Previous page: GitBook&GitHub&Typora最佳实践">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="GitHub日常使用.html" class="navigation navigation-next " aria-label="Next page: GitHub日常使用">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Git命令","level":"1.5.1.2","depth":3,"next":{"title":"GitHub日常使用","level":"1.5.1.3","depth":3,"path":"src/versioncontrol/git/GitHub日常使用.md","ref":"src/versioncontrol/git/GitHub日常使用.md","articles":[]},"previous":{"title":"GitBook&GitHub&Typora最佳实践","level":"1.5.1.1","depth":3,"path":"src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md","ref":"src/versioncontrol/git/GitBook&GitHub&Typora最佳实践.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/versioncontrol/git/Git命令.md","mtime":"2020-12-25T01:22:54.033Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-12-29T13:50:17.892Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

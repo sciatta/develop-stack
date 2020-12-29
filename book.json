@@ -49,8 +49,8 @@
             "token": "c6612709c010da681bbd4b785968a638"
         },
 	"donate": {
-            "wechat": "/assets/wechat.jpg",
-            "alipay": "/assets/alipay.jpg",
+            "wechat": "/develop-stack/assets/wechat.jpg",
+            "alipay": "/develop-stack/assets/alipay.jpg",
             "title": "",
             "button": "捐赠",
             "alipayText":" ", 
