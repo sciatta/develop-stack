@@ -37,8 +37,8 @@
 
 **GitBook**
 
-* 本地运行 `gitbook serve --port 8088` 开启GitBook服务。通过 http://localhost:8080 访问本地服务。在执行命令的同时会执行构建命令 `gitbook build` 生成 `_book` 目录。<font color=red>注意， `_book` 目录是临时目录，每次构建时全部重建</font>。如果退出服务的话，执行 `control + c` 即可
-* 本地构建 `gitbook build ./ docs` 。
+* 本地运行 `gitbook serve --port 8088` 开启GitBook服务。通过 http://localhost:8080 访问本地服务。在执行命令的同时会执行构建命令 `gitbook build` 生成 `_book` 目录（此目录忽略上传到github）。<font color=red>注意， `_book` 目录是临时目录，每次构建时全部重建</font>。如果退出服务的话，执行 `control + c` 即可
+* 本地构建 `gitbook build ./ docs` （此目录为最终github pages目录）。
 
 **GitHub**
 
@@ -251,6 +251,8 @@ Google统计 https://analytics.google.com/ 在一个平台上可以全面分析�
 
 Gitbook 捐赠打赏插件
 
+- 注意，如果是发布到github pages，图片路径需要增加项目名称；如果是自定义域名，则不需要。
+
 ```json
 {
     "plugins": ["donate"],
@@ -351,6 +353,7 @@ Gitbook 捐赠打赏插件
 
 # 绑定域名
 
+- docs根目录增加CNAME文件，内容为 `www.sciatta.com` ；注意，docs目录每次build会全部删除，因此push前，需要恢复CNAME文件。
 - 获取GitHub Pages的IP地址
 
 ```bash
@@ -363,10 +366,11 @@ ping -c 3 sciatta.github.io
 
 进入阿里云解析列表，添加记录：
 
-| 记录类型 | 主机记录 | 记录值          |
-| -------- | -------- | --------------- |
-| A        | @        | 185.199.111.153 |
-| A        | www      | 185.199.111.153 |
+| 记录类型 | 主机记录 | 记录值           |
+| -------- | -------- | ---------------- |
+| A        | @        | 185.199.111.153  |
+| A        | www      | 185.199.111.153  |
+| CNAME    | www      | yxyuhz.github.io |
 
 - 配置GitHub Pages
 
