@@ -63,6 +63,7 @@
 * Database
     * MySQL
         * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
+        * [MySQL实践](src/database/mysql/MySQL实践.md)
         * [SQL经典50题](src/database/mysql/SQL经典50题.md)
     * Redis
         * [Redis核心功能](src/database/redis/Redis核心功能.md)
@@ -75,6 +76,7 @@
     * VMware
         * [VMware系统安装](src/virtualization/vmware/VMware系统安装.md)
     * Docker
+        * [Docker实践](src/virtualization/docker/Docker实践.md)
         * [Docker架构](src/virtualization/docker/Docker架构.md)
         * [Docker命令](src/virtualization/docker/Docker命令.md)
         * [Dockerfile参考](src/virtualization/docker/Dockerfile参考.md)
