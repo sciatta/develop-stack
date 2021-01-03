@@ -73,6 +73,22 @@ content root: /Users/yangxiaoyu/work/bigdata/project/hadoop-main/hadoop-hdfs/had
 
 
 
+## IDEA删除module
+
+- 右键 | remove module
+
+- 右键 | delete module
+
+- 在父pom中删除module
+
+- Preferences | Build, Execution, Deployment | Build Tools | Maven | Ignored Files
+
+  反向勾选被选中的pom.xml
+
+- Reload project
+
+
+
 # GitHub已有项目
 
 ## HTTPS
