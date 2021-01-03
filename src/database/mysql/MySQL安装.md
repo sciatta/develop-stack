@@ -1,4 +1,6 @@
-# 安装MySQL
+# VMware
+
+## 安装MySQL
 
 - CentOS 7中切换到**root**用户，安装mysql
 - CentOS 7中默认安装有MariaDB，这个是MySQL的分支；但还是要安装MySQL，安装完成之后会直接覆盖掉MariaDB
@@ -27,7 +29,7 @@ yum -y install mysql-community-server
 
 
 
-# 设置MySQL
+## 设置MySQL
 
 启动服务
 
@@ -79,7 +81,7 @@ exit
 
 
 
-# 卸载MySQL
+## 卸载MySQL
 
 使用root用户卸载mysql
 
@@ -111,5 +113,67 @@ rm -rf
 # 删除文件
 rm -rf /root/.mysql_history
 rm -f /var/log/mysqld.log
+```
+
+
+
+# Docker
+
+## 下载镜像
+
+```shell
+docker pull mysql:5.7.32
+```
+
+
+
+## 后台启动
+
+```shell
+docker run -itd -v /Users/yangxiaoyu/work/test/database/exchange:/exchange -v /Users/yangxiaoyu/work/test/database/mysql-test:/var/lib/mysql --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 查看容器运行情况
+docker container ls -a
+```
+
+
+
+## 进入容器
+
+```shell
+# 进入正在运行的容器
+docker container exec -it mysql-test /bin/bash
+
+# 登录mysql客户端
+mysql -uroot -p
+# 退出mysql客户端
+quit
+```
+
+
+
+## 退出容器
+
+```shell
+# 退出容器，容器仍处于运行中
+control+q+p
+# 或
+exit
+```
+
+
+
+## 停止容器
+
+```shell
+docker stop mysql-test
+```
+
+
+
+## 启动容器
+
+```shell
+docker start mysql-test
 ```
 

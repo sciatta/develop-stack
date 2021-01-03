@@ -62,7 +62,7 @@
         * [Spark集群安装部署](src/bigdata/spark/Spark集群安装部署.md)
 * Database
     * MySQL
-        * [CentOS7安装MySQL5.7](src/database/mysql/CentOS7安装MySQL5.7.md)
+        * [MySQL安装](src/database/mysql/MySQL安装.md)
         * [MySQL实践](src/database/mysql/MySQL实践.md)
         * [SQL经典50题](src/database/mysql/SQL经典50题.md)
     * Redis
