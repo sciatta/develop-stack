@@ -43,6 +43,8 @@
 
   memory 临时表
 
+  TokuDB 高压缩比，可在线添加索引不影响读写，支持ACID特性和事务
+
 - 库表如何命名
 
   有意义
@@ -77,7 +79,18 @@
 
 - 自增主键的使用问题
 
-  分布式不建议
+  - 分布式不建议
+
+  - 为什么单调递增
+
+    InnoDB引擎使用聚集索引，数据记录本身被存于主索引（一颗B+Tree）的叶子节点上，这就要求同一个叶子节点内（大小为一个内存页或磁盘页）的各条数据记录按主键顺序存放。因此每当有一条新的记录插入时，MySQL会根据其主键将其插入适当的节点和位置，如果页面达到装载因子（InnoDB默认为15/16），则开辟一个新的页（节点）。
+
+    - 如果表使用自增主键，那么每次插入新的记录，记录就会顺序添加到当前索引节点的后续位置，当一页写满，就会自动开辟一个新的页。这样就会形成一个紧凑的索引结构，近似顺序填满。由于每次插入时也不需要移动已有数据，因此效率很高，也不会增加很多开销在维护索引上。
+    - 如果使用非自增主键（如果身份证号或学号等），由于每次插入主键的值近似于随机，因此每次新纪录都要被插到现有索引页的中间某个位置：此时MySQL不得不为了将新记录插到合适位置而移动数据，甚至目标页面可能已经被回写到磁盘上而从缓存中清掉，此时又要从磁盘上读回来，这增加了很多开销，同时频繁的移动、分页操作造成了大量的碎片，得到了不够紧凑的索引结构，后续不得不通过OPTIMIZE TABLE来重建表并优化填充页面。
+
+    在使用InnoDB存储引擎时，如果没有特别的需要，建议使用一个与业务无关的自增字段作为主键。mysql 在频繁地更新、删除操作，会产生碎片。而含碎片比较大的表，查询效率会降低。此时需对表进行优化，这样才会使查询变得更有效率。
+
+    
 
 - 能够在线修改表结构（DDL 操作）
 
@@ -161,6 +174,67 @@ into_option: {
 
 
 # MySQL
+
+## 数据类型
+
+### 数值类型
+
+| 类型         | 大小                                     | 用途            |
+| :----------- | :--------------------------------------- | :-------------- |
+| TINYINT      | 1 byte                                   | 小整数值        |
+| SMALLINT     | 2 bytes                                  | 大整数值        |
+| MEDIUMINT    | 3 bytes                                  | 大整数值        |
+| INT或INTEGER | 4 bytes                                  | 大整数值        |
+| BIGINT       | 8 bytes                                  | 极大整数值      |
+| FLOAT        | 4 bytes                                  | 单精度 浮点数值 |
+| DOUBLE       | 8 bytes                                  | 双精度 浮点数值 |
+| DECIMAL      | 对DECIMAL(M,D) ，如果M>D，为M+2否则为D+2 | 小数值          |
+
+
+
+| 类型         | 范围（有符号）                                               | 范围（无符号）                                               |
+| :----------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| TINYINT      | (-128，127)                                                  | (0，255)                                                     |
+| SMALLINT     | (-32 768，32 767)                                            | (0，65 535)                                                  |
+| MEDIUMINT    | (-8 388 608，8 388 607)                                      | (0，16 777 215)                                              |
+| INT或INTEGER | (-2 147 483 648，2 147 483 647)                              | (0，4 294 967 295)                                           |
+| BIGINT       | (-9,223,372,036,854,775,808，9 223 372 036 854 775 807)      | (0，18 446 744 073 709 551 615)                              |
+| FLOAT        | (-3.402 823 466 E+38，-1.175 494 351 E-38)，0，(1.175 494 351 E-38，3.402 823 466 351 E+38) | 0，(1.175 494 351 E-38，3.402 823 466 E+38)                  |
+| DOUBLE       | (-1.797 693 134 862 315 7 E+308，-2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) | 0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) |
+| DECIMAL      | 依赖于M和D的值                                               | 依赖于M和D的值                                               |
+
+
+
+### 字符串类型
+
+- char(n) 和 varchar(n) 中括号中 n 代表字符的个数，并不代表字节个数，比如 CHAR(30) 就可以存储 30 个字符
+
+| 类型       | 大小                  | 用途                            |
+| :--------- | :-------------------- | :------------------------------ |
+| CHAR       | 0-255 bytes           | 定长字符串                      |
+| VARCHAR    | 0-65535 bytes         | 变长字符串                      |
+| TINYBLOB   | 0-255 bytes           | 不超过 255 个字符的二进制字符串 |
+| TINYTEXT   | 0-255 bytes           | 短文本字符串                    |
+| BLOB       | 0-65 535 bytes        | 二进制形式的长文本数据          |
+| TEXT       | 0-65 535 bytes        | 长文本数据                      |
+| MEDIUMBLOB | 0-16 777 215 bytes    | 二进制形式的中等长度文本数据    |
+| MEDIUMTEXT | 0-16 777 215 bytes    | 中等长度文本数据                |
+| LONGBLOB   | 0-4 294 967 295 bytes | 二进制形式的极大文本数据        |
+| LONGTEXT   | 0-4 294 967 295 bytes | 极大文本数据                    |
+
+
+
+### 日期和时间类型
+
+| 型        | 大小 ( bytes) | 范围                                                         | 格式                | 用途                     |
+| :-------- | :------------ | :----------------------------------------------------------- | :------------------ | :----------------------- |
+| DATE      | 3             | 1000-01-01/9999-12-31                                        | YYYY-MM-DD          | 日期值                   |
+| TIME      | 3             | '-838:59:59'/'838:59:59'                                     | HH:MM:SS            | 时间值或持续时间         |
+| YEAR      | 1             | 1901/2155                                                    | YYYY                | 年份值                   |
+| DATETIME  | 8             | 1000-01-01 00:00:00/9999-12-31 23:59:59                      | YYYY-MM-DD HH:MM:SS | 混合日期和时间值         |
+| TIMESTAMP | 4             | 1970-01-01 00:00:00/2038 结束时间是第 **2147483647** 秒，北京时间 **2038-1-19 11:14:07**，格林尼治时间 2038年1月19日 凌晨 03:14:07 | YYYYMMDD HHMMSS     | 混合日期和时间值，时间戳 |
+
+
 
 ## 存储
 
@@ -271,9 +345,9 @@ InnoDB存储引擎最小存储单元页（Page），一个页的大小是16K。i
 - 存放数据：记录按主键排序存放到不同的页中
 - 存放<font color=red>键值+指针</font>
 
-在B+Tree中叶子节点存放数据，非叶子节点存放键值+指针。每个节点是一页。索引组织表通过非叶子节点的二分查找法以及指针确定数据在哪个页中，进而在去数据页中查找到需要的数据。每张表的**根页**位置在表空间文件中是固定的，即page number=3的页。
+在B+Tree中叶子节点存放数据，非叶子节点存放键值+指针（页）。每个节点是一页。索引组织表通过非叶子节点的二分查找法以及指针确定数据在哪个页中，进而在去数据页中查找到需要的数据。每张表的**根页**位置在表空间文件中是固定的，即page number=3的页。
 
-假设：每页大小16K，每条记录占1K大小，主键为Bigint类型占8字节，指针占6字节。
+假设：每页大小16K，主键为Bigint类型占8字节，指针占6字节；每条记录占1K大小
 
 - 每一页约存放 ( 16 * 1024 ) / ( 8 + 6 ) = 1170 指向数据页的指针。
 - 数据页存放16/1=16条记录
@@ -283,6 +357,105 @@ B+Tree高为2，数据记录条数 1170 * 16 = 18720
 B+Tree高为3，数据记录条数 1170 * 1170 * 16 = 21902400
 
 所以在InnoDB中B+树高度一般为1-3层，它就能满足千万级的数据存储。在查找数据时一次页的查找代表一次IO， 所以通过主键索引查询通常只需要1-3次IO操作即可查找到数据。
+
+
+
+### 索引失效
+
+```mysql
+-- 创建数据库
+CREATE DATABASE IF NOT EXISTS mall;
+USE mall;
+
+-- 创建表
+DROP TABLE IF EXISTS mall.users;
+CREATE TABLE IF NOT EXISTS mall.users
+(
+    id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name      VARCHAR(20)  ,
+    nickname  VARCHAR(20)  ,
+    password  VARCHAR(20)  NOT NULL,
+    id_number VARCHAR(18)  NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+-- 创建多列索引
+create index nnp_index on users(name,nickname,password);
+
+-- 显示当前表的索引
+show index from users;
+```
+
+#### explain
+
+- id：SELECT识别符
+
+- select_type：查询的类型
+  - SIMPLE：简单SELECT，不使用UNION或子查询等
+  - PRIMARY：复杂查询中最外层的select
+  - UNION：在union关键字随后的selelct。
+  - SUBQUERY：包含在select中的子查询（不在from子句中）
+  - DERIVED：包含在from子句中的子查询。MySQL会将结果存放在一个临时表中，也称为派生表。
+
+- table：访问数据库中表名称
+
+- partitions：匹配的分区
+
+- <font color=red>type：关联类型或访问类型，即MySQL决定如何查找表中的行，查找数据行对应的大概范围</font>
+  
+  system>const>eq_ref>ref>range>index>All
+  
+  - **ALL**：全表扫描，意味着MySQL需要从头到尾去查找所需要的行。这种情况下需要增加索引来进行优化
+  - **index**：扫描全表索引，通常比All快一些
+  - **range**：范围扫描通常出现在in(), between,>,<,>=等操作中。使用一个索引来检索给定范围的行
+  - **ref**：相比eq_ref，不适用唯一索引，而是使用普通索引或者唯一索引的部分前缀，索引要和某个值相比较，可能会找到多个符合条件的行
+  - **eq_ref**：primay key或 unique key索引的所有部分被连接使用，最多只会返回一条符合条件的记录
+  - const、system：mysql能对查询的某部分进行优化并将其转换成一个常量（可看成是show warnings的结果）。用于primay key或unique key的所有列与常数比较时，所以表最多有一个匹配行，读取1次，速读较快。system 是const的特例，表中只有一行元素匹配时为system
+  - NULL：MySQL能够在优化阶段分解查询语句，在执行阶段用不着再访问表或索引
+  
+- possible_keys：表示查询时，可能使用的索引
+
+  - 可能会出现possible_keys有列，而key显示为NULL的情况，这种情况是因为表中的数据不多，MySQL认为索引对此查询帮助不大，选择了全表扫描
+
+- <font color=red>key：表示实际使用的索引</font>
+
+- key_len：这一列显示了mysql在索引里使用的字节数，通过这个值可以估算出具体使用了索引中的哪些列
+
+- ref：这一列显示了在key列记录的索引中，表查找值所用到的列或常量，常见的有： const(常量)，字段名等。一般是查询条件或关联条件中等号右边的值，如果是常量那么ref列是const，非常量的话ref列就是字段名
+
+- rows：这一列是mysql估计要读取并检测的行数，注意这个不是结果集的行数。
+
+- filtered：按表条件过滤的行百分比
+
+- Extra：执行情况的描述和说明
+  - Using index：使用覆盖索引（结果集的字段是索引）
+  - Using index condition：查询的列不完全被索引覆盖，where条件中是一个前导的范围
+  - Using where：使用where语句来处理结果，查询的列未被索引覆盖
+  - Using temporary：mysql需要创建一张临时表来处理查询。出现这种情况一般要进行优化，首先要想到是索引优化。
+  - Using filesort：将用外部排序而不是索引排序，数据较小时从内存排序，否则需要在磁盘完成排序。这种情况下一般也是要考虑使用索引来优化的。
+  - select tables optimized away：使用某些聚合函数（比如：max、min）来访问存在索引的某个字段
+
+#### 失效分析
+
+- 多列索引，最左列丢失
+  - explain select * from users where name='a' and nickname='b' and password='c';（索引）
+  - explain select * from users where nickname='b' and password='c';（索引失效）
+  - explain select * from users where name='a'  and nickname='b';（索引）
+- 函数
+  - explain select * from users where left(name,4)='a';（索引失效）
+- 隐式转换，字符串不加单引号
+  - explain select * from users where name=0;（索引失效）
+  - explain select * from users where name='0';（索引）
+- like %xxx 前缀模糊匹配
+  -  explain select * from users where name like '%a';（索引失效）
+  - explain select * from users where name like 'a%';（索引）
+- is not null
+  - explain select * from users where name is null;（索引）
+  - explain select * from users where name is not null;（索引失效）
+- !=、<>
+  - explain select * from users where name != 'a';（索引失效）
+  - explain select * from users where name <> 'a';（索引失效）
 
 
 
