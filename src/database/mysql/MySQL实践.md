@@ -785,3 +785,165 @@ show index from users;
     - 回滚段：通过 undo log 动态构建旧版本数据
 
 
+
+# 从单机到集群
+
+随着数据量的增大，读写并发的增加，系统可用性要求的提升，单机MySQL问题
+
+- 容量有限，难以扩容——数据库拆分，分库分表
+
+- 读写压力，QPS 过大，特别是分析类需求会影响到业务事务——多机集群，主从复制，读写分离
+
+- 可用性不足，宕机问题——故障转移
+
+过渡到MySQL集群后又会出现问题
+
+- 数据一致性——分布式事务（XA/柔性事务）
+
+
+
+## 主从复制
+
+2000年，MySQL 3.23.15版本引入了复制
+
+2002年，MySQL 4.0.2版本分离 IO 和 SQL 线程，引入了 relay log
+
+2010年，MySQL 5.5版本引入半同步复制
+
+2016年，MySQL 在5.7.17中引入 InnoDB Group Replication
+
+
+
+<font color=red>核心是主库写binlog，从库回放relaylog。</font>
+
+Binlog格式
+
+- ROW（默认）
+  - `show variables like '%binlog%';`
+- Statement
+- Mixed
+
+
+
+### Mysql Asynchronous Replication 异步复制
+
+主库写Binlog和从库回放Binlog完全是异步的，主库不关心从库是否同步成功。当网络或机器故障时，会造成两边数据不一致。
+
+#### 配置master
+
+```shell
+# 运行master 
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/master:/var/lib/mysql --name master -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 开启binlog，设置server，开启日志
+docker exec master bash -c "echo 'log-bin=/var/lib/mysql/mysql-bin' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec master bash -c "echo 'server-id=1' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec master bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker restart master
+
+# 登录master
+docker exec -it master /bin/bash
+
+# 确认是否生效
+# 1、binlog目录
+mysql-bin.000001
+mysql-bin.index
+# 2、mysql参数
+show variables like '%log_bin%';
+
+# 'user_name'@'host_name' % 允许用户连接任意的主机
+# IDENTIFIED BY password
+CREATE USER 'repl'@'%' IDENTIFIED BY 'repl';
+
+# privilege: REPLICATION SLAVE
+# ON *.* 数据库名.表名
+GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
+
+# 内存->数据库
+flush privileges;
+
+# 确认binlog文件File，起始位置Position，slave需要此参数
+show master status;
+```
+
+#### 配置slave
+
+```shell
+# 运行slave
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/slave:/var/lib/mysql --name slave -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 设置server
+docker exec slave bash -c "echo 'server-id=2' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+# log-error可以查看slave启动异常原因
+docker exec slave bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker restart slave
+
+# 登录slave
+docker exec -it slave /bin/bash
+
+# 关联master
+# 注意 docker bridge 是一个局域网，需要master的ip
+# 重新设置，需要 stop slave，然后再 start slave
+CHANGE MASTER TO
+    MASTER_HOST='172.17.0.2',  
+    MASTER_PORT = 3306,
+    MASTER_USER='repl',      
+    MASTER_PASSWORD='repl',   
+    MASTER_LOG_FILE='mysql-bin.000001',
+    MASTER_LOG_POS=747;
+    
+# 确认slave状态，也可以查看slave启动异常原因
+# Slave_IO_Running: Yes
+# Slave_SQL_Running: Yes
+# 这两个必须都为yes
+show slave status\G
+```
+
+#### 测试
+
+```mysql
+# master执行，slave同步；slave执行，master无感知，因此从库用户给予只读权限
+
+# 创建数据库
+create database test;
+
+# 使用数据库
+use test;
+
+# 创建表
+create table t1(id bigint, name varchar(10));
+
+# 插入数据
+insert into t1 values(1,'a'),(2,'b');
+
+# 删除数据
+delete from t1 where id=1;
+
+# 更新数据
+update t1 set name='c' where id=2;
+
+# 查询数据
+select * from t1;
+
+# 修改表结构
+alter table t1 add column age bigint;
+
+# 删除表
+drop table t1;
+
+# 删除数据库
+drop database test;
+```
+
+
+
+### Mysql Semisynchronous Replication 半同步复制
+
+主库写Binlog后，至少接收到一个从库的ACK，才会提交事务，保证Source和至少一个Replica是最终一致的。（需要启用插件）
+
+
+
+### Mysql Group Replication 组复制
+
+基于分布式Paxos协议实现组复制，保证数据一致性。
+
