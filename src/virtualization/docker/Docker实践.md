@@ -358,6 +358,18 @@ docker network create \
 docker network disconnect multi-host-network container1
 ```
 
+### docker network inspect
+
+显示网络的详细信息。
+
+```shell
+# 默认三个driver，name分别是bridge, host, none
+
+# -o "com.docker.network.bridge.enable_icc"=true 启用或禁用容器间连接
+# -o "com.docker.network.bridge.name"=docker0 虚拟网卡docker0
+docker network inspect bridge
+```
+
 ### docker network ls
 
 列举network
