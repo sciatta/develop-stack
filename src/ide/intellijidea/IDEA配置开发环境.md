@@ -25,6 +25,8 @@ source ~/.zshrc
 - Preferences | Build, Execution, Deployment | compiler | java compiler
   1. module 设置为8
   2. project bytecode version 设置为8
+  
+- Preferences | Editor | Inspections | SQL | Unresolved reference 取消选中，解决 'Unable to resolve table' 问题
 
 - Preferences | Build, Execution, Deployment | Debugger | Stepping
 
