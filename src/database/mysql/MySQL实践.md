@@ -876,20 +876,23 @@ flush privileges;
 show master status;
 ```
 
-#### 配置slave
+#### 配置slave1
 
 ```shell
 # 运行slave
-docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/slave:/var/lib/mysql --name slave -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/slave1:/var/lib/mysql --name slave1 -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
 
 # 设置server
-docker exec slave bash -c "echo 'server-id=2' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec slave1 bash -c "echo 'server-id=2' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
 # log-error可以查看slave启动异常原因
-docker exec slave bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
-docker restart slave
+docker exec slave1 bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker restart slave1
 
 # 登录slave
-docker exec -it slave /bin/bash
+docker exec -it slave1 /bin/bash
+
+# 登录mysql
+mysql -uroot -p
 
 # 关联master
 # 注意 docker bridge 是一个局域网，需要master的ip
@@ -902,6 +905,48 @@ CHANGE MASTER TO
     MASTER_LOG_FILE='mysql-bin.000001',
     MASTER_LOG_POS=747;
     
+# 启动slave
+start slave;
+    
+# 确认slave状态，也可以查看slave启动异常原因
+# Slave_IO_Running: Yes
+# Slave_SQL_Running: Yes
+# 这两个必须都为yes
+show slave status\G
+```
+
+#### 配置slave2
+
+```shell
+# 运行slave
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/slave2:/var/lib/mysql --name slave2 -p 3308:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 设置server
+docker exec slave2 bash -c "echo 'server-id=3' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+# log-error可以查看slave启动异常原因
+docker exec slave2 bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker restart slave2
+
+# 登录slave
+docker exec -it slave2 /bin/bash
+
+# 登录mysql
+mysql -uroot -p
+
+# 关联master
+# 注意 docker bridge 是一个局域网，需要master的ip
+# 重新设置，需要 stop slave，然后再 start slave
+CHANGE MASTER TO
+    MASTER_HOST='172.17.0.2',  
+    MASTER_PORT = 3306,
+    MASTER_USER='repl',      
+    MASTER_PASSWORD='repl',   
+    MASTER_LOG_FILE='mysql-bin.000001',
+    MASTER_LOG_POS=747;
+    
+# 启动slave
+start slave;
+
 # 确认slave状态，也可以查看slave启动异常原因
 # Slave_IO_Running: Yes
 # Slave_SQL_Running: Yes
