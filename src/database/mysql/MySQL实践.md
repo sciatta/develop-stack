@@ -1002,3 +1002,284 @@ drop database test;
 
 基于分布式Paxos协议实现组复制，保证数据一致性。
 
+
+
+## 高可用
+
+高可用意味着更少的不可服务时间。
+
+- 读写分离，提升读的处理能力
+
+- 故障转移，提供 failover 能力
+
+
+
+1年 = 365天 = 8760小时
+
+99 = 8760 * 1% = 8760 * 0.01 = 87.6小时
+
+99.9 = 8760 * 0.1% = 8760 * 0.001 = 8.76小时
+
+99.99 = 8760 * 0.0001 = 0.876小时 = 0.876 * 60 = 52.6分钟
+
+99.999 = 8760 * 0.00001 = 0.0876小时 = 0.0876 * 60 = 5.26分钟
+
+
+
+###Mysql Group Replication 组复制
+
+- 特点
+
+  - 高一致性：基于分布式Paxos协议实现组复制，保证数据一致性
+  - 高容错性：自动检测机制，只要不是大多数节点都宕机就可以继续工作，内置防脑裂保护机制
+  - 高扩展性：节点的增加与移除会自动更新组成员信息，新节点加入后，自动从其他节点同步增量数据，直到与其他节点数据一致
+  - 高灵活性：提供单主模式和多主模式，单主模式在主库宕机后能够自动选主，所有写入都在主节点进行，多主模式支持多节点写入
+
+- 适用场景
+
+  - 弹性复制
+
+  - 高可用分片
+
+- 部署要求
+    - 执行引擎为innodb
+    - 表必须有主键或者非空的唯一索引
+    - 只支持IPV4网络
+    - 必须开启binlog 
+
+
+
+
+#### 创建MGR服务器
+
+```shell
+# 创建专用网络
+docker network create --driver=bridge --subnet=172.72.0.0/24 mynet
+
+# 创建mgr1节点
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/mgr1:/var/lib/mysql --name mgr1 --hostname mgr1 --net=mynet --ip=172.72.0.100 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 创建mgr2节点
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/mgr2:/var/lib/mysql --name mgr2 --hostname mgr2 --net=mynet --ip=172.72.0.101 -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+
+# 创建mgr3节点
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/mgr3:/var/lib/mysql --name mgr3 --hostname mgr3 --net=mynet --ip=172.72.0.102 -p 3308:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+```
+
+
+
+#### 修改mysqld.cnf
+
+- <font color=red>`server-id` 各节点不能重复</font>
+- `log-error` 记录错误日志方便排查问题
+- `log-bin` 开启binlog
+- `binlog_format=ROW` binlog行模式
+- `binlog_checksum=NONE` 禁用二进制日志事件校验
+- `log_slave_updates=ON` 级联复制
+- **`skip-name-resolve` 忽略域名解析**
+- `gtid_mode=ON` 开启gtid全局事务
+- `enforce_gtid_consistency=ON` 强制GTID的一致性
+- `master_info_repository=TABLE` 将master.info元数据保存在系统表中
+- `relay_log_info_repository=TABLE` 将relay.info元数据保存中系统表中
+- `transaction_write_set_extraction=XXHASH64` 使用哈希算法将其编码为散列
+- **`loose-group_replication_group_name="7c160b7a-fc0f-11ea-9e8c-00163e08fe16"` 加入的组名，有效的UUID，不同实例的配置文件中该参数相同**
+- `loose-group_replication_start_on_boot=off` 在启动服务器时不自动启动组复制
+- <font color=red>`loose-group_replication_local_address= "172.72.0.100:33061"` 以本机端口33061接受来自组中成员的传入连接</font>
+- <font color=red>`loose-group_replication_group_seeds= "172.72.0.100:33061,172.72.0.101:33061,172.72.0.102:33061"` 组中成员的访问列表</font>
+- `loose-group_replication_ip_whitelist="172.72.0.100,172.72.0.101,172.72.0.102"` 白名单，允许连接到组
+- `loose-group_replication_bootstrap_group=off` 不启用引导组
+- <font color=red>`loose-group_replication_member_weight=50` 控制单主模式切换顺序，值越大优先被选为主</font>
+
+````shell
+# mgr1
+docker exec mgr1 bash -c "echo 'server-id=1' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'log-bin=/var/lib/mysql/mysql-bin' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'binlog_format=ROW' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'binlog_checksum=NONE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'log_slave_updates=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'skip_name_resolve' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'gtid_mode=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'enforce_gtid_consistency=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'master_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'relay_log_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'transaction_write_set_extraction=XXHASH64' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_group_name="7c160b7a-fc0f-11ea-9e8c-00163e08fe16"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_start_on_boot=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_local_address="172.72.0.100:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_group_seeds="172.72.0.100:33061,172.72.0.101:33061,172.72.0.102:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_ip_whitelist="172.72.0.100,172.72.0.101,172.72.0.102"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_bootstrap_group=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr1 bash -c "echo 'loose-group_replication_member_weight=50' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+
+# mgr2
+docker exec mgr2 bash -c "echo 'server-id=2' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'log-bin=/var/lib/mysql/mysql-bin' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'binlog_format=ROW' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'binlog_checksum=NONE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'log_slave_updates=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'skip_name_resolve' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'gtid_mode=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'enforce_gtid_consistency=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'master_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'relay_log_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'transaction_write_set_extraction=XXHASH64' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_group_name="7c160b7a-fc0f-11ea-9e8c-00163e08fe16"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_start_on_boot=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_local_address="172.72.0.101:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_group_seeds="172.72.0.100:33061,172.72.0.101:33061,172.72.0.102:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_ip_whitelist="172.72.0.100,172.72.0.101,172.72.0.102"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_bootstrap_group=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr2 bash -c "echo 'loose-group_replication_member_weight=30' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+
+# mgr3
+docker exec mgr3 bash -c "echo 'server-id=3' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'log-error=/var/log/mysql/error.log' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'log-bin=/var/lib/mysql/mysql-bin' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'binlog_format=ROW' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'binlog_checksum=NONE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'log_slave_updates=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'skip_name_resolve' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'gtid_mode=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'enforce_gtid_consistency=ON' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'master_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'relay_log_info_repository=TABLE' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'transaction_write_set_extraction=XXHASH64' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_group_name="7c160b7a-fc0f-11ea-9e8c-00163e08fe16"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_start_on_boot=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_local_address="172.72.0.102:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_group_seeds="172.72.0.100:33061,172.72.0.101:33061,172.72.0.102:33061"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_ip_whitelist="172.72.0.100,172.72.0.101,172.72.0.102"' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_bootstrap_group=off' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+docker exec mgr3 bash -c "echo 'loose-group_replication_member_weight=40' >> /etc/mysql/mysql.conf.d/mysqld.cnf"
+````
+
+
+
+####重启Mysql
+
+````shell
+docker restart mgr1 mgr2 mgr3
+
+# 登录mgr1
+docker exec -it mgr1 /bin/bash
+
+# 登录mgr2
+docker exec -it mgr2 /bin/bash
+
+# 登录mgr3
+docker exec -it mgr3 /bin/bash
+
+# 查看主机信息
+mysql -uroot -proot -e "select @@hostname,@@server_id,@@server_uuid"
+````
+
+
+
+#### 安装MGR插件
+
+- 所有节点执行
+
+```mysql
+# 登录mysql
+mysql -uroot -proot
+
+# 安装插件
+# 卸载插件 UNINSTALL PLUGIN group_replication;
+INSTALL PLUGIN group_replication SONAME 'group_replication.so';
+
+# 查看插件
+show plugins;
+```
+
+
+
+#### 设置复制用户
+
+- 所有节点执行
+
+```mysql
+# 关闭binlog
+SET SQL_LOG_BIN=0;
+CREATE USER repl@'%' IDENTIFIED BY 'repl';
+GRANT REPLICATION SLAVE ON *.* TO repl@'%';
+FLUSH PRIVILEGES;
+# 开启binlog
+SET SQL_LOG_BIN=1;
+
+# 启动组复制
+CHANGE MASTER TO MASTER_USER='repl', MASTER_PASSWORD='repl' FOR CHANNEL 'group_replication_recovery';
+```
+
+
+
+#### 启动MGR单主模式
+
+```mysql
+# mgr1
+# 启用引导组，此节点选为主节点
+SET GLOBAL group_replication_bootstrap_group=ON;
+START GROUP_REPLICATION;
+SET GLOBAL group_replication_bootstrap_group=OFF;
+
+# mgr2
+START GROUP_REPLICATION;
+
+# mgr3
+START GROUP_REPLICATION;
+
+-- 查看MGR组信息 
+select member_id, member_host, member_port, member_state, if(gs.VARIABLE_NAME is not null, 'primary','secondary') as member_role from performance_schema.replication_group_members as rgm left join performance_schema.global_status as gs on gs.VARIABLE_NAME='group_replication_primary_member' and gs.VARIABLE_VALUE=rgm.member_id;
+
++--------------------------------------+-------------+-------------+--------------+-------------+
+| member_id                            | member_host | member_port | member_state | member_role |
++--------------------------------------+-------------+-------------+--------------+-------------+
+| 54299c9b-571f-11eb-aba6-0242ac480064 | mgr1        |        3306 | ONLINE       | primary     |
+| a249f474-571f-11eb-9604-0242ac480065 | mgr2        |        3306 | ONLINE       | secondary   |
+| a676b93f-571f-11eb-af62-0242ac480066 | mgr3        |        3306 | ONLINE       | secondary   |
++--------------------------------------+-------------+-------------+--------------+-------------+
+```
+
+
+
+#### 测试
+
+- mgr1（主）执行，mgr2、mgr3同步；mrg1可读写，mgr2、mgr3只能读
+
+  ```mysql
+  # mgr1 执行
+  create database test;
+  use test;
+  create table t1(
+    id bigint auto_increment, 
+    name varchar(10), 
+    primary key(id)
+  ) ENGINE = InnoDB
+    DEFAULT CHARSET = utf8;
+  insert into t1(name) values('a'),('b');
+  ```
+
+- mgr1下线，mgr3权重大，被选中为主
+
+  ```mysql
+  select member_id, member_host, member_port, member_state, if(gs.VARIABLE_NAME is not null, 'primary','secondary') as member_role from performance_schema.replication_group_members as rgm left join performance_schema.global_status as gs on gs.VARIABLE_NAME='group_replication_primary_member' and gs.VARIABLE_VALUE=rgm.member_id;
+  
+  +--------------------------------------+-------------+-------------+--------------+-------------+
+  | member_id                            | member_host | member_port | member_state | member_role |
+  +--------------------------------------+-------------+-------------+--------------+-------------+
+  | a676b93f-571f-11eb-af62-0242ac480066 | mgr3        |        3306 | ONLINE       | primary     |
+  | a249f474-571f-11eb-9604-0242ac480065 | mgr2        |        3306 | ONLINE       | secondary   |
+  +--------------------------------------+-------------+-------------+--------------+-------------+
+  
+  # mgr3执行，mgr2同步
+  insert into t1(name) values('c');
+  ```
+
+- mgr1上线，mgr1选为从节点，同步最新数据；mgr1只能读
+
+  ```mysql
+  # mgr1执行
+  START GROUP_REPLICATION;
+  ```
+
