@@ -26,13 +26,19 @@ source ~/.zshrc
   1. module 设置为8
   2. project bytecode version 设置为8
   
-- Preferences | Editor | Inspections | SQL | Unresolved reference 取消选中，解决 'Unable to resolve table' 问题
+- Preferences | Editor | Inspections | SQL | Unresolved reference 取消选中
+
+  解决 'Unable to resolve table' 问题
 
 - Preferences | Build, Execution, Deployment | Debugger | Stepping
 
   do not step into the classes
 
   <font color=red>去掉 java.* 和 javax.*，否则无法进入JDK源码进行调试</font>
+  
+- Preferences | Editor | Inspections | Java | Serialization issues | Serializable class without 'serialVersionUID' 
+
+  实现 `Serializable` 接口的类需要提供 `serialVersionUID` 并可自动生成
 
 
 
