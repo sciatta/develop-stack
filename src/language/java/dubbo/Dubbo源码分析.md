@@ -28,7 +28,7 @@
 
 
 
-# 灵活扩展SPI
+# 灵活扩展
 
 ## JDK原生实现
 
@@ -108,6 +108,570 @@
     - after 表示哪些扩展点需要在本扩展点的后面
     - order 排序信息
   - @DisableInject 注解在接口的set方法上，不会自动注入扩展
+
+
+
+# 服务导出
+
+## 基于API
+
+### 核心配置类
+
+![dubbo_provider_api_config](Dubbo源码分析.assets/dubbo_provider_api_config.png)
+
+### 动态生成类源码
+
+通过 `java -jar arthas-boot.jar --telnet-port 9998 --http-port -1` 测试
+
+#### Protocol
+
+`com.alibaba.dubbo.rpc.Protocol$Adaptive` Protocol适配器扩展服务
+
+```java
+package com.alibaba.dubbo.rpc;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.rpc.Exporter;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.Protocol;
+import com.alibaba.dubbo.rpc.RpcException;
+
+public class Protocol$Adaptive
+implements Protocol {
+    public Exporter export(Invoker invoker) throws RpcException {
+        String string;
+        if (invoker == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument == null");
+        }
+        if (invoker.getUrl() == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument getUrl() == null");
+        }
+        URL uRL = invoker.getUrl();
+        String string2 = string = uRL.getProtocol() == null ? "dubbo" : uRL.getProtocol();
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(").append(uRL.toString()).append(") use keys([protocol])").toString());
+        }
+        Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(string);
+        return protocol.export(invoker);
+    }
+
+    public Invoker refer(Class class_, URL uRL) throws RpcException {
+        String string;
+        if (uRL == null) {
+            throw new IllegalArgumentException("url == null");
+        }
+        URL uRL2 = uRL;
+        String string2 = string = uRL2.getProtocol() == null ? "dubbo" : uRL2.getProtocol();
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(").append(uRL2.toString()).append(") use keys([protocol])").toString());
+        }
+        Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(string);
+        return protocol.refer(class_, uRL);
+    }
+
+    @Override
+    public void destroy() {
+        throw new UnsupportedOperationException("method public abstract void com.alibaba.dubbo.rpc.Protocol.destroy() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!");
+    }
+
+    @Override
+    public int getDefaultPort() {
+        throw new UnsupportedOperationException("method public abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!");
+    }
+}
+```
+
+
+
+#### ProxyFactory
+
+`com.alibaba.dubbo.rpc.ProxyFactory$Adaptive` ProxyFactory适配器扩展服务
+
+```java
+package com.alibaba.dubbo.rpc;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.ProxyFactory;
+import com.alibaba.dubbo.rpc.RpcException;
+
+public class ProxyFactory$Adaptive
+implements ProxyFactory {
+    public Object getProxy(Invoker invoker) throws RpcException {
+        if (invoker == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument == null");
+        }
+        if (invoker.getUrl() == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument getUrl() == null");
+        }
+        URL uRL = invoker.getUrl();
+        String string = uRL.getParameter("proxy", "javassist");
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(").append(uRL.toString()).append(") use keys([proxy])").toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        return proxyFactory.getProxy(invoker);
+    }
+
+    public Object getProxy(Invoker invoker, boolean bl) throws RpcException {
+        if (invoker == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument == null");
+        }
+        if (invoker.getUrl() == null) {
+            throw new IllegalArgumentException("com.alibaba.dubbo.rpc.Invoker argument getUrl() == null");
+        }
+        URL uRL = invoker.getUrl();
+        String string = uRL.getParameter("proxy", "javassist");
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(").append(uRL.toString()).append(") use keys([proxy])").toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        return proxyFactory.getProxy(invoker, bl);
+    }
+
+    public Invoker getInvoker(Object object, Class class_, URL uRL) throws RpcException {
+        if (uRL == null) {
+            throw new IllegalArgumentException("url == null");
+        }
+        URL uRL2 = uRL;
+        String string = uRL2.getParameter("proxy", "javassist");
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(").append(uRL2.toString()).append(") use keys([proxy])").toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        return proxyFactory.getInvoker(object, class_, uRL);
+    }
+}
+```
+
+
+
+#### RegistryFactory
+
+`com.alibaba.dubbo.registry.RegistryFactory$Adaptive` RegistryFactory适配器扩展服务
+
+```java
+package com.alibaba.dubbo.registry;
+
+import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.extension.ExtensionLoader;
+import com.alibaba.dubbo.registry.Registry;
+import com.alibaba.dubbo.registry.RegistryFactory;
+
+public class RegistryFactory$Adaptive
+implements RegistryFactory {
+    @Override
+    public Registry getRegistry(URL uRL) {
+        String string;
+        if (uRL == null) {
+            throw new IllegalArgumentException("url == null");
+        }
+        URL uRL2 = uRL;
+        String string2 = string = uRL2.getProtocol() == null ? "dubbo" : uRL2.getProtocol();
+        if (string == null) {
+            throw new IllegalStateException(new StringBuffer().append("Fail to get extension(com.alibaba.dubbo.registry.RegistryFactory) name from url(").append(uRL2.toString()).append(") use keys([protocol])").toString());
+        }
+        RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getExtension(string);
+        return registryFactory.getRegistry(uRL);
+    }
+}
+```
+
+
+
+#### Wrapper
+
+`com.alibaba.dubbo.common.bytecode.Wrapper0` 扩展点 `interface com.alibaba.dubbo.config.api.DemoService` 的代理Wrapper
+
+- 被Wrapper缓存，后缀数字从0开始
+- 此wrapper的目的是为了获取**扩展点**的所有方法
+- 在发布时通过反射生成Wrapper，<font color=red>注意</font>在方法调用时不使用反射调用（性能低），而是通过javassist生成的静态方法调用
+
+```java
+package com.alibaba.dubbo.common.bytecode;
+
+import com.alibaba.dubbo.common.bytecode.ClassGenerator;
+import com.alibaba.dubbo.common.bytecode.NoSuchMethodException;
+import com.alibaba.dubbo.common.bytecode.NoSuchPropertyException;
+import com.alibaba.dubbo.common.bytecode.Wrapper;
+import com.sciatta.dev.java.dubbo.api.Box;
+import com.sciatta.dev.java.dubbo.api.DemoService;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
+
+public class Wrapper0
+extends Wrapper
+implements ClassGenerator.DC {
+    public static String[] pns;
+    public static Map pts;
+    public static String[] mns;
+    public static String[] dmns;
+    public static Class[] mts0;
+    public static Class[] mts1;
+    public static Class[] mts2;
+    public static Class[] mts3;
+    public static Class[] mts4;
+    public static Class[] mts5;
+
+    @Override
+    public String[] getDeclaredMethodNames() {
+        return dmns;
+    }
+
+    @Override
+    public String[] getMethodNames() {
+        return mns;
+    }
+
+    @Override
+    public String[] getPropertyNames() {
+        return pns;
+    }
+
+    public Class getPropertyType(String string) {
+        return (Class)pts.get(string);
+    }
+
+    @Override
+    public boolean hasProperty(String string) {
+        return pts.containsKey(string);
+    }
+
+    @Override
+    public Object getPropertyValue(Object object, String string) {
+        DemoService demoService;
+        try {
+            demoService = (DemoService)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        if (string.equals("box")) {
+            return demoService.getBox();
+        }
+        throw new NoSuchPropertyException(new StringBuffer().append("Not found property \"").append(string).append("\" filed or setter method in class com.sciatta.dev.java.dubbo.api.DemoService.").toString());
+    }
+
+    @Override
+    public void setPropertyValue(Object object, String string, Object object2) {
+        DemoService demoService;
+        try {
+            demoService = (DemoService)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        if (string.equals("box")) {
+            demoService.setBox((Box)object2);
+            return;
+        }
+        throw new NoSuchPropertyException(new StringBuffer().append("Not found property \"").append(string).append("\" filed or setter method in class com.sciatta.dev.java.dubbo.api.DemoService.").toString());
+    }
+
+    public Object invokeMethod(Object object, String string, Class[] arrclass, Object[] arrobject) throws InvocationTargetException {
+        DemoService demoService;
+        try {
+            demoService = (DemoService)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        try {
+            if ("setBox".equals(string) && arrclass.length == 1) {
+                demoService.setBox((Box)arrobject[0]);
+                return null;
+            }
+            if ("sayName".equals(string) && arrclass.length == 1) {
+                return demoService.sayName((String)arrobject[0]);
+            }
+            if ("getBox".equals(string) && arrclass.length == 0) {
+                return demoService.getBox();
+            }
+            if ("throwDemoException".equals(string) && arrclass.length == 0) {
+                demoService.throwDemoException();
+                return null;
+            }
+            if ("getUsers".equals(string) && arrclass.length == 1) {
+                return demoService.getUsers((List)arrobject[0]);
+            }
+            if ("echo".equals(string) && arrclass.length == 1) {
+                return new Integer(demoService.echo(((Number)arrobject[0]).intValue()));
+            }
+        }
+        catch (Throwable throwable) {
+            throw new InvocationTargetException(throwable);
+        }
+        throw new NoSuchMethodException(new StringBuffer().append("Not found method \"").append(string).append("\" in class com.sciatta.dev.java.dubbo.api.DemoService.").toString());
+    }
+}
+```
+
+
+
+`com.alibaba.dubbo.common.bytecode.Wrapper1` 扩展 `class com.alibaba.dubbo.config.provider.impl.DemoServiceImpl` 的代理Wrapper
+
+```java
+package com.alibaba.dubbo.common.bytecode;
+
+import com.alibaba.dubbo.common.bytecode.ClassGenerator;
+import com.alibaba.dubbo.common.bytecode.NoSuchMethodException;
+import com.alibaba.dubbo.common.bytecode.NoSuchPropertyException;
+import com.alibaba.dubbo.common.bytecode.Wrapper;
+import com.sciatta.dev.java.dubbo.api.Box;
+import com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
+
+public class Wrapper1
+extends Wrapper
+implements ClassGenerator.DC {
+    public static String[] pns;
+    public static Map pts;
+    public static String[] mns;
+    public static String[] dmns;
+    public static Class[] mts0;
+    public static Class[] mts1;
+    public static Class[] mts2;
+    public static Class[] mts3;
+    public static Class[] mts4;
+    public static Class[] mts5;
+
+    @Override
+    public String[] getPropertyNames() {
+        return pns;
+    }
+
+    public Class getPropertyType(String string) {
+        return (Class)pts.get(string);
+    }
+
+    @Override
+    public boolean hasProperty(String string) {
+        return pts.containsKey(string);
+    }
+
+    @Override
+    public Object getPropertyValue(Object object, String string) {
+        DemoServiceImpl demoServiceImpl;
+        try {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        if (string.equals("box")) {
+            return demoServiceImpl.getBox();
+        }
+        throw new NoSuchPropertyException(new StringBuffer().append("Not found property \"").append(string).append("\" filed or setter method in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.").toString());
+    }
+
+    @Override
+    public void setPropertyValue(Object object, String string, Object object2) {
+        DemoServiceImpl demoServiceImpl;
+        try {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        if (string.equals("box")) {
+            demoServiceImpl.setBox((Box)object2);
+            return;
+        }
+        throw new NoSuchPropertyException(new StringBuffer().append("Not found property \"").append(string).append("\" filed or setter method in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.").toString());
+    }
+
+    public Object invokeMethod(Object object, String string, Class[] arrclass, Object[] arrobject) throws InvocationTargetException {
+        DemoServiceImpl demoServiceImpl;
+        try {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        catch (Throwable throwable) {
+            throw new IllegalArgumentException(throwable);
+        }
+        try {
+            if ("setBox".equals(string) && arrclass.length == 1) {
+                demoServiceImpl.setBox((Box)arrobject[0]);
+                return null;
+            }
+            if ("getUsers".equals(string) && arrclass.length == 1) {
+                return demoServiceImpl.getUsers((List)arrobject[0]);
+            }
+            if ("sayName".equals(string) && arrclass.length == 1) {
+                return demoServiceImpl.sayName((String)arrobject[0]);
+            }
+            if ("getBox".equals(string) && arrclass.length == 0) {
+                return demoServiceImpl.getBox();
+            }
+            if ("throwDemoException".equals(string) && arrclass.length == 0) {
+                demoServiceImpl.throwDemoException();
+                return null;
+            }
+            if ("echo".equals(string) && arrclass.length == 1) {
+                return new Integer(demoServiceImpl.echo(((Number)arrobject[0]).intValue()));
+            }
+        }
+        catch (Throwable throwable) {
+            throw new InvocationTargetException(throwable);
+        }
+        throw new NoSuchMethodException(new StringBuffer().append("Not found method \"").append(string).append("\" in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.").toString());
+    }
+
+    @Override
+    public String[] getMethodNames() {
+        return mns;
+    }
+
+    @Override
+    public String[] getDeclaredMethodNames() {
+        return dmns;
+    }
+}
+```
+
+
+
+### ServiceConfig服务导出入口
+
+ServiceConfig和导出服务一一对应。
+
+#### 构造Config
+
+- 注册中心地址 `multicast://224.5.6.7:1234`
+
+#### 导出服务export
+
+- 检查配置参数，组装URL
+
+  - 为各个Config添加系统属性，优先级是：1、系统属性；2、初始值；3、属性文件
+
+  - 遍历多个**RegistryConfig**转换为**Registry URL**
+
+    <font color=red>替换协议为registry的目的是为了调用 `RegistryProtocol` 处理逻辑，运行时的协议改变可以灵活适配特定扩展实现</font>
+
+    ```shell
+    registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&dubbo=2.0.2&pid=22052&registry=multicast&timestamp=1612276172392
+    ```
+
+    
+
+  - 根据Config生成**导出服务URL**
+
+    - 创建扩展点wrapper为了获取方法名，为URL增加参数 `methods`；创建后wrapper被缓存
+
+    ```shell
+    dubbo://192.168.0.103:20880/com.alibaba.dubbo.config.api.DemoService?anyhost=true&application=test-protocol-random-port&bind.ip=192.168.0.103&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.alibaba.dubbo.config.api.DemoService&methods=sayName,getUsers,echo,setBox,throwDemoException,getBox&pid=22911&side=provider&timestamp=1612317251346
+    ```
+
+    
+
+- 导出服务，包含导出服务到本地 (JVM)，和导出服务到远程两个过程
+
+  - 导出到本地
+
+    - 如果协议不是injvm，则替换导出服务URL。替换协议为injvm、替换ip为127.0.0.1、替换Port为0
+
+      ```shell
+      injvm://127.0.0.1/com.alibaba.dubbo.config.api.DemoService?anyhost=true&application=test-protocol-random-port&bind.ip=192.168.0.103&bind.port=20880&dubbo=2.0.2&generic=false&interface=com.alibaba.dubbo.config.api.DemoService&methods=sayName,getUsers,echo,setBox,throwDemoException,getBox&pid=22911&side=provider&timestamp=1612317251346
+      ```
+
+    - 保存到本地 `StaticContext` ：接口名称 -> 服务实现Class
+
+    - 调用**ProxyFactory**的 `<T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws RpcException;` 方法，默认扩展实现**JavassistProxyFactory**。返回invoker的匿名类实例，当被调用时，委托给wrapper代理调用真正的扩展服务
+
+      - 为扩展生成代理wrapper。如果扩展没有$就用实现类的class，否则就用接口的class（已生成被缓存），生成wrapper代理
+
+    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，通过URL协议获取扩展实现，默认扩展实现**DubboProtocol**，此处协议是injvm，因此取扩展实现**InjvmProtocol**。返回InjvmExporter，置入ServiceConfig缓存。
+
+  - 导出到远程
+
+    - 遍历**Registry URL**，向注册中心导出服务URL
+
+      ```shell
+      registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&dubbo=2.0.2&export=dubbo%3A%2F%2F192.168.0.103%3A20880%2Fcom.alibaba.dubbo.config.api.DemoService%3Fanyhost%3Dtrue%26application%3Dtest-protocol-random-port%26bind.ip%3D192.168.0.103%26bind.port%3D20880%26dubbo%3D2.0.2%26generic%3Dfalse%26interface%3Dcom.alibaba.dubbo.config.api.DemoService%26methods%3DsayName%2CgetUsers%2Cecho%2CsetBox%2CthrowDemoException%2CgetBox%26pid%3D22911%26side%3Dprovider%26timestamp%3D1612317251346&pid=22911&registry=multicast&timestamp=1612317251269
+      ```
+
+    - 调用**ProxyFactory**的 `<T> Invoker<T> getInvoker(T proxy, Class<T> type, URL url) throws RpcException;` 方法，默认扩展实现**JavassistProxyFactory**。返回invoker的匿名类实例，当被调用时，委托给wrapper代理调用真正的扩展服务
+    
+      - 使用实现类class的wrapper，已被缓存
+    
+    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，此处协议是registry，取扩展实现**RegistryProtocol**。返回DestroyableExporter，置入ServiceConfig缓存。
+    
+      - 启动本地服务
+        - 通过registry URL中的export参数获取导出服务的URL，再由此协议获取扩展服务，即调用**DubboProtocol**，返回DubboExporter，置入DubboProtocol缓存
+        - 调用Exchangers启动netty服务绑定端口20880
+      - 向注册中心注册服务用于服务发现
+        - 通过registry URL中的registry参数替换URL原协议，即用multicast替换registry，此处协议是multicast，取扩展实现**MulticastRegistryFactory**；调用RegistryFactory的 `Registry getRegistry(URL url);` 方法，获取注册中心**MulticastRegistry**。
+        - 向注册中心MulticastRegistry**注册**导出服务URL
+        - 向注册中心MulticastRegistry**订阅**导出服务URL，协议替换为provider
+
+
+
+
+## 基于Spring
+
+
+
+
+
+# 服务导入
+
+## 基于API
+
+### ReferenceConfig服务导入入口
+
+
+
+
+
+## 基于Spring
+
+
+
+
+
+# 注册中心
+
+
+
+- RegistryFactory
+
+  具体注册中心工厂实现继承AbstractRegistryFactory，通过URL（不变模式，类似String，保证线程安全）获得Registry注册中心。
+  - 将传入的URL `dubbo://192.168.0.103:2233`  转换为 `dubbo://192.168.0.103:2233/com.alibaba.dubbo.registry.RegistryService?interface=com.alibaba.dubbo.registry.RegistryService` ，调用子类的工厂方法 `createRegistry` 创建Registry
+  - 缓存创建的Registry，使得  `dubbo://192.168.0.103:2233/com.alibaba.dubbo.registry.RegistryService` 作为key待后续查询
+  - 如果参数有group=xxx，则key为 `dubbo://192.168.0.103:2233/xxx/com.alibaba.dubbo.registry.RegistryService` 
+
+- Registry
+
+  - 创建注册中心URL `http://1.2.3.4:9090/registry?check=false&file=N/A&retry.period=200`
+
+    - `save.file` true同步保存，false异步保存（默认）
+    - `file` 缓存注册的URL文件名
+    - `backup` 备份的URL
+    - `retry.period` 重试周期
+    - `check`
+    - `consumer` consumer协议
+
+  - provider
+
+    - 调用注册中心的 `register` 方法注册服务，URL `remote://127.0.0.1/demoservice?method=get`
+    - 调用注册中心的 `unregister` 方法取消注册
+
+  - consumer
+
+    - 调用注册中心的 `subscribe` 方法订阅服务，URL `consumer://127.0.0.1/demoservice?check=false&method=get`
+
+    - 调用注册中心的 `unsubscribe` 方法取消订阅
+
+- FailbackRegistry
+
+  提供失败重试功能，后台单线程线程池，定时重试失败列表，包括failedRegistered、failedUnregistered、failedSubscribed、failedUnsubscribed和failedNotified
+
+
 
 
 
