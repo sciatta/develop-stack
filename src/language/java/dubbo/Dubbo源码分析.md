@@ -585,7 +585,7 @@ ServiceConfig和导出服务一一对应。
 
       - 为扩展生成代理wrapper。如果扩展没有$就用实现类的class，否则就用接口的class（已生成被缓存），生成wrapper代理
 
-    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，通过URL协议获取扩展实现，默认扩展实现**DubboProtocol**，此处协议是injvm，因此取扩展实现**InjvmProtocol**。返回InjvmExporter，置入ServiceConfig缓存。
+    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，通过URL协议获取扩展实现，默认扩展实现**DubboProtocol**，此处协议是injvm，因此取扩展实现**InjvmProtocol**。<font color=red>返回InjvmExporter，其会在InjvmProtocol缓存，以ServiceKey为key，exporter为value的map中</font>。
 
   - 导出到远程
 
@@ -599,7 +599,7 @@ ServiceConfig和导出服务一一对应。
     
       - 使用实现类class的wrapper，已被缓存
     
-    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，此处协议是registry，取扩展实现**RegistryProtocol**。返回DestroyableExporter，置入ServiceConfig缓存。
+    - 调用**Protocol**的 `<T> Exporter<T> export(Invoker<T> invoker) throws RpcException;` 方法，此处协议是registry，取扩展实现**RegistryProtocol**。返回DestroyableExporter，包装DubboExporter，其会在RegistryProtocol缓存。
     
       - 启动本地服务
         - 通过registry URL中的export参数获取导出服务的URL，再由此协议获取扩展服务，即调用**DubboProtocol**，返回DubboExporter，置入DubboProtocol缓存
@@ -622,9 +622,141 @@ ServiceConfig和导出服务一一对应。
 
 ## 基于API
 
+### 动态生成类源码
+
+#### com.alibaba.dubbo.common.bytecode.Proxy0
+
+Proxy抽象类的子类可实例化
+
+```java
+package com.alibaba.dubbo.common.bytecode;
+
+import com.alibaba.dubbo.common.bytecode.ClassGenerator;
+import com.alibaba.dubbo.common.bytecode.Proxy;
+import com.alibaba.dubbo.common.bytecode.proxy0;
+import java.lang.reflect.InvocationHandler;
+
+public class Proxy0
+extends Proxy
+implements ClassGenerator.DC {
+    @Override
+    public Object newInstance(InvocationHandler invocationHandler) {
+        return new proxy0(invocationHandler);
+    }
+}
+```
+
+#### com.alibaba.dubbo.common.bytecode.proxy0
+
+服务接口的代理类
+
+```java
+package com.alibaba.dubbo.common.bytecode;
+
+import com.alibaba.dubbo.common.bytecode.ClassGenerator;
+import com.alibaba.dubbo.rpc.service.EchoService;
+import com.sciatta.dev.java.dubbo.api.Box;
+import com.sciatta.dev.java.dubbo.api.DemoException;
+import com.sciatta.dev.java.dubbo.api.DemoService;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.List;
+
+public class proxy0
+implements ClassGenerator.DC,
+EchoService,
+DemoService {
+    public static Method[] methods;
+    private InvocationHandler handler;
+
+    public String sayName(String string) {
+        Object[] arrobject = new Object[]{string};
+        Object object = this.handler.invoke(this, methods[0], arrobject);
+        return (String)object;
+    }
+
+    public Box getBox() {
+        Object[] arrobject = new Object[]{};
+        Object object = this.handler.invoke(this, methods[1], arrobject);
+        return (Box)object;
+    }
+
+    public List getUsers(List list) {
+        Object[] arrobject = new Object[]{list};
+        Object object = this.handler.invoke(this, methods[2], arrobject);
+        return (List)object;
+    }
+
+    public int echo(int n) {
+        Object[] arrobject = new Object[1];
+        new Integer(n);
+        Object object = this.handler.invoke(this, methods[3], arrobject);
+        return object == null ? 0 : (Integer)object;
+    }
+
+    public void setBox(Box box) {
+        Object[] arrobject = new Object[]{box};
+        Object object = this.handler.invoke(this, methods[4], arrobject);
+    }
+
+    public void throwDemoException() throws DemoException {
+        Object[] arrobject = new Object[]{};
+        Object object = this.handler.invoke(this, methods[5], arrobject);
+    }
+
+    @Override
+    public Object $echo(Object object) {
+        Object[] arrobject = new Object[]{object};
+        Object object2 = this.handler.invoke(this, methods[6], arrobject);
+        return object2;
+    }
+
+    public proxy0(InvocationHandler invocationHandler) {
+        this.handler = invocationHandler;
+    }
+
+    public proxy0() {
+    }
+```
+
+
+
 ### ReferenceConfig服务导入入口
 
+#### 构造Config
 
+#### 引用服务refer
+
+- 检查配置参数，组装URL
+
+  - 为各个Config添加系统属性
+
+  - 根据Config生成**引用服务URL**
+
+    - 引用本地服务JVM（一般用于测试）
+
+      ```shell
+      injvm://127.0.0.1/com.alibaba.dubbo.config.api.DemoService?application=test-protocol-random-port&dubbo=2.0.2&injvm=true&interface=com.alibaba.dubbo.config.api.DemoService&methods=sayName,getUsers,echo,setBox,getBox,throwDemoException&pid=26242&register.ip=192.168.0.103&side=consumer&timestamp=1612447705045
+      ```
+
+    - 引用远程服务
+
+      ```shell
+      registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&dubbo=2.0.2&pid=27104&refer=application%3Dtest-protocol-random-port%26dubbo%3D2.0.2%26injvm%3Dfalse%26interface%3Dcom.alibaba.dubbo.config.api.DemoService%26methods%3DgetUsers%2CsayName%2Cecho%2CsetBox%2CgetBox%2CthrowDemoException%26pid%3D27104%26register.ip%3D192.168.0.103%26side%3Dconsumer%26timestamp%3D1612514582631&registry=multicast&timestamp=1612516667317
+      ```
+
+      
+
+- 引用服务
+
+  - 引用本地服务
+    - 调用**Protocol**的 `<T> Invoker<T> refer(Class<T> type, URL url) throws RpcException;` 方法，通过URL协议获取扩展实现，默认扩展实现**DubboProtocol**，此处协议是injvm，因此取扩展实现**InjvmProtocol**。<font color=red>返回InjvmInvoker，可以通过InjvmProtocol的静态方法getExporter获得预先缓存的Exporter服务供后续调用。</font>
+    - 调用**ProxyFactory**的 `<T> T getProxy(Invoker<T> invoker) throws RpcException;` 方法，默认扩展实现**JavassistProxyFactory**。返回实现服务接口的代理实例 `com.alibaba.dubbo.common.bytecode.proxy0`，实现接口 `com.sciatta.dev.java.dubbo.api.DemoService` 和 `com.alibaba.dubbo.rpc.service.EchoService`。
+  - 引用远程服务
+    - 调用**Protocol**的 `<T> Invoker<T> refer(Class<T> type, URL url) throws RpcException;` 方法，通过URL协议获取扩展实现**RegistryProtocol**
+      - 替换为原协议multicast，以此获取注册中心MulticastRegistry
+      - 返回MockClusterInvoker
+    - 调用**JavassistProxyFactory**，返回实现服务接口的代理实例
 
 
 
