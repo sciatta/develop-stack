@@ -130,7 +130,7 @@ docker pull mysql:5.7.32
 ## 后台启动
 
 ```shell
-docker run -itd -v /Users/yangxiaoyu/work/test/database/exchange:/exchange -v /Users/yangxiaoyu/work/test/database/mysql-test:/var/lib/mysql --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
+docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v /Users/yangxiaoyu/work/test/mysqldatas/mysql-test:/var/lib/mysql --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:5.7.32
 
 # 查看容器运行情况
 docker container ls -a
