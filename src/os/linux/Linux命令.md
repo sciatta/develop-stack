@@ -1269,6 +1269,21 @@ control+c
 
 
 
+## echo
+
+```shell
+# -e 解释转义字符
+echo -e "You know nothing, Jon Snow.\n\t- Ygritte"
+
+# -E 禁用转义字符的解释（默认）
+echo -E  "You know nothing, Jon Snow.\n\t- Ygritte"
+
+# -n 忽略尾部的自动换行
+echo -n 'hello'
+```
+
+
+
 # 系统设置
 
 ## clear
