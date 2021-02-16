@@ -276,6 +276,76 @@ Redis的GEO特性在 Redis3.2版本中推出，这个功能可以将用户给定
 
 
 
+## 事务
+
+Redis 事务可以一次执行多个命令， 并且带有以下三个重要的保证：
+
+- 批量操作在发送 EXEC 命令前被放入队列缓存。
+- 收到 EXEC 命令后进入事务执行，**事务中任意命令执行失败，其余的命令依然被执行**。
+- 在事务执行过程，其他客户端提交的命令请求不会插入到事务执行命令序列中。
+
+一个事务从开始到执行会经历以下三个阶段：
+
+- 开始事务。
+- 命令入队。
+- 执行事务。
+
+单个 Redis 命令的执行是原子性的，但 Redis 没有在事务上增加任何维持原子性的机制，所以 <font color=red>Redis 事务的执行并不是原子性的</font>。事务可以理解为一个打包的批量执行脚本，但批量指令并非原子化的操作，中间某条指令的失败不会导致前面已做指令的回滚，也不会造成后续的指令不做。
+
+- 执行事务
+
+  ```shell
+  # 开启事务 
+  multi
+  sadd a 1
+  sadd a 2
+  # 失败，但不影响其他语句的执行
+  get a
+  sadd a 3
+  # 提交事务
+  exec
+  
+  # DISCARD 取消事务，放弃执行事务块内的所有命令
+  ```
+
+- 监听
+
+  在 Redis 中使用 watch 命令可以决定事务是执行还是回滚。一般而言，可以在 multi 命令之前使用 watch 命令监控某些键值对，然后使用 multi 命令开启事务，执行各类对数据结构进行操作的命令，这个时候这些命令就会进入队列。当 Redis 使用 exec 命令执行事务的时候，它首先会去比对被 watch 命令所监控的键值对，如果没有发生变化，那么它会执行事务队列中的命令，提交事务；如果发生变化，那么它不会执行任何事务中的命令，而去事务回滚。无论事务是否回滚，Redis 都会去取消执行事务前的 watch 命令。
+
+  Redis 参考了多线程中使用的 CAS（比较与交换，Compare And Swap）去执行的。在数据高并发环境的操作中，我们把这样的一个机制称为**乐观锁**。
+
+  ```shell
+  # 客户端1
+  set lock 1
+  # 执行事务前监控lock
+  watch lock
+  
+  multi
+  set a 1
+  
+  
+  # 客户端2
+  # 修改监控lock
+  set lock 0
+  
+  
+  # 客户端1
+  # 回滚
+  exec
+  ```
+
+
+
+## 管道技术
+
+Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。合并操作批量处理，且不阻塞前序命令。
+
+```shell
+(echo -en "PING\r\nSET pkey redis\r\nGET pkey\r\nINCR visitor\r\nINCR visitor\r\nINCR visitor\r\n"; sleep 1) | nc localhost 6379
+```
+
+
+
 ## 使用场景
 
 ### 业务数据缓存（*）
@@ -354,7 +424,12 @@ Redis的GEO特性在 Redis3.2版本中推出，这个功能可以将用户给定
      - arg [arg ...] 非key参数
 
      ```lua
+     -- 直接执行
+     eval "return 'hello java'" 0
+     
+     -- 传递参数
      eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
+     
      -- 调用redis命令
      eval "return redis.call('set',KEYS[1],ARGV[1])" 1 foo bar
      
@@ -364,8 +439,3 @@ Redis的GEO特性在 Redis3.2版本中推出，这个功能可以将用户给定
      EVALSHA c686f316aaf1eb01d5a4de1b0b63cd233010e63d 1 t 1
      ```
 
-     
-
-   
-
-   
