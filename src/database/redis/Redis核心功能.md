@@ -136,6 +136,62 @@ redis-cli
 
 
 
+## 常用命令
+
+- ttl key
+
+  以秒为单位，返回给定 key 的剩余生存时间(TTL, time to live)
+
+- flushdb
+
+  清空当前数据库中的所有 key
+
+- dbsize
+
+  返回当前数据库的 key 的数量
+
+- info
+
+  获取 Redis 服务器的各种信息和统计数值
+
+- bgsave
+
+  在后台异步保存当前数据库的数据到磁盘
+
+- save
+
+  同步保存数据到硬盘
+
+- shutdown [nosave] [save]
+
+  异步保存数据到硬盘，并关闭服务器
+
+- time
+
+  返回当前服务器时间
+
+- config get parameter
+
+  获取指定配置参数的值
+
+- config rewrite
+
+  对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写
+
+- config set parameter value
+
+  修改 redis 配置参数，无需重启
+
+- role
+
+  返回主从实例所属的角色
+
+- slaveof host port
+
+  将当前服务器转变为指定服务器的从属服务器(slave server)
+
+
+
 ## 基本数据结构
 
 ### 字符串（string）
@@ -438,4 +494,219 @@ Redis 管道技术可以在服务端未响应时，客户端可以继续向服�
      -- 执行缓存脚本
      EVALSHA c686f316aaf1eb01d5a4de1b0b63cd233010e63d 1 t 1
      ```
+
+
+
+# 从单机到集群
+
+## 主从复制
+
+### 配置网络
+
+- 使用 `tunnelblick` + `mac-network` 方案使得宿主机可以直接访问docker容器，docker容器通过bridge组网。因为宿主机可以独立访问容器的IP和端口，所以使用此种方式，可以不需要向宿主机映射端口
+
+```shell
+# 创建专用网络
+docker network create --driver=bridge --subnet=172.82.0.0/24 redisnet
+```
+
+
+
+### 配置redis.conf
+
+```properties
+# redis01 主
+port 6379
+logfile "/log/redis.log"
+
+# redis02 从
+port 6379
+replicaof 172.82.0.100 6379
+logfile "/log/redis.log"
+
+# redis03 从
+port 6379
+replicaof 172.82.0.100 6379
+logfile "/log/redis.log"
+```
+
+
+
+### 启动redis服务
+
+```shell
+# 主
+docker run -p 6379:6379 --name redis01 --hostname redis01 --net=redisnet --ip=172.82.0.100 \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis01/redis.conf:/etc/redis/redis.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis01/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis01/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-server /etc/redis/redis.conf
+
+# 从
+docker run -p 6380:6379 --name redis02 --hostname redis02 --net=redisnet --ip=172.82.0.101 \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis02/redis.conf:/etc/redis/redis.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis02/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis02/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-server /etc/redis/redis.conf
+
+# 从
+docker run -p 6381:6379 --name redis03 --hostname redis03 --net=redisnet --ip=172.82.0.102 \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis03/redis.conf:/etc/redis/redis.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis03/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/redis03/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-server /etc/redis/redis.conf
+```
+
+
+
+### 验证
+
+- 参数
+
+  ```shell
+  # redis01
+  info replication
+  # role:master
+  # connected_slaves:2
+  # slave0:ip=172.82.0.101,port=6379,state=online,offset=809,lag=1
+  # slave1:ip=172.82.0.102,port=6379,state=online,offset=809,lag=1
+  
+  # redis02
+  info replication
+  # role:slave
+  # master_host:172.82.0.100
+  # master_port:6379
+  
+  # redis03
+  info replication
+  # role:slave
+  # master_host:172.82.0.100
+  # master_port:6379
+  ```
+
+- 日志
+
+  ```shell
+  1:M 18 Feb 2021 09:12:41.091 * Synchronization with replica 172.82.0.101:6379 succeeded
+  1:M 18 Feb 2021 09:21:18.626 * Synchronization with replica 172.82.0.102:6379 succeeded
+  ```
+
+- 命令
+
+  - redis01（主）对key 增 / 删 / 改 会同步到redis02（从）和redis03（从）上。redis01可以查询数据
+  - redis02（从）和redis03（从）只读
+
+
+
+## 高可用
+
+以主从复制的三个主从节点为基础，搭建sentinel。
+
+### 配置sentinel.conf
+
+```shell
+# sentinel01
+port 26379
+logfile "/log/sentinel.log"
+# 配置主，不需要配置从，可以通过主获取到需要监控的从
+# 最后一个2表示两台sentinel判定主被动下线后，就进行failover(故障转移)
+sentinel monitor mymaster 172.82.0.100 6379 2
+# 3s内mymaster无响应，则认为mymaster宕机了
+sentinel down-after-milliseconds mymaster 3000
+# 如果10秒后mysater仍没启动过来，则启动failover  
+sentinel failover-timeout mymaster 10000
+# 限制同时同新主同步的从数量，即执行故障转移时最多有1个从同新的主进行同步，此时这个从不可用；之后其他从轮询同主进行同步；因此值越小，同步的时间就越久，但值越大，也会造成一段时间内多个从不可用的问题
+sentinel parallel-syncs mymaster 1
+
+# sentinel02
+port 26379
+logfile "/log/sentinel.log"
+sentinel monitor mymaster 172.82.0.100 6379 2
+sentinel down-after-milliseconds mymaster 3000
+sentinel failover-timeout mymaster 10000
+sentinel parallel-syncs mymaster 1
+
+# sentinel03
+port 26379
+logfile "/log/sentinel.log"
+sentinel monitor mymaster 172.82.0.100 6379 2
+sentinel down-after-milliseconds mymaster 3000
+sentinel failover-timeout mymaster 10000
+sentinel parallel-syncs mymaster 1
+```
+
+
+
+### 启动sentinel服务
+
+```shell
+# sentinel01
+docker run -p 26379:26379 --name sentinel01 --hostname sentinel01 --net=redisnet --ip=172.82.0.200 \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel01/sentinel.conf:/etc/redis/sentinel.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel01/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel01/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-sentinel /etc/redis/sentinel.conf
+
+# sentinel02
+docker run -p 26380:26379 --name sentinel02 --hostname sentinel02 --net=redisnet --ip=172.82.0.201 \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel02/sentinel.conf:/etc/redis/sentinel.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel02/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel02/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-sentinel /etc/redis/sentinel.conf
+
+# sentinel03
+docker run -p 26381:26379 --name sentinel03 --hostname sentinel03 --net=redisnet --ip=172.82.0.202 \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel03/sentinel.conf:/etc/redis/sentinel.conf \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel03/data:/data \
+-v /Users/yangxiaoyu/work/test/redisdatas/sentinel03/log:/log \
+-v /Users/yangxiaoyu/work/test/redisdatas/exchange:/exchange \
+-d redis redis-sentinel /etc/redis/sentinel.conf
+```
+
+
+
+### 验证
+
+- 日志
+
+  ```shell
+  1:X 18 Feb 2021 12:56:14.055 # +monitor master mymaster 172.82.0.100 6379 quorum 2
+  # 两从
+  1:X 18 Feb 2021 12:56:14.060 * +slave slave 172.82.0.101:6379 172.82.0.101 6379 @ mymaster 172.82.0.100 6379
+  1:X 18 Feb 2021 12:56:14.072 * +slave slave 172.82.0.102:6379 172.82.0.102 6379 @ mymaster 172.82.0.100 6379
+  # 另外两个sentinel
+  1:X 18 Feb 2021 12:56:23.955 * +sentinel sentinel cf2c4ed31c1d46f68bc2fd73ece3b7af96043bd0 172.82.0.201 26379 @ mymaster 172.82.0.100 6379
+  1:X 18 Feb 2021 12:56:30.776 * +sentinel sentinel 6f2cd400137500c1a248e6a7074e568c082f02a9 172.82.0.202 26379 @ mymaster 172.82.0.100 6379
+  ```
+
+- 命令
+
+  - 主redis01下线
+    - redis03被选举为主，redis02为从，符合主从复制约定限制
+    - 主redis01上线，成为从，同步主数据
+  - 从redis02下线
+    - 从redis02上线，仍为从，同步主数据
+
+- 参数
+
+  ```shell
+  # 连接到sentinel服务
+  redis-cli -h localhost -p 26379
+  
+  # master清单
+  sentinel masters
+  
+  # 指定master的slave清单
+  sentinel slaves mymaster
+  
+  # 指定master的sentinel清单
+  sentinel sentinels mymaster
+  ```
+
+  
 
