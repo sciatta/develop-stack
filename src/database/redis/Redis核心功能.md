@@ -499,6 +499,54 @@ Redis 管道技术可以在服务端未响应时，客户端可以继续向服�
 
 # 从单机到集群
 
+- 主从复制
+
+  为了分担读压力，Redis支持主从复制，读写分离。一个Master可以有多个Slaves。
+
+  优点
+
+  - 数据备份
+  - 读写分离，提高服务器性能
+
+  缺点
+
+  - 不能自动故障恢复
+  - 无法实现动态扩容
+
+- 哨兵机制
+
+  Redis Sentinel是社区版本推出的原生高可用解决方案，其部署架构主要包括两部分：Redis Sentinel集群和Redis数据集群。其中Redis Sentinel集群是由若干Sentinel节点组成的分布式集群，可以实现故障发现、故障自动转移、配置中心和客户端通知。Redis Sentinel的节点数量要满足2n+1（n>=1）奇数个。
+
+  优点
+
+  - 自动化故障恢复
+
+  缺点
+
+  - Redis 数据节点中 slave 节点作为备份节点不提供“写”服务
+  - 无法实现动态扩容
+
+- redis-Cluster
+
+  Redis Cluster是社区版推出的Redis分布式集群解决方案，主要解决Redis分布式方面的需求，比如，当遇到单机内存，并发和流量等瓶颈的时候，Redis Cluster能起到很好的负载均衡的目的。Redis Cluster着眼于**提高并发量**。
+
+  群集至少需要3主3从，且每个实例使用不同的配置文件。在redis-cluster架构中，redis-master节点一般用于接收读写，而redis-slave节点则一般只用于备份， 其与对应的master拥有相同的slot集合，若某个redis-master意外失效，则再将其对应的slave进行升级为临时redis-master。
+
+  在redis的官方文档中，对redis-cluster架构上，有这样的说明：在cluster架构下，默认的，一般redis-master用于接收读写，而redis-slave则用于备份，当有请求是在向slave发起时，会直接重定向到对应key所在的master来处理。 但如果不介意读取的是redis-cluster中有可能过期的数据并且对写请求不感兴趣时，则亦可通过readonly命令，将slave设置成可读，然后通过slave获取相关的key，达到读写分离。
+
+  优点
+
+  - 解决分布式负载均衡的问题。具体解决方案是分片/虚拟槽slot。
+  - 可实现动态扩容
+  - P2P模式，无中心化
+
+  缺点
+
+  - 为了性能提升，客户端需要缓存路由表信息
+  - Slave在集群中充当“冷备”，不能缓解读压力
+
+
+
 ## 主从复制
 
 ### 配置网络
@@ -706,6 +754,266 @@ docker run -p 26381:26379 --name sentinel03 --hostname sentinel03 --net=redisnet
   
   # 指定master的sentinel清单
   sentinel sentinels mymaster
+  ```
+
+  
+
+## 集群
+
+**数据分布**
+
+- 全量数据，单机Redis节点无法满足要求，按照分区规则把数据分到若干个子集当中
+
+- 常用数据分布方式
+
+  - 顺序分布
+
+  - 哈希分布
+
+    - 节点取余分区
+
+      举例：如有100个数据，对每个数据进行hash运算之后，与节点数进行取余运算，根据余数不同保存在不同的节点上
+
+      优点：客户端分片配置简单，对数据进行哈希，然后取余
+
+      缺点：数据节点伸缩时，导致数据迁移。迁移数量和添加节点数据有关，建议翻倍扩容
+
+    - 一致性哈希分区
+
+      原理：将所有的数据当做一个token环，token环中的数据范围是0到2的32次方。然后为每一个数据节点分配一个token范围值，这个节点就负责保存这个范围内的数据。对每一个key进行hash运算，被哈希后的结果在哪个token的范围内，则按顺时针去找最近的节点，这个key将会被保存在这个节点上。
+
+      优点：采用客户端分片方式：哈希 + 顺时针（优化取余）节点伸缩时，只影响邻近节点，但是还是有数据迁移
+
+      缺点：翻倍伸缩，保证最小迁移数据和负载均衡
+
+    - 虚拟槽分区
+
+      <font color=red>虚拟槽分区是Redis Cluster采用的分区方式</font>。
+
+      预设虚拟槽，每个槽就相当于一个数字，有一定范围。每个槽映射一个数据子集，一般比节点数大。Redis Cluster中预设虚拟槽的范围为0到16383。
+
+      - 把16384槽按照节点数量进行平均分配，由节点进行管理
+
+      - 对每个key按照CRC16规则进行hash运算
+
+      - 把hash结果对16384进行取余
+
+      - 把余数发送给Redis节点
+
+      - 节点接收到数据，验证是否在自己管理的槽编号的范围
+
+        - 如果在自己管理的槽编号范围内，则把数据保存到数据槽中，然后返回执行结果
+
+        - 如果在自己管理的槽编号范围外，则会把数据发送给正确的节点，由正确的节点来把数据保存在对应的槽中（Redis Cluster的节点之间会共享消息，每个节点都会知道是哪个节点负责哪个范围内的数据槽）
+
+      优点：虚拟槽分布方式中，由于每个节点管理一部分数据槽，数据保存到数据槽中。当节点扩容或者缩容时，对数据槽进行重新分配迁移即可，数据不会丢失
+
+
+
+**redis-cluster**
+
+采用无中心结构，每个节点保存数据和整个集群状态，每个节点都和其他所有节点连接。
+
+- 主从复制不能实现高可用
+- 随着公司发展，用户数量增多，并发越来越多，业务需要更高的QPS，而主从复制中单机的QPS可能无法满足业务需求
+- 数据量的考虑，现有服务器内存不能满足业务数据的需要时，单纯向服务器添加内存不能达到要求，此时需要考虑分布式需求，把数据分布到不同服务器上
+- 网络流量需求，业务的流量已经超过服务器的网卡的上限值，可以考虑使用分布式来进行分流
+- 离线计算，需要中间环节缓冲等别的需求
+
+基本架构
+
+- Redis Cluster中有多个节点，每个节点都负责进行数据读写操作
+- 节点之间会相互通信，meet操作是节点之间完成相互通信的基础，meet操作有一定的频率和规则
+- 把16384个槽平均分配给节点进行管理，<font color=red>每个节点只能对自己负责的槽进行读写操作</font>。由于每个节点之间都彼此通信，每个节点都知道另外节点负责管理的槽范围
+- 客户端访问任意节点时，对数据key按照CRC16规则进行hash运算，然后对运算结果对16384进行取余，如果余数在当前访问的节点管理的槽范围内，则直接返回对应的数据。如果不在当前节点负责管理的槽范围内，则会告诉客户端去哪个节点获取数据，由客户端去正确的节点获取数据（多一跳）
+- 保证高可用，每个主节点都有一个从节点，当主节点故障，Cluster会按照规则实现主备的高可用性。对于节点来说，有一个配置项`cluster-enabled`，即是否以集群模式启动
+
+
+
+### 配置redis.conf
+
+```shell
+# redis7000 | redis7001 | redis7002 | redis7003 | redis7004 | redis7005
+port 7000
+cluster-enabled yes	# 启用集群支持
+cluster-config-file nodes.conf # 由redis集群维护，记录集群节点状态等信息
+cluster-node-timeout 5000 # 集群不可用最长时间
+appendonly yes
+daemonize no
+protected-mode no
+pidfile  /data/redis.pid
+```
+
+
+
+### 启动redis服务
+
+```shell
+# redis7000
+docker run --name redis7000 --net=redisnet --ip=172.82.0.70 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7000:/data -d redis redis-server /data/redis.conf
+
+# redis7001
+docker run --name redis7001 --net=redisnet --ip=172.82.0.71 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7001:/data -d redis redis-server /data/redis.conf
+
+# redis7002
+docker run --name redis7002 --net=redisnet --ip=172.82.0.72 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7002:/data -d redis redis-server /data/redis.conf
+
+# redis7003
+docker run --name redis7003 --net=redisnet --ip=172.82.0.73 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7003:/data -d redis redis-server /data/redis.conf
+
+# redis7004
+docker run --name redis7004 --net=redisnet --ip=172.82.0.74 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7004:/data -d redis redis-server /data/redis.conf
+
+# redis7005
+docker run --name redis7005 --net=redisnet --ip=172.82.0.75 -v /Users/yangxiaoyu/work/test/redisdatas/cluster/7005:/data -d redis redis-server /data/redis.conf
+```
+
+
+
+### 创建集群
+
+```shell
+# -p 指定连接 Redis 的端口
+# --cluster 使用 Redis 集群模式命令
+# create 创建 Redis 集群
+# --cluster-replicas 指定副本数（slave 数量）
+docker exec -it redis7000 \
+redis-cli -p 7000 --cluster create \
+172.82.0.70:7000 172.82.0.71:7000 172.82.0.72:7000 \
+172.82.0.73:7000 172.82.0.74:7000 172.82.0.75:7000 \
+--cluster-replicas 1
+```
+
+输出关键信息
+
+```shell
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 172.82.0.74:7000 to 172.82.0.70:7000
+Adding replica 172.82.0.75:7000 to 172.82.0.71:7000
+Adding replica 172.82.0.73:7000 to 172.82.0.72:7000
+```
+
+
+
+###验证
+
+- 查看集群信息
+
+  登录任意节点
+
+  ```shell
+  # -p：指定连接 Redis 的端口；
+  # -c：使用集群模式；
+  docker exec -it redis7000 redis-cli -p 7000 -c
+  ```
+
+  cluster info
+
+  ```shell
+  cluster_state:ok
+  cluster_slots_assigned:16384
+  cluster_slots_ok:16384
+  cluster_slots_pfail:0
+  cluster_slots_fail:0
+  cluster_known_nodes:6
+  cluster_size:3
+  cluster_current_epoch:6
+  cluster_my_epoch:1
+  cluster_stats_messages_ping_sent:1014
+  cluster_stats_messages_pong_sent:1031
+  cluster_stats_messages_sent:2045
+  cluster_stats_messages_ping_received:1026
+  cluster_stats_messages_pong_received:1014
+  cluster_stats_messages_meet_received:5
+  cluster_stats_messages_received:2045
+  ```
+
+  cluster nodes 查看主从关联情况
+
+  ```shell
+  1f1bfcb5d7f8da84b6b2ce418260b19edb4b4731 172.82.0.73:7000@17000 slave a223227673365bab768d52bce81fe57c74a70c78 0 1613826416777 3 connected
+  a1a0e1df50d7b217f0a6e81de7d549168cd158d3 172.82.0.71:7000@17000 master - 0 1613826417000 2 connected 5461-10922
+  a223227673365bab768d52bce81fe57c74a70c78 172.82.0.72:7000@17000 master - 0 1613826417593 3 connected 10923-16383
+  c9cb4de4f0980694190f8096fe12e21503dfa7ea 172.82.0.75:7000@17000 slave a1a0e1df50d7b217f0a6e81de7d549168cd158d3 0 1613826417000 2 connected
+  f31b9855b0314eca9c4b6a431b19a1be5f953b74 172.82.0.74:7000@17000 slave bb49e8c8ff1c7c8c5b58f6bfae09d16ad5a249ab 0 1613826417801 1 connected
+  bb49e8c8ff1c7c8c5b58f6bfae09d16ad5a249ab 172.82.0.70:7000@17000 myself,master - 0 1613826415000 1 connected 0-5460
+  ```
+
+- 命令
+
+  以单机模式运行master客户端
+
+  ```shell
+  docker exec -it redis7000 redis-cli -p 7000
+  
+  # 提示 (error) MOVED 6257 172.82.0.71:7000
+  # 需要在redis7001执行该命令才会成功；同样，也只有在redis7001才可以查询
+  set msg helloworld
+  ```
+
+  以集群模式运行master客户端
+
+  - <font color=red>在集群模式下任意客户端可以写入，也可以读取；redis客户端会自动重定向，不需要切换客户端</font>
+
+  ```shell
+  docker exec -it redis7000 redis-cli -p 7000 -c
+  
+  # 在redis7000执行，请求被重定向到redis7001
+  # redis7000可以查询，也可以读取
+  # -> Redirected to slot [6257] located at 172.82.0.71:7000
+  # OK
+  set msg helloworld
+  ```
+
+  以单机模式运行slave客户端
+
+  - <font color=red>当设置为 READONLY 模式时，可以只读查询</font>
+
+  ```shell
+  # redis7005是redis7001的slave
+  docker exec -it redis7005 redis-cli -p 7000
+  
+  # 无法查询
+  get msg
+  ```
+
+  以集群模式运行slave客户端
+
+  - <font color=red>注意当重定向后，keys * 只能查询到重定向节点的数据</font>
+
+  ```shell
+  docker exec -it redis7005 redis-cli -p 7000 -c
+  
+  # 请求被重定向
+  # -> Redirected to slot [6257] located at 172.82.0.71:7000
+  # "helloworld"
+  get msg
+  ```
+
+
+
+- 测试高可用
+
+  ```shell
+  # 目前关联情况
+  # master -> slave
+  172.82.0.70 -> 172.82.0.74
+  172.82.0.71 -> 172.82.0.75
+  172.82.0.72 -> 172.82.0.73
+  
+  # 172.82.0.70下线，172.82.0.74升级为master，slots保持不变
+  # 172.82.0.74下线，(error) CLUSTERDOWN The cluster is down 导致集群不可用
+  
+  # 172.82.0.74上线为master，处理数据正常
+  # 172.82.0.70上线为slave，成为备份节点
+  
+  # 目前关联情况
+  # master -> slave
+  172.82.0.74 -> 172.82.0.70
+  172.82.0.71 -> 172.82.0.75
+  172.82.0.72 -> 172.82.0.73
   ```
 
   
