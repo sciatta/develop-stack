@@ -308,6 +308,17 @@ docker kill my_container
 
 
 
+## docker logs
+
+获取容器日志
+
+```shell
+#  -f 继续从容器的 STDOUT 和 STDERR 持续输出流日志
+docker logs -f my_container
+```
+
+
+
 ## docker network
 
 管理网络。
