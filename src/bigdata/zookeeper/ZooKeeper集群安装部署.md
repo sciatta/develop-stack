@@ -122,3 +122,62 @@ zkServer.sh status
 zkServer.sh stop
 ```
 
+
+
+# 安装ZooKeeper Docker集群
+
+## 下载镜像
+
+```shell
+docker pull zookeeper:3.4.14
+```
+
+
+
+## 启动服务
+
+- docker logs -f zk01 查看服务运行情况
+- 当启动容器后，挂载的本地目录自动创建
+
+```shell
+# zk01
+docker run --name zk01 --net=mynet --ip=172.72.0.10 \
+-v /Users/yangxiaoyu/work/test/zkdatas/node01/data:/data \
+-v /Users/yangxiaoyu/work/test/zkdatas/node01/datalog:/datalog \
+-v /Users/yangxiaoyu/work/test/zkdatas/node01/logs:/logs \
+-e ZOO_MY_ID=1 \
+-e "ZOO_SERVERS=server.1=172.72.0.10:2888:3888 server.2=172.72.0.11:2888:3888 server.3=172.72.0.12:2888:3888" \
+-d zookeeper:3.4.14
+
+# zk02
+docker run --name zk02 --net=mynet --ip=172.72.0.11 \
+-v /Users/yangxiaoyu/work/test/zkdatas/node02/data:/data \
+-v /Users/yangxiaoyu/work/test/zkdatas/node02/datalog:/datalog \
+-v /Users/yangxiaoyu/work/test/zkdatas/node02/logs:/logs \
+-e ZOO_MY_ID=2 \
+-e "ZOO_SERVERS=server.1=172.72.0.10:2888:3888 server.2=172.72.0.11:2888:3888 server.3=172.72.0.12:2888:3888" \
+-d zookeeper:3.4.14
+
+# zk03
+docker run --name zk03 --net=mynet --ip=172.72.0.12 \
+-v /Users/yangxiaoyu/work/test/zkdatas/node03/data:/data \
+-v /Users/yangxiaoyu/work/test/zkdatas/node03/datalog:/datalog \
+-v /Users/yangxiaoyu/work/test/zkdatas/node03/logs:/logs \
+-e ZOO_MY_ID=3 \
+-e "ZOO_SERVERS=server.1=172.72.0.10:2888:3888 server.2=172.72.0.11:2888:3888 server.3=172.72.0.12:2888:3888" \
+-d zookeeper:3.4.14
+```
+
+
+
+## 验证
+
+```shell
+# 查看zk01、zk02、zk03的Mode，一个leader、其他follower
+docker exec -it zk01 bin/zkServer.sh status
+
+docker exec -it zk02 bin/zkServer.sh status
+
+docker exec -it zk03 bin/zkServer.sh status
+```
+
