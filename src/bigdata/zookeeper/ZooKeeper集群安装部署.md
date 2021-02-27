@@ -175,9 +175,10 @@ docker run --name zk03 --net=mynet --ip=172.72.0.12 \
 ```shell
 # 查看zk01、zk02、zk03的Mode，一个leader、其他follower
 docker exec -it zk01 bin/zkServer.sh status
-
 docker exec -it zk02 bin/zkServer.sh status
-
 docker exec -it zk03 bin/zkServer.sh status
+
+# 连接客户端
+docker exec -it zk01 bin/zkCli.sh -server 172.72.0.10:2181,172.72.0.11:2181,172.72.0.12:2181
 ```
 
