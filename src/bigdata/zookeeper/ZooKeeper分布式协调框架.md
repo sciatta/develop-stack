@@ -95,7 +95,7 @@ ZNode 分为四类
 | 非有序节点 | create    | create -e    |
 | 有序节点   | create -s | create -s -e |
 
-- 临时节点不能有子节点
+- <font color=red>临时节点不能有子节点</font>
 
 
 
@@ -175,7 +175,7 @@ create -s /tmp t
 
 
 - Client创建连接，首先是未连接转态，随着初始化后，进入连接中状态。当Client同ZooKeeper集群的某一个Server连接，则进入已连接状态。业务处理结束，Client主动关闭Session连接，此时进入已关闭状态。
-- 当Client无法接收到Server的响应时，首先进入连接中状态，再次同ZooKeeper集群的某一个Server连接，如果连接成功，则进入已连接状态；如果始终无法与任意一个Server连接，则关闭Session连接进入已关闭状态。
+- 当Client无法接收到Server的响应时，首先进入连接中状态，再次同ZooKeeper集群的另外一个Server连接，如果连接成功，则进入已连接状态；如果始终无法与任意一个Server连接，则关闭Session连接进入已关闭状态。
 
 
 
@@ -336,7 +336,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
   3. ZooKeeper会通知Client 2和Client 3，有删除节点事件
   4. Client 2和Client 3同时向ZooKeeper请求创建临时节点 /lock，Client 3创建成功，而Client2创建失败，Client2继续对该节点设置watcher等待通知事件
 
-  方案一会产生**惊群问题**，多个进程请求共享资源但无法同时获得锁，未获得锁的进程只有休眠等待通知。一旦多个进程同时得到通知，全部进程会无序CPU调度，网络通信争抢锁，但此时又只会有一个进程获得锁，当有大量争抢进程时，会导致计算和网络资源的浪费。
+  方案一会产生**惊群问题**，多个进程请求共享资源但无法同时获得锁，未获得锁的进程只有休眠等待通知。一旦多个进程同时得到通知，全部进程会无序CPU调度，网络通信争抢锁，但此时又<font color=red>只会有一个进程获得锁</font>，当有大量争抢进程时，会导致计算和网络资源的浪费。
 
   
 
@@ -397,7 +397,7 @@ Hadoop 2.x 版本提出了高可用（High Availability，HA）解决方案。
 
 - `Raft` 在2013年提出，提出的时间虽然不长，但已经有很多系统基于Raft实现
 
-- `Zab` 的全称是Zookeeper atomic broadcast protocol，是Zookeeper内部用到的一致性协议。相比Paxos，Zab最大的特点是保证强一致性(strong consistency，或叫线性一致性linearizable consistency)。Zab协议有两种模式
+- `Zab` 的全称是 **Zookeeper atomic broadcast protocol** ，是Zookeeper内部用到的一致性协议。相比Paxos，Zab最大的特点是保证强一致性(strong consistency，或叫线性一致性linearizable consistency)。Zab协议有两种模式
 
   - **恢复模式（选主）**
 
@@ -418,7 +418,7 @@ Raft 动图演示地址： `http://thesecretlivesofdata.com/raft/`
 
 ### ZooKeeper服务器个数
 
-仲裁模式下，服务器个数选择为<font color=red>奇数</font>（可以保证脑裂状态下，有一个集群时可用的）。
+**仲裁模式**下，服务器个数选择为<font color=red>奇数</font>（可以保证脑裂状态下，至少有一个集群是可用的，即可对外提供服务）。
 
 zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 / 2** 。
 
@@ -484,12 +484,12 @@ zookeeper选举的规则：leader选举要求 **可用节点数 > 总节点数 /
 
 ![zookeeper_write](ZooKeeper分布式协调框架.assets/zookeeper_write.png)
 
-1. 客户端与一个follower建立Session连接，向ZooKeeper集群写入数据，如 `create /test`
+1. 客户端与一个follower建立Session连接，向ZooKeeper集群写入数据，如 `create /test test`；如果客户端与一个leader建立Session连接，并收到写入请求，则执行第3步
 2. follower“权限”不够，询问“领导”leader，将写入数据请求转发给leader
-3. leader收到请求后非常“民主”，向所有follower发出 `proposal ` 提案 `create /test`，包括leader自己。follower和leader收到提案后先记录下来
-4. 当有超过半数的 `quorum` （包括leader自己，quorum = N / 2 + 1）同意提案，则leader首先 `commit` 提交提案，创建 `/test` ZNode
+3. leader收到请求后非常“民主”，向所有follower发出 `proposal ` 提案（zxid） `create /test test`，包括leader自己。follower和leader收到提案后先记录下来（保存在历史队列），返回ack
+4. 当有超过半数的 `quorum` （包括leader自己，quorum = N / 2 + 1）同意提案，则leader首先 `commit` 提交提案（持久化），创建 `/test` ZNode
 5. 然后leader通知所有follower `commit` 提交提案，follower各自创建 `/test` ZNode
-6. follower响应客户端写入数据成功
+6. 请求的那个follower持久化成功后，响应客户端写入数据成功
 
 
 
