@@ -620,7 +620,7 @@ rebalance的前提是coordinator已经确定。总体而言，rebalance分为2�
     - 重新发送数据的次数。默认为0，表示不重试。
   - retry.backoff.ms
     - 两次重试之间的时间间隔。默认为100ms。
-  - max.in.flight.requests.per.connection
+  - <font color=red>max.in.flight.requests.per.connection 顺序保证</font>
     - 每个网络连接已经发送但还没有收到服务端响应的请求个数最大值。
     - 消息重试是可能导致消息乱序的（**如果乱序的消息属于不同分区，则不会出现问题；但如果属于同一个分区，则会违反分区内间隔有序规范**），可以使用 `max.in.flight.requests.per.connection` 参数设置为1，这样可以保证producer必须把一个请求发送的数据发送成功了再发送后面的请求。避免数据出现乱序。
 - 提升消息吞吐量
@@ -642,11 +642,11 @@ rebalance的前提是coordinator已经确定。总体而言，rebalance分为2�
     - 很多消息可能会超过1MB，一般企业设置为10MB。
   - request.timeout.ms
     - 请求发送后的超时时间限制，默认是30秒。如果30秒收不到响应，那么就会抛出一个TimeoutException。
-- ACK参数
+- <font color=red>ACK参数 可靠性保证</font>
   - acks
     - 0。生产者发数据，不需要等待Leader应答，数据丢失的风险最高，但吞吐量也是最高的。对于一些实时数据分析场景，对数据准确性要求不高的场景适用。
     - 1。需要等待Leader应答。在Leader还没有同步Follower数据时宕机，也会存在丢失数据的可能。
-    - -1 或 all。需要等待Leader应答，并且Leader已同步ISR列表中的所有副本。数据最安全，但性能最差。
+    - -1 或 all。需要等待Leader应答，并且Leader已同步ISR列表中的最小副本数。数据最安全，但性能最差。
   - min.insync.replicas
     - ISR列表最小副本数。最小为2，才能保证数据不会丢失。
 
