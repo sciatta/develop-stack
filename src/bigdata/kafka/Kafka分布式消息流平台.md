@@ -143,6 +143,7 @@ MQTT（Message Queue Telemetry Transport）是一种二进制协议，主要用�
 
   - 每个 consumer 都属于一个 consumer group。
   - 每条消息只能被 consumer group 中的一个 Consumer 消费，但可以被多个 consumer group 中的 consumer消费。
+  - 组内相当于queue，组间相当于topic
 
 - broker
 
@@ -152,14 +153,17 @@ MQTT（Message Queue Telemetry Transport）是一种二进制协议，主要用�
 
   - 每条发布到Kafka集群的消息属于的类别，即Kafka是面向 topic 的。更通俗的说Topic就像一个消息队列，生产者可以向其写入消息，消费者可以从中读取消息，一个Topic支持多个生产者或消费者同时订阅它，所以其扩展性很好。
   - 每条消息都要指定一个topic。
+  - <font color=red>逻辑概念</font>
 
 - partition
 
   - 每个 topic 包含一个或多个partition。Kafka分配的单位是partition。
-  - 物理上的概念，每个topic包含一个或多个partition，一个partition对应一个文件夹，这个文件夹下存储partition的数据和索引文件，每个partition内部是有序的。
+  - <font color=red>物理概念</font>，每个topic包含一个或多个partition，一个partition对应一个文件夹，这个文件夹下存储partition的数据和索引文件，每个partition内部是有序的。
   - 消费者组的不同消费者不允许消费同一个partition。
   - 每条消息可被不同的消费者组消费，但只可被消费者组的一个消费者消费。
   - 如果 `消费者数 > partition` ，则多余的空闲；如果 `消费者数 < partition`，则会有消费者消费多个partition。
+  - 目的是将逻辑topic打散，提高并发性
+  - 单机不建议大量topic/partition，单个partition顺序写，多个partition并发写，会造成磁盘随机读写
 
 - replica
 
@@ -258,6 +262,8 @@ producer.send(new ProducerRecord<>(UtilFactory.TOPIC_TEST, 0, String.valueOf(0),
 
 
 ### 按照key的hashcode（kafka规则）分区
+
+- key的作用是使消息进入特定分区
 
 ```java
 // 相同key到同一个分区
@@ -646,7 +652,7 @@ rebalance的前提是coordinator已经确定。总体而言，rebalance分为2�
   - acks
     - 0。生产者发数据，不需要等待Leader应答，数据丢失的风险最高，但吞吐量也是最高的。对于一些实时数据分析场景，对数据准确性要求不高的场景适用。
     - 1。需要等待Leader应答。在Leader还没有同步Follower数据时宕机，也会存在丢失数据的可能。
-    - -1 或 all。需要等待Leader应答，并且Leader已同步ISR列表中的最小副本数。数据最安全，但性能最差。
+    - -1 或 all。需要等待Leader应答，并且Leader已同步ISR列表中的<font color=red>最小副本数</font>。数据最安全，但性能最差。
   - min.insync.replicas
     - ISR列表最小副本数。最小为2，才能保证数据不会丢失。
 
