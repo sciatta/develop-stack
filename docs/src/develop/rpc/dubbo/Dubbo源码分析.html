@@ -1,0 +1,2459 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Dubbo源码分析 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../../">
+            
+                <a href="../../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Develop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="../../java/jvm/JVM核心技术.html">
+            
+                <a href="../../java/jvm/JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.1.2" data-path="../../java/jvm/JDK工具.html">
+            
+                <a href="../../java/jvm/JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../../java/io/NIO模型与Netty.html">
+            
+                <a href="../../java/io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../../java/concurrency/并发编程.html">
+            
+                <a href="../../java/concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../../algorithm/数据结构和算法.html">
+            
+                <a href="../../algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../../spring/SpringCore核心功能.html">
+            
+                <a href="../../spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../../spring/SpringBoot核心功能.html">
+            
+                <a href="../../spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    RPC
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" >
+            
+                <span>
+            
+                    
+                    Dubbo
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.2.4.1.1" data-path="Dubbo源码分析.html">
+            
+                <a href="Dubbo源码分析.html">
+            
+                    
+                    Dubbo源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    MQ
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1.1" data-path="../../mq/kafka/Kafka集群安装部署.html">
+            
+                <a href="../../mq/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.2" data-path="../../mq/kafka/Kafka监控工具.html">
+            
+                <a href="../../mq/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.3" data-path="../../mq/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../../mq/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1.1" data-path="../../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                <a href="../../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.2" data-path="../../hadoop/hdfs/HDFS命令.html">
+            
+                <a href="../../hadoop/hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.3" data-path="../../hadoop/hdfs/HDFS源码分析.html">
+            
+                <a href="../../hadoop/hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.2.1" data-path="../../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                <a href="../../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.3.1" data-path="../../hadoop/yarn/YARN架构.html">
+            
+                <a href="../../hadoop/yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../../hadoop/Hadoop集群安装部署.html">
+            
+                <a href="../../hadoop/Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../../hadoop/Hadoop HA集群安装部署.html">
+            
+                <a href="../../hadoop/Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../../hadoop/Hadoop企业级调优.html">
+            
+                <a href="../../hadoop/Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../../zookeeper/ZooKeeper集群安装部署.html">
+            
+                <a href="../../zookeeper/ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                <a href="../../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.8.1" data-path="../../hive/Hive安装部署.html">
+            
+                <a href="../../hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.2" data-path="../../hive/大数据分析利器之Hive.html">
+            
+                <a href="../../hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.3" data-path="../../hive/Hive调优.html">
+            
+                <a href="../../hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.9.1" data-path="../../hbase/HBase集群安装部署.html">
+            
+                <a href="../../hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9.2" data-path="../../hbase/大数据数据库之HBase.html">
+            
+                <a href="../../hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.10.1" data-path="../../flume/Flume安装部署.html">
+            
+                <a href="../../flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10.2" data-path="../../flume/Flume数据采集.html">
+            
+                <a href="../../flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.11.1" data-path="../../sqoop/Sqoop安装部署.html">
+            
+                <a href="../../sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11.2" data-path="../../sqoop/Sqoop数据迁移.html">
+            
+                <a href="../../sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.12.1" data-path="../../azkaban/Azkaban安装部署.html">
+            
+                <a href="../../azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12.2" data-path="../../azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../../azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1.1" data-path="../../spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../../spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.1.2" data-path="../../spark/sparkcore/Spark调优.html">
+            
+                <a href="../../spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.2.1" data-path="../../spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../../spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.3" data-path="../../spark/Spark集群安装部署.html">
+            
+                <a href="../../spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../../database/mysql/MySQL安装.html">
+            
+                <a href="../../../database/mysql/MySQL安装.html">
+            
+                    
+                    MySQL安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../../database/mysql/MySQL实践.html">
+            
+                <a href="../../../database/mysql/MySQL实践.html">
+            
+                    
+                    MySQL实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../../database/redis/Redis核心功能.html">
+            
+                <a href="../../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="../../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../../versioncontrol/git/Git命令.html">
+            
+                <a href="../../../versioncontrol/git/Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../../../versioncontrol/git/GitHub日常使用.html">
+            
+                <a href="../../../versioncontrol/git/GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../../../virtualization/docker/Docker实践.html">
+            
+                <a href="../../../virtualization/docker/Docker实践.html">
+            
+                    
+                    Docker实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../../os/linux/Linux命令.html">
+            
+                <a href="../../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" data-path="../../../os/linux/iTerm的使用.html">
+            
+                <a href="../../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../../.." >Dubbo源码分析</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x76EE;&#x6807;"><b>1. </b>&#x76EE;&#x6807;</a></li><li><span class="title-icon "></span><a href="#&#x603B;&#x89C8;"><b>2. </b>&#x603B;&#x89C8;</a></li><li><span class="title-icon "></span><a href="#&#x7075;&#x6D3B;&#x6269;&#x5C55;"><b>3. </b>&#x7075;&#x6D3B;&#x6269;&#x5C55;</a></li><ul><li><span class="title-icon "></span><a href="#jdk&#x539F;&#x751F;&#x5B9E;&#x73B0;"><b>3.1. </b>JDK&#x539F;&#x751F;&#x5B9E;&#x73B0;</a></li><li><span class="title-icon "></span><a href="#dubbo&#x7684;spi&#x673A;&#x5236;"><b>3.2. </b>Dubbo&#x7684;SPI&#x673A;&#x5236;</a></li><ul><li><span class="title-icon "></span><a href="#&#x4F18;&#x52BF;"><b>3.2.1. </b>&#x4F18;&#x52BF;</a></li><li><span class="title-icon "></span><a href="#&#x5206;&#x6790;"><b>3.2.2. </b>&#x5206;&#x6790;</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x670D;&#x52A1;&#x5BFC;&#x51FA;"><b>4. </b>&#x670D;&#x52A1;&#x5BFC;&#x51FA;</a></li><ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x4E8E;api"><b>4.1. </b>&#x57FA;&#x4E8E;API</a></li><ul><li><span class="title-icon "></span><a href="#&#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;"><b>4.1.1. </b>&#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;</a></li><li><span class="title-icon "></span><a href="#&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;"><b>4.1.2. </b>&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;</a></li><li><span class="title-icon "></span><a href="#serviceconfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;"><b>4.1.3. </b>ServiceConfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;</a></li></ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x4E8E;spring"><b>4.2. </b>&#x57FA;&#x4E8E;Spring</a></li></ul><li><span class="title-icon "></span><a href="#&#x670D;&#x52A1;&#x5BFC;&#x5165;"><b>5. </b>&#x670D;&#x52A1;&#x5BFC;&#x5165;</a></li><ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x4E8E;api_1"><b>5.1. </b>&#x57FA;&#x4E8E;API</a></li><ul><li><span class="title-icon "></span><a href="#&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;_1"><b>5.1.1. </b>&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;</a></li><li><span class="title-icon "></span><a href="#referenceconfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;"><b>5.1.2. </b>ReferenceConfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;</a></li></ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x4E8E;spring_1"><b>5.2. </b>&#x57FA;&#x4E8E;Spring</a></li></ul><li><span class="title-icon "></span><a href="#&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;"><b>6. </b>&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;</a></li><li><span class="title-icon "></span><a href="#&#x603B;&#x7ED3;"><b>7. </b>&#x603B;&#x7ED3;</a></li></ul></div><a href="#&#x76EE;&#x6807;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x76EE;&#x6807;"><a name="&#x76EE;&#x6807;" class="anchor-navigation-ex-anchor" href="#&#x76EE;&#x6807;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x76EE;&#x6807;</h1>
+<p>&#x4EE5; dubbo 2.6.x &#x4E3A;&#x57FA;&#x7840;&#x7248;&#x672C;&#x5B66;&#x4E60;&#xFF0C;&#x5728;&#x9605;&#x8BFB;&#x6E90;&#x7801;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FBE;&#x6210;&#x5982;&#x4E0B;&#x76EE;&#x6807;&#xFF1A;</p>
+<ul>
+<li>&#x7406;&#x6E05;&#x6838;&#x5FC3;&#x8BBE;&#x8BA1;&#x67B6;&#x6784;</li>
+<li>&#x53EF;&#x4EFB;&#x610F;&#x6269;&#x5C55;</li>
+<li>&#x6210;&#x4E3A;dubbo&#x7684;<font color="red">committer</font></li>
+</ul>
+<h1 id="&#x603B;&#x89C8;"><a name="&#x603B;&#x89C8;" class="anchor-navigation-ex-anchor" href="#&#x603B;&#x89C8;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x603B;&#x89C8;</h1>
+<p><img src="Dubbo&#x6E90;&#x7801;&#x5206;&#x6790;.assets/dubbo-modules.jpg" alt="dubbo-modules"></p>
+<ul>
+<li><strong>dubbo-common &#x516C;&#x5171;&#x903B;&#x8F91;&#x6A21;&#x5757;</strong>&#xFF1A;&#x5305;&#x62EC; Util &#x7C7B;&#x548C;&#x901A;&#x7528;&#x6A21;&#x578B;&#x3002;</li>
+<li><strong>dubbo-remoting &#x8FDC;&#x7A0B;&#x901A;&#x8BAF;&#x6A21;&#x5757;</strong>&#xFF1A;&#x76F8;&#x5F53;&#x4E8E; Dubbo &#x534F;&#x8BAE;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x5982;&#x679C; RPC &#x7528; RMI&#x534F;&#x8BAE;&#x5219;&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6B64;&#x5305;&#x3002;</li>
+<li><strong>dubbo-rpc &#x8FDC;&#x7A0B;&#x8C03;&#x7528;&#x6A21;&#x5757;</strong>&#xFF1A;&#x62BD;&#x8C61;&#x5404;&#x79CD;&#x534F;&#x8BAE;&#xFF0C;&#x4EE5;&#x53CA;&#x52A8;&#x6001;&#x4EE3;&#x7406;&#xFF0C;&#x53EA;&#x5305;&#x542B;&#x4E00;&#x5BF9;&#x4E00;&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x4E0D;&#x5173;&#x5FC3;&#x96C6;&#x7FA4;&#x7684;&#x7BA1;&#x7406;&#x3002;</li>
+<li><strong>dubbo-cluster &#x96C6;&#x7FA4;&#x6A21;&#x5757;</strong>&#xFF1A;&#x5C06;&#x591A;&#x4E2A;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x65B9;&#x4F2A;&#x88C5;&#x4E3A;&#x4E00;&#x4E2A;&#x63D0;&#x4F9B;&#x65B9;&#xFF0C;&#x5305;&#x62EC;&#xFF1A;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF0C;&#x5BB9;&#x9519;&#xFF0C;&#x8DEF;&#x7531;&#x7B49;&#xFF0C;&#x96C6;&#x7FA4;&#x7684;&#x5730;&#x5740;&#x5217;&#x8868;&#x53EF;&#x4EE5;&#x662F;&#x9759;&#x6001;&#x914D;&#x7F6E;&#x7684;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x7531;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x4E0B;&#x53D1;&#x3002;</li>
+<li><strong>dubbo-registry &#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x6A21;&#x5757;</strong>&#xFF1A;&#x57FA;&#x4E8E;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x4E0B;&#x53D1;&#x5730;&#x5740;&#x7684;&#x96C6;&#x7FA4;&#x65B9;&#x5F0F;&#xFF0C;&#x4EE5;&#x53CA;&#x5BF9;&#x5404;&#x79CD;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x7684;&#x62BD;&#x8C61;&#x3002;</li>
+<li><strong>dubbo-monitor &#x76D1;&#x63A7;&#x6A21;&#x5757;</strong>&#xFF1A;&#x7EDF;&#x8BA1;&#x670D;&#x52A1;&#x8C03;&#x7528;&#x6B21;&#x6570;&#xFF0C;&#x8C03;&#x7528;&#x65F6;&#x95F4;&#x7684;&#xFF0C;&#x8C03;&#x7528;&#x94FE;&#x8DDF;&#x8E2A;&#x7684;&#x670D;&#x52A1;&#x3002;</li>
+<li><strong>dubbo-config &#x914D;&#x7F6E;&#x6A21;&#x5757;</strong>&#xFF1A;&#x662F; Dubbo &#x5BF9;&#x5916;&#x7684; API&#xFF0C;&#x7528;&#x6237;&#x901A;&#x8FC7; Config &#x4F7F;&#x7528;Dubbo&#xFF0C;&#x9690;&#x85CF; Dubbo &#x6240;&#x6709;&#x7EC6;&#x8282;&#x3002;</li>
+<li><strong>dubbo-container &#x5BB9;&#x5668;&#x6A21;&#x5757;</strong>&#xFF1A;&#x662F;&#x4E00;&#x4E2A; Standlone &#x7684;&#x5BB9;&#x5668;&#xFF0C;&#x4EE5;&#x7B80;&#x5355;&#x7684; Main &#x52A0;&#x8F7D; Spring &#x542F;&#x52A8;&#xFF0C;&#x56E0;&#x4E3A;&#x670D;&#x52A1;&#x901A;&#x5E38;&#x4E0D;&#x9700;&#x8981; Tomcat/JBoss &#x7B49; Web &#x5BB9;&#x5668;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x6CA1;&#x5FC5;&#x8981;&#x7528; Web &#x5BB9;&#x5668;&#x53BB;&#x52A0;&#x8F7D;&#x670D;&#x52A1;&#x3002;</li>
+</ul>
+<ul>
+<li>dubbo-bom&#xFF1A;dubbo&#x9879;&#x76EE;&#x672C;&#x8EAB;&#x7684;&#x6240;&#x6709;module&#x4F9D;&#x8D56;&#x58F0;&#x660E;&#xFF1B;dubbo-test&#x548C;dubbo-demo&#x6A21;&#x5757;&#x7684;pom&#x6587;&#x4EF6;&#x4F1A;&#x5BFC;&#x5165;</li>
+<li>dubbo-dependencies-bom&#xFF1A;dubbo&#x9879;&#x76EE;&#x4F9D;&#x8D56;&#x7B2C;&#x4E09;&#x65B9;lib&#x58F0;&#x660E;&#xFF1B;dubbo-parent&#x6A21;&#x5757;&#x7684;pom&#x6587;&#x4EF6;&#x4F1A;&#x5BFC;&#x5165;</li>
+</ul>
+<h1 id="&#x7075;&#x6D3B;&#x6269;&#x5C55;"><a name="&#x7075;&#x6D3B;&#x6269;&#x5C55;" class="anchor-navigation-ex-anchor" href="#&#x7075;&#x6D3B;&#x6269;&#x5C55;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x7075;&#x6D3B;&#x6269;&#x5C55;</h1>
+<h2 id="jdk&#x539F;&#x751F;&#x5B9E;&#x73B0;"><a name="jdk&#x539F;&#x751F;&#x5B9E;&#x73B0;" class="anchor-navigation-ex-anchor" href="#jdk&#x539F;&#x751F;&#x5B9E;&#x73B0;"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. JDK&#x539F;&#x751F;&#x5B9E;&#x73B0;</h2>
+<ul>
+<li><code>ServiceLoader</code> &#x7C7B;&#x8D1F;&#x8D23;<font color="red">&#x670D;&#x52A1;&#x53D1;&#x73B0;</font></li>
+<li>&#x89E3;&#x6790;&#x7C7B;&#x8DEF;&#x5F84;&#x4E0B;&#x4EE5; <code>META-INF/services/</code> &#x4F5C;&#x4E3A;&#x524D;&#x7F00;&#xFF0C;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#x4F5C;&#x4E3A;&#x6587;&#x4EF6;&#x540D;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6587;&#x4EF6;&#x5185;&#x90E8;&#x4E3A;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;&#x5B8C;&#x5168;&#x9650;&#x5B9A;&#x7C7B;&#x540D;&#xFF0C;&#x53EF;&#x4EE5;&#x591A;&#x884C;</li>
+<li>&#x9996;&#x5148;&#x67E5;&#x627E;&#x5DF2;&#x7ECF;&#x88AB;&#x89E3;&#x6790;&#x7F13;&#x5B58;&#x7684;&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x518D;&#x53BB;&#x89E3;&#x6790;&#x6587;&#x4EF6;&#x83B7;&#x53D6;&#x5B9E;&#x73B0;&#x7C7B;</li>
+<li>&#x5728;&#x89E3;&#x6790;&#x6587;&#x4EF6;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x7531;<font color="red">&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;</font>&#x8FED;&#x4EE3;&#x5668; <code>LazyIterator</code> &#x8D1F;&#x8D23;&#xFF0C;&#x76EE;&#x7684;&#x662F;&#x8FED;&#x4EE3;&#x8FC7;&#x7A0B;&#x4E2D;&#x5982;&#x679C;&#x627E;&#x5230;&#x4E86;&#x6240;&#x9700;&#x8981;&#x7684;&#x5B9E;&#x73B0;&#x5C31;&#x53EF;&#x4EE5;&#x53CA;&#x65F6;&#x9000;&#x51FA;&#x8FED;&#x4EE3;&#x8FC7;&#x7A0B;&#xFF0C;&#x672A;&#x8FED;&#x4EE3;&#x7684;&#x5B9E;&#x73B0;&#x7C7B;&#x4E0D;&#x4F1A;&#x52A0;&#x8F7D;&#xFF0C;&#x52A0;&#x901F;&#x4E86;&#x8FED;&#x4EE3;&#xFF0C;&#x907F;&#x514D;&#x52A0;&#x8F7D;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x5B9E;&#x73B0;&#x7C7B;<ul>
+<li>&#x7B26;&#x5408;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x9010;&#x4E2A;&#x6587;&#x4EF6;&#x8FED;&#x4EE3;</li>
+<li><code>Class.forName(cn, false, loader)</code> &#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;&#x7C7B;&#x6587;&#x4EF6;&#x5230;JVM&#xFF0C;&#x5F53; <code>initialize</code> &#x4E3A;false&#x65F6;&#xFF0C;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x6267;&#x884C;&#x7C7B;&#x7684; <code>static</code> &#x5757;&#x4EE3;&#x7801;&#xFF0C;&#x53EA;&#x6709;&#x7C7B;&#x5B9E;&#x4F8B;&#x5316;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x6267;&#x884C;&#xFF0C;&#x4E5F;&#x662F;&#x4E3A;&#x4E86;&#x52A0;&#x901F;&#x904D;&#x5386;</li>
+</ul>
+</li>
+</ul>
+<h2 id="dubbo&#x7684;spi&#x673A;&#x5236;"><a name="dubbo&#x7684;spi&#x673A;&#x5236;" class="anchor-navigation-ex-anchor" href="#dubbo&#x7684;spi&#x673A;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. Dubbo&#x7684;SPI&#x673A;&#x5236;</h2>
+<h3 id="&#x4F18;&#x52BF;"><a name="&#x4F18;&#x52BF;" class="anchor-navigation-ex-anchor" href="#&#x4F18;&#x52BF;"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.1. &#x4F18;&#x52BF;</h3>
+<ul>
+<li><p>&#x5EF6;&#x8FDF;&#x52A0;&#x8F7D;&#xFF0C;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x540D;&#x79F0;&#x660E;&#x786E;&#x83B7;&#x5F97;&#x5B9E;&#x73B0;&#x7C7B;</p>
+<p>&#x52A0;&#x8F7D;&#x63A5;&#x53E3;&#x6240;&#x6709;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;Class&#x540E;&#x7F13;&#x5B58;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x670D;&#x52A1;&#x540D;&#x79F0;&#x83B7;&#x53D6;&#x670D;&#x52A1;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5B9E;&#x4F8B;&#x5316;&#x6B64;&#x670D;&#x52A1;Class&#x7684;&#x5B9E;&#x4F8B;&#xFF1B;&#x800C;JDK&#x6BCF;&#x6B21;&#x67E5;&#x627E;&#x5B9E;&#x73B0;&#x65F6;&#x90FD;&#x9700;&#x8981;&#x9010;&#x4E2A;&#x8FED;&#x4EE3;&#x5B9E;&#x73B0;&#x7C7B;&#xFF0C;&#x7136;&#x540E;&#x5B9E;&#x4F8B;&#x5316;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x5B9E;&#x4F8B;&#x5316;&#x5927;&#x91CF;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x670D;&#x52A1;&#x5B9E;&#x73B0;</p>
+</li>
+<li><p>&#x652F;&#x6301;&#x6269;&#x5C55;&#x7684;IOC&#xFF0C;AOP&#x589E;&#x5F3A;</p>
+</li>
+</ul>
+<h3 id="&#x5206;&#x6790;"><a name="&#x5206;&#x6790;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x6790;"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.2. &#x5206;&#x6790;</h3>
+<ul>
+<li><p><code>ExtensionLoader</code> &#x7C7B;&#x8D1F;&#x8D23;<font color="red">&#x670D;&#x52A1;&#x53D1;&#x73B0;</font>&#xFF0C;&#x5F85;&#x67E5;&#x627E;&#x5B9E;&#x73B0;&#x7684;&#x7C7B;&#x5FC5;&#x987B;&#x662F;<strong>&#x63A5;&#x53E3;</strong>&#x3001;&#x5FC5;&#x987B;&#x6709;<strong>@SPI</strong>&#x6CE8;&#x89E3;</p>
+<ul>
+<li><p>&#x63A5;&#x53E3;&#xFF08;&#x6269;&#x5C55;&#x70B9;&#xFF09;&#x548C; <code>ExtensionLoader</code> &#x4E00;&#x4E00;&#x5BF9;&#x5E94;</p>
+</li>
+<li><p>&#x901A;&#x8FC7; <code>ExtensionLoader</code> &#x83B7;&#x53D6; <font color="red">Extension</font></p>
+<ol>
+<li><p>&#x52A0;&#x8F7D;<strong>&#x6240;&#x6709;</strong>&#x6269;&#x5C55;Class&#x5E76;&#x7F13;&#x5B58;</p>
+</li>
+<li><p>&#x5B9E;&#x4F8B;&#x5316;<strong>&#x7279;&#x5B9A;</strong>&#x6269;&#x5C55;&#x5E76;&#x7F13;&#x5B58;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x7684;&#x4E0D;&#x5FC5;&#x5B9E;&#x4F8B;&#x5316;</p>
+<ul>
+<li><p><font color="red"><strong>&#x652F;&#x6301;IOC</strong></font>&#xFF1A;&#x901A;&#x8FC7; <code>AdaptiveExtensionFactory</code> &#x4E3A;&#x7279;&#x5B9A;&#x6269;&#x5C55;&#x5B9E;&#x4F8B;<strong>&#x67E5;&#x627E;</strong>&#x5F85;&#x6CE8;&#x5165;&#x6240;&#x9700;&#x4F9D;&#x8D56;&#x3002; <code>AdaptiveExtensionFactory</code> &#x5B9E;&#x73B0;&#x4E86;&#x6269;&#x5C55;&#x70B9; <code>ExtensionFactory</code> &#xFF0C;&#x5176;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;@SPI&#x6269;&#x5C55;&#x70B9;&#xFF0C;&#x540C;&#x6837;&#x4E5F;&#x9700;&#x8981;&#x83B7;&#x53D6;&#x6269;&#x5C55;&#x3002;</p>
+<ol>
+<li>&#x52A0;&#x8F7D;&#x6269;&#x5C55; <code>SpiExtensionFactory</code> &#x57FA;&#x4E8E;SPI&#x673A;&#x5236;</li>
+<li>&#x52A0;&#x8F7D;Adaptive&#x7C7B;&#x578B;&#x6269;&#x5C55;&#xFF0C;&#x5B9E;&#x73B0;&#x7C7B;&#x4E0A;&#x6709;@Adaptive&#x6CE8;&#x89E3; <code>AdaptiveExtensionFactory</code> &#xFF0C;<strong>&#x5176;&#x4F5C;&#x4E3A; <code>ExtensionLoader</code> &#x5185;&#x90E8;&#x7684;&#x5BF9;&#x8C61;&#x5DE5;&#x5382;</strong></li>
+</ol>
+<p>&#x4EE5;set&#x5F00;&#x5934;&#x7684;&#x65B9;&#x6CD5;&#x4E3A;&#x5F85;&#x6CE8;&#x5165;&#x6269;&#x5C55;&#xFF0C; <code>AdaptiveExtensionFactory</code> &#x59D4;&#x6258; <code>SpiExtensionFactory</code> &#x83B7;&#x53D6;&#x6307;&#x5B9A;&#x6269;&#x5C55;&#x70B9;&#x7684;AdaptiveExtension&#x4E3A;&#x5176;&#x6CE8;&#x5165;&#xFF0C;&#x8C03;&#x7528;@Adaptive&#x6807;&#x6CE8;&#x7684;&#x65B9;&#x6CD5;&#x65F6;&#x901A;&#x8FC7;URL&#x53C2;&#x6570;&#x53EF;&#x4EE5;<strong>&#x52A8;&#x6001;</strong>&#x83B7;&#x5F97;&#x6307;&#x5B9A;&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#x5E76;&#x8C03;&#x7528;</p>
+</li>
+<li><p><font color="red"><strong>&#x652F;&#x6301;wrapper&#x6A21;&#x5F0F;AOP&#x589E;&#x5F3A;&#x6269;&#x5C55;</strong></font>&#xFF1A;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x914D;&#x7F6E;&#x7684;&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#x6269;&#x5C55;&#x70B9;&#xFF0C;&#x5E76;&#x5305;&#x542B;&#x4EE5;&#x6269;&#x5C55;&#x70B9;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x5BF9;&#x6BCF;&#x4E00;&#x4E2A;&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#x529F;&#x80FD;&#x589E;&#x5F3A;</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>&#x901A;&#x8FC7; <code>ExtensionLoader</code> &#x83B7;&#x53D6; <font color="red">AdaptiveExtension</font>&#xFF0C;&#x4E00;&#x4E2A;&#x6269;&#x5C55;&#x70B9;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A;AdaptiveExtension</p>
+<ul>
+<li>@Adaptive&#x6CE8;&#x89E3;&#x7684;&#x6269;&#x5C55;&#x670D;&#x52A1;&#x5B9E;&#x73B0;</li>
+<li>@Adaptive&#x6CE8;&#x89E3;&#x7684;&#x6269;&#x5C55;&#x70B9;&#x65B9;&#x6CD5;&#xFF0C;&#x4E3A;&#x6269;&#x5C55;&#x70B9;&#x52A8;&#x6001;&#x751F;&#x6210;Adaptive&#x7C7B;&#xFF0C;&#x53EA;&#x9002;&#x914D;@Adaptive&#x6CE8;&#x89E3;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;URL&#x53C2;&#x6570;&#x83B7;&#x5F97;&#x6269;&#x5C55;&#x540D;&#x79F0;&#x52A8;&#x6001;&#x83B7;&#x53D6;target&#x6269;&#x5C55;</li>
+</ul>
+</li>
+<li><p>&#x901A;&#x8FC7; <code>ExtensionLoader</code> &#x83B7;&#x53D6; <font color="red">ActivateExtension</font> &#xFF0C;&#x57FA;&#x4E8E;&#x6761;&#x4EF6;&#x83B7;&#x53D6;&#x542F;&#x7528;&#x7684;&#x6269;&#x5C55;&#x670D;&#x52A1;&#x5217;&#x8868;</p>
+<ul>
+<li>@Activate&#x6CE8;&#x89E3;&#x7684;&#x6269;&#x5C55;&#x670D;&#x52A1;&#x5B9E;&#x73B0;<ul>
+<li>&#x4F20;&#x5165;&#x53C2;&#x6570;Group&#x548C;Activate&#x7684;Group&#x5339;&#x914D;</li>
+<li>&#x4F20;&#x5165;&#x53C2;&#x6570;URL&#x7684;Parameters&#x548C;Activate&#x7684;Value&#x5339;&#x914D;</li>
+<li>&#x4F20;&#x5165;&#x53C2;&#x6570;values&#x548C;&#x6269;&#x5C55;&#x540D;&#x79F0;&#x5339;&#x914D;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>&#x670D;&#x52A1;&#x53D1;&#x73B0;&#x76EE;&#x5F55;&#xFF0C;&#x6587;&#x4EF6;&#x540D;&#x79F0;&#x4E3A;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#xFF0C;&#x5185;&#x90E8;&#x4EE5; <code>key=value</code> &#x5F62;&#x5F0F;&#x7EC4;&#x6210;&#xFF0C;key&#x662F;&#x670D;&#x52A1;&#x540D;&#x79F0;&#xFF0C;value&#x662F;&#x6269;&#x5C55;&#x670D;&#x52A1;&#x7684;&#x5B8C;&#x5168;&#x9650;&#x5B9A;&#x7C7B;&#x540D;&#xFF1B;# &#x540E;&#x9762;&#x662F;&#x6CE8;&#x91CA;</p>
+<ul>
+<li><code>META-INF/dubbo/internal/</code></li>
+<li><code>META-INF/dubbo/</code></li>
+<li><code>META-INF/services/</code> &#x517C;&#x5BB9;Jdk&#x539F;&#x751F;SPI&#x670D;&#x52A1;&#x53D1;&#x73B0;</li>
+</ul>
+</li>
+<li><p>&#x6CE8;&#x89E3;</p>
+<ul>
+<li>@SPI &#x6CE8;&#x89E3;&#x5728;&#x63A5;&#x53E3;&#x4E0A;<ul>
+<li>value&#x5C5E;&#x6027;&#xFF0C;&#x8868;&#x793A;&#x8BE5;&#x63A5;&#x53E3;&#x7684;&#x9ED8;&#x8BA4;&#x5B9E;&#x73B0;</li>
+</ul>
+</li>
+<li>@Adaptive &#x6CE8;&#x89E3;&#x5728;&#x63A5;&#x53E3;&#x7684;&#x65B9;&#x6CD5;&#x6216;&#x5B9E;&#x73B0;&#x7C7B;&#x4E0A;<ul>
+<li>&#x6CE8;&#x89E3;&#x4F4D;&#x7F6E;<ul>
+<li>&#x7C7B;&#xFF1A;&#x5DF2;&#x5B9E;&#x73B0;&#x7684;&#x9002;&#x914D;&#x5668;&#x7C7B;&#xFF0C;&#x4E0D;&#x63D0;&#x4F9B;&#x5177;&#x4F53;&#x4E1A;&#x52A1;&#x652F;&#x6301;&#x3002;&#x7528;&#x6765;&#x9002;&#x914D;&#x6269;&#x5C55;&#x70B9;&#x7684;&#x5176;&#x4ED6;&#x6269;&#x5C55;</li>
+<li>&#x65B9;&#x6CD5;&#xFF1A;&#x52A8;&#x6001;&#x751F;&#x6210;&#x9002;&#x914D;&#x5668;&#x7C7B;&#xFF0C;&#x901A;&#x8FC7;<strong>URL</strong>&#x643A;&#x5E26;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x6765;&#x9009;&#x62E9;&#x5BF9;&#x5E94;&#x7684;&#x6269;&#x5C55;&#x5B9E;&#x73B0;</li>
+</ul>
+</li>
+<li>&#x53C2;&#x6570;value&#x662F;string&#x6570;&#x7EC4;&#x7C7B;&#x578B;&#xFF0C;&#x8868;&#x793A;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x591A;&#x4E2A;&#x5143;&#x7D20;&#x4F9D;&#x6B21;&#x67E5;&#x627E;&#x5B9E;&#x73B0;&#x7C7B;</li>
+</ul>
+</li>
+<li>@Activate &#x6CE8;&#x89E3;&#x5728;&#x5B9E;&#x73B0;&#x7C7B;&#x4E0A;&#xFF0C;&#x57FA;&#x4E8E;&#x6761;&#x4EF6;&#x83B7;&#x53D6;&#x4E00;&#x7EC4;&#x6269;&#x5C55;<ul>
+<li>group &#x8868;&#x793A;URL&#x4E2D;&#x7684;&#x5206;&#x7EC4;&#x5982;&#x679C;&#x5339;&#x914D;&#x7684;&#x8BDD;&#x5C31;&#x6FC0;&#x6D3B;&#xFF0C;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x591A;&#x4E2A;</li>
+<li>value &#x67E5;&#x627E;URL&#x4E2D;&#x5982;&#x679C;&#x542B;&#x6709;&#x8BE5;key&#x503C;&#xFF0C;&#x5B58;&#x5728;&#x5C31;&#x4F1A;&#x6FC0;&#x6D3B;</li>
+<li>before &#x8868;&#x793A;&#x54EA;&#x4E9B;&#x6269;&#x5C55;&#x70B9;&#x9700;&#x8981;&#x5728;&#x672C;&#x6269;&#x5C55;&#x70B9;&#x7684;&#x524D;&#x9762;</li>
+<li>after &#x8868;&#x793A;&#x54EA;&#x4E9B;&#x6269;&#x5C55;&#x70B9;&#x9700;&#x8981;&#x5728;&#x672C;&#x6269;&#x5C55;&#x70B9;&#x7684;&#x540E;&#x9762;</li>
+<li>order &#x6392;&#x5E8F;&#x4FE1;&#x606F;</li>
+</ul>
+</li>
+<li>@DisableInject &#x6CE8;&#x89E3;&#x5728;&#x63A5;&#x53E3;&#x7684;set&#x65B9;&#x6CD5;&#x4E0A;&#xFF0C;&#x4E0D;&#x4F1A;&#x81EA;&#x52A8;&#x6CE8;&#x5165;&#x6269;&#x5C55;</li>
+</ul>
+</li>
+</ul>
+<h1 id="&#x670D;&#x52A1;&#x5BFC;&#x51FA;"><a name="&#x670D;&#x52A1;&#x5BFC;&#x51FA;" class="anchor-navigation-ex-anchor" href="#&#x670D;&#x52A1;&#x5BFC;&#x51FA;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x670D;&#x52A1;&#x5BFC;&#x51FA;</h1>
+<h2 id="&#x57FA;&#x4E8E;api"><a name="&#x57FA;&#x4E8E;api" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x4E8E;api"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. &#x57FA;&#x4E8E;API</h2>
+<h3 id="&#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;"><a name="&#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;" class="anchor-navigation-ex-anchor" href="#&#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.1. &#x6838;&#x5FC3;&#x914D;&#x7F6E;&#x7C7B;</h3>
+<p><img src="Dubbo&#x6E90;&#x7801;&#x5206;&#x6790;.assets/dubbo_provider_api_config.png" alt="dubbo_provider_api_config"></p>
+<h3 id="&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;"><a name="&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;" class="anchor-navigation-ex-anchor" href="#&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.2. &#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;</h3>
+<p>&#x901A;&#x8FC7; <code>java -jar arthas-boot.jar --telnet-port 9998 --http-port -1</code> &#x6D4B;&#x8BD5;</p>
+<h4 id="protocol"><a name="protocol" class="anchor-navigation-ex-anchor" href="#protocol"><i class="fa fa-link" aria-hidden="true"></i></a><a name="protocol" class="plugin-anchor" href="#protocol"><i class="fa fa-link" aria-hidden="true"></i></a>Protocol</h4>
+<p><code>com.alibaba.dubbo.rpc.Protocol$Adaptive</code> Protocol&#x9002;&#x914D;&#x5668;&#x6269;&#x5C55;&#x670D;&#x52A1;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.rpc;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.URL;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.extension.ExtensionLoader;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.Exporter;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.Invoker;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.Protocol;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.RpcException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Protocol</span>$<span class="hljs-title">Adaptive</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">Protocol</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Exporter <span class="hljs-title">export</span><span class="hljs-params">(Invoker invoker)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
+        String string;
+        <span class="hljs-keyword">if</span> (invoker == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument == null&quot;</span>);
+        }
+        <span class="hljs-keyword">if</span> (invoker.getUrl() == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument getUrl() == null&quot;</span>);
+        }
+        URL uRL = invoker.getUrl();
+        String string2 = string = uRL.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">&quot;dubbo&quot;</span> : uRL.getProtocol();
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(&quot;</span>).append(uRL.toString()).append(<span class="hljs-string">&quot;) use keys([protocol])&quot;</span>).toString());
+        }
+        Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(string);
+        <span class="hljs-keyword">return</span> protocol.export(invoker);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Invoker <span class="hljs-title">refer</span><span class="hljs-params">(Class class_, URL uRL)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
+        String string;
+        <span class="hljs-keyword">if</span> (uRL == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;url == null&quot;</span>);
+        }
+        URL uRL2 = uRL;
+        String string2 = string = uRL2.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">&quot;dubbo&quot;</span> : uRL2.getProtocol();
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.rpc.Protocol) name from url(&quot;</span>).append(uRL2.toString()).append(<span class="hljs-string">&quot;) use keys([protocol])&quot;</span>).toString());
+        }
+        Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension(string);
+        <span class="hljs-keyword">return</span> protocol.refer(class_, uRL);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> UnsupportedOperationException(<span class="hljs-string">&quot;method public abstract void com.alibaba.dubbo.rpc.Protocol.destroy() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!&quot;</span>);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getDefaultPort</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> UnsupportedOperationException(<span class="hljs-string">&quot;method public abstract int com.alibaba.dubbo.rpc.Protocol.getDefaultPort() of interface com.alibaba.dubbo.rpc.Protocol is not adaptive method!&quot;</span>);
+    }
+}
+</code></pre>
+<h4 id="proxyfactory"><a name="proxyfactory" class="anchor-navigation-ex-anchor" href="#proxyfactory"><i class="fa fa-link" aria-hidden="true"></i></a><a name="proxyfactory" class="plugin-anchor" href="#proxyfactory"><i class="fa fa-link" aria-hidden="true"></i></a>ProxyFactory</h4>
+<p><code>com.alibaba.dubbo.rpc.ProxyFactory$Adaptive</code> ProxyFactory&#x9002;&#x914D;&#x5668;&#x6269;&#x5C55;&#x670D;&#x52A1;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.rpc;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.URL;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.extension.ExtensionLoader;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.Invoker;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.ProxyFactory;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.RpcException;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyFactory</span>$<span class="hljs-title">Adaptive</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">ProxyFactory</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getProxy</span><span class="hljs-params">(Invoker invoker)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
+        <span class="hljs-keyword">if</span> (invoker == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument == null&quot;</span>);
+        }
+        <span class="hljs-keyword">if</span> (invoker.getUrl() == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument getUrl() == null&quot;</span>);
+        }
+        URL uRL = invoker.getUrl();
+        String string = uRL.getParameter(<span class="hljs-string">&quot;proxy&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>);
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(&quot;</span>).append(uRL.toString()).append(<span class="hljs-string">&quot;) use keys([proxy])&quot;</span>).toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        <span class="hljs-keyword">return</span> proxyFactory.getProxy(invoker);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getProxy</span><span class="hljs-params">(Invoker invoker, <span class="hljs-keyword">boolean</span> bl)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
+        <span class="hljs-keyword">if</span> (invoker == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument == null&quot;</span>);
+        }
+        <span class="hljs-keyword">if</span> (invoker.getUrl() == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;com.alibaba.dubbo.rpc.Invoker argument getUrl() == null&quot;</span>);
+        }
+        URL uRL = invoker.getUrl();
+        String string = uRL.getParameter(<span class="hljs-string">&quot;proxy&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>);
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(&quot;</span>).append(uRL.toString()).append(<span class="hljs-string">&quot;) use keys([proxy])&quot;</span>).toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        <span class="hljs-keyword">return</span> proxyFactory.getProxy(invoker, bl);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Invoker <span class="hljs-title">getInvoker</span><span class="hljs-params">(Object object, Class class_, URL uRL)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
+        <span class="hljs-keyword">if</span> (uRL == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;url == null&quot;</span>);
+        }
+        URL uRL2 = uRL;
+        String string = uRL2.getParameter(<span class="hljs-string">&quot;proxy&quot;</span>, <span class="hljs-string">&quot;javassist&quot;</span>);
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.rpc.ProxyFactory) name from url(&quot;</span>).append(uRL2.toString()).append(<span class="hljs-string">&quot;) use keys([proxy])&quot;</span>).toString());
+        }
+        ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getExtension(string);
+        <span class="hljs-keyword">return</span> proxyFactory.getInvoker(object, class_, uRL);
+    }
+}
+</code></pre>
+<h4 id="registryfactory"><a name="registryfactory" class="anchor-navigation-ex-anchor" href="#registryfactory"><i class="fa fa-link" aria-hidden="true"></i></a><a name="registryfactory" class="plugin-anchor" href="#registryfactory"><i class="fa fa-link" aria-hidden="true"></i></a>RegistryFactory</h4>
+<p><code>com.alibaba.dubbo.registry.RegistryFactory$Adaptive</code> RegistryFactory&#x9002;&#x914D;&#x5668;&#x6269;&#x5C55;&#x670D;&#x52A1;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.registry;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.URL;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.extension.ExtensionLoader;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.registry.Registry;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.registry.RegistryFactory;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegistryFactory</span>$<span class="hljs-title">Adaptive</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">RegistryFactory</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Registry <span class="hljs-title">getRegistry</span><span class="hljs-params">(URL uRL)</span> </span>{
+        String string;
+        <span class="hljs-keyword">if</span> (uRL == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;url == null&quot;</span>);
+        }
+        URL uRL2 = uRL;
+        String string2 = string = uRL2.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">&quot;dubbo&quot;</span> : uRL2.getProtocol();
+        <span class="hljs-keyword">if</span> (string == <span class="hljs-keyword">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Fail to get extension(com.alibaba.dubbo.registry.RegistryFactory) name from url(&quot;</span>).append(uRL2.toString()).append(<span class="hljs-string">&quot;) use keys([protocol])&quot;</span>).toString());
+        }
+        RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getExtension(string);
+        <span class="hljs-keyword">return</span> registryFactory.getRegistry(uRL);
+    }
+}
+</code></pre>
+<h4 id="wrapper"><a name="wrapper" class="anchor-navigation-ex-anchor" href="#wrapper"><i class="fa fa-link" aria-hidden="true"></i></a><a name="wrapper" class="plugin-anchor" href="#wrapper"><i class="fa fa-link" aria-hidden="true"></i></a>Wrapper</h4>
+<p><code>com.alibaba.dubbo.common.bytecode.Wrapper0</code> &#x6269;&#x5C55;&#x70B9; <code>interface com.alibaba.dubbo.config.api.DemoService</code> &#x7684;&#x4EE3;&#x7406;Wrapper</p>
+<ul>
+<li>&#x88AB;Wrapper&#x7F13;&#x5B58;&#xFF0C;&#x540E;&#x7F00;&#x6570;&#x5B57;&#x4ECE;0&#x5F00;&#x59CB;</li>
+<li>&#x6B64;wrapper&#x7684;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x83B7;&#x53D6;<strong>&#x6269;&#x5C55;&#x70B9;</strong>&#x7684;&#x6240;&#x6709;&#x65B9;&#x6CD5;</li>
+<li>&#x5728;&#x53D1;&#x5E03;&#x65F6;&#x901A;&#x8FC7;&#x53CD;&#x5C04;&#x751F;&#x6210;Wrapper&#xFF0C;<font color="red">&#x6CE8;&#x610F;</font>&#x5728;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#x65F6;&#x4E0D;&#x4F7F;&#x7528;&#x53CD;&#x5C04;&#x8C03;&#x7528;&#xFF08;&#x6027;&#x80FD;&#x4F4E;&#xFF09;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x8FC7;javassist&#x751F;&#x6210;&#x7684;&#x9759;&#x6001;&#x65B9;&#x6CD5;&#x8C03;&#x7528;</li>
+</ul>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.common.bytecode;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.ClassGenerator;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.NoSuchMethodException;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.NoSuchPropertyException;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.Wrapper;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.Box;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.DemoService;
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationTargetException;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wrapper0</span>
+<span class="hljs-keyword">extends</span> <span class="hljs-title">Wrapper</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">ClassGenerator</span>.<span class="hljs-title">DC</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] pns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map pts;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] mns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] dmns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts0;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts1;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts2;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts3;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts4;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts5;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getDeclaredMethodNames() {
+        <span class="hljs-keyword">return</span> dmns;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getMethodNames() {
+        <span class="hljs-keyword">return</span> mns;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getPropertyNames() {
+        <span class="hljs-keyword">return</span> pns;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Class <span class="hljs-title">getPropertyType</span><span class="hljs-params">(String string)</span> </span>{
+        <span class="hljs-keyword">return</span> (Class)pts.get(string);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">hasProperty</span><span class="hljs-params">(String string)</span> </span>{
+        <span class="hljs-keyword">return</span> pts.containsKey(string);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getPropertyValue</span><span class="hljs-params">(Object object, String string)</span> </span>{
+        DemoService demoService;
+        <span class="hljs-keyword">try</span> {
+            demoService = (DemoService)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">if</span> (string.equals(<span class="hljs-string">&quot;box&quot;</span>)) {
+            <span class="hljs-keyword">return</span> demoService.getBox();
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchPropertyException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found property \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; filed or setter method in class com.sciatta.dev.java.dubbo.api.DemoService.&quot;</span>).toString());
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPropertyValue</span><span class="hljs-params">(Object object, String string, Object object2)</span> </span>{
+        DemoService demoService;
+        <span class="hljs-keyword">try</span> {
+            demoService = (DemoService)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">if</span> (string.equals(<span class="hljs-string">&quot;box&quot;</span>)) {
+            demoService.setBox((Box)object2);
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchPropertyException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found property \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; filed or setter method in class com.sciatta.dev.java.dubbo.api.DemoService.&quot;</span>).toString());
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invokeMethod</span><span class="hljs-params">(Object object, String string, Class[] arrclass, Object[] arrobject)</span> <span class="hljs-keyword">throws</span> InvocationTargetException </span>{
+        DemoService demoService;
+        <span class="hljs-keyword">try</span> {
+            demoService = (DemoService)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;setBox&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                demoService.setBox((Box)arrobject[<span class="hljs-number">0</span>]);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;sayName&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> demoService.sayName((String)arrobject[<span class="hljs-number">0</span>]);
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;getBox&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">return</span> demoService.getBox();
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;throwDemoException&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">0</span>) {
+                demoService.throwDemoException();
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;getUsers&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> demoService.getUsers((List)arrobject[<span class="hljs-number">0</span>]);
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;echo&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(demoService.echo(((Number)arrobject[<span class="hljs-number">0</span>]).intValue()));
+            }
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvocationTargetException(throwable);
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchMethodException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found method \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; in class com.sciatta.dev.java.dubbo.api.DemoService.&quot;</span>).toString());
+    }
+}
+</code></pre>
+<p><code>com.alibaba.dubbo.common.bytecode.Wrapper1</code> &#x6269;&#x5C55; <code>class com.alibaba.dubbo.config.provider.impl.DemoServiceImpl</code> &#x7684;&#x4EE3;&#x7406;Wrapper</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.common.bytecode;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.ClassGenerator;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.NoSuchMethodException;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.NoSuchPropertyException;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.Wrapper;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.Box;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl;
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationTargetException;
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wrapper1</span>
+<span class="hljs-keyword">extends</span> <span class="hljs-title">Wrapper</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">ClassGenerator</span>.<span class="hljs-title">DC</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] pns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Map pts;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] mns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String[] dmns;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts0;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts1;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts2;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts3;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts4;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Class[] mts5;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getPropertyNames() {
+        <span class="hljs-keyword">return</span> pns;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Class <span class="hljs-title">getPropertyType</span><span class="hljs-params">(String string)</span> </span>{
+        <span class="hljs-keyword">return</span> (Class)pts.get(string);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">hasProperty</span><span class="hljs-params">(String string)</span> </span>{
+        <span class="hljs-keyword">return</span> pts.containsKey(string);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getPropertyValue</span><span class="hljs-params">(Object object, String string)</span> </span>{
+        DemoServiceImpl demoServiceImpl;
+        <span class="hljs-keyword">try</span> {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">if</span> (string.equals(<span class="hljs-string">&quot;box&quot;</span>)) {
+            <span class="hljs-keyword">return</span> demoServiceImpl.getBox();
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchPropertyException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found property \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; filed or setter method in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.&quot;</span>).toString());
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPropertyValue</span><span class="hljs-params">(Object object, String string, Object object2)</span> </span>{
+        DemoServiceImpl demoServiceImpl;
+        <span class="hljs-keyword">try</span> {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">if</span> (string.equals(<span class="hljs-string">&quot;box&quot;</span>)) {
+            demoServiceImpl.setBox((Box)object2);
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchPropertyException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found property \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; filed or setter method in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.&quot;</span>).toString());
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invokeMethod</span><span class="hljs-params">(Object object, String string, Class[] arrclass, Object[] arrobject)</span> <span class="hljs-keyword">throws</span> InvocationTargetException </span>{
+        DemoServiceImpl demoServiceImpl;
+        <span class="hljs-keyword">try</span> {
+            demoServiceImpl = (DemoServiceImpl)object;
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(throwable);
+        }
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;setBox&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                demoServiceImpl.setBox((Box)arrobject[<span class="hljs-number">0</span>]);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;getUsers&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> demoServiceImpl.getUsers((List)arrobject[<span class="hljs-number">0</span>]);
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;sayName&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> demoServiceImpl.sayName((String)arrobject[<span class="hljs-number">0</span>]);
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;getBox&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">return</span> demoServiceImpl.getBox();
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;throwDemoException&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">0</span>) {
+                demoServiceImpl.throwDemoException();
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            }
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;echo&quot;</span>.equals(string) &amp;&amp; arrclass.length == <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Integer(demoServiceImpl.echo(((Number)arrobject[<span class="hljs-number">0</span>]).intValue()));
+            }
+        }
+        <span class="hljs-keyword">catch</span> (Throwable throwable) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvocationTargetException(throwable);
+        }
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchMethodException(<span class="hljs-keyword">new</span> StringBuffer().append(<span class="hljs-string">&quot;Not found method \&quot;&quot;</span>).append(string).append(<span class="hljs-string">&quot;\&quot; in class com.sciatta.dev.java.dubbo.api.provider.impl.DemoServiceImpl.&quot;</span>).toString());
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getMethodNames() {
+        <span class="hljs-keyword">return</span> mns;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> String[] getDeclaredMethodNames() {
+        <span class="hljs-keyword">return</span> dmns;
+    }
+}
+</code></pre>
+<h3 id="serviceconfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;"><a name="serviceconfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;" class="anchor-navigation-ex-anchor" href="#serviceconfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.3. ServiceConfig&#x670D;&#x52A1;&#x5BFC;&#x51FA;&#x5165;&#x53E3;</h3>
+<p>ServiceConfig&#x548C;&#x5BFC;&#x51FA;&#x670D;&#x52A1;&#x4E00;&#x4E00;&#x5BF9;&#x5E94;&#x3002;</p>
+<h4 id="&#x6784;&#x9020;config"><a name="&#x6784;&#x9020;config" class="anchor-navigation-ex-anchor" href="#&#x6784;&#x9020;config"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x6784;&#x9020;config" class="plugin-anchor" href="#&#x6784;&#x9020;config"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6784;&#x9020;Config</h4>
+<ul>
+<li>&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x5730;&#x5740; <code>multicast://224.5.6.7:1234</code></li>
+</ul>
+<h4 id="&#x5BFC;&#x51FA;&#x670D;&#x52A1;export"><a name="&#x5BFC;&#x51FA;&#x670D;&#x52A1;export" class="anchor-navigation-ex-anchor" href="#&#x5BFC;&#x51FA;&#x670D;&#x52A1;export"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x5BFC;&#x51FA;&#x670D;&#x52A1;export" class="plugin-anchor" href="#&#x5BFC;&#x51FA;&#x670D;&#x52A1;export"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5BFC;&#x51FA;&#x670D;&#x52A1;export</h4>
+<ul>
+<li><p>&#x68C0;&#x67E5;&#x914D;&#x7F6E;&#x53C2;&#x6570;&#xFF0C;&#x7EC4;&#x88C5;URL</p>
+<ul>
+<li><p>&#x4E3A;&#x5404;&#x4E2A;Config&#x6DFB;&#x52A0;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;&#xFF0C;&#x4F18;&#x5148;&#x7EA7;&#x662F;&#xFF1A;1&#x3001;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;&#xFF1B;2&#x3001;&#x521D;&#x59CB;&#x503C;&#xFF1B;3&#x3001;&#x5C5E;&#x6027;&#x6587;&#x4EF6;</p>
+</li>
+<li><p>&#x904D;&#x5386;&#x591A;&#x4E2A;<strong>RegistryConfig</strong>&#x8F6C;&#x6362;&#x4E3A;<strong>Registry URL</strong></p>
+<font color="red">&#x66FF;&#x6362;&#x534F;&#x8BAE;&#x4E3A;registry&#x7684;&#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x8C03;&#x7528; `RegistryProtocol` &#x5904;&#x7406;&#x903B;&#x8F91;&#xFF0C;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x534F;&#x8BAE;&#x6539;&#x53D8;&#x53EF;&#x4EE5;&#x7075;&#x6D3B;&#x9002;&#x914D;&#x7279;&#x5B9A;&#x6269;&#x5C55;&#x5B9E;&#x73B0;</font>
+
+<pre><code class="lang-shell">registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&amp;dubbo=2.0.2&amp;pid=22052&amp;registry=multicast&amp;timestamp=1612276172392
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>&#x6839;&#x636E;Config&#x751F;&#x6210;<strong>&#x5BFC;&#x51FA;&#x670D;&#x52A1;URL</strong></p>
+<ul>
+<li>&#x521B;&#x5EFA;&#x6269;&#x5C55;&#x70B9;wrapper&#x4E3A;&#x4E86;&#x83B7;&#x53D6;&#x65B9;&#x6CD5;&#x540D;&#xFF0C;&#x4E3A;URL&#x589E;&#x52A0;&#x53C2;&#x6570; <code>methods</code>&#xFF1B;&#x521B;&#x5EFA;&#x540E;wrapper&#x88AB;&#x7F13;&#x5B58;</li>
+</ul>
+<pre><code class="lang-shell">dubbo://192.168.0.103:20880/com.alibaba.dubbo.config.api.DemoService?anyhost=true&amp;application=test-protocol-random-port&amp;bind.ip=192.168.0.103&amp;bind.port=20880&amp;dubbo=2.0.2&amp;generic=false&amp;interface=com.alibaba.dubbo.config.api.DemoService&amp;methods=sayName,getUsers,echo,setBox,throwDemoException,getBox&amp;pid=22911&amp;side=provider&amp;timestamp=1612317251346
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x5BFC;&#x51FA;&#x670D;&#x52A1;&#xFF0C;&#x5305;&#x542B;&#x5BFC;&#x51FA;&#x670D;&#x52A1;&#x5230;&#x672C;&#x5730; (JVM)&#xFF0C;&#x548C;&#x5BFC;&#x51FA;&#x670D;&#x52A1;&#x5230;&#x8FDC;&#x7A0B;&#x4E24;&#x4E2A;&#x8FC7;&#x7A0B;</p>
+<ul>
+<li><p>&#x5BFC;&#x51FA;&#x5230;&#x672C;&#x5730;</p>
+<ul>
+<li><p>&#x5982;&#x679C;&#x534F;&#x8BAE;&#x4E0D;&#x662F;injvm&#xFF0C;&#x5219;&#x66FF;&#x6362;&#x5BFC;&#x51FA;&#x670D;&#x52A1;URL&#x3002;&#x66FF;&#x6362;&#x534F;&#x8BAE;&#x4E3A;injvm&#x3001;&#x66FF;&#x6362;ip&#x4E3A;127.0.0.1&#x3001;&#x66FF;&#x6362;Port&#x4E3A;0</p>
+<pre><code class="lang-shell">injvm://127.0.0.1/com.alibaba.dubbo.config.api.DemoService?anyhost=true&amp;application=test-protocol-random-port&amp;bind.ip=192.168.0.103&amp;bind.port=20880&amp;dubbo=2.0.2&amp;generic=false&amp;interface=com.alibaba.dubbo.config.api.DemoService&amp;methods=sayName,getUsers,echo,setBox,throwDemoException,getBox&amp;pid=22911&amp;side=provider&amp;timestamp=1612317251346
+</code></pre>
+</li>
+<li><p>&#x4FDD;&#x5B58;&#x5230;&#x672C;&#x5730; <code>StaticContext</code> &#xFF1A;&#x63A5;&#x53E3;&#x540D;&#x79F0; -&gt; &#x670D;&#x52A1;&#x5B9E;&#x73B0;Class</p>
+</li>
+<li><p>&#x8C03;&#x7528;<strong>ProxyFactory</strong>&#x7684; <code>&lt;T&gt; Invoker&lt;T&gt; getInvoker(T proxy, Class&lt;T&gt; type, URL url) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x9ED8;&#x8BA4;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>JavassistProxyFactory</strong>&#x3002;&#x8FD4;&#x56DE;invoker&#x7684;&#x533F;&#x540D;&#x7C7B;&#x5B9E;&#x4F8B;&#xFF0C;&#x5F53;&#x88AB;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x59D4;&#x6258;&#x7ED9;wrapper&#x4EE3;&#x7406;&#x8C03;&#x7528;&#x771F;&#x6B63;&#x7684;&#x6269;&#x5C55;&#x670D;&#x52A1;</p>
+<ul>
+<li>&#x4E3A;&#x6269;&#x5C55;&#x751F;&#x6210;&#x4EE3;&#x7406;wrapper&#x3002;&#x5982;&#x679C;&#x6269;&#x5C55;&#x6CA1;&#x6709;$&#x5C31;&#x7528;&#x5B9E;&#x73B0;&#x7C7B;&#x7684;class&#xFF0C;&#x5426;&#x5219;&#x5C31;&#x7528;&#x63A5;&#x53E3;&#x7684;class&#xFF08;&#x5DF2;&#x751F;&#x6210;&#x88AB;&#x7F13;&#x5B58;&#xFF09;&#xFF0C;&#x751F;&#x6210;wrapper&#x4EE3;&#x7406;</li>
+</ul>
+</li>
+<li><p>&#x8C03;&#x7528;<strong>Protocol</strong>&#x7684; <code>&lt;T&gt; Exporter&lt;T&gt; export(Invoker&lt;T&gt; invoker) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;URL&#x534F;&#x8BAE;&#x83B7;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#xFF0C;&#x9ED8;&#x8BA4;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>DubboProtocol</strong>&#xFF0C;&#x6B64;&#x5904;&#x534F;&#x8BAE;&#x662F;injvm&#xFF0C;&#x56E0;&#x6B64;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>InjvmProtocol</strong>&#x3002;<font color="red">&#x8FD4;&#x56DE;InjvmExporter&#xFF0C;&#x5176;&#x4F1A;&#x5728;InjvmProtocol&#x7F13;&#x5B58;&#xFF0C;&#x4EE5;ServiceKey&#x4E3A;key&#xFF0C;exporter&#x4E3A;value&#x7684;map&#x4E2D;</font>&#x3002;</p>
+</li>
+</ul>
+</li>
+<li><p>&#x5BFC;&#x51FA;&#x5230;&#x8FDC;&#x7A0B;</p>
+<ul>
+<li><p>&#x904D;&#x5386;<strong>Registry URL</strong>&#xFF0C;&#x5411;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x5BFC;&#x51FA;&#x670D;&#x52A1;URL</p>
+<pre><code class="lang-shell">registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&amp;dubbo=2.0.2&amp;export=dubbo%3A%2F%2F192.168.0.103%3A20880%2Fcom.alibaba.dubbo.config.api.DemoService%3Fanyhost%3Dtrue%26application%3Dtest-protocol-random-port%26bind.ip%3D192.168.0.103%26bind.port%3D20880%26dubbo%3D2.0.2%26generic%3Dfalse%26interface%3Dcom.alibaba.dubbo.config.api.DemoService%26methods%3DsayName%2CgetUsers%2Cecho%2CsetBox%2CthrowDemoException%2CgetBox%26pid%3D22911%26side%3Dprovider%26timestamp%3D1612317251346&amp;pid=22911&amp;registry=multicast&amp;timestamp=1612317251269
+</code></pre>
+</li>
+<li><p>&#x8C03;&#x7528;<strong>ProxyFactory</strong>&#x7684; <code>&lt;T&gt; Invoker&lt;T&gt; getInvoker(T proxy, Class&lt;T&gt; type, URL url) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x9ED8;&#x8BA4;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>JavassistProxyFactory</strong>&#x3002;&#x8FD4;&#x56DE;invoker&#x7684;&#x533F;&#x540D;&#x7C7B;&#x5B9E;&#x4F8B;&#xFF0C;&#x5F53;&#x88AB;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x59D4;&#x6258;&#x7ED9;wrapper&#x4EE3;&#x7406;&#x8C03;&#x7528;&#x771F;&#x6B63;&#x7684;&#x6269;&#x5C55;&#x670D;&#x52A1;</p>
+<ul>
+<li>&#x4F7F;&#x7528;&#x5B9E;&#x73B0;&#x7C7B;class&#x7684;wrapper&#xFF0C;&#x5DF2;&#x88AB;&#x7F13;&#x5B58;</li>
+</ul>
+</li>
+<li><p>&#x8C03;&#x7528;<strong>Protocol</strong>&#x7684; <code>&lt;T&gt; Exporter&lt;T&gt; export(Invoker&lt;T&gt; invoker) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x6B64;&#x5904;&#x534F;&#x8BAE;&#x662F;registry&#xFF0C;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>RegistryProtocol</strong>&#x3002;&#x8FD4;&#x56DE;DestroyableExporter&#xFF0C;&#x5305;&#x88C5;DubboExporter&#xFF0C;&#x5176;&#x4F1A;&#x5728;RegistryProtocol&#x7F13;&#x5B58;&#x3002;</p>
+<ul>
+<li>&#x542F;&#x52A8;&#x672C;&#x5730;&#x670D;&#x52A1;<ul>
+<li>&#x901A;&#x8FC7;registry URL&#x4E2D;&#x7684;export&#x53C2;&#x6570;&#x83B7;&#x53D6;&#x5BFC;&#x51FA;&#x670D;&#x52A1;&#x7684;URL&#xFF0C;&#x518D;&#x7531;&#x6B64;&#x534F;&#x8BAE;&#x83B7;&#x53D6;&#x6269;&#x5C55;&#x670D;&#x52A1;&#xFF0C;&#x5373;&#x8C03;&#x7528;<strong>DubboProtocol</strong>&#xFF0C;&#x8FD4;&#x56DE;DubboExporter&#xFF0C;&#x7F6E;&#x5165;DubboProtocol&#x7F13;&#x5B58;</li>
+<li>&#x8C03;&#x7528;Exchangers&#x542F;&#x52A8;netty&#x670D;&#x52A1;&#x7ED1;&#x5B9A;&#x7AEF;&#x53E3;20880</li>
+</ul>
+</li>
+<li>&#x5411;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x53D1;&#x73B0;<ul>
+<li>&#x901A;&#x8FC7;registry URL&#x4E2D;&#x7684;registry&#x53C2;&#x6570;&#x66FF;&#x6362;URL&#x539F;&#x534F;&#x8BAE;&#xFF0C;&#x5373;&#x7528;multicast&#x66FF;&#x6362;registry&#xFF0C;&#x6B64;&#x5904;&#x534F;&#x8BAE;&#x662F;multicast&#xFF0C;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>MulticastRegistryFactory</strong>&#xFF1B;&#x8C03;&#x7528;RegistryFactory&#x7684; <code>Registry getRegistry(URL url);</code> &#x65B9;&#x6CD5;&#xFF0C;&#x83B7;&#x53D6;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;<strong>MulticastRegistry</strong>&#x3002;</li>
+<li>&#x5411;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;MulticastRegistry<strong>&#x6CE8;&#x518C;</strong>&#x5BFC;&#x51FA;&#x670D;&#x52A1;URL</li>
+<li>&#x5411;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;MulticastRegistry<strong>&#x8BA2;&#x9605;</strong>&#x5BFC;&#x51FA;&#x670D;&#x52A1;URL&#xFF0C;&#x534F;&#x8BAE;&#x66FF;&#x6362;&#x4E3A;provider</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x57FA;&#x4E8E;spring"><a name="&#x57FA;&#x4E8E;spring" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x4E8E;spring"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. &#x57FA;&#x4E8E;Spring</h2>
+<h1 id="&#x670D;&#x52A1;&#x5BFC;&#x5165;"><a name="&#x670D;&#x52A1;&#x5BFC;&#x5165;" class="anchor-navigation-ex-anchor" href="#&#x670D;&#x52A1;&#x5BFC;&#x5165;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x670D;&#x52A1;&#x5BFC;&#x5165;</h1>
+<h2 id="&#x57FA;&#x4E8E;api_1"><a name="&#x57FA;&#x4E8E;api_1" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x4E8E;api_1"><i class="fa fa-link" aria-hidden="true"></i></a>5.1. &#x57FA;&#x4E8E;API</h2>
+<h3 id="&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;_1"><a name="&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;_1" class="anchor-navigation-ex-anchor" href="#&#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;_1"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.1. &#x52A8;&#x6001;&#x751F;&#x6210;&#x7C7B;&#x6E90;&#x7801;</h3>
+<h4 id="comalibabadubbocommonbytecodeproxy0"><a name="comalibabadubbocommonbytecodeproxy0" class="anchor-navigation-ex-anchor" href="#comalibabadubbocommonbytecodeproxy0"><i class="fa fa-link" aria-hidden="true"></i></a><a name="comalibabadubbocommonbytecodeproxy0" class="plugin-anchor" href="#comalibabadubbocommonbytecodeproxy0"><i class="fa fa-link" aria-hidden="true"></i></a>com.alibaba.dubbo.common.bytecode.Proxy0</h4>
+<p>Proxy&#x62BD;&#x8C61;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#x53EF;&#x5B9E;&#x4F8B;&#x5316;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.common.bytecode;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.ClassGenerator;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.Proxy;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.proxy0;
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Proxy0</span>
+<span class="hljs-keyword">extends</span> <span class="hljs-title">Proxy</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">ClassGenerator</span>.<span class="hljs-title">DC</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">newInstance</span><span class="hljs-params">(InvocationHandler invocationHandler)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> proxy0(invocationHandler);
+    }
+}
+</code></pre>
+<h4 id="comalibabadubbocommonbytecodeproxy0_1"><a name="comalibabadubbocommonbytecodeproxy0_1" class="anchor-navigation-ex-anchor" href="#comalibabadubbocommonbytecodeproxy0_1"><i class="fa fa-link" aria-hidden="true"></i></a><a name="comalibabadubbocommonbytecodeproxy0" class="plugin-anchor" href="#comalibabadubbocommonbytecodeproxy0"><i class="fa fa-link" aria-hidden="true"></i></a>com.alibaba.dubbo.common.bytecode.proxy0</h4>
+<p>&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x7684;&#x4EE3;&#x7406;&#x7C7B;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.common.bytecode;
+
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.common.bytecode.ClassGenerator;
+<span class="hljs-keyword">import</span> com.alibaba.dubbo.rpc.service.EchoService;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.Box;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.DemoException;
+<span class="hljs-keyword">import</span> com.sciatta.dev.java.dubbo.api.DemoService;
+<span class="hljs-keyword">import</span> java.lang.reflect.InvocationHandler;
+<span class="hljs-keyword">import</span> java.lang.reflect.Method;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">proxy0</span>
+<span class="hljs-keyword">implements</span> <span class="hljs-title">ClassGenerator</span>.<span class="hljs-title">DC</span>,
+<span class="hljs-title">EchoService</span>,
+<span class="hljs-title">DemoService</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Method[] methods;
+    <span class="hljs-keyword">private</span> InvocationHandler handler;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">sayName</span><span class="hljs-params">(String string)</span> </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{string};
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">0</span>], arrobject);
+        <span class="hljs-keyword">return</span> (String)object;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Box <span class="hljs-title">getBox</span><span class="hljs-params">()</span> </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{};
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">1</span>], arrobject);
+        <span class="hljs-keyword">return</span> (Box)object;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List <span class="hljs-title">getUsers</span><span class="hljs-params">(List list)</span> </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{list};
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">2</span>], arrobject);
+        <span class="hljs-keyword">return</span> (List)object;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">echo</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">new</span> Integer(n);
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">3</span>], arrobject);
+        <span class="hljs-keyword">return</span> object == <span class="hljs-keyword">null</span> ? <span class="hljs-number">0</span> : (Integer)object;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setBox</span><span class="hljs-params">(Box box)</span> </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{box};
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">4</span>], arrobject);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">throwDemoException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DemoException </span>{
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{};
+        Object object = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">5</span>], arrobject);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> Object $echo(Object object) {
+        Object[] arrobject = <span class="hljs-keyword">new</span> Object[]{object};
+        Object object2 = <span class="hljs-keyword">this</span>.handler.invoke(<span class="hljs-keyword">this</span>, methods[<span class="hljs-number">6</span>], arrobject);
+        <span class="hljs-keyword">return</span> object2;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">proxy0</span><span class="hljs-params">(InvocationHandler invocationHandler)</span> </span>{
+        <span class="hljs-keyword">this</span>.handler = invocationHandler;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">proxy0</span><span class="hljs-params">()</span> </span>{
+    }
+</code></pre>
+<h3 id="referenceconfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;"><a name="referenceconfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;" class="anchor-navigation-ex-anchor" href="#referenceconfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.2. ReferenceConfig&#x670D;&#x52A1;&#x5BFC;&#x5165;&#x5165;&#x53E3;</h3>
+<h4 id="&#x6784;&#x9020;config_1"><a name="&#x6784;&#x9020;config_1" class="anchor-navigation-ex-anchor" href="#&#x6784;&#x9020;config_1"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x6784;&#x9020;config" class="plugin-anchor" href="#&#x6784;&#x9020;config"><i class="fa fa-link" aria-hidden="true"></i></a>&#x6784;&#x9020;Config</h4>
+<h4 id="&#x5F15;&#x7528;&#x670D;&#x52A1;refer"><a name="&#x5F15;&#x7528;&#x670D;&#x52A1;refer" class="anchor-navigation-ex-anchor" href="#&#x5F15;&#x7528;&#x670D;&#x52A1;refer"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x5F15;&#x7528;&#x670D;&#x52A1;refer" class="plugin-anchor" href="#&#x5F15;&#x7528;&#x670D;&#x52A1;refer"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5F15;&#x7528;&#x670D;&#x52A1;refer</h4>
+<ul>
+<li><p>&#x68C0;&#x67E5;&#x914D;&#x7F6E;&#x53C2;&#x6570;&#xFF0C;&#x7EC4;&#x88C5;URL</p>
+<ul>
+<li><p>&#x4E3A;&#x5404;&#x4E2A;Config&#x6DFB;&#x52A0;&#x7CFB;&#x7EDF;&#x5C5E;&#x6027;</p>
+</li>
+<li><p>&#x6839;&#x636E;Config&#x751F;&#x6210;<strong>&#x5F15;&#x7528;&#x670D;&#x52A1;URL</strong></p>
+<ul>
+<li><p>&#x5F15;&#x7528;&#x672C;&#x5730;&#x670D;&#x52A1;JVM&#xFF08;&#x4E00;&#x822C;&#x7528;&#x4E8E;&#x6D4B;&#x8BD5;&#xFF09;</p>
+<pre><code class="lang-shell">injvm://127.0.0.1/com.alibaba.dubbo.config.api.DemoService?application=test-protocol-random-port&amp;dubbo=2.0.2&amp;injvm=true&amp;interface=com.alibaba.dubbo.config.api.DemoService&amp;methods=sayName,getUsers,echo,setBox,getBox,throwDemoException&amp;pid=26242&amp;register.ip=192.168.0.103&amp;side=consumer&amp;timestamp=1612447705045
+</code></pre>
+</li>
+<li><p>&#x5F15;&#x7528;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;</p>
+<pre><code class="lang-shell">registry://224.5.6.7:1234/com.alibaba.dubbo.registry.RegistryService?application=test-protocol-random-port&amp;dubbo=2.0.2&amp;pid=27104&amp;refer=application%3Dtest-protocol-random-port%26dubbo%3D2.0.2%26injvm%3Dfalse%26interface%3Dcom.alibaba.dubbo.config.api.DemoService%26methods%3DgetUsers%2CsayName%2Cecho%2CsetBox%2CgetBox%2CthrowDemoException%26pid%3D27104%26register.ip%3D192.168.0.103%26side%3Dconsumer%26timestamp%3D1612514582631&amp;registry=multicast&amp;timestamp=1612516667317
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>&#x5F15;&#x7528;&#x670D;&#x52A1;</p>
+<ul>
+<li>&#x5F15;&#x7528;&#x672C;&#x5730;&#x670D;&#x52A1;<ul>
+<li>&#x8C03;&#x7528;<strong>Protocol</strong>&#x7684; <code>&lt;T&gt; Invoker&lt;T&gt; refer(Class&lt;T&gt; type, URL url) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;URL&#x534F;&#x8BAE;&#x83B7;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;&#xFF0C;&#x9ED8;&#x8BA4;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>DubboProtocol</strong>&#xFF0C;&#x6B64;&#x5904;&#x534F;&#x8BAE;&#x662F;injvm&#xFF0C;&#x56E0;&#x6B64;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>InjvmProtocol</strong>&#x3002;<font color="red">&#x8FD4;&#x56DE;InjvmInvoker&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;InjvmProtocol&#x7684;&#x9759;&#x6001;&#x65B9;&#x6CD5;getExporter&#x83B7;&#x5F97;&#x9884;&#x5148;&#x7F13;&#x5B58;&#x7684;Exporter&#x670D;&#x52A1;&#x4F9B;&#x540E;&#x7EED;&#x8C03;&#x7528;&#x3002;</font></li>
+<li>&#x8C03;&#x7528;<strong>ProxyFactory</strong>&#x7684; <code>&lt;T&gt; T getProxy(Invoker&lt;T&gt; invoker) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x9ED8;&#x8BA4;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>JavassistProxyFactory</strong>&#x3002;&#x8FD4;&#x56DE;&#x5B9E;&#x73B0;&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x7684;&#x4EE3;&#x7406;&#x5B9E;&#x4F8B; <code>com.alibaba.dubbo.common.bytecode.proxy0</code>&#xFF0C;&#x5B9E;&#x73B0;&#x63A5;&#x53E3; <code>com.sciatta.dev.java.dubbo.api.DemoService</code> &#x548C; <code>com.alibaba.dubbo.rpc.service.EchoService</code>&#x3002;</li>
+</ul>
+</li>
+<li>&#x5F15;&#x7528;&#x8FDC;&#x7A0B;&#x670D;&#x52A1;<ul>
+<li>&#x8C03;&#x7528;<strong>Protocol</strong>&#x7684; <code>&lt;T&gt; Invoker&lt;T&gt; refer(Class&lt;T&gt; type, URL url) throws RpcException;</code> &#x65B9;&#x6CD5;&#xFF0C;&#x901A;&#x8FC7;URL&#x534F;&#x8BAE;&#x83B7;&#x53D6;&#x6269;&#x5C55;&#x5B9E;&#x73B0;<strong>RegistryProtocol</strong><ul>
+<li>&#x66FF;&#x6362;&#x4E3A;&#x539F;&#x534F;&#x8BAE;multicast&#xFF0C;&#x4EE5;&#x6B64;&#x83B7;&#x53D6;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;MulticastRegistry</li>
+<li>&#x8FD4;&#x56DE;MockClusterInvoker</li>
+</ul>
+</li>
+<li>&#x8C03;&#x7528;<strong>JavassistProxyFactory</strong>&#xFF0C;&#x8FD4;&#x56DE;&#x5B9E;&#x73B0;&#x670D;&#x52A1;&#x63A5;&#x53E3;&#x7684;&#x4EE3;&#x7406;&#x5B9E;&#x4F8B;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x57FA;&#x4E8E;spring_1"><a name="&#x57FA;&#x4E8E;spring_1" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x4E8E;spring_1"><i class="fa fa-link" aria-hidden="true"></i></a>5.2. &#x57FA;&#x4E8E;Spring</h2>
+<h1 id="&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;"><a name="&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;" class="anchor-navigation-ex-anchor" href="#&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;"><i class="fa fa-link" aria-hidden="true"></i></a>6. &#x6CE8;&#x518C;&#x4E2D;&#x5FC3;</h1>
+<ul>
+<li><p>RegistryFactory</p>
+<p>&#x5177;&#x4F53;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x5DE5;&#x5382;&#x5B9E;&#x73B0;&#x7EE7;&#x627F;AbstractRegistryFactory&#xFF0C;&#x901A;&#x8FC7;URL&#xFF08;&#x4E0D;&#x53D8;&#x6A21;&#x5F0F;&#xFF0C;&#x7C7B;&#x4F3C;String&#xFF0C;&#x4FDD;&#x8BC1;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#xFF09;&#x83B7;&#x5F97;Registry&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x3002;</p>
+<ul>
+<li>&#x5C06;&#x4F20;&#x5165;&#x7684;URL <code>dubbo://192.168.0.103:2233</code>  &#x8F6C;&#x6362;&#x4E3A; <code>dubbo://192.168.0.103:2233/com.alibaba.dubbo.registry.RegistryService?interface=com.alibaba.dubbo.registry.RegistryService</code> &#xFF0C;&#x8C03;&#x7528;&#x5B50;&#x7C7B;&#x7684;&#x5DE5;&#x5382;&#x65B9;&#x6CD5; <code>createRegistry</code> &#x521B;&#x5EFA;Registry</li>
+<li>&#x7F13;&#x5B58;&#x521B;&#x5EFA;&#x7684;Registry&#xFF0C;&#x4F7F;&#x5F97;  <code>dubbo://192.168.0.103:2233/com.alibaba.dubbo.registry.RegistryService</code> &#x4F5C;&#x4E3A;key&#x5F85;&#x540E;&#x7EED;&#x67E5;&#x8BE2;</li>
+<li>&#x5982;&#x679C;&#x53C2;&#x6570;&#x6709;group=xxx&#xFF0C;&#x5219;key&#x4E3A; <code>dubbo://192.168.0.103:2233/xxx/com.alibaba.dubbo.registry.RegistryService</code> </li>
+</ul>
+</li>
+<li><p>Registry</p>
+<ul>
+<li><p>&#x521B;&#x5EFA;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;URL <code>http://1.2.3.4:9090/registry?check=false&amp;file=N/A&amp;retry.period=200</code></p>
+<ul>
+<li><code>save.file</code> true&#x540C;&#x6B65;&#x4FDD;&#x5B58;&#xFF0C;false&#x5F02;&#x6B65;&#x4FDD;&#x5B58;&#xFF08;&#x9ED8;&#x8BA4;&#xFF09;</li>
+<li><code>file</code> &#x7F13;&#x5B58;&#x6CE8;&#x518C;&#x7684;URL&#x6587;&#x4EF6;&#x540D;</li>
+<li><code>backup</code> &#x5907;&#x4EFD;&#x7684;URL</li>
+<li><code>retry.period</code> &#x91CD;&#x8BD5;&#x5468;&#x671F;</li>
+<li><code>check</code></li>
+<li><code>consumer</code> consumer&#x534F;&#x8BAE;</li>
+</ul>
+</li>
+<li><p>provider</p>
+<ul>
+<li>&#x8C03;&#x7528;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x7684; <code>register</code> &#x65B9;&#x6CD5;&#x6CE8;&#x518C;&#x670D;&#x52A1;&#xFF0C;URL <code>remote://127.0.0.1/demoservice?method=get</code></li>
+<li>&#x8C03;&#x7528;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x7684; <code>unregister</code> &#x65B9;&#x6CD5;&#x53D6;&#x6D88;&#x6CE8;&#x518C;</li>
+</ul>
+</li>
+<li><p>consumer</p>
+<ul>
+<li><p>&#x8C03;&#x7528;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x7684; <code>subscribe</code> &#x65B9;&#x6CD5;&#x8BA2;&#x9605;&#x670D;&#x52A1;&#xFF0C;URL <code>consumer://127.0.0.1/demoservice?check=false&amp;method=get</code></p>
+</li>
+<li><p>&#x8C03;&#x7528;&#x6CE8;&#x518C;&#x4E2D;&#x5FC3;&#x7684; <code>unsubscribe</code> &#x65B9;&#x6CD5;&#x53D6;&#x6D88;&#x8BA2;&#x9605;</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>FailbackRegistry</p>
+<p>&#x63D0;&#x4F9B;&#x5931;&#x8D25;&#x91CD;&#x8BD5;&#x529F;&#x80FD;&#xFF0C;&#x540E;&#x53F0;&#x5355;&#x7EBF;&#x7A0B;&#x7EBF;&#x7A0B;&#x6C60;&#xFF0C;&#x5B9A;&#x65F6;&#x91CD;&#x8BD5;&#x5931;&#x8D25;&#x5217;&#x8868;&#xFF0C;&#x5305;&#x62EC;failedRegistered&#x3001;failedUnregistered&#x3001;failedSubscribed&#x3001;failedUnsubscribed&#x548C;failedNotified</p>
+</li>
+</ul>
+<h1 id="&#x603B;&#x7ED3;"><a name="&#x603B;&#x7ED3;" class="anchor-navigation-ex-anchor" href="#&#x603B;&#x7ED3;"><i class="fa fa-link" aria-hidden="true"></i></a>7. &#x603B;&#x7ED3;</h1>
+<ul>
+<li>&#x4E07;&#x4E8B;&#x5F00;&#x5934;&#x96BE;&#xFF0C;&#x8D70;&#x51FA;&#x7B2C;&#x4E00;&#x6B65;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;</li>
+<li>&#x8BFB;&#x6E90;&#x7801;&#x6700;&#x5FEB;&#x6377;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5C31;&#x662F;debug&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#xFF1B;&#x8BFB;&#x67D0;&#x4E00;&#x529F;&#x80FD;&#x65F6;&#xFF0C;&#x4E0D;&#x8981;&#x592A;&#x62D8;&#x6CE5;&#x4E8E;&#x7EC6;&#x8282;&#xFF0C;&#x9010;&#x6B65;&#x6DF1;&#x5165;</li>
+</ul>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2021-02-28 20:16:31
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Dubbo源码分析","level":"1.2.4.1.1","depth":4,"next":{"title":"MQ","level":"1.2.5","depth":2,"ref":"","articles":[{"title":"Kafka","level":"1.2.5.1","depth":3,"ref":"","articles":[{"title":"Kafka集群安装部署","level":"1.2.5.1.1","depth":4,"path":"src/develop/mq/kafka/Kafka集群安装部署.md","ref":"src/develop/mq/kafka/Kafka集群安装部署.md","articles":[]},{"title":"Kafka监控工具","level":"1.2.5.1.2","depth":4,"path":"src/develop/mq/kafka/Kafka监控工具.md","ref":"src/develop/mq/kafka/Kafka监控工具.md","articles":[]},{"title":"Kafka分布式消息流平台","level":"1.2.5.1.3","depth":4,"path":"src/develop/mq/kafka/Kafka分布式消息流平台.md","ref":"src/develop/mq/kafka/Kafka分布式消息流平台.md","articles":[]}]}]},"previous":{"title":"Dubbo","level":"1.2.4.1","depth":3,"ref":"","articles":[{"title":"Dubbo源码分析","level":"1.2.4.1.1","depth":4,"path":"src/develop/rpc/dubbo/Dubbo源码分析.md","ref":"src/develop/rpc/dubbo/Dubbo源码分析.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/develop/rpc/dubbo/Dubbo源码分析.md","mtime":"2021-02-28T12:16:31.363Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-07T13:19:15.450Z"},"basePath":"../../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../../gitbook/gitbook.js"></script>
+    <script src="../../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -31,11 +31,11 @@
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         },
 	"github": {
-            "url": "https://github.com/sciatta"
+            "url": "https://github.com/yxyyyt"
         },
 	"github-buttons": {
       		"buttons": [{
-        		"user": "sciatta",
+        		"user": "yxyyyt",
         		"repo": "develop-stack",
         		"type": "star",
         		"count": true,
@@ -78,7 +78,7 @@
             }
 	},
 	"sitemap": {
-            "hostname": "http://www.sciatta.com/"
+            "hostname": "https://yxyyyt.github.io/develop-stack/"
         }
     }
 }

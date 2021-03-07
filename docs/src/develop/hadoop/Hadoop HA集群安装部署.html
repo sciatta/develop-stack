@@ -1,0 +1,2258 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Hadoop HA集群安装部署 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="Hadoop企业级调优.html" />
+    
+    
+    <link rel="prev" href="Hadoop集群安装部署.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Develop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="../java/jvm/JVM核心技术.html">
+            
+                <a href="../java/jvm/JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.1.2" data-path="../java/jvm/JDK工具.html">
+            
+                <a href="../java/jvm/JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../java/io/NIO模型与Netty.html">
+            
+                <a href="../java/io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../java/concurrency/并发编程.html">
+            
+                <a href="../java/concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../algorithm/数据结构和算法.html">
+            
+                <a href="../algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../spring/SpringCore核心功能.html">
+            
+                <a href="../spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../spring/SpringBoot核心功能.html">
+            
+                <a href="../spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    RPC
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" >
+            
+                <span>
+            
+                    
+                    Dubbo
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1.1" data-path="../rpc/dubbo/Dubbo源码分析.html">
+            
+                <a href="../rpc/dubbo/Dubbo源码分析.html">
+            
+                    
+                    Dubbo源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    MQ
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1.1" data-path="../mq/kafka/Kafka集群安装部署.html">
+            
+                <a href="../mq/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.2" data-path="../mq/kafka/Kafka监控工具.html">
+            
+                <a href="../mq/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.3" data-path="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1.1" data-path="hdfs/HDFS核心功能原理.html">
+            
+                <a href="hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.2" data-path="hdfs/HDFS命令.html">
+            
+                <a href="hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.3" data-path="hdfs/HDFS源码分析.html">
+            
+                <a href="hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.2.1" data-path="mapreduce/MapReduce工作原理.html">
+            
+                <a href="mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.3.1" data-path="yarn/YARN架构.html">
+            
+                <a href="yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="Hadoop集群安装部署.html">
+            
+                <a href="Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.6.5" data-path="Hadoop HA集群安装部署.html">
+            
+                <a href="Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="Hadoop企业级调优.html">
+            
+                <a href="Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../zookeeper/ZooKeeper集群安装部署.html">
+            
+                <a href="../zookeeper/ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                <a href="../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.8.1" data-path="../hive/Hive安装部署.html">
+            
+                <a href="../hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.2" data-path="../hive/大数据分析利器之Hive.html">
+            
+                <a href="../hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.3" data-path="../hive/Hive调优.html">
+            
+                <a href="../hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.9.1" data-path="../hbase/HBase集群安装部署.html">
+            
+                <a href="../hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9.2" data-path="../hbase/大数据数据库之HBase.html">
+            
+                <a href="../hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.10.1" data-path="../flume/Flume安装部署.html">
+            
+                <a href="../flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10.2" data-path="../flume/Flume数据采集.html">
+            
+                <a href="../flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.11.1" data-path="../sqoop/Sqoop安装部署.html">
+            
+                <a href="../sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11.2" data-path="../sqoop/Sqoop数据迁移.html">
+            
+                <a href="../sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.12.1" data-path="../azkaban/Azkaban安装部署.html">
+            
+                <a href="../azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12.2" data-path="../azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1.1" data-path="../spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.1.2" data-path="../spark/sparkcore/Spark调优.html">
+            
+                <a href="../spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.2.1" data-path="../spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.3" data-path="../spark/Spark集群安装部署.html">
+            
+                <a href="../spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../database/mysql/MySQL安装.html">
+            
+                <a href="../../database/mysql/MySQL安装.html">
+            
+                    
+                    MySQL安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../database/mysql/MySQL实践.html">
+            
+                <a href="../../database/mysql/MySQL实践.html">
+            
+                    
+                    MySQL实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../database/redis/Redis核心功能.html">
+            
+                <a href="../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../versioncontrol/git/Git命令.html">
+            
+                <a href="../../versioncontrol/git/Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../../versioncontrol/git/GitHub日常使用.html">
+            
+                <a href="../../versioncontrol/git/GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../../virtualization/docker/Docker实践.html">
+            
+                <a href="../../virtualization/docker/Docker实践.html">
+            
+                    
+                    Docker实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../os/linux/Linux命令.html">
+            
+                <a href="../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" data-path="../../os/linux/iTerm的使用.html">
+            
+                <a href="../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >Hadoop HA集群安装部署</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x96C6;&#x7FA4;&#x89C4;&#x5212;"><b>1. </b>&#x96C6;&#x7FA4;&#x89C4;&#x5212;</a></li><li><span class="title-icon "></span><a href="#&#x73AF;&#x5883;&#x642D;&#x5EFA;"><b>2. </b>&#x73AF;&#x5883;&#x642D;&#x5EFA;</a></li><ul><li><span class="title-icon "></span><a href="#&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;"><b>2.1. </b>&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;</a></li><li><span class="title-icon "></span><a href="#hadoop-ha-&#x642D;&#x5EFA;"><b>2.2. </b>Hadoop HA &#x642D;&#x5EFA;</a></li><ul><li><span class="title-icon "></span><a href="#&#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;"><b>2.2.1. </b>&#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;hadoop-envsh"><b>2.2.2. </b>&#x4FEE;&#x6539;hadoop-env.sh</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;core-sitexml"><b>2.2.3. </b>&#x4FEE;&#x6539;core-site.xml</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;hdfs-sitexml"><b>2.2.4. </b>&#x4FEE;&#x6539;hdfs-site.xml</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;mapred-sitexml"><b>2.2.5. </b>&#x4FEE;&#x6539;mapred-site.xml</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;yarn-sitexml"><b>2.2.6. </b>&#x4FEE;&#x6539;yarn-site.xml</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;slaves"><b>2.2.7. </b>&#x4FEE;&#x6539;slaves</a></li><li><span class="title-icon "></span><a href="#&#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;"><b>2.2.8. </b>&#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;</a></li><li><span class="title-icon "></span><a href="#&#x4FEE;&#x6539;&#x4E24;&#x4E2A;rm&#x7684;yarn-sitexml"><b>2.2.9. </b>&#x4FEE;&#x6539;&#x4E24;&#x4E2A;RM&#x7684;yarn-site.xml</a></li><li><span class="title-icon "></span><a href="#&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><b>2.2.10. </b>&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;&#x96C6;&#x7FA4;"><b>3. </b>&#x542F;&#x52A8;&#x96C6;&#x7FA4;</a></li><ul><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;zookeeper&#x96C6;&#x7FA4;"><b>3.1. </b>&#x542F;&#x52A8;ZooKeeper&#x96C6;&#x7FA4;</a></li><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;hdfs"><b>3.2. </b>&#x542F;&#x52A8;hdfs</a></li><ul><li><span class="title-icon "></span><a href="#&#x683C;&#x5F0F;&#x5316;zk"><b>3.2.1. </b>&#x683C;&#x5F0F;&#x5316;ZK</a></li><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;journalnode"><b>3.2.2. </b>&#x542F;&#x52A8;journalnode</a></li><li><span class="title-icon "></span><a href="#&#x683C;&#x5F0F;&#x5316;hdfs"><b>3.2.3. </b>&#x683C;&#x5F0F;&#x5316;hdfs</a></li><li><span class="title-icon "></span><a href="#&#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active-namenode"><b>3.2.4. </b>&#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active NameNode</a></li><li><span class="title-icon "></span><a href="#&#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby-namenode"><b>3.2.5. </b>&#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby NameNode</a></li></ul><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;yarn"><b>3.3. </b>&#x542F;&#x52A8;yarn</a></li><ul><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;active-resourcemanager"><b>3.3.1. </b>&#x542F;&#x52A8;active ResourceManager</a></li><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;standby-resourcemanager"><b>3.3.2. </b>&#x542F;&#x52A8;standby ResourceManager</a></li><li><span class="title-icon "></span><a href="#&#x67E5;&#x770B;resourcemanager&#x72B6;&#x6001;"><b>3.3.3. </b>&#x67E5;&#x770B;ResourceManager&#x72B6;&#x6001;</a></li></ul><li><span class="title-icon "></span><a href="#&#x542F;&#x52A8;jobhistory"><b>3.4. </b>&#x542F;&#x52A8;JobHistory</a></li></ul><li><span class="title-icon "></span><a href="#&#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;"><b>4. </b>&#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;</a></li><ul><li><span class="title-icon "></span><a href="#&#x9A8C;&#x8BC1;hdfs-ha"><b>4.1. </b>&#x9A8C;&#x8BC1;hdfs ha</a></li><ul><li><span class="title-icon "></span><a href="#&#x8BBF;&#x95EE;web-ui"><b>4.1.1. </b>&#x8BBF;&#x95EE;web ui</a></li><li><span class="title-icon "></span><a href="#&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;"><b>4.1.2. </b>&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;</a></li><li><span class="title-icon "></span><a href="#hdfs-client-api&#x9A8C;&#x8BC1;"><b>4.1.3. </b>HDFS Client API&#x9A8C;&#x8BC1;</a></li></ul><li><span class="title-icon "></span><a href="#&#x9A8C;&#x8BC1;yarn-ha"><b>4.2. </b>&#x9A8C;&#x8BC1;yarn ha</a></li><ul><li><span class="title-icon "></span><a href="#&#x8BBF;&#x95EE;web-ui_1"><b>4.2.1. </b>&#x8BBF;&#x95EE;web ui</a></li><li><span class="title-icon "></span><a href="#&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;_1"><b>4.2.2. </b>&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;</a></li><li><span class="title-icon "></span><a href="#mapreduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;"><b>4.2.3. </b>MapReduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x5173;&#x95ED;&#x96C6;&#x7FA4;"><b>5. </b>&#x5173;&#x95ED;&#x96C6;&#x7FA4;</a></li></ul></div><a href="#&#x96C6;&#x7FA4;&#x89C4;&#x5212;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x96C6;&#x7FA4;&#x89C4;&#x5212;"><a name="&#x96C6;&#x7FA4;&#x89C4;&#x5212;" class="anchor-navigation-ex-anchor" href="#&#x96C6;&#x7FA4;&#x89C4;&#x5212;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x96C6;&#x7FA4;&#x89C4;&#x5212;</h1>
+<ul>
+<li>&#x96C6;&#x7FA4;&#x5171;3&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x5206;&#x522B;&#x662F;node01&#x3001;node02&#x548C;node03</li>
+<li>node01&#x4E0A;&#x8FD0;&#x884C; Active NameNode&#xFF0C;node02&#x4E0A;&#x8FD0;&#x884C; Standby NameNode</li>
+<li>node02&#x4E0A;&#x8FD0;&#x884C; Active ResourceManager&#xFF0C;node03&#x4E0A;&#x8FD0;&#x884C; Standby ResourceManager</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>&#x8FD0;&#x884C;&#x8FDB;&#x7A0B;</th>
+<th>node01</th>
+<th>node02</th>
+<th>node03</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NameNode</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td></td>
+</tr>
+<tr>
+<td>zkfc</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td></td>
+</tr>
+<tr>
+<td>Datanode</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>Journalnode</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>ResourceManager</td>
+<td></td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>NodeManager</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>JobHistoryServer</td>
+<td></td>
+<td></td>
+<td>&#x221A;</td>
+</tr>
+<tr>
+<td>ZooKeeper</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+<td>&#x221A;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="&#x73AF;&#x5883;&#x642D;&#x5EFA;"><a name="&#x73AF;&#x5883;&#x642D;&#x5EFA;" class="anchor-navigation-ex-anchor" href="#&#x73AF;&#x5883;&#x642D;&#x5EFA;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x73AF;&#x5883;&#x642D;&#x5EFA;</h1>
+<h2 id="&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;"><a name="&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;" class="anchor-navigation-ex-anchor" href="#&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;"><i class="fa fa-link" aria-hidden="true"></i></a>2.1. &#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;</h2>
+<p>&#x8FD0;&#x884C;&#x73AF;&#x5883;&#x914D;&#x7F6E;&#x53C2;&#x8003;</p>
+<p><a href="Hadoop&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x90E8;&#x7F72;.html">Hadoop&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x90E8;&#x7F72;</a></p>
+<p><a href="../zookeeper/ZooKeeper&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x90E8;&#x7F72;.html">ZooKeeper&#x96C6;&#x7FA4;&#x5B89;&#x88C5;&#x90E8;&#x7F72;</a></p>
+<h2 id="hadoop-ha-&#x642D;&#x5EFA;"><a name="hadoop-ha-&#x642D;&#x5EFA;" class="anchor-navigation-ex-anchor" href="#hadoop-ha-&#x642D;&#x5EFA;"><i class="fa fa-link" aria-hidden="true"></i></a>2.2. Hadoop HA &#x642D;&#x5EFA;</h2>
+<h3 id="&#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;"><a name="&#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;" class="anchor-navigation-ex-anchor" href="#&#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.1. &#x89E3;&#x538B;hadoop&#x538B;&#x7F29;&#x5305;</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-shell">cd /bigdata/soft
+mkdir ../install/hadoop-2.6.0-cdh5.14.2-ha
+tar -xzvf hadoop-2.6.0-cdh5.14.2_after_compile.tar.gz -C ../install/hadoop-2.6.0-cdh5.14.2-ha
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;hadoop-envsh"><a name="&#x4FEE;&#x6539;hadoop-envsh" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;hadoop-envsh"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.2. &#x4FEE;&#x6539;hadoop-env.sh</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-shell">cd /bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/etc/hadoop
+
+# &#x4FEE;&#x6539;hadoop-env.sh
+export JAVA_HOME=/bigdata/install/jdk1.8.0_141
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;core-sitexml"><a name="&#x4FEE;&#x6539;core-sitexml" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;core-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.3. &#x4FEE;&#x6539;core-site.xml</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;hdfs&#x7684;nameservice id&#x4E3A;ns1 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.defaultFS<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>hdfs://ns1<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;hadoop&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x5B58;&#x50A8;&#x7684;&#x57FA;&#x76EE;&#x5F55; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hadoop.tmp.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/tmp<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;zookeeper&#x5730;&#x5740;&#xFF0C;ZKFailoverController&#x4F7F;&#x7528; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>ha.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;hdfs-sitexml"><a name="&#x4FEE;&#x6539;hdfs-sitexml" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;hdfs-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.4. &#x4FEE;&#x6539;hdfs-site.xml</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--&#x6307;&#x5B9A;hdfs&#x7684;nameservice&#x5217;&#x8868;&#xFF0C;&#x591A;&#x4E2A;&#x4E4B;&#x95F4;&#x9017;&#x53F7;&#x5206;&#x9694;&#xFF1B;&#x6B64;&#x5904;&#x53EA;&#x6709;&#x4E00;&#x4E2A;ns1&#xFF0C;&#x9700;&#x8981;&#x548C;core-site.xml&#x4E2D;&#x7684;&#x4FDD;&#x6301;&#x4E00;&#x81F4; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.nameservices<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>ns1<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- ns1&#x4E0B;&#x9762;&#x6709;&#x4E24;&#x4E2A;NameNode&#xFF0C;&#x5206;&#x522B;&#x662F;nn1&#xFF0C;nn2 --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.ha.namenodes.ns1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>nn1,nn2<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- nn1&#x7684;RPC&#x901A;&#x4FE1;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01:8020<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- nn1&#x7684;http&#x901A;&#x4FE1;&#x5730;&#x5740;,web&#x8BBF;&#x95EE;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01:50070<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- nn2&#x7684;RPC&#x901A;&#x4FE1;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.namenode.rpc-address.ns1.nn2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8020<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- nn2&#x7684;http&#x901A;&#x4FE1;&#x5730;&#x5740;,web&#x8BBF;&#x95EE;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.namenode.http-address.ns1.nn2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:50070<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;NameNode&#x7684;&#x5143;&#x6570;&#x636E;&#x5728;JournalNode&#x4E0A;&#x7684;&#x5B58;&#x653E;&#x4F4D;&#x7F6E;,&#x4E3B;&#x673A;&#x540D;&#x4FEE;&#x6539;&#x6210;&#x5B9E;&#x9645;&#x5B89;&#x88C5;zookeeper&#x7684;&#x865A;&#x62DF;&#x673A;&#x7684;&#x4E3B;&#x673A;&#x540D; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.namenode.shared.edits.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>qjournal://node01:8485;node02:8485;node03:8485/ns1<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;JournalNode&#x5728;&#x672C;&#x5730;&#x78C1;&#x76D8;&#x5B58;&#x653E;&#x6570;&#x636E;&#x7684;&#x4F4D;&#x7F6E; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.journalnode.edits.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/journal<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x5F00;&#x542F;NameNode&#x5931;&#x8D25;&#x81EA;&#x52A8;&#x5207;&#x6362; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.ha.automatic-failover.enabled<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6B64;&#x7C7B;&#x51B3;&#x5B9A;&#x54EA;&#x4E2A;namenode&#x662F;active&#xFF0C;&#x5207;&#x6362;active&#x548C;standby --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.client.failover.proxy.provider.ns1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x914D;&#x7F6E;&#x9694;&#x79BB;&#x673A;&#x5236;&#x65B9;&#x6CD5;&#xFF0C;&#x591A;&#x4E2A;&#x673A;&#x5236;&#x7528;&#x6362;&#x884C;&#x5206;&#x5272;&#xFF0C;&#x5373;&#x6BCF;&#x4E2A;&#x673A;&#x5236;&#x7528;&#x4E00;&#x884C;--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.ha.fencing.methods<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>
+        sshfence
+        shell(/bin/true)
+        <span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x4F7F;&#x7528;sshfence&#x9694;&#x79BB;&#x673A;&#x5236;&#x65F6;&#x9700;&#x8981;ssh&#x514D;&#x5BC6;&#x767B;&#x9646;&#x5230;&#x76EE;&#x6807;&#x673A;&#x5668; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.ha.fencing.ssh.private-key-files<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/home/hadoop/.ssh/id_rsa<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x914D;&#x7F6E;sshfence&#x9694;&#x79BB;&#x673A;&#x5236;&#x8D85;&#x65F6;&#x65F6;&#x95F4; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.ha.fencing.ssh.connect-timeout<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>30000<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;mapred-sitexml"><a name="&#x4FEE;&#x6539;mapred-sitexml" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;mapred-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.5. &#x4FEE;&#x6539;mapred-site.xml</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;&#x8FD0;&#x884C; mr job &#x7684;&#x8FD0;&#x884C;&#x65F6;&#x6846;&#x67B6;&#x4E3A;yarn --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.framework.name<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>yarn<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- MapReduce JobHistory Server IPC host:port --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.jobhistory.address<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:10020<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- MapReduce JobHistory Server Web UI host:port --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.jobhistory.webapp.address<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:19888<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;yarn-sitexml"><a name="&#x4FEE;&#x6539;yarn-sitexml" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;yarn-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.6. &#x4FEE;&#x6539;yarn-site.xml</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- &#x662F;&#x5426;&#x542F;&#x7528;&#x65E5;&#x5FD7;&#x805A;&#x5408;.&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5B8C;&#x6210;&#x540E;,&#x65E5;&#x5FD7;&#x6C47;&#x603B;&#x6536;&#x96C6;&#x6BCF;&#x4E2A;&#x5BB9;&#x5668;&#x7684;&#x65E5;&#x5FD7;,&#x8FD9;&#x4E9B;&#x65E5;&#x5FD7;&#x79FB;&#x52A8;&#x5230;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;,&#x4F8B;&#x5982;HDFS. --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x7528;&#x6237;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x914D;&#x7F6E;&quot;yarn.nodemanager.remote-app-log-dir&quot;&#x3001;&quot;yarn.nodemanager.remote-app-log-dir-suffix&quot;&#x6765;&#x786E;&#x5B9A;&#x65E5;&#x5FD7;&#x79FB;&#x52A8;&#x5230;&#x7684;&#x4F4D;&#x7F6E; --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x7528;&#x6237;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x65F6;&#x95F4;&#x670D;&#x52A1;&#x5668;&#x8BBF;&#x95EE;&#x65E5;&#x5FD7; --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x542F;&#x7528;&#x65E5;&#x5FD7;&#x805A;&#x5408;&#x529F;&#x80FD;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x6536;&#x96C6;&#x5404;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x65E5;&#x5FD7;&#x5230;&#x4E00;&#x8D77;&#x4FBF;&#x4E8E;&#x67E5;&#x770B; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.log-aggregation-enable<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x5F00;&#x542F;RM&#x9AD8;&#x53EF;&#x9760; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.ha.enabled<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;RM&#x7684;cluster id&#x4E3A;yrc&#xFF0C;&#x610F;&#x4E3A;yarn cluster --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.cluster-id<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>yrc<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;RM&#x7684;&#x540D;&#x5B57; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.ha.rm-ids<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>rm1,rm2<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;&#x7B2C;&#x4E00;&#x4E2A;RM&#x7684;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;&#x7B2C;&#x4E8C;&#x4E2A;RM&#x7684;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.hostname.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- &#x914D;&#x7F6E;&#x7B2C;&#x4E00;&#x53F0;&#x673A;&#x5668;&#x7684;resourceManager&#x901A;&#x4FE1;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x5BA2;&#x6237;&#x7AEF;&#x901A;&#x8FC7;&#x8BE5;&#x5730;&#x5740;&#x5411;RM&#x63D0;&#x4EA4;&#x5BF9;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x64CD;&#x4F5C; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.address.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8032<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x5411;RM&#x8C03;&#x5EA6;&#x8D44;&#x6E90;&#x5730;&#x5740; --&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8030<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- NodeManager&#x901A;&#x8FC7;&#x8BE5;&#x5730;&#x5740;&#x4EA4;&#x6362;&#x4FE1;&#x606F; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8031<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x7BA1;&#x7406;&#x5458;&#x901A;&#x8FC7;&#x8BE5;&#x5730;&#x5740;&#x5411;RM&#x53D1;&#x9001;&#x7BA1;&#x7406;&#x547D;&#x4EE4; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8033<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- RM HTTP&#x8BBF;&#x95EE;&#x5730;&#x5740;,&#x67E5;&#x770B;&#x96C6;&#x7FA4;&#x4FE1;&#x606F; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm1<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node02:8088<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x914D;&#x7F6E;&#x7B2C;&#x4E8C;&#x53F0;&#x673A;&#x5668;&#x7684;resourceManager&#x901A;&#x4FE1;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.address.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:8032<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.scheduler.address.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:8030<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.resource-tracker.address.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:8031<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.admin.address.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:8033<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.webapp.address.rm2<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node03:8088<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x5F00;&#x542F;resourcemanager&#x81EA;&#x52A8;&#x6062;&#x590D;&#x529F;&#x80FD; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.recovery.enabled<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>    
+  <span class="hljs-comment">&lt;!-- &#x5728;node2&#x4E0A;&#x914D;&#x7F6E;rm1,&#x5728;node3&#x4E0A;&#x914D;&#x7F6E;rm2,&#x6CE8;&#x610F;&#xFF1A;&#x4E00;&#x822C;&#x90FD;&#x559C;&#x6B22;&#x628A;&#x914D;&#x7F6E;&#x597D;&#x7684;&#x6587;&#x4EF6;&#x8FDC;&#x7A0B;&#x590D;&#x5236;&#x5230;&#x5176;&#x5B83;&#x673A;&#x5668;&#x4E0A;&#xFF0C;&#x4F46;&#x8FD9;&#x4E2A;&#x5728;YARN&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x673A;&#x5668;&#x4E0A;&#x4E00;&#x5B9A;&#x8981;&#x4FEE;&#x6539;&#xFF0C;&#x5176;&#x4ED6;&#x673A;&#x5668;&#x4E0A;&#x4E0D;&#x914D;&#x7F6E;&#x6B64;&#x9879; --&gt;</span>
+    <span class="hljs-comment">&lt;!--
+    &lt;property&gt;       
+        &lt;name&gt;yarn.resourcemanager.ha.id&lt;/name&gt;
+        &lt;value&gt;rm1&lt;/value&gt;
+       &lt;description&gt;If we want to launch more than one RM in single node, we need this configuration&lt;/description&gt;
+    &lt;/property&gt;
+    --&gt;</span>
+    <span class="hljs-comment">&lt;!--&#x7528;&#x4E8E;&#x6301;&#x4E45;&#x5B58;&#x50A8;&#x7684;&#x7C7B;&#x3002;&#x5C1D;&#x8BD5;&#x5F00;&#x542F;--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.store.class<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- &#x57FA;&#x4E8E;zookeeper&#x7684;&#x5B9E;&#x73B0; --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- &#x5355;&#x4E2A;&#x4EFB;&#x52A1;&#x53EF;&#x7533;&#x8BF7;&#x6700;&#x5C11;&#x5185;&#x5B58;&#xFF0C;&#x9ED8;&#x8BA4;1024MB --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>512<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x591A;&#x957F;&#x65F6;&#x95F4;&#x805A;&#x5408;&#x5220;&#x9664;&#x4E00;&#x6B21;&#x65E5;&#x5FD7; &#x6B64;&#x5904; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.log-aggregation.retain-seconds<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>2592000<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><span class="hljs-comment">&lt;!--30 day--&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x65F6;&#x95F4;&#x5728;&#x51E0;&#x79D2;&#x949F;&#x5185;&#x4FDD;&#x7559;&#x7528;&#x6237;&#x65E5;&#x5FD7;&#x3002;&#x53EA;&#x9002;&#x7528;&#x4E8E;&#x5982;&#x679C;&#x65E5;&#x5FD7;&#x805A;&#x5408;&#x662F;&#x7981;&#x7528;&#x7684; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.nodemanager.log.retain-seconds<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>604800<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><span class="hljs-comment">&lt;!--7 day--&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- &#x6307;&#x5B9A;zk&#x96C6;&#x7FA4;&#x5730;&#x5740; --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.zk-address<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01:2181,node02:2181,node03:2181<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- &#x9017;&#x53F7;&#x9694;&#x5F00;&#x7684;&#x670D;&#x52A1;&#x5217;&#x8868;&#xFF0C;&#x5217;&#x8868;&#x540D;&#x79F0;&#x5E94;&#x8BE5;&#x53EA;&#x5305;&#x542B;a-zA-Z0-9_,&#x4E0D;&#x80FD;&#x4EE5;&#x6570;&#x5B57;&#x5F00;&#x59CB;--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>mapreduce_shuffle<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;slaves"><a name="&#x4FEE;&#x6539;slaves" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;slaves"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.7. &#x4FEE;&#x6539;slaves</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-txt">node01
+node02
+node03
+</code></pre>
+<h3 id="&#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;"><a name="&#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;" class="anchor-navigation-ex-anchor" href="#&#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.8. &#x8FDC;&#x7A0B;&#x62F7;&#x8D1D;hadoop&#x6587;&#x4EF6;&#x5939;</h3>
+<p>node01&#x6267;&#x884C;</p>
+<pre><code class="lang-shell">scp -r /bigdata/install/hadoop-2.6.0-cdh5.14.2-ha node02:/bigdata/install
+scp -r /bigdata/install/hadoop-2.6.0-cdh5.14.2-ha node03:/bigdata/install
+</code></pre>
+<h3 id="&#x4FEE;&#x6539;&#x4E24;&#x4E2A;rm&#x7684;yarn-sitexml"><a name="&#x4FEE;&#x6539;&#x4E24;&#x4E2A;rm&#x7684;yarn-sitexml" class="anchor-navigation-ex-anchor" href="#&#x4FEE;&#x6539;&#x4E24;&#x4E2A;rm&#x7684;yarn-sitexml"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.9. &#x4FEE;&#x6539;&#x4E24;&#x4E2A;RM&#x7684;yarn-site.xml</h3>
+<font color="red">node02&#x6267;&#x884C;</font>
+
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>rm1<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>If we want to launch more than one RM in single node, we need this configuration<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<font color="red">node03&#x6267;&#x884C;</font>
+
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.resourcemanager.ha.id<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>rm2<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>If we want to launch more than one RM in single node, we need this configuration<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<h3 id="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><a name="&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="anchor-navigation-ex-anchor" href="#&#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;"><i class="fa fa-link" aria-hidden="true"></i></a>2.2.10. &#x914D;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</h3>
+<font color="red">node01&#x3001;node02&#x548C;node03&#x6267;&#x884C;</font>
+
+<pre><code class="lang-shell">sudo vi /etc/profile
+
+export HADOOP_HOME=/bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2
+export HADOOP_CONF_DIR=/bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/etc/hadoop
+
+# &#x7ACB;&#x5373;&#x751F;&#x6548;
+source /etc/profile
+</code></pre>
+<h1 id="&#x542F;&#x52A8;&#x96C6;&#x7FA4;"><a name="&#x542F;&#x52A8;&#x96C6;&#x7FA4;" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;&#x96C6;&#x7FA4;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x542F;&#x52A8;&#x96C6;&#x7FA4;</h1>
+<h2 id="&#x542F;&#x52A8;zookeeper&#x96C6;&#x7FA4;"><a name="&#x542F;&#x52A8;zookeeper&#x96C6;&#x7FA4;" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;zookeeper&#x96C6;&#x7FA4;"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. &#x542F;&#x52A8;ZooKeeper&#x96C6;&#x7FA4;</h2>
+<font color="red">node01&#x3001;node02&#x548C;node03&#x6267;&#x884C;</font>
+
+<ul>
+<li>QuorumPeerMain&#x8FDB;&#x7A0B;</li>
+</ul>
+<pre><code class="lang-shell">cd /bigdata/install/zookeeper-3.4.5-cdh5.14.2
+
+# &#x542F;&#x52A8;ZooKeeper
+bin/zkServer.sh start
+
+# &#x67E5;&#x770B;ZooKeeper&#x8FD0;&#x884C;&#x72B6;&#x6001;&#xFF0C;&#x4E00;&#x4E2A;leader&#xFF0C;&#x4E24;&#x4E2A;follower
+bin/zkServer.sh status
+</code></pre>
+<h2 id="&#x542F;&#x52A8;hdfs"><a name="&#x542F;&#x52A8;hdfs" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;hdfs"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. &#x542F;&#x52A8;hdfs</h2>
+<h3 id="&#x683C;&#x5F0F;&#x5316;zk"><a name="&#x683C;&#x5F0F;&#x5316;zk" class="anchor-navigation-ex-anchor" href="#&#x683C;&#x5F0F;&#x5316;zk"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.1. &#x683C;&#x5F0F;&#x5316;ZK</h3>
+<p>node01&#x6267;&#x884C;</p>
+<ul>
+<li>&#x96C6;&#x7FA4;ns1&#x4E2D;&#x6709;&#x4E24;&#x4E2A;NameNode&#xFF0C;&#x5176;&#x4E2D;node01&#x4E0A;&#x662F;active NameNode&#xFF0C;node02&#x4E0A;&#x662F;standby NameNode</li>
+<li>&#x6BCF;&#x4E2A;NameNode&#x4E0A;&#x90FD;&#x6709;&#x4E00;&#x4E2A;zkfc&#x8FDB;&#x7A0B;&#xFF0C;&#x5728;active NameNode node01 &#x4E0A;&#x683C;&#x5F0F;&#x5316;zkfc</li>
+</ul>
+<pre><code class="lang-shell"># &#x5728;ZooKeeper&#x4E0A;&#x521B;&#x5EFA; /hadoop-ha/ns1
+bin/hdfs zkfc -formatZK
+</code></pre>
+<h3 id="&#x542F;&#x52A8;journalnode"><a name="&#x542F;&#x52A8;journalnode" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;journalnode"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.2. &#x542F;&#x52A8;journalnode</h3>
+<p>node01&#x6267;&#x884C;</p>
+<ul>
+<li>&#x542F;&#x52A8;node01&#x3001;node02&#x548C;node03&#x4E0A;&#x7684;journalnode</li>
+<li>JournalNode&#x8FDB;&#x7A0B;</li>
+</ul>
+<pre><code class="lang-shell">sbin/hadoop-daemons.sh start journalnode
+</code></pre>
+<h3 id="&#x683C;&#x5F0F;&#x5316;hdfs"><a name="&#x683C;&#x5F0F;&#x5316;hdfs" class="anchor-navigation-ex-anchor" href="#&#x683C;&#x5F0F;&#x5316;hdfs"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.3. &#x683C;&#x5F0F;&#x5316;hdfs</h3>
+<p>node01&#x6267;&#x884C;</p>
+<ul>
+<li>&#x53EA;&#x5728;active NameNode node01&#x4E0A;&#x683C;&#x5F0F;&#x5316;hdfs&#xFF1B;&#x9ED8;&#x8BA4; <code>hadoop.tmp.dir</code> &#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x5B58;&#x50A8;fsimage</li>
+</ul>
+<pre><code class="lang-shell">bin/hdfs namenode -format
+</code></pre>
+<h3 id="&#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active-namenode"><a name="&#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active-namenode" class="anchor-navigation-ex-anchor" href="#&#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active-namenode"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.4. &#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;&#x3001;&#x542F;&#x52A8;active NameNode</h3>
+<p>node01&#x6267;&#x884C;</p>
+<ul>
+<li>NameNode&#x8FDB;&#x7A0B;&#xFF08;node01&#xFF09;</li>
+<li>DataNode&#x8FDB;&#x7A0B;&#xFF08;node01&#x3001;node02&#x548C;node03&#xFF09;</li>
+<li>DFSZKFailoverController&#x8FDB;&#x7A0B;&#xFF08;node01&#x548C;node02&#xFF09;</li>
+</ul>
+<pre><code class="lang-shell"># &#x521D;&#x59CB;&#x5316;&#x5143;&#x6570;&#x636E;
+bin/hdfs namenode -initializeSharedEdits -force
+# &#x542F;&#x52A8;hdfs&#x96C6;&#x7FA4;
+# &#x5728;ZooKeeper&#x4E0A;&#x521B;&#x5EFA; /hadoop-ha/ns1/ActiveBreadCrumb &#x6301;&#x4E45;&#x8282;&#x70B9;
+# &#x5728;ZooKeeper&#x4E0A;&#x521B;&#x5EFA; /hadoop-ha/ns1/ActiveStandbyElectorLock &#x4E34;&#x65F6;&#x8282;&#x70B9;
+sbin/start-dfs.sh
+</code></pre>
+<h3 id="&#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby-namenode"><a name="&#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby-namenode" class="anchor-navigation-ex-anchor" href="#&#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby-namenode"><i class="fa fa-link" aria-hidden="true"></i></a>3.2.5. &#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;&#x3001;&#x542F;&#x52A8;standby NameNode</h3>
+<p>node02&#x6267;&#x884C;</p>
+<ul>
+<li>NameNode&#x8FDB;&#x7A0B;&#xFF08;node02&#xFF09;</li>
+</ul>
+<pre><code class="lang-shell"># &#x540C;&#x6B65;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;(&#x62C9;&#x53D6;fsimage)
+bin/hdfs namenode -bootstrapStandby
+# &#x542F;&#x52A8;NameNode&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;standby&#x72B6;&#x6001;
+sbin/hadoop-daemon.sh start namenode
+</code></pre>
+<h2 id="&#x542F;&#x52A8;yarn"><a name="&#x542F;&#x52A8;yarn" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;yarn"><i class="fa fa-link" aria-hidden="true"></i></a>3.3. &#x542F;&#x52A8;yarn</h2>
+<h3 id="&#x542F;&#x52A8;active-resourcemanager"><a name="&#x542F;&#x52A8;active-resourcemanager" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;active-resourcemanager"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.1. &#x542F;&#x52A8;active ResourceManager</h3>
+<p>node02&#x6267;&#x884C;</p>
+<ul>
+<li><font color="red">node02&#x542F;&#x52A8;yarn&#x4E4B;&#x524D;&#xFF0C;&#x9700;&#x8981;ssh&#x5206;&#x522B;&#x767B;&#x9646;node01&#x3001;node02&#x548C;node03&#xFF08;&#x9996;&#x6B21;&#x767B;&#x9646;&#x9700;&#x8981;&#x4EA4;&#x4E92;&#xFF09;</font></li>
+<li>ResourceManager&#x8FDB;&#x7A0B;&#xFF08;node02&#xFF09;</li>
+<li>NodeManager&#xFF08;node01&#x3001;node02&#x548C;node03&#xFF09;</li>
+</ul>
+<pre><code class="lang-shell">sbin/start-yarn.sh
+</code></pre>
+<h3 id="&#x542F;&#x52A8;standby-resourcemanager"><a name="&#x542F;&#x52A8;standby-resourcemanager" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;standby-resourcemanager"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.2. &#x542F;&#x52A8;standby ResourceManager</h3>
+<p>node03&#x6267;&#x884C;</p>
+<ul>
+<li>ResourceManager&#x8FDB;&#x7A0B;&#xFF08;node03&#xFF09;</li>
+</ul>
+<pre><code class="lang-shell">sbin/yarn-daemon.sh start resourcemanager
+</code></pre>
+<h3 id="&#x67E5;&#x770B;resourcemanager&#x72B6;&#x6001;"><a name="&#x67E5;&#x770B;resourcemanager&#x72B6;&#x6001;" class="anchor-navigation-ex-anchor" href="#&#x67E5;&#x770B;resourcemanager&#x72B6;&#x6001;"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.3. &#x67E5;&#x770B;ResourceManager&#x72B6;&#x6001;</h3>
+<p>&#x5728;&#x96C6;&#x7FA4;&#x4EFB;&#x610F;&#x8282;&#x70B9;&#x8FD0;&#x884C;&#x547D;&#x4EE4;</p>
+<pre><code class="lang-shell"># active
+bin/yarn rmadmin -getServiceState rm1
+# standby
+bin/yarn rmadmin -getServiceState rm2
+</code></pre>
+<h2 id="&#x542F;&#x52A8;jobhistory"><a name="&#x542F;&#x52A8;jobhistory" class="anchor-navigation-ex-anchor" href="#&#x542F;&#x52A8;jobhistory"><i class="fa fa-link" aria-hidden="true"></i></a>3.4. &#x542F;&#x52A8;JobHistory</h2>
+<p>node03&#x6267;&#x884C;</p>
+<ul>
+<li>JobHistoryServer&#x8FDB;&#x7A0B;</li>
+</ul>
+<pre><code class="lang-shell">sbin/mr-jobhistory-daemon.sh start historyserver
+</code></pre>
+<h1 id="&#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;"><a name="&#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;" class="anchor-navigation-ex-anchor" href="#&#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x9A8C;&#x8BC1;&#x96C6;&#x7FA4;</h1>
+<h2 id="&#x9A8C;&#x8BC1;hdfs-ha"><a name="&#x9A8C;&#x8BC1;hdfs-ha" class="anchor-navigation-ex-anchor" href="#&#x9A8C;&#x8BC1;hdfs-ha"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. &#x9A8C;&#x8BC1;hdfs ha</h2>
+<h3 id="&#x8BBF;&#x95EE;web-ui"><a name="&#x8BBF;&#x95EE;web-ui" class="anchor-navigation-ex-anchor" href="#&#x8BBF;&#x95EE;web-ui"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.1. &#x8BBF;&#x95EE;web ui</h3>
+<ul>
+<li><a href="http://node01:50070/dfshealth.html#tab-overview" target="_blank">http://node01:50070/dfshealth.html#tab-overview</a></li>
+<li><a href="http://node02:50070/dfshealth.html#tab-overview" target="_blank">http://node02:50070/dfshealth.html#tab-overview</a></li>
+</ul>
+<h3 id="&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;"><a name="&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;" class="anchor-navigation-ex-anchor" href="#&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.2. &#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;</h3>
+<pre><code class="lang-shell"># node01&#x6267;&#x884C;&#xFF0C;&#x4E4B;&#x540E;node02&#x5207;&#x6362;&#x4E3A;active&#x72B6;&#x6001;
+sbin/hadoop-daemon.sh stop namenode
+
+# &#x96C6;&#x7FA4;&#x4EFB;&#x610F;&#x8282;&#x70B9;&#x68C0;&#x67E5;nn2&#x72B6;&#x6001;
+bin/hdfs haadmin -getServiceState nn2
+
+# node01&#x6267;&#x884C;&#xFF0C;&#x4E4B;&#x540E;node01&#x5207;&#x6362;&#x4E3A;standby&#x72B6;&#x6001;
+sbin/hadoop-daemon.sh start namenode
+</code></pre>
+<h3 id="hdfs-client-api&#x9A8C;&#x8BC1;"><a name="hdfs-client-api&#x9A8C;&#x8BC1;" class="anchor-navigation-ex-anchor" href="#hdfs-client-api&#x9A8C;&#x8BC1;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.3. HDFS Client API&#x9A8C;&#x8BC1;</h3>
+<ul>
+<li><p>&#x521D;&#x59CB;&#x5316;&#x76EE;&#x5F55;&#x4FEE;&#x6539;&#x8BBF;&#x95EE;&#x6743;&#x9650;</p>
+<pre><code class="lang-shell">hdfs dfs -mkdir /hdfstest
+hdfs dfs -chmod 777 /hdfstest
+</code></pre>
+</li>
+<li><p>Java API &#x6D4B;&#x8BD5;&#x6545;&#x969C;&#x8F6C;&#x79FB;</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HATests</span> </span>{
+    <span class="hljs-keyword">private</span> Configuration configuration;
+
+    <span class="hljs-meta">@Before</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>{
+        configuration = <span class="hljs-keyword">new</span> Configuration();
+        <span class="hljs-comment">// namespace&#x57FA;&#x7840;&#x914D;&#x7F6E;</span>
+        configuration.set(<span class="hljs-string">&quot;dfs.nameservices&quot;</span>,<span class="hljs-string">&quot;ns1&quot;</span>);
+        configuration.set(<span class="hljs-string">&quot;dfs.ha.namenodes.ns1&quot;</span>,<span class="hljs-string">&quot;nn1,nn2&quot;</span>);
+        configuration.set(<span class="hljs-string">&quot;dfs.namenode.rpc-address.ns1.nn1&quot;</span>,<span class="hljs-string">&quot;node01:8020&quot;</span>);
+        configuration.set(<span class="hljs-string">&quot;dfs.namenode.rpc-address.ns1.nn2&quot;</span>,<span class="hljs-string">&quot;node02:8020&quot;</span>);
+        configuration.set(<span class="hljs-string">&quot;dfs.client.failover.proxy.provider.ns1&quot;</span>,<span class="hljs-string">&quot;org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider&quot;</span>);    <span class="hljs-comment">// &#x5FC5;&#x987B;&#x914D;&#x7F6E;</span>
+
+        <span class="hljs-comment">// &#x9700;&#x8981;&#x8BBF;&#x95EE;&#x54EA;&#x4E00;&#x4E2A;namespace</span>
+        configuration.set(<span class="hljs-string">&quot;fs.defaultFS&quot;</span>, <span class="hljs-string">&quot;hdfs://ns1&quot;</span>);
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPut</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        FileSystem fileSystem = FileSystem.get(configuration);
+        fileSystem.copyFromLocalFile(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">&quot;/Users/yangxiaoyu/work/test/hdfsdatas/hello&quot;</span>), <span class="hljs-keyword">new</span> Path(<span class="hljs-string">&quot;/hdfstest/hello&quot;</span>));
+        fileSystem.close();
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testList</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        FileSystem fileSystem = FileSystem.get(configuration);
+
+        RemoteIterator&lt;LocatedFileStatus&gt; remoteIterator = fileSystem.listFiles(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">&quot;/hdfstest&quot;</span>), <span class="hljs-keyword">true</span>);
+
+        <span class="hljs-keyword">while</span> (remoteIterator.hasNext()) {
+            LocatedFileStatus next = remoteIterator.next();
+            System.out.println(next.getPath().getName());
+        }
+    }
+}
+</code></pre>
+</li>
+</ul>
+<h2 id="&#x9A8C;&#x8BC1;yarn-ha"><a name="&#x9A8C;&#x8BC1;yarn-ha" class="anchor-navigation-ex-anchor" href="#&#x9A8C;&#x8BC1;yarn-ha"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. &#x9A8C;&#x8BC1;yarn ha</h2>
+<h3 id="&#x8BBF;&#x95EE;web-ui_1"><a name="&#x8BBF;&#x95EE;web-ui_1" class="anchor-navigation-ex-anchor" href="#&#x8BBF;&#x95EE;web-ui_1"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.1. &#x8BBF;&#x95EE;web ui</h3>
+<ul>
+<li><a href="http://node02:8088/cluster/cluster" target="_blank">http://node02:8088/cluster/cluster</a></li>
+<li><a href="http://node03:8088/cluster/cluster" target="_blank">http://node03:8088/cluster/cluster</a></li>
+</ul>
+<h3 id="&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;_1"><a name="&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;_1" class="anchor-navigation-ex-anchor" href="#&#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;_1"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.2. &#x6A21;&#x62DF;&#x4E3B;&#x5907;&#x5207;&#x6362;</h3>
+<pre><code class="lang-shell"># node02&#x6267;&#x884C;&#xFF0C;&#x4E4B;&#x540E;node03&#x5207;&#x6362;&#x4E3A;active&#x72B6;&#x6001;
+sbin/yarn-daemon.sh stop resourcemanager
+
+# &#x96C6;&#x7FA4;&#x4EFB;&#x610F;&#x8282;&#x70B9;&#x68C0;&#x67E5;rm2&#x72B6;&#x6001;
+bin/yarn rmadmin -getServiceState rm2
+
+# node02&#x6267;&#x884C;&#xFF0C;&#x4E4B;&#x540E;node02&#x5207;&#x6362;&#x4E3A;standby&#x72B6;&#x6001;
+sbin/yarn-daemon.sh start resourcemanager
+</code></pre>
+<h3 id="mapreduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;"><a name="mapreduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;" class="anchor-navigation-ex-anchor" href="#mapreduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.3. MapReduce&#x793A;&#x4F8B;&#x9A8C;&#x8BC1;</h3>
+<pre><code class="lang-shell"># &#x4E0A;&#x4F20;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;
+bin/hdfs dfs -mkdir /mrtest
+bin/hadoop fs -put /bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/LICENSE.txt /t
+# &#x8FD0;&#x884C;&#x5355;&#x8BCD;&#x7EDF;&#x8BA1;
+# &#x663E;&#x793A;Failing over to rm2
+bin/hadoop jar /bigdata/install/hadoop-2.6.0-cdh5.14.2-ha/hadoop-2.6.0-cdh5.14.2/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.0-cdh5.14.2.jar wordcount /mrtest/LICENSE.txt /mrtest/output
+</code></pre>
+<h1 id="&#x5173;&#x95ED;&#x96C6;&#x7FA4;"><a name="&#x5173;&#x95ED;&#x96C6;&#x7FA4;" class="anchor-navigation-ex-anchor" href="#&#x5173;&#x95ED;&#x96C6;&#x7FA4;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x5173;&#x95ED;&#x96C6;&#x7FA4;</h1>
+<pre><code class="lang-shell"># active NameNode&#x8FD0;&#x884C;
+sbin/stop-dfs.sh
+# active ResourceManager&#x8FD0;&#x884C;
+sbin/stop-yarn.sh
+# standby ResourceManager&#x8FD0;&#x884C;
+sbin/yarn-daemon.sh stop resourcemanager
+# node03&#x8FD0;&#x884C;
+sbin/mr-jobhistory-daemon.sh stop historyserver
+# node01&#xFF0C;node02&#x548C;node03&#x5206;&#x522B;&#x8FD0;&#x884C;
+bin/zkServer.sh stop
+</code></pre>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2021-02-28 20:16:31
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Hadoop集群安装部署.html" class="navigation navigation-prev " aria-label="Previous page: Hadoop集群安装部署">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Hadoop企业级调优.html" class="navigation navigation-next " aria-label="Next page: Hadoop企业级调优">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Hadoop HA集群安装部署","level":"1.2.6.5","depth":3,"next":{"title":"Hadoop企业级调优","level":"1.2.6.6","depth":3,"path":"src/develop/hadoop/Hadoop企业级调优.md","ref":"src/develop/hadoop/Hadoop企业级调优.md","articles":[]},"previous":{"title":"Hadoop集群安装部署","level":"1.2.6.4","depth":3,"path":"src/develop/hadoop/Hadoop集群安装部署.md","ref":"src/develop/hadoop/Hadoop集群安装部署.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/develop/hadoop/Hadoop HA集群安装部署.md","mtime":"2021-02-28T12:16:31.288Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-07T13:19:15.450Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

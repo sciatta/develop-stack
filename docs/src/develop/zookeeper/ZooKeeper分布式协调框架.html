@@ -1,0 +1,2236 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>ZooKeeper分布式协调框架 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="ZooKeeper集群安装部署.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Develop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="../java/jvm/JVM核心技术.html">
+            
+                <a href="../java/jvm/JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.1.2" data-path="../java/jvm/JDK工具.html">
+            
+                <a href="../java/jvm/JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../java/io/NIO模型与Netty.html">
+            
+                <a href="../java/io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../java/concurrency/并发编程.html">
+            
+                <a href="../java/concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../algorithm/数据结构和算法.html">
+            
+                <a href="../algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../spring/SpringCore核心功能.html">
+            
+                <a href="../spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../spring/SpringBoot核心功能.html">
+            
+                <a href="../spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    RPC
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" >
+            
+                <span>
+            
+                    
+                    Dubbo
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1.1" data-path="../rpc/dubbo/Dubbo源码分析.html">
+            
+                <a href="../rpc/dubbo/Dubbo源码分析.html">
+            
+                    
+                    Dubbo源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    MQ
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1.1" data-path="../mq/kafka/Kafka集群安装部署.html">
+            
+                <a href="../mq/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.2" data-path="../mq/kafka/Kafka监控工具.html">
+            
+                <a href="../mq/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.3" data-path="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1.1" data-path="../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                <a href="../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.2" data-path="../hadoop/hdfs/HDFS命令.html">
+            
+                <a href="../hadoop/hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.3" data-path="../hadoop/hdfs/HDFS源码分析.html">
+            
+                <a href="../hadoop/hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.2.1" data-path="../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                <a href="../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.3.1" data-path="../hadoop/yarn/YARN架构.html">
+            
+                <a href="../hadoop/yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../hadoop/Hadoop集群安装部署.html">
+            
+                <a href="../hadoop/Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../hadoop/Hadoop HA集群安装部署.html">
+            
+                <a href="../hadoop/Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../hadoop/Hadoop企业级调优.html">
+            
+                <a href="../hadoop/Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="ZooKeeper集群安装部署.html">
+            
+                <a href="ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.7.2" data-path="ZooKeeper分布式协调框架.html">
+            
+                <a href="ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.8.1" data-path="../hive/Hive安装部署.html">
+            
+                <a href="../hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.2" data-path="../hive/大数据分析利器之Hive.html">
+            
+                <a href="../hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.3" data-path="../hive/Hive调优.html">
+            
+                <a href="../hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.9.1" data-path="../hbase/HBase集群安装部署.html">
+            
+                <a href="../hbase/HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9.2" data-path="../hbase/大数据数据库之HBase.html">
+            
+                <a href="../hbase/大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.10.1" data-path="../flume/Flume安装部署.html">
+            
+                <a href="../flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10.2" data-path="../flume/Flume数据采集.html">
+            
+                <a href="../flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.11.1" data-path="../sqoop/Sqoop安装部署.html">
+            
+                <a href="../sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11.2" data-path="../sqoop/Sqoop数据迁移.html">
+            
+                <a href="../sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.12.1" data-path="../azkaban/Azkaban安装部署.html">
+            
+                <a href="../azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12.2" data-path="../azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1.1" data-path="../spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.1.2" data-path="../spark/sparkcore/Spark调优.html">
+            
+                <a href="../spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.2.1" data-path="../spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.3" data-path="../spark/Spark集群安装部署.html">
+            
+                <a href="../spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../database/mysql/MySQL安装.html">
+            
+                <a href="../../database/mysql/MySQL安装.html">
+            
+                    
+                    MySQL安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../database/mysql/MySQL实践.html">
+            
+                <a href="../../database/mysql/MySQL实践.html">
+            
+                    
+                    MySQL实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../database/redis/Redis核心功能.html">
+            
+                <a href="../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../versioncontrol/git/Git命令.html">
+            
+                <a href="../../versioncontrol/git/Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../../versioncontrol/git/GitHub日常使用.html">
+            
+                <a href="../../versioncontrol/git/GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../../virtualization/docker/Docker实践.html">
+            
+                <a href="../../virtualization/docker/Docker实践.html">
+            
+                    
+                    Docker实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../os/linux/Linux命令.html">
+            
+                <a href="../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" data-path="../../os/linux/iTerm的使用.html">
+            
+                <a href="../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >ZooKeeper分布式协调框架</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x6982;&#x8FF0;"><b>1. </b>&#x6982;&#x8FF0;</a></li><li><span class="title-icon "></span><a href="#zkcli-&#x547D;&#x4EE4;&#x884C;"><b>2. </b>zkCli &#x547D;&#x4EE4;&#x884C;</a></li><li><span class="title-icon "></span><a href="#&#x57FA;&#x672C;&#x6982;&#x5FF5;"><b>3. </b>&#x57FA;&#x672C;&#x6982;&#x5FF5;</a></li><ul><li><span class="title-icon "></span><a href="#&#x901A;&#x4FE1;&#x65B9;&#x5F0F;"><b>3.1. </b>&#x901A;&#x4FE1;&#x65B9;&#x5F0F;</a></li><li><span class="title-icon "></span><a href="#&#x6570;&#x636E;&#x7ED3;&#x6784;"><b>3.2. </b>&#x6570;&#x636E;&#x7ED3;&#x6784;</a></li><li><span class="title-icon "></span><a href="#&#x6570;&#x636E;&#x8282;&#x70B9;-znode"><b>3.3. </b>&#x6570;&#x636E;&#x8282;&#x70B9; ZNode</a></li><ul><li><span class="title-icon "></span><a href="#&#x6301;&#x4E45;&#x8282;&#x70B9;"><b>3.3.1. </b>&#x6301;&#x4E45;&#x8282;&#x70B9;</a></li><li><span class="title-icon "></span><a href="#&#x4E34;&#x65F6;&#x8282;&#x70B9;"><b>3.3.2. </b>&#x4E34;&#x65F6;&#x8282;&#x70B9;</a></li><li><span class="title-icon "></span><a href="#&#x6709;&#x5E8F;&#x8282;&#x70B9;"><b>3.3.3. </b>&#x6709;&#x5E8F;&#x8282;&#x70B9;</a></li></ul><li><span class="title-icon "></span><a href="#&#x4F1A;&#x8BDD;-session"><b>3.4. </b>&#x4F1A;&#x8BDD; Session</a></li><ul><li><span class="title-icon "></span><a href="#&#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;"><b>3.4.1. </b>&#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;</a></li><li><span class="title-icon "></span><a href="#&#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;"><b>3.4.2. </b>&#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;</a></li><li><span class="title-icon "></span><a href="#&#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;"><b>3.4.3. </b>&#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;</a></li></ul><li><span class="title-icon "></span><a href="#&#x8BF7;&#x6C42;-request"><b>3.5. </b>&#x8BF7;&#x6C42; Request</a></li><li><span class="title-icon "></span><a href="#&#x4E8B;&#x52A1;zxid"><b>3.6. </b>&#x4E8B;&#x52A1;zxid</a></li><li><span class="title-icon "></span><a href="#&#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5;-watcher"><b>3.7. </b>&#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5; Watcher</a></li></ul><li><span class="title-icon "></span><a href="#&#x5E94;&#x7528;&#x573A;&#x666F;"><b>4. </b>&#x5E94;&#x7528;&#x573A;&#x666F;</a></li><ul><li><span class="title-icon "></span><a href="#hdfs-ha-&#x65B9;&#x6848;"><b>4.1. </b>HDFS HA &#x65B9;&#x6848;</a></li><ul><li><span class="title-icon "></span><a href="#&#x4E3B;&#x5907;&#x5207;&#x6362;"><b>4.1.1. </b>&#x4E3B;&#x5907;&#x5207;&#x6362;</a></li><li><span class="title-icon "></span><a href="#&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;"><b>4.1.2. </b>&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;</a></li></ul><li><span class="title-icon "></span><a href="#&#x5206;&#x5E03;&#x5F0F;&#x9501;"><b>4.2. </b>&#x5206;&#x5E03;&#x5F0F;&#x9501;</a></li></ul><li><span class="title-icon "></span><a href="#&#x6838;&#x5FC3;&#x539F;&#x7406;"><b>5. </b>&#x6838;&#x5FC3;&#x539F;&#x7406;</a></li><ul><li><span class="title-icon "></span><a href="#zab&#x7B97;&#x6CD5;"><b>5.1. </b>ZAB&#x7B97;&#x6CD5;</a></li><ul><li><span class="title-icon "></span><a href="#&#x4EF2;&#x88C1;quorum"><b>5.1.1. </b>&#x4EF2;&#x88C1;quorum</a></li><li><span class="title-icon "></span><a href="#&#x8111;&#x88C2;"><b>5.1.2. </b>&#x8111;&#x88C2;</a></li><li><span class="title-icon "></span><a href="#zab&#x7B97;&#x6CD5;_1"><b>5.1.3. </b>ZAB&#x7B97;&#x6CD5;</a></li><li><span class="title-icon "></span><a href="#zookeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;"><b>5.1.4. </b>ZooKeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;</a></li></ul><li><span class="title-icon "></span><a href="#&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;"><b>5.2. </b>&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;</a></li><ul><li><span class="title-icon "></span><a href="#&#x8BFB;&#x64CD;&#x4F5C;"><b>5.2.1. </b>&#x8BFB;&#x64CD;&#x4F5C;</a></li><li><span class="title-icon "></span><a href="#&#x5199;&#x64CD;&#x4F5C;"><b>5.2.2. </b>&#x5199;&#x64CD;&#x4F5C;</a></li></ul><li><span class="title-icon "></span><a href="#&#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;"><b>5.3. </b>&#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;</a></li><ul><li><span class="title-icon "></span><a href="#&#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;"><b>5.3.1. </b>&#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;</a></li></ul><li><span class="title-icon "></span><a href="#&#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;"><b>5.4. </b>&#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;</a></li><ul><li><span class="title-icon "></span><a href="#diff"><b>5.4.1. </b>DIFF</a></li><li><span class="title-icon "></span><a href="#trunc--diff"><b>5.4.2. </b>TRUNC + DIFF</a></li><li><span class="title-icon "></span><a href="#snap"><b>5.4.3. </b>SNAP</a></li></ul></ul></ul></div><a href="#&#x6982;&#x8FF0;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x6982;&#x8FF0;"><a name="&#x6982;&#x8FF0;" class="anchor-navigation-ex-anchor" href="#&#x6982;&#x8FF0;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x6982;&#x8FF0;</h1>
+<p>ZooKeeper&#x662F;&#x4E00;&#x4E2A;&#x96C6;&#x4E2D;&#x7684;&#x670D;&#x52A1;&#xFF0C;&#x7528;&#x4E8E;&#x7EF4;&#x62A4;&#x914D;&#x7F6E;&#x4FE1;&#x606F;&#x3001;&#x547D;&#x540D;&#x3001;&#x63D0;&#x4F9B;&#x5206;&#x5E03;&#x5F0F;&#x540C;&#x6B65;&#x548C;&#x63D0;&#x4F9B;&#x7EC4;&#x670D;&#x52A1;&#x3002;&#x6240;&#x6709;&#x8FD9;&#x4E9B;&#x7C7B;&#x578B;&#x7684;&#x670D;&#x52A1;&#x90FD;&#x4EE5;&#x67D0;&#x79CD;&#x5F62;&#x5F0F;&#x88AB;&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x4F7F;&#x7528;</p>
+<ul>
+<li>&#x5F00;&#x53D1;&#x4EBA;&#x5458;&#x9700;&#x82B1;&#x8F83;&#x591A;&#x7684;&#x7CBE;&#x529B;&#x5B9E;&#x73B0;&#x5982;&#x4F55;&#x4F7F;&#x591A;&#x4E2A;&#x7A0B;&#x5E8F;&#x534F;&#x540C;&#x5DE5;&#x4F5C;&#x7684;&#x903B;&#x8F91;&#xFF0C;&#x5BFC;&#x81F4;&#x6CA1;&#x6709;&#x65F6;&#x95F4;&#x66F4;&#x597D;&#x7684;&#x601D;&#x8003;&#x5B9E;&#x73B0;&#x7A0B;&#x5E8F;&#x672C;&#x8EAB;&#x7684;&#x903B;&#x8F91;</li>
+<li>&#x7531;&#x4E8E;&#x5B9E;&#x73B0;&#x8FD9;&#x7C7B;&#x670D;&#x52A1;&#x7684;&#x56F0;&#x96BE;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x6700;&#x521D;&#x901A;&#x5E38;&#x4F1A;&#x5FFD;&#x7565;&#x5B83;&#x4EEC;&#xFF0C;&#x8FD9;&#x4F7F;&#x5F97;&#x5B83;&#x4EEC;&#x5728;&#x51FA;&#x73B0;&#x66F4;&#x6539;&#x65F6;&#x53D8;&#x5F97;&#x8106;&#x5F31;&#xFF0C;&#x5E76;&#x4E14;&#x96BE;&#x4EE5;&#x7BA1;&#x7406;</li>
+<li>&#x5373;&#x4F7F;&#x6B63;&#x786E;&#x5730;&#x5B9E;&#x73B0;&#x4E86;&#x8FD9;&#x4E9B;&#x670D;&#x52A1;&#xFF0C;&#x5728;&#x90E8;&#x7F72;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x65F6;&#xFF0C;&#x8FD9;&#x4E9B;&#x670D;&#x52A1;&#x7684;&#x4E0D;&#x540C;&#x5B9E;&#x73B0;&#x4E5F;&#x4F1A;&#x5BFC;&#x81F4;&#x7BA1;&#x7406;&#x590D;&#x6742;&#x6027;</li>
+<li>&#x5206;&#x5E03;&#x5F0F;&#x6846;&#x67B6;&#x4E2D;&#x534F;&#x540C;&#x5DE5;&#x4F5C;&#x7684;&#x903B;&#x8F91;&#x662F;&#x5171;&#x6027;&#x7684;&#x9700;&#x6C42;</li>
+</ul>
+<p>ZooKeeper&#x7B80;&#x5355;&#x6613;&#x7528;&#xFF0C;&#x80FD;&#x591F;&#x5F88;&#x597D;&#x7684;&#x89E3;&#x51B3;&#x5206;&#x5E03;&#x5F0F;&#x6846;&#x67B6;&#x5728;&#x8FD0;&#x884C;&#x4E2D;&#xFF0C;&#x51FA;&#x73B0;&#x7684;&#x5404;&#x79CD;&#x534F;&#x8C03;&#x95EE;&#x9898;</p>
+<ul>
+<li>&#x96C6;&#x7FA4;&#x4E3B;&#x5907;&#x5207;&#x6362;</li>
+<li>&#x8282;&#x70B9;&#x7684;&#x4E0A;&#x4E0B;&#x7EBF;&#x611F;&#x77E5;</li>
+<li>&#x7EDF;&#x4E00;&#x547D;&#x540D;&#x670D;&#x52A1;</li>
+<li>&#x72B6;&#x6001;&#x540C;&#x6B65;&#x670D;&#x52A1;</li>
+<li>&#x96C6;&#x7FA4;&#x7BA1;&#x7406;</li>
+<li>&#x5206;&#x5E03;&#x5F0F;&#x5E94;&#x7528;&#x914D;&#x7F6E;&#x7BA1;&#x7406;</li>
+</ul>
+<p>ZooKeeper&#x96C6;&#x7FA4;&#x4E5F;&#x662F;&#x4E3B;&#x4ECE;&#x67B6;&#x6784;</p>
+<ul>
+<li>&#x4E3B;&#x89D2;&#x8272;&#xFF1A;leader</li>
+<li>&#x4ECE;&#x89D2;&#x8272;&#xFF1A;follower&#x6216;observer&#xFF0C;&#x7EDF;&#x79F0;&#x4E3A;learner</li>
+</ul>
+<h1 id="zkcli-&#x547D;&#x4EE4;&#x884C;"><a name="zkcli-&#x547D;&#x4EE4;&#x884C;" class="anchor-navigation-ex-anchor" href="#zkcli-&#x547D;&#x4EE4;&#x884C;"><i class="fa fa-link" aria-hidden="true"></i></a>2. zkCli &#x547D;&#x4EE4;&#x884C;</h1>
+<p>Zookeeper&#x6709;&#x4E00;&#x4E2A;&#x7C7B;&#x4F3C;Linux&#x7CFB;&#x7EDF;&#x7684;<strong>&#x7B80;&#x7248;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;</strong>&#xFF0C;&#x76EE;&#x5F55;&#x7ED3;&#x6784;&#x662F;&#x6811;&#x72B6;&#x7ED3;&#x6784;&#x3002;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x8FDE;&#x63A5;ZooKeeper&#x96C6;&#x7FA4;</span>
+<span class="hljs-comment"># -server &#x5BA2;&#x6237;&#x7AEF;&#x968F;&#x673A;&#x8FDE;&#x63A5;&#x4E09;&#x4E2A;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;</span>
+zkCli.sh -server node01:2181,node02:2181,node03:2181
+
+<span class="hljs-comment"># &#x5E2E;&#x52A9;&#x547D;&#x4EE4;</span>
+<span class="hljs-built_in">help</span>
+
+<span class="hljs-comment"># &#x9000;&#x51FA;</span>
+quit
+
+<span class="hljs-comment"># &#x5217;&#x51FA;&#x6587;&#x4EF6;&#x5217;&#x8868;</span>
+ls /
+
+<span class="hljs-comment"># &#x521B;&#x5EFA;&#x8282;&#x70B9;&#x5E76;&#x6307;&#x5B9A;&#x6570;&#x636E;&#xFF1B;&#x82E5;&#x6CA1;&#x6709;&#x6307;&#x5B9A;&#x8282;&#x70B9;&#x6570;&#x636E;&#xFF0C;&#x5219;&#x65E0;&#x6CD5;&#x521B;&#x5EFA;&#x8282;&#x70B9;&#xFF1B;&#x4E0D;&#x53EF;&#x4E00;&#x6B21;&#x521B;&#x5EFA;&#x591A;&#x7EA7;&#x8282;&#x70B9;</span>
+create /<span class="hljs-built_in">test</span> hello
+
+<span class="hljs-comment"># &#x83B7;&#x53D6;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;</span>
+get /<span class="hljs-built_in">test</span>
+
+<span class="hljs-comment"># &#x4FEE;&#x6539;&#x8282;&#x70B9;&#x7684;&#x6570;&#x636E;</span>
+<span class="hljs-built_in">set</span> /<span class="hljs-built_in">test</span> yes
+
+<span class="hljs-comment"># &#x5220;&#x9664;&#x8282;&#x70B9;&#xFF1B;&#x82E5;&#x6709;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5219;&#x4E0D;&#x53EF;&#x5220;&#x9664;</span>
+delete /<span class="hljs-built_in">test</span>
+
+<span class="hljs-comment"># &#x5220;&#x9664;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x548C;&#x6240;&#x6709;&#x5B50;&#x8282;&#x70B9;</span>
+rmr /<span class="hljs-built_in">test</span>
+</code></pre>
+<h1 id="&#x57FA;&#x672C;&#x6982;&#x5FF5;"><a name="&#x57FA;&#x672C;&#x6982;&#x5FF5;" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x672C;&#x6982;&#x5FF5;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x57FA;&#x672C;&#x6982;&#x5FF5;</h1>
+<h2 id="&#x901A;&#x4FE1;&#x65B9;&#x5F0F;"><a name="&#x901A;&#x4FE1;&#x65B9;&#x5F0F;" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x4FE1;&#x65B9;&#x5F0F;"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. &#x901A;&#x4FE1;&#x65B9;&#x5F0F;</h2>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x901A;&#x4FE1;&#x65B9;&#x5F0F;</p>
+<ol>
+<li>&#x76F4;&#x63A5;&#x901A;&#x8FC7;&#x7F51;&#x7EDC;&#x8FDE;&#x63A5;&#x7684;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#x901A;&#x4FE1;</li>
+<li>&#x901A;&#x8FC7;<strong>&#x5171;&#x4EAB;&#x5B58;&#x50A8;</strong>&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x6765;&#x8FDB;&#x884C;&#x901A;&#x4FE1;&#x6216;&#x6570;&#x636E;&#x7684;&#x4F20;&#x8F93;</li>
+</ol>
+<p>ZooKeeper&#x4F7F;&#x7528;&#x7B2C;&#x4E8C;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x63D0;&#x4F9B;&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x670D;&#x52A1;&#x3002;</p>
+<h2 id="&#x6570;&#x636E;&#x7ED3;&#x6784;"><a name="&#x6570;&#x636E;&#x7ED3;&#x6784;" class="anchor-navigation-ex-anchor" href="#&#x6570;&#x636E;&#x7ED3;&#x6784;"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. &#x6570;&#x636E;&#x7ED3;&#x6784;</h2>
+<p>ZooKeeper = &#x7B80;&#x7248;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;(Znode) + &#x539F;&#x8BED; + &#x901A;&#x77E5;&#x673A;&#x5236;(Watcher)</p>
+<ul>
+<li>ZK&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#xFF0C;&#x57FA;&#x4E8E;&#x7C7B;&#x4F3C;&#x4E8E;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;<strong>&#x76EE;&#x5F55;&#x8282;&#x70B9;&#x6811;</strong>&#x65B9;&#x5F0F;&#x7684;&#x6570;&#x636E;&#x5B58;&#x50A8;</li>
+<li>&#x539F;&#x8BED;&#xFF0C;&#x53EF;&#x7B80;&#x5355;&#x7406;&#x89E3;&#x6210;ZooKeeper&#x7684;&#x57FA;&#x672C;&#x547D;&#x4EE4;</li>
+<li>Watcher &#x76D1;&#x542C;&#x5668;</li>
+</ul>
+<h2 id="&#x6570;&#x636E;&#x8282;&#x70B9;-znode"><a name="&#x6570;&#x636E;&#x8282;&#x70B9;-znode" class="anchor-navigation-ex-anchor" href="#&#x6570;&#x636E;&#x8282;&#x70B9;-znode"><i class="fa fa-link" aria-hidden="true"></i></a>3.3. &#x6570;&#x636E;&#x8282;&#x70B9; ZNode</h2>
+<p>ZNode &#x5206;&#x4E3A;&#x56DB;&#x7C7B;</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>&#x6301;&#x4E45;&#x8282;&#x70B9;</th>
+<th>&#x4E34;&#x65F6;&#x8282;&#x70B9;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&#x975E;&#x6709;&#x5E8F;&#x8282;&#x70B9;</td>
+<td>create</td>
+<td>create -e</td>
+</tr>
+<tr>
+<td>&#x6709;&#x5E8F;&#x8282;&#x70B9;</td>
+<td>create -s</td>
+<td>create -s -e</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><font color="red">&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x4E0D;&#x80FD;&#x6709;&#x5B50;&#x8282;&#x70B9;</font>
+
+
+
+</li>
+</ul>
+<h3 id="&#x6301;&#x4E45;&#x8282;&#x70B9;"><a name="&#x6301;&#x4E45;&#x8282;&#x70B9;" class="anchor-navigation-ex-anchor" href="#&#x6301;&#x4E45;&#x8282;&#x70B9;"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.1. &#x6301;&#x4E45;&#x8282;&#x70B9;</h3>
+<p>&#x6301;&#x4E45;&#x8282;&#x70B9;&#x4E00;&#x65E6;&#x521B;&#x5EFA;&#xFF0C;&#x4E00;&#x76F4;&#x5B58;&#x5728;&#xFF0C;&#x53EA;&#x6709;&#x901A;&#x8FC7;&#x5220;&#x9664;&#x547D;&#x4EE4;&#x624D;&#x53EF;&#x4EE5;&#x5220;&#x9664;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x521B;&#x5EFA;&#x8282;&#x70B9; /zk_test&#xFF0C;&#x5E76;&#x8BBE;&#x7F6E;&#x6570;&#x636E; my_data</span>
+create /zk_<span class="hljs-built_in">test</span> my_data
+
+<span class="hljs-comment"># &#x6301;&#x4E45;&#x8282;&#x70B9;&#xFF0C;&#x53EA;&#x6709;&#x663E;&#x793A;&#x7684;&#x8C03;&#x7528;&#x547D;&#x4EE4;&#x624D;&#x80FD;&#x5220;&#x9664;</span>
+delete /zk_<span class="hljs-built_in">test</span>
+</code></pre>
+<h3 id="&#x4E34;&#x65F6;&#x8282;&#x70B9;"><a name="&#x4E34;&#x65F6;&#x8282;&#x70B9;" class="anchor-navigation-ex-anchor" href="#&#x4E34;&#x65F6;&#x8282;&#x70B9;"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.2. &#x4E34;&#x65F6;&#x8282;&#x70B9;</h3>
+<p>&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x540C;&#x5BA2;&#x6237;&#x7AEF;<strong>&#x4F1A;&#x8BDD;</strong>session&#x7ED1;&#x5B9A;&#xFF0C;&#x4E00;&#x65E6;&#x4F1A;&#x8BDD;&#x5931;&#x6548;&#xFF0C;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x88AB;&#x5220;&#x9664;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># client1 &#x4E0A;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9;</span>
+create <span class="hljs-_">-e</span> /tmp tmpdata
+
+<span class="hljs-comment"># client2 &#x4E0A;&#x67E5;&#x770B;client1&#x521B;&#x5EFA;&#x7684;&#x4E34;&#x65F6;&#x8282;&#x70B9;</span>
+<span class="hljs-comment"># &#x6B64;&#x65F6;&#x5B58;&#x5728;</span>
+ls /
+
+<span class="hljs-comment"># client1&#x65AD;&#x5F00;&#x8FDE;&#x63A5;</span>
+close
+
+<span class="hljs-comment"># client2 &#x4E0A;&#x67E5;&#x770B;</span>
+<span class="hljs-comment"># &#x4E34;&#x65F6;&#x8282;&#x70B9;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;</span>
+ls /
+</code></pre>
+<h3 id="&#x6709;&#x5E8F;&#x8282;&#x70B9;"><a name="&#x6709;&#x5E8F;&#x8282;&#x70B9;" class="anchor-navigation-ex-anchor" href="#&#x6709;&#x5E8F;&#x8282;&#x70B9;"><i class="fa fa-link" aria-hidden="true"></i></a>3.3.3. &#x6709;&#x5E8F;&#x8282;&#x70B9;</h3>
+<p>&#x4E00;&#x65E6;&#x8282;&#x70B9;&#x88AB;&#x6807;&#x8BB0;&#x4E0A;&#x8FD9;&#x4E2A;&#x5C5E;&#x6027;&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x88AB;&#x521B;&#x5EFA;&#x65F6;&#xFF0C;ZooKeeper &#x5C31;&#x4F1A;&#x81EA;&#x52A8;&#x5728;&#x5176;&#x8282;&#x70B9;&#x540E;&#x9762;&#x8FFD;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x6574;&#x578B;&#x6570;&#x5B57;</p>
+<ul>
+<li>&#x8FD9;&#x4E2A;&#x6574;&#x6570;&#x662F;&#x4E00;&#x4E2A;&#x7531;&#x7236;&#x8282;&#x70B9;&#x7EF4;&#x62A4;&#x7684;&#x81EA;&#x589E;&#x6570;&#x5B57;&#x3002;</li>
+<li>&#x63D0;&#x4F9B;&#x4E86;&#x521B;&#x5EFA;&#x552F;&#x4E00;&#x540D;&#x5B57;&#x7684;ZNode&#x7684;&#x65B9;&#x5F0F;</li>
+</ul>
+<font color="red">&#x4E3A;&#x9632;&#x6B62;&#x591A;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x540C;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x4E0B;&#x521B;&#x5EFA;&#x540C;&#x540D;ZNode&#x5BFC;&#x81F4;&#x5931;&#x8D25;&#x7684;&#x95EE;&#x9898;</font>
+
+<pre><code class="lang-bash"><span class="hljs-comment"># /tmp0000000006</span>
+create <span class="hljs-_">-s</span> /tmp t
+</code></pre>
+<h2 id="&#x4F1A;&#x8BDD;-session"><a name="&#x4F1A;&#x8BDD;-session" class="anchor-navigation-ex-anchor" href="#&#x4F1A;&#x8BDD;-session"><i class="fa fa-link" aria-hidden="true"></i></a>3.4. &#x4F1A;&#x8BDD; Session</h2>
+<h3 id="&#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;"><a name="&#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;" class="anchor-navigation-ex-anchor" href="#&#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;"><i class="fa fa-link" aria-hidden="true"></i></a>3.4.1. &#x4EC0;&#x4E48;&#x662F;&#x4F1A;&#x8BDD;</h3>
+<ul>
+<li><p>&#x5BA2;&#x6237;&#x7AEF;&#x8981;&#x5BF9;ZooKeeper&#x96C6;&#x7FA4;&#x8FDB;&#x884C;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;&#x5F97;&#x5148;&#x4E0E;&#x67D0;&#x4E00;ZooKeeper&#x670D;&#x52A1;&#x5668;&#xFF08;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5747;&#x53EF;&#xFF09;&#x5EFA;&#x7ACB;<font color="red">TCP&#x957F;&#x8FDE;&#x63A5;</font>&#xFF1B;&#x6B64;TCP&#x957F;&#x8FDE;&#x63A5;&#x79F0;&#x4E3A;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x4F1A;&#x8BDD;Session&#x3002;</p>
+</li>
+<li><p>&#x6BCF;&#x4E2A;&#x4F1A;&#x8BDD;&#x6709;&#x8D85;&#x65F6;&#x65F6;&#x95F4;&#xFF1A;SessionTimeout&#x3002;&#x5F53;&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x96C6;&#x7FA4;&#x5EFA;&#x7ACB;&#x4F1A;&#x8BDD;&#x540E;&#xFF0C;&#x5982;&#x679C;&#x8D85;&#x8FC7;SessionTimeout&#x65F6;&#x95F4;&#xFF0C;&#x4E24;&#x8005;&#x95F4;&#x6CA1;&#x6709;&#x901A;&#x4FE1;&#xFF0C;&#x4F1A;&#x8BDD;&#x8D85;&#x65F6;&#x3002;</p>
+</li>
+</ul>
+<h3 id="&#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;"><a name="&#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;" class="anchor-navigation-ex-anchor" href="#&#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;"><i class="fa fa-link" aria-hidden="true"></i></a>3.4.2. &#x4F1A;&#x8BDD;&#x7684;&#x7279;&#x70B9;</h3>
+<ul>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x6253;&#x5F00;&#x4E00;&#x4E2A;Session&#x4E2D;&#x7684;&#x8BF7;&#x6C42;&#x4EE5;FIFO&#xFF08;&#x5148;&#x8FDB;&#x5148;&#x51FA;&#xFF09;&#x7684;&#x987A;&#x5E8F;&#x6267;&#x884C;&#x3002;&#x5982;&#x5BA2;&#x6237;&#x7AEF;client01&#x4E0E;&#x96C6;&#x7FA4;&#x5EFA;&#x7ACB;&#x4F1A;&#x8BDD;&#x540E;&#xFF0C;&#x5148;&#x53D1;&#x51FA;&#x4E00;&#x4E2A;create&#x8BF7;&#x6C42;&#xFF0C;&#x518D;&#x53D1;&#x51FA;&#x4E00;&#x4E2A;get&#x8BF7;&#x6C42;&#xFF1B;&#x90A3;&#x4E48;&#x5728;&#x6267;&#x884C;&#x65F6;&#xFF0C;&#x4F1A;&#x5148;&#x6267;&#x884C;create&#xFF0C;&#x518D;&#x6267;&#x884C;get&#x3002;</li>
+<li>&#x82E5;&#x6253;&#x5F00;&#x4E24;&#x4E2A;Session&#xFF0C;&#x5219;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;Session&#x95F4;&#x8BF7;&#x6C42;FIFO&#x6267;&#x884C;&#xFF1B;&#x53EA;&#x80FD;&#x4FDD;&#x8BC1;&#x4E00;&#x4E2A;session&#x4E2D;&#x8BF7;&#x6C42;&#x7684;FIFO&#x3002;</li>
+</ul>
+<h3 id="&#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;"><a name="&#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;" class="anchor-navigation-ex-anchor" href="#&#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;"><i class="fa fa-link" aria-hidden="true"></i></a>3.4.3. &#x4F1A;&#x8BDD;&#x7684;&#x58F0;&#x660E;&#x5468;&#x671F;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_session.png" alt="zookeeper_session"></p>
+<ul>
+<li>Client&#x521B;&#x5EFA;&#x8FDE;&#x63A5;&#xFF0C;&#x9996;&#x5148;&#x662F;&#x672A;&#x8FDE;&#x63A5;&#x8F6C;&#x6001;&#xFF0C;&#x968F;&#x7740;&#x521D;&#x59CB;&#x5316;&#x540E;&#xFF0C;&#x8FDB;&#x5165;&#x8FDE;&#x63A5;&#x4E2D;&#x72B6;&#x6001;&#x3002;&#x5F53;Client&#x540C;ZooKeeper&#x96C6;&#x7FA4;&#x7684;&#x67D0;&#x4E00;&#x4E2A;Server&#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#x8FDB;&#x5165;&#x5DF2;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#x3002;&#x4E1A;&#x52A1;&#x5904;&#x7406;&#x7ED3;&#x675F;&#xFF0C;Client&#x4E3B;&#x52A8;&#x5173;&#x95ED;Session&#x8FDE;&#x63A5;&#xFF0C;&#x6B64;&#x65F6;&#x8FDB;&#x5165;&#x5DF2;&#x5173;&#x95ED;&#x72B6;&#x6001;&#x3002;</li>
+<li>&#x5F53;Client&#x65E0;&#x6CD5;&#x63A5;&#x6536;&#x5230;Server&#x7684;&#x54CD;&#x5E94;&#x65F6;&#xFF0C;&#x9996;&#x5148;&#x8FDB;&#x5165;&#x8FDE;&#x63A5;&#x4E2D;&#x72B6;&#x6001;&#xFF0C;&#x518D;&#x6B21;&#x540C;ZooKeeper&#x96C6;&#x7FA4;&#x7684;&#x53E6;&#x5916;&#x4E00;&#x4E2A;Server&#x8FDE;&#x63A5;&#xFF0C;&#x5982;&#x679C;&#x8FDE;&#x63A5;&#x6210;&#x529F;&#xFF0C;&#x5219;&#x8FDB;&#x5165;&#x5DF2;&#x8FDE;&#x63A5;&#x72B6;&#x6001;&#xFF1B;&#x5982;&#x679C;&#x59CB;&#x7EC8;&#x65E0;&#x6CD5;&#x4E0E;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;Server&#x8FDE;&#x63A5;&#xFF0C;&#x5219;&#x5173;&#x95ED;Session&#x8FDE;&#x63A5;&#x8FDB;&#x5165;&#x5DF2;&#x5173;&#x95ED;&#x72B6;&#x6001;&#x3002;</li>
+</ul>
+<h2 id="&#x8BF7;&#x6C42;-request"><a name="&#x8BF7;&#x6C42;-request" class="anchor-navigation-ex-anchor" href="#&#x8BF7;&#x6C42;-request"><i class="fa fa-link" aria-hidden="true"></i></a>3.5. &#x8BF7;&#x6C42; Request</h2>
+<p>&#x8BFB;&#x5199;&#x8BF7;&#x6C42;</p>
+<ul>
+<li>&#x901A;&#x8FC7;&#x5BA2;&#x6237;&#x7AEF;&#x5411;ZooKeeper&#x96C6;&#x7FA4;&#x4E2D;&#x5199;&#x6570;&#x636E;</li>
+<li>&#x901A;&#x8FC7;&#x5BA2;&#x6237;&#x7AEF;&#x4ECE;ZooKeeper&#x96C6;&#x7FA4;&#x4E2D;&#x8BFB;&#x6570;&#x636E;</li>
+</ul>
+<h2 id="&#x4E8B;&#x52A1;zxid"><a name="&#x4E8B;&#x52A1;zxid" class="anchor-navigation-ex-anchor" href="#&#x4E8B;&#x52A1;zxid"><i class="fa fa-link" aria-hidden="true"></i></a>3.6. &#x4E8B;&#x52A1;zxid</h2>
+<ul>
+<li><p>&#x4E8B;&#x52A1;</p>
+<ul>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x5199;&#x8BF7;&#x6C42;&#xFF0C;&#x4F1A;&#x5BF9;ZooKeeper&#x4E2D;&#x7684;&#x6570;&#x636E;&#x505A;&#x51FA;&#x66F4;&#x6539;&#xFF0C;&#x5982;&#x589E;&#x5220;&#x6539;&#x7684;&#x64CD;&#x4F5C;</li>
+<li>&#x6BCF;&#x6B21;&#x5199;&#x8BF7;&#x6C42;&#xFF0C;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x6B21;&#x4E8B;&#x52A1;</li>
+<li>&#x6BCF;&#x4E2A;&#x4E8B;&#x52A1;&#x6709;&#x4E00;&#x4E2A;&#x5168;&#x5C40;&#x552F;&#x4E00;&#x7684;&#x4E8B;&#x52A1;ID&#xFF0C;&#x7528; ZXID &#x8868;&#x793A;&#xFF0C;&#x5168;&#x5C40;&#x81EA;&#x589E;</li>
+</ul>
+</li>
+<li><p>&#x4E8B;&#x52A1;&#x7279;&#x70B9;</p>
+<ul>
+<li>ACID&#xFF1A;&#x539F;&#x5B50;&#x6027;atomicity | &#x4E00;&#x81F4;&#x6027;consistency | &#x9694;&#x79BB;&#x6027;isolation | &#x6301;&#x4E45;&#x6027;durability</li>
+</ul>
+</li>
+<li><p>ZXID&#x7ED3;&#x6784;</p>
+<ul>
+<li><p>&#x901A;&#x5E38;&#x662F;&#x4E00;&#x4E2A;64&#x4F4D;&#x7684;&#x6570;&#x5B57;&#x3002;&#x7531;<strong>epoch+counter</strong>&#x7EC4;&#x6210;</p>
+</li>
+<li><p>epoch&#x3001;counter&#x5404;32&#x4F4D;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x5F53;&#x524D;leader&#x662F;&#x9009;&#x4E3E;&#x51FA;&#x6765;&#x7684;&#x7B2C;&#x51E0;&#x4EFB;&#xFF0C;&#x5982;13</span>
+/bigdata/install/zookeeper-3.4.5-cdh5.14.2/zkdatas/version-2/currentEpoch
+
+<span class="hljs-comment"># &#x521B;&#x5EFA;&#x4E00;&#x4E2A;znode</span>
+create <span class="hljs-_">-e</span> /temp temp
+get /temp
+
+<span class="hljs-comment"># counter = 00000023</span>
+<span class="hljs-comment"># epoch = d</span>
+<span class="hljs-comment"># &#x7B2C;13&#x4EFB;leader&#x7684;&#x7B2C;23&#x4E2A;&#x4E8B;&#x52A1;</span>
+<span class="hljs-comment"># c &#x521B;&#x5EFA; m &#x4FEE;&#x6539; p &#x4FEE;&#x6539;&#x5B50;&#x8282;&#x70B9;</span>
+cZxid = 0xd00000023
+mZxid = 0xd00000023
+pZxid = 0xd00000023
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="&#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5;-watcher"><a name="&#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5;-watcher" class="anchor-navigation-ex-anchor" href="#&#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5;-watcher"><i class="fa fa-link" aria-hidden="true"></i></a>3.7. &#x76D1;&#x89C6;&#x4E0E;&#x901A;&#x77E5; Watcher</h2>
+<p>Watcher&#x662F;&#x5BA2;&#x6237;&#x7AEF;&#x5728;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x6CE8;&#x518C;&#x7684;&#x4E8B;&#x4EF6;&#x76D1;&#x542C;&#x5668;&#xFF1B;Watcher&#x7528;&#x4E8E;&#x76D1;&#x542C;znode&#x4E0A;&#x7684;&#x67D0;&#x4E9B;&#x4E8B;&#x4EF6;&#xFF0C;&#x5982;znode&#x6570;&#x636E;&#x4FEE;&#x6539;&#x3001;&#x8282;&#x70B9;&#x589E;&#x5220;&#x7B49;&#xFF1B;&#x5F53;&#x76D1;&#x542C;&#x5230;&#x4E8B;&#x4EF6;&#x540E;&#xFF0C;Watcher&#x4F1A;&#x89E6;&#x53D1;&#x901A;&#x77E5;&#x5BA2;&#x6237;&#x7AEF;&#x3002;<font color="red">&#x6CE8;&#x610F;&#xFF1A;Watcher&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x6B21;&#x89E6;&#x53D1;&#x7684;&#x64CD;&#x4F5C;</font>&#x3002;</p>
+<ul>
+<li><p>&#x8282;&#x70B9;&#x4E0A;&#x4E0B;&#x7EBF;&#x611F;&#x77E5;</p>
+<p>Watcher + &#x4E34;&#x65F6;&#x8282;&#x70B9;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># client1 &#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9;</span>
+create <span class="hljs-_">-e</span> /temp temp
+
+<span class="hljs-comment"># client2 &#x76D1;&#x63A7;&#x4E34;&#x65F6;&#x8282;&#x70B9;</span>
+ls /temp watcher
+
+<span class="hljs-comment"># client1 &#x6A21;&#x62DF;&#x4E0B;&#x7EBF;</span>
+close
+
+<span class="hljs-comment"># client2 &#x83B7;&#x5F97;&#x901A;&#x77E5;</span>
+<span class="hljs-comment"># WATCHER::</span>
+<span class="hljs-comment"># WatchedEvent state:SyncConnected type:NodeDeleted path:/temp</span>
+</code></pre>
+</li>
+</ul>
+<h1 id="&#x5E94;&#x7528;&#x573A;&#x666F;"><a name="&#x5E94;&#x7528;&#x573A;&#x666F;" class="anchor-navigation-ex-anchor" href="#&#x5E94;&#x7528;&#x573A;&#x666F;"><i class="fa fa-link" aria-hidden="true"></i></a>4. &#x5E94;&#x7528;&#x573A;&#x666F;</h1>
+<h2 id="hdfs-ha-&#x65B9;&#x6848;"><a name="hdfs-ha-&#x65B9;&#x6848;" class="anchor-navigation-ex-anchor" href="#hdfs-ha-&#x65B9;&#x6848;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. HDFS HA &#x65B9;&#x6848;</h2>
+<p>NameNode&#x5B58;&#x5728;&#x5355;&#x70B9;&#x6545;&#x969C;&#x95EE;&#x9898;&#xFF0C;&#x4E00;&#x65E6;NameNode&#x5B95;&#x673A;&#xFF0C;&#x76F4;&#x63A5;&#x5BFC;&#x81F4;HDFS&#x65E0;&#x6CD5;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x3002;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x6B64;&#x95EE;&#x9898;&#xFF0C;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x5907;&#x4EFD;NameNode&#xFF0C;&#x5F53;&#x4E3B;NameNode&#x5B95;&#x673A;&#xFF0C;&#x5907;NameNode&#x81EA;&#x52A8;&#x5FEB;&#x901F;&#x5207;&#x6362;&#x54CD;&#x5E94;&#x5916;&#x90E8;&#x8BF7;&#x6C42;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5143;&#x6570;&#x636E;&#x5B58;&#x5728;&#x4E8E;NameNode&#x7684;&#x5185;&#x5B58;&#x4E2D;&#xFF0C;&#x4E5F;&#x5B58;&#x5728;&#x4E86;&#x5982;&#x4F55;&#x5171;&#x4EAB;&#x5185;&#x5B58;&#x5143;&#x6570;&#x636E;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<p>Hadoop 2.x &#x7248;&#x672C;&#x63D0;&#x51FA;&#x4E86;&#x9AD8;&#x53EF;&#x7528;&#xFF08;High Availability&#xFF0C;HA&#xFF09;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x3002;</p>
+<h3 id="&#x4E3B;&#x5907;&#x5207;&#x6362;"><a name="&#x4E3B;&#x5907;&#x5207;&#x6362;" class="anchor-navigation-ex-anchor" href="#&#x4E3B;&#x5907;&#x5207;&#x6362;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.1. &#x4E3B;&#x5907;&#x5207;&#x6362;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_hdfs_ha_elector.png" alt="zookeeper_hdfs_ha_elector"></p>
+<ul>
+<li><p>ZKFC &#x6D89;&#x53CA;&#x89D2;&#x8272;</p>
+<ul>
+<li>&#x6BCF;&#x4E2A;NameNode&#x8282;&#x70B9;&#x4E0A;&#x5404;&#x6709;&#x4E00;&#x4E2A;ZKFC&#x8FDB;&#x7A0B;</li>
+<li>ZKFC&#x5373; <strong>ZKFailoverController</strong>&#xFF0C;&#x4F5C;&#x4E3A;&#x72EC;&#x7ACB;&#x8FDB;&#x7A0B;&#x5B58;&#x5728;&#xFF0C;&#x8D1F;&#x8D23;&#x63A7;&#x5236;NameNode&#x7684;&#x4E3B;&#x5907;&#x5207;&#x6362;</li>
+<li>ZKFC&#x4F1A;&#x76D1;&#x63A7;NameNode&#x7684;&#x5065;&#x5EB7;&#x72B6;&#x51B5;&#xFF0C;&#x5F53;&#x53D1;&#x73B0;Active NameNode&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x901A;&#x8FC7;Zookeeper&#x96C6;&#x7FA4;&#x8FDB;&#x884C;NameNode&#x4E3B;&#x5907;&#x9009;&#x4E3E;&#xFF0C;&#x5B8C;&#x6210;Active&#x548C;Standby&#x72B6;&#x6001;&#x7684;&#x5207;&#x6362;<ul>
+<li>ZKFC&#x5728;&#x542F;&#x52A8;&#x65F6;&#xFF0C;&#x540C;&#x65F6;&#x4F1A;&#x521D;&#x59CB;&#x5316;HealthMonitor&#x548C;ActiveStandbyElector&#x670D;&#x52A1;&#xFF1B;&#x540C;&#x65F6;&#x4F1A;&#x5411;HealthMonitor&#x548C;ActiveStandbyElector&#x6CE8;&#x518C;&#x76F8;&#x5E94;&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;</li>
+<li><strong>HealthMonitor</strong>&#x5B9A;&#x65F6;&#x8C03;&#x7528;NameNode&#x7684;HAServiceProtocol RPC&#x63A5;&#x53E3;&#xFF08;monitorHealth&#x548C;getServiceStatus&#xFF09;&#xFF0C;&#x76D1;&#x63A7;NameNode&#x7684;&#x5065;&#x5EB7;&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x5411;ZKFC&#x53CD;&#x9988;</li>
+<li><strong>ActiveStandbyElector</strong>&#x63A5;&#x6536;ZKFC&#x7684;&#x9009;&#x4E3E;&#x8BF7;&#x6C42;&#xFF0C;&#x901A;&#x8FC7;Zookeeper&#x81EA;&#x52A8;&#x5B8C;&#x6210;NameNode&#x4E3B;&#x5907;&#x9009;&#x4E3E;</li>
+<li>&#x9009;&#x4E3E;&#x5B8C;&#x6210;&#x540E;&#x56DE;&#x8C03;ZKFC&#x7684;&#x4E3B;&#x5907;&#x5207;&#x6362;&#x65B9;&#x6CD5;&#x5BF9;NameNode&#x8FDB;&#x884C;Active&#x548C;Standby&#x72B6;&#x6001;&#x7684;&#x5207;&#x6362;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>&#x4E3B;&#x5907;&#x9009;&#x4E3E;&#x8FC7;&#x7A0B;</p>
+<p><strong>&#x5168;&#x65B0;&#x96C6;&#x7FA4;&#x9009;&#x4E3E;</strong></p>
+<ul>
+<li>&#x542F;&#x52A8;&#x4E24;&#x4E2A;NameNode&#x548C;ZKFC</li>
+<li>&#x4E24;&#x4E2A;ZKFC&#x901A;&#x8FC7;&#x5404;&#x81EA;ActiveStandbyElector&#x53D1;&#x8D77;NameNode&#x7684;&#x4E3B;&#x5907;&#x9009;&#x4E3E;&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5229;&#x7528;Zookeeper&#x7684;&#x5199;&#x4E00;&#x81F4;&#x6027;&#x548C;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x673A;&#x5236;&#x5B9E;&#x73B0;</li>
+<li>&#x5F53;&#x53D1;&#x8D77;&#x4E00;&#x6B21;<strong>&#x4E3B;&#x5907;</strong>&#x9009;&#x4E3E;&#x65F6;&#xFF0C;ActiveStandbyElector&#x4F1A;&#x5C1D;&#x8BD5;&#x5728;Zookeeper&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9;<code>/hadoop-ha/${dfs.nameservices}/ActiveStandbyElectorLock</code>&#xFF0C;Zookeeper&#x7684;&#x5199;&#x4E00;&#x81F4;&#x6027;&#x4FDD;&#x8BC1;&#x6700;&#x7EC8;&#x53EA;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;ActiveStandbyElector&#x521B;&#x5EFA;&#x6210;&#x529F;</li>
+<li>ActiveStandbyElector&#x4ECE;ZooKeeper&#x83B7;&#x5F97;&#x9009;&#x4E3E;&#x7ED3;&#x679C;</li>
+<li>&#x521B;&#x5EFA;&#x6210;&#x529F;&#x7684; ActiveStandbyElector&#x56DE;&#x8C03;ZKFC&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#xFF0C;&#x5C06;&#x5BF9;&#x5E94;&#x7684;NameNode&#x5207;&#x6362;&#x4E3A;Active NameNode&#x72B6;&#x6001;</li>
+<li>&#x800C;&#x521B;&#x5EFA;&#x5931;&#x8D25;&#x7684;ActiveStandbyElector&#x56DE;&#x8C03;ZKFC&#x7684;&#x56DE;&#x8C03;&#x65B9;&#x6CD5;&#xFF0C;&#x5C06;&#x5BF9;&#x5E94;&#x7684;NameNode&#x5207;&#x6362;&#x4E3A;Standby NameNode&#x72B6;&#x6001;</li>
+<li><font color="red">&#x4E0D;&#x7BA1;&#x662F;&#x5426;&#x9009;&#x4E3E;&#x6210;&#x529F;&#xFF0C;&#x6240;&#x6709;ActiveStandbyElector&#x90FD;&#x4F1A;&#x5728;&#x4E34;&#x65F6;&#x8282;&#x70B9;ActiveStandbyElectorLock&#x4E0A;&#x6CE8;&#x518C;&#x4E00;&#x4E2A;Watcher&#x76D1;&#x542C;&#x5668;&#xFF0C;&#x6765;&#x76D1;&#x542C;&#x8FD9;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x72B6;&#x6001;&#x53D8;&#x5316;&#x4E8B;&#x4EF6;</font>
+
+</li>
+</ul>
+<p><strong>&#x975E;&#x5168;&#x65B0;&#x96C6;&#x7FA4;&#x9009;&#x4E3E;</strong></p>
+<ul>
+<li>&#x5982;&#x679C;Active NameNode&#x5BF9;&#x5E94;&#x7684;HealthMonitor&#x68C0;&#x6D4B;&#x5230;NameNode&#x72B6;&#x6001;&#x5F02;&#x5E38;&#x65F6;&#xFF0C;&#x901A;&#x77E5;&#x5BF9;&#x5E94;ZKFC</li>
+<li>ZKFC&#x4F1A;&#x8C03;&#x7528; ActiveStandbyElector &#x65B9;&#x6CD5;&#xFF0C;&#x5220;&#x9664;&#x5728;Zookeeper&#x4E0A;&#x521B;&#x5EFA;&#x7684;&#x4E34;&#x65F6;&#x8282;&#x70B9;ActiveStandbyElectorLock&#xFF08;&#x6216;&#x8005;ActvieStandbyElector&#x4E0E;ZooKeeper&#x7684;session&#x65AD;&#x5F00;&#xFF0C;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x4E5F;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#xFF0C;&#x4F46;&#x6709;&#x53EF;&#x80FD;&#x6B64;&#x65F6;&#x539F;Active NameNode&#x4ECD;&#x7136;&#x662F;active&#x72B6;&#x6001;&#xFF09;</li>
+<li>&#x6B64;&#x65F6;&#xFF0C;Standby NameNode&#x7684;ActiveStandbyElector&#x6CE8;&#x518C;&#x7684;Watcher&#x5C31;&#x4F1A;&#x76D1;&#x542C;&#x5230;&#x6B64;&#x8282;&#x70B9;&#x7684; NodeDeleted&#x4E8B;&#x4EF6;&#x3002;</li>
+<li>&#x6536;&#x5230;&#x8FD9;&#x4E2A;&#x4E8B;&#x4EF6;&#x540E;&#xFF0C;&#x6B64;ActiveStandbyElector&#x53D1;&#x8D77;&#x4E3B;&#x5907;&#x9009;&#x4E3E;&#xFF0C;&#x6210;&#x529F;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9;ActiveStandbyElectorLock&#xFF0C;&#x5982;&#x679C;&#x521B;&#x5EFA;&#x6210;&#x529F;&#xFF0C;&#x5219;Standby NameNode&#x88AB;&#x9009;&#x4E3E;&#x4E3A;Active NameNode</li>
+</ul>
+</li>
+<li><p>&#x5982;&#x4F55;&#x9632;&#x6B62;&#x8111;&#x88C2;&#xFF08;&#x52A0;&#x5165;BreadCrumb&#xFF0C;&#x5F15;&#x5165;&#x9694;&#x79BB;&#x673A;&#x5236;&#xFF09;
+&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#x4E2D; <strong>&#x53CC;&#x4E3B;</strong> &#x73B0;&#x8C61;&#x53C8;&#x79F0;&#x4E3A;&#x8111;&#x88C2;&#xFF0C;&#x7531;&#x4E8E;Zookeeper&#x7684; &#x201D;&#x5047;&#x6B7B;&#x201D;&#x3001;&#x957F;&#x65F6;&#x95F4;&#x7684;&#x5783;&#x573E;&#x56DE;&#x6536;&#x6216;&#x5176;&#x5B83;&#x539F;&#x56E0;&#x90FD;&#x53EF;&#x80FD;&#x5BFC;&#x81F4; <font color="red">&#x53CC;</font>Active NameNode &#x73B0;&#x8C61;&#xFF0C;&#x6B64;&#x65F6;&#x4E24;&#x4E2A;NameNode&#x90FD;&#x53EF;&#x4EE5;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#xFF0C;&#x65E0;&#x6CD5;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x4E00;&#x81F4;&#x6027;&#x3002;&#x5BF9;&#x4E8E;&#x751F;&#x4EA7;&#x73AF;&#x5883;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x7684;&#x51FA;&#x73B0;&#x662F;&#x6BC1;&#x706D;&#x6027;&#x7684;&#xFF0C;&#x5FC5;&#x987B;&#x901A;&#x8FC7;&#x81EA;&#x5E26;&#x7684; <strong>&#x9694;&#x79BB;&#xFF08;Fencing&#xFF09;</strong>&#x673A;&#x5236;&#x9884;&#x9632;&#x6B64;&#x7C7B;&#x60C5;&#x51B5;&#x3002;</p>
+<p><strong>&#x6B63;&#x5E38;&#x72B6;&#x6001;</strong></p>
+<ul>
+<li>ActiveStandbyElector&#x6210;&#x529F;&#x521B;&#x5EFA;ActiveStandbyElectorLock&#x4E34;&#x65F6;&#x8282;&#x70B9;&#x540E;&#xFF0C;&#x4F1A;&#x521B;&#x5EFA;&#x53E6;&#x4E00;&#x4E2A;ActiveBreadCrumb&#x6301;&#x4E45;&#x8282;&#x70B9;</li>
+<li>ActiveBreadCrumb&#x6301;&#x4E45;&#x8282;&#x70B9;&#x4FDD;&#x5B58;&#x4E86;Active NameNode&#x7684;&#x5730;&#x5740;&#x4FE1;&#x606F;</li>
+<li>&#x5F53;Active NameNode&#x5728;&#x6B63;&#x5E38;&#x7684;&#x72B6;&#x6001;&#x4E0B;&#x65AD;&#x5F00;Zookeeper Session&#xFF0C;&#x4F1A;&#x4E00;&#x5E76;&#x5220;&#x9664;&#x4E34;&#x65F6;&#x8282;&#x70B9;ActiveStandbyElectorLock&#x3001;&#x6301;&#x4E45;&#x8282;&#x70B9;ActiveBreadCrumb</li>
+</ul>
+<p><strong>&#x5F02;&#x5E38;&#x72B6;&#x6001;</strong></p>
+<ul>
+<li>&#x4F46;&#x5982;&#x679C;ActiveStandbyElector&#x5728;&#x5F02;&#x5E38;&#x7684;&#x72B6;&#x6001;&#x4E0B;&#x5173;&#x95ED;Zookeeper Session&#xFF08;&#x6B64;&#x65F6;&#x6709;&#x53EF;&#x80FD;&#x7531;&#x4E8E;active NameNode&#x4E0E;ZooKeeper&#x901A;&#x4FE1;&#x4E0D;&#x7545;&#x5BFC;&#x81F4;&#xFF0C;&#x6240;&#x4EE5;&#x6B64;&#x65F6;NameNode<strong>&#x8FD8;&#x5904;&#x4E8E;active&#x72B6;&#x6001;</strong>&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x6301;&#x4E45;&#x8282;&#x70B9;ActiveBreadCrumb&#x4F1A;&#x4FDD;&#x7559;&#x4E0B;&#x6765;</li>
+<li><p>&#x5F53;&#x53E6;&#x4E00;&#x4E2A;NameNode&#x8981;&#x7531;standby&#x53D8;&#x6210;active&#x72B6;&#x6001;&#x65F6;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x4E0A;&#x4E00;&#x4E2A;Active NameNode&#x9057;&#x7559;&#x4E0B;&#x6765;&#x7684;ActiveBreadCrumb&#x8282;&#x70B9;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x56DE;&#x8C03; ZKFC &#x7684;&#x65B9;&#x6CD5;&#x5BF9;&#x65E7;&#x7684;Active NameNode&#x8FDB;&#x884C;fencing</p>
+<ol>
+<li>&#x9996;&#x5148;ZKFC&#x4F1A;&#x5C1D;&#x8BD5;&#x8C03;&#x7528;&#x65E7;Active NameNode&#x7684;HAServiceProtocol RPC&#x63A5;&#x53E3;&#x7684;transitionToStandby&#x65B9;&#x6CD5;&#xFF0C;&#x770B;&#x80FD;&#x5426;&#x5C06;&#x5176;&#x72B6;&#x6001;&#x5207;&#x6362;&#x4E3A;Standby</li>
+<li>&#x5982;&#x679C;transitionToStandby&#x65B9;&#x6CD5;&#x5207;&#x6362;&#x72B6;&#x6001;&#x5931;&#x8D25;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x9700;&#x8981;&#x6267;&#x884C;Hadoop&#x81EA;&#x5E26;&#x7684;&#x9694;&#x79BB;&#x63AA;&#x65BD;&#xFF0C;Hadoop&#x76EE;&#x524D;&#x4E3B;&#x8981;&#x63D0;&#x4F9B;&#x4E24;&#x79CD;&#x9694;&#x79BB;&#x63AA;&#x65BD;&#xFF1A;<ul>
+<li>sshfence&#xFF1A;SSH to the Active NameNode and kill the process</li>
+<li>shellfence&#xFF1A;run an arbitrary shell command to fence the Active NameNode</li>
+</ul>
+</li>
+<li>&#x53EA;&#x6709;&#x6210;&#x529F;&#x5730;fencing&#x4E4B;&#x540E;&#xFF0C;&#x9009;&#x4E3E;&#x6210;&#x529F;&#x7684;ActiveStandbyElector&#x624D;&#x4F1A;&#x56DE;&#x8C03;ZKFC&#x7684;becomeActive&#x65B9;&#x6CD5;&#xFF0C;&#x7136;&#x540E;ZKFS&#x8C03;&#x7528;transitionToActive&#x5C06;&#x5BF9;&#x5E94;&#x7684;NameNode&#x5207;&#x6362;&#x4E3A;Active&#xFF0C;&#x5F00;&#x59CB;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;"><a name="&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;" class="anchor-navigation-ex-anchor" href="#&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.2. &#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_hdfs_ha_editlog.png" alt="zookeeper_hdfs_ha_editlog"></p>
+<p>&#x96C6;&#x7FA4;&#x542F;&#x52A8;&#x540E;&#x4E00;&#x4E2A;NN&#x5904;&#x4E8E;active&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#xFF0C;&#x5904;&#x7406;&#x5BA2;&#x6237;&#x7AEF;&#x548C;DataNode&#x7684;&#x8BF7;&#x6C42;&#xFF0C;&#x5E76;&#x628A;editlog&#x5199;&#x5230;&#x672C;&#x5730;&#x548C;share editlog&#xFF08;&#x53EF;&#x4EE5;&#x662F;NFS&#xFF0C;QJM&#x7B49;&#xFF09;&#x4E2D;&#x3002;&#x53E6;&#x5916;&#x4E00;&#x4E2A;NN&#x5904;&#x4E8E;Standby&#x72B6;&#x6001;&#xFF0C;&#x5B83;&#x542F;&#x52A8;&#x7684;&#x65F6;&#x5019;&#x52A0;&#x8F7D;fsimage&#xFF0C;&#x7136;&#x540E;&#x5468;&#x671F;&#x6027;&#x7684;&#x4ECE;share editlog&#x4E2D;&#x83B7;&#x53D6;editlog&#xFF0C;&#x4FDD;&#x6301;&#x4E0E;active&#x7684;&#x72B6;&#x6001;&#x540C;&#x6B65;&#x3002;&#x4E3A;&#x4E86;&#x5B9E;&#x73B0;standby&#x5728;active&#x6302;&#x6389;&#x540E;&#x8FC5;&#x901F;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#xFF0C;&#x9700;&#x8981;DN&#x540C;&#x65F6;&#x5411;&#x4E24;&#x4E2A;NN&#x6C47;&#x62A5;&#xFF0C;&#x4F7F;&#x5F97;standby&#x4FDD;&#x5B58;block to datanode&#x4FE1;&#x606F;&#xFF0C;&#x56E0;&#x4E3A;NN&#x542F;&#x52A8;&#x4E2D;&#x6700;&#x8D39;&#x65F6;&#x7684;&#x5DE5;&#x4F5C;&#x662F;&#x5904;&#x7406;&#x6240;&#x6709;datanode&#x7684;blockreport&#x3002;</p>
+<ul>
+<li>&#x5728;&#x4E3B;&#x5907;&#x5207;&#x6362;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x65B0;&#x7684;Active NameNode&#x5FC5;&#x987B;&#x786E;&#x4FDD;&#x4E0E;&#x539F;Active NamNode&#x5143;&#x6570;&#x636E;&#x540C;&#x6B65;&#x5B8C;&#x6210;&#xFF0C;&#x624D;&#x80FD;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;</li>
+<li>HA&#x96C6;&#x7FA4;&#x4E2D;&#x4E0D;&#x9700;&#x8981;&#x8FD0;&#x884C;SecondaryNameNode&#x3001;CheckpointNode&#x6216;&#x8005;BackupNode&#x3002;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;HA&#x67B6;&#x6784;&#x4E2D;&#x8FD0;&#x884C;&#x4E0A;&#x8FF0;&#x8282;&#x70B9;&#xFF0C;&#x5C06;&#x4F1A;&#x51FA;&#x9519;</li>
+</ul>
+<h2 id="&#x5206;&#x5E03;&#x5F0F;&#x9501;"><a name="&#x5206;&#x5E03;&#x5F0F;&#x9501;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x5E03;&#x5F0F;&#x9501;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. &#x5206;&#x5E03;&#x5F0F;&#x9501;</h2>
+<p>&#x5728;&#x5355;&#x4E00;&#x8FDB;&#x7A0B;&#x591A;&#x7EBF;&#x7A0B;&#x73AF;&#x5883;&#x4E0B;&#xFF0C;&#x4E89;&#x62A2;&#x5171;&#x4EAB;&#x8D44;&#x6E90;&#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;JUC&#x5B8C;&#x7F8E;&#x89E3;&#x51B3;&#x3002;&#x4F46;&#x968F;&#x7740;&#x7CFB;&#x7EDF;&#x53D1;&#x5C55;&#xFF0C;&#x5355;&#x4E00;&#x8FDB;&#x7A0B;&#x7CFB;&#x7EDF;&#x8FDB;&#x4E00;&#x6B65;&#x53D1;&#x5C55;&#x4E3A;&#x591A;&#x8FDB;&#x7A0B;&#x5206;&#x5E03;&#x5F0F;&#x7CFB;&#x7EDF;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x4EA7;&#x751F;&#x4E86;&#x5982;&#x4F55;&#x89E3;&#x51B3;&#x5171;&#x4EAB;&#x8D44;&#x6E90;&#x4E89;&#x62A2;&#x51B2;&#x7A81;&#x7684;&#x95EE;&#x9898;&#x3002;&#x53EF;&#x4EE5;&#x501F;&#x52A9;ZooKeeper&#x5B9E;&#x73B0;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x65B9;&#x6848;&#x3002;</p>
+<ul>
+<li><p>&#x65B9;&#x6848;&#x4E00;&#xFF08;&#x60CA;&#x7FA4;&#x95EE;&#x9898;&#xFF0C;&#x76D1;&#x63A7;&#x540C;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x8282;&#x70B9;&#xFF09;</p>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_distributedlock_thunderingherd.png" alt="zookeeper_distributedlock_thunderingherd"></p>
+<ol>
+<li>Client 1&#x3001;2&#x3001;3&#x540C;&#x65F6;&#x5411;ZooKeeper&#x8BF7;&#x6C42;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9; /lock&#xFF0C;&#x9ED8;&#x8BA4;&#x662F;&#x65E0;&#x5E8F;&#x8282;&#x70B9;&#xFF0C;&#x53EA;&#x6709;Client 1 &#x521B;&#x5EFA;&#x6210;&#x529F;&#xFF0C;&#x5176;&#x4ED6;Client&#x521B;&#x5EFA;&#x5931;&#x8D25;&#xFF0C;&#x56E0;&#x6B64;Client 1 &#x83B7;&#x5F97;&#x9501;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5171;&#x4EAB;&#x8D44;&#x6E90;&#xFF0C;&#x800C;&#x5176;&#x4ED6;Client&#x5BF9;&#x8BE5;&#x8282;&#x70B9;&#x8BBE;&#x7F6E;watcher&#x7B49;&#x5F85;&#x901A;&#x77E5;&#x4E8B;&#x4EF6;</li>
+<li>Client 1 &#x4EFB;&#x52A1;&#x7ED3;&#x675F;&#xFF0C;&#x5220;&#x9664; /lock &#x6216;&#x8005; &#x5173;&#x95ED;&#x540C;ZooKeeper&#x7684;session&#x8FDE;&#x63A5;</li>
+<li>ZooKeeper&#x4F1A;&#x901A;&#x77E5;Client 2&#x548C;Client 3&#xFF0C;&#x6709;&#x5220;&#x9664;&#x8282;&#x70B9;&#x4E8B;&#x4EF6;</li>
+<li>Client 2&#x548C;Client 3&#x540C;&#x65F6;&#x5411;ZooKeeper&#x8BF7;&#x6C42;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x8282;&#x70B9; /lock&#xFF0C;Client 3&#x521B;&#x5EFA;&#x6210;&#x529F;&#xFF0C;&#x800C;Client2&#x521B;&#x5EFA;&#x5931;&#x8D25;&#xFF0C;Client2&#x7EE7;&#x7EED;&#x5BF9;&#x8BE5;&#x8282;&#x70B9;&#x8BBE;&#x7F6E;watcher&#x7B49;&#x5F85;&#x901A;&#x77E5;&#x4E8B;&#x4EF6;</li>
+</ol>
+<p>&#x65B9;&#x6848;&#x4E00;&#x4F1A;&#x4EA7;&#x751F;<strong>&#x60CA;&#x7FA4;&#x95EE;&#x9898;</strong>&#xFF0C;&#x591A;&#x4E2A;&#x8FDB;&#x7A0B;&#x8BF7;&#x6C42;&#x5171;&#x4EAB;&#x8D44;&#x6E90;&#x4F46;&#x65E0;&#x6CD5;&#x540C;&#x65F6;&#x83B7;&#x5F97;&#x9501;&#xFF0C;&#x672A;&#x83B7;&#x5F97;&#x9501;&#x7684;&#x8FDB;&#x7A0B;&#x53EA;&#x6709;&#x4F11;&#x7720;&#x7B49;&#x5F85;&#x901A;&#x77E5;&#x3002;&#x4E00;&#x65E6;&#x591A;&#x4E2A;&#x8FDB;&#x7A0B;&#x540C;&#x65F6;&#x5F97;&#x5230;&#x901A;&#x77E5;&#xFF0C;&#x5168;&#x90E8;&#x8FDB;&#x7A0B;&#x4F1A;&#x65E0;&#x5E8F;CPU&#x8C03;&#x5EA6;&#xFF0C;&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x4E89;&#x62A2;&#x9501;&#xFF0C;&#x4F46;&#x6B64;&#x65F6;&#x53C8;<font color="red">&#x53EA;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x83B7;&#x5F97;&#x9501;</font>&#xFF0C;&#x5F53;&#x6709;&#x5927;&#x91CF;&#x4E89;&#x62A2;&#x8FDB;&#x7A0B;&#x65F6;&#xFF0C;&#x4F1A;&#x5BFC;&#x81F4;&#x8BA1;&#x7B97;&#x548C;&#x7F51;&#x7EDC;&#x8D44;&#x6E90;&#x7684;&#x6D6A;&#x8D39;&#x3002;</p>
+</li>
+</ul>
+<ul>
+<li><p>&#x65B9;&#x6848;&#x4E8C;&#xFF08;&#x76D1;&#x63A7;&#x4E0A;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x8282;&#x70B9;&#xFF09;</p>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_distributedlock.png" alt="zookeeper_distributedlock"></p>
+<ol>
+<li>Client 1&#x3001;2&#x3001;3&#x540C;&#x65F6;&#x5411;ZooKeeper&#x8BE2;&#x95EE;root&#x6301;&#x4E45;&#x8282;&#x70B9;/group&#x662F;&#x5426;&#x521B;&#x5EFA;&#xFF0C;&#x5982;&#x679C;&#x672A;&#x521B;&#x5EFA;&#xFF0C;&#x5219;&#x53EA;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x8FDB;&#x7A0B;&#x521B;&#x5EFA;root&#x8282;&#x70B9;&#x3002;Client 1&#x521B;&#x5EFA;/group&#x6839;&#x8282;&#x70B9;&#xFF0C;&#x7136;&#x540E;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x8282;&#x70B9;/group/lock0000000001&#xFF0C;&#x7136;&#x540E;Client1&#x53D1;&#x73B0;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5219;&#x83B7;&#x5F97;&#x9501;&#xFF1B;Client 2&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x8282;&#x70B9;/group/lock0000000002&#xFF0C;&#x53D1;&#x73B0;&#x4E0D;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5219;&#x8BBE;&#x7F6E;&#x4E0A;&#x4E00;&#x4E2A;/group/lock0000000001&#x8282;&#x70B9;watcher&#x7B49;&#x5F85;&#x901A;&#x77E5;&#xFF1B;Client 3&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x8282;&#x70B9;/group/lock0000000003&#xFF0C;&#x53D1;&#x73B0;&#x4E0D;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5219;&#x8BBE;&#x7F6E;&#x4E0A;&#x4E00;&#x4E2A;/group/lock0000000002&#x8282;&#x70B9;watcher&#x7B49;&#x5F85;&#x901A;&#x77E5;</li>
+<li>Client 1 &#x4EFB;&#x52A1;&#x7ED3;&#x675F;&#xFF0C;&#x5220;&#x9664; /group/lock0000000001 &#x6216;&#x8005; &#x5173;&#x95ED;&#x540C;ZooKeeper&#x7684;session&#x8FDE;&#x63A5;</li>
+<li>Client 2 &#x83B7;&#x5F97;&#x901A;&#x77E5;&#xFF0C;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5219;&#x83B7;&#x5F97;&#x9501;&#x5904;&#x7406;&#x4EFB;&#x52A1;&#xFF1B;&#x5426;&#x5219;&#xFF0C;&#x7EE7;&#x7EED;&#x76D1;&#x542C;&#x4E0A;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF08;Client 1&#x53EF;&#x80FD;&#x5F02;&#x5E38;&#x7ED3;&#x675F;&#xFF0C;&#x4F46;&#x975E;&#x7B2C;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#xFF09;</li>
+<li>Client 2 &#x4EFB;&#x52A1;&#x7ED3;&#x675F;&#xFF0C;&#x5220;&#x9664; /group/lock0000000002</li>
+<li>Client 3 &#x83B7;&#x5F97;&#x901A;&#x77E5;&#xFF0C;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x5219;&#x83B7;&#x5F97;&#x9501;&#x5904;&#x7406;&#x4EFB;&#x52A1;</li>
+</ol>
+<p>&#x65B9;&#x6848;&#x4E8C;&#x591A;&#x4E2A;&#x8FDB;&#x7A0B;&#x83B7;&#x5F97;&#x9501;&#x987A;&#x5E8F;&#x4F9D;&#x8D56;&#x4E8E;&#x5E76;&#x53D1;&#x521B;&#x5EFA;&#x4E34;&#x65F6;&#x6709;&#x5E8F;&#x5B50;&#x8282;&#x70B9;&#x987A;&#x5E8F;&#x3002;&#x6B64;&#x65B9;&#x6848;&#x4E0D;&#x5931;&#x5E76;&#x53D1;&#x6027;&#xFF0C;&#x8FDB;&#x7A0B;&#x53C8;&#x53EF;&#x8C03;&#x5EA6;&#x6709;&#x5E8F;&#x3002;</p>
+</li>
+</ul>
+<h1 id="&#x6838;&#x5FC3;&#x539F;&#x7406;"><a name="&#x6838;&#x5FC3;&#x539F;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x6838;&#x5FC3;&#x539F;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x6838;&#x5FC3;&#x539F;&#x7406;</h1>
+<h2 id="zab&#x7B97;&#x6CD5;"><a name="zab&#x7B97;&#x6CD5;" class="anchor-navigation-ex-anchor" href="#zab&#x7B97;&#x6CD5;"><i class="fa fa-link" aria-hidden="true"></i></a>5.1. ZAB&#x7B97;&#x6CD5;</h2>
+<h3 id="&#x4EF2;&#x88C1;quorum"><a name="&#x4EF2;&#x88C1;quorum" class="anchor-navigation-ex-anchor" href="#&#x4EF2;&#x88C1;quorum"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.1. &#x4EF2;&#x88C1;quorum</h3>
+<ul>
+<li><p>&#x4EC0;&#x4E48;&#x662F;&#x4EF2;&#x88C1;quorum</p>
+<p>&#x53D1;&#x8D77;proposal&#x65F6;&#xFF0C;&#x53EA;&#x8981;&#x591A;&#x6570;&#x6D3E;&#x540C;&#x610F;&#xFF0C;&#x5373;&#x53EF;&#x751F;&#x6548;</p>
+</li>
+<li><p>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4EF2;&#x88C1;</p>
+<p>&#x4E0D;&#x9700;&#x8981;&#x6240;&#x6709;&#x7684;&#x670D;&#x52A1;&#x5668;&#x90FD;&#x54CD;&#x5E94;proposal&#x5C31;&#x80FD;&#x751F;&#x6548;&#xFF0C;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x96C6;&#x7FA4;&#x7684;&#x54CD;&#x5E94;&#x901F;&#x5EA6;</p>
+</li>
+<li><p>quorum&#x6570;&#x5982;&#x4F55;&#x9009;&#x62E9;</p>
+<p>&#x96C6;&#x7FA4;&#x8282;&#x70B9;&#x6570; / 2 + 1</p>
+<p>&#x5982;3&#x8282;&#x70B9;&#x96C6;&#x7FA4;&#xFF1A;quorum = 3 / 2 + 1 = 2</p>
+</li>
+</ul>
+<h3 id="&#x8111;&#x88C2;"><a name="&#x8111;&#x88C2;" class="anchor-navigation-ex-anchor" href="#&#x8111;&#x88C2;"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.2. &#x8111;&#x88C2;</h3>
+<ul>
+<li><p>&#x7F51;&#x7EDC;&#x5206;&#x533A;</p>
+<p>&#x7F51;&#x7EDC;&#x901A;&#x4FE1;&#x6545;&#x969C;&#xFF0C;&#x96C6;&#x7FA4;&#x88AB;&#x5206;&#x6210;&#x4E86;2&#x90E8;&#x5206;</p>
+</li>
+<li><p>&#x8111;&#x88C2;</p>
+<p>&#x539F;leader&#x5904;&#x4E8E;&#x4E00;&#x4E2A;&#x5206;&#x533A;&#xFF0C;&#x800C;&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x5206;&#x533A;&#x9009;&#x4E3E;&#x51FA;&#x65B0;&#x7684;leader&#xFF0C;&#x6B64;&#x65F6;&#x96C6;&#x7FA4;&#x51FA;&#x73B0;2&#x4E2A;leader&#xFF0C;&#x5BFC;&#x81F4;&#x96C6;&#x7FA4;&#x7D0A;&#x4E71;&#x3002;</p>
+</li>
+</ul>
+<ul>
+<li><font color="red">&#x9632;&#x6B62;&#x8111;&#x88C2;&#x5BFC;&#x81F4;&#x96C6;&#x7FA4;&#x4E2D;&#x51FA;&#x73B0;&#x591A;&#x4E2A;leader</font>
+
+<p>&#x4E3A;&#x4EC0;&#x4E48;&#x89C4;&#x5219;&#x8981;&#x6C42; <code>&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; &gt; &#x96C6;&#x7FA4;&#x603B;&#x7ED3;&#x70B9;&#x6570; / 2</code> &#xFF1F;&#x5982;&#x679C;&#x4E0D;&#x8FD9;&#x6837;&#x9650;&#x5236;&#xFF0C;&#x5728;&#x96C6;&#x7FA4;&#x51FA;&#x73B0;&#x8111;&#x88C2;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;&#x591A;&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;&#x540C;&#x65F6;&#x670D;&#x52A1;&#x7684;&#x60C5;&#x51B5;&#xFF08;&#x5373;&#x5B50;&#x96C6;&#x7FA4;&#x5404;&#x7EC4;&#x9009;&#x4E3E;&#x51FA;&#x81EA;&#x5DF1;&#x7684;leader&#xFF09;&#xFF0C; &#x8FD9;&#x6837;&#x5BF9;&#x6574;&#x4E2A;zookeeper&#x96C6;&#x7FA4;&#x6765;&#x8BF4;&#x662F;&#x7D0A;&#x4E71;&#x7684;&#x3002;&#x6362;&#x53E5;&#x8BDD;&#x8BF4;&#xFF0C;&#x5982;&#x679C;&#x9075;&#x5B88;&#x4E0A;&#x8FF0;&#x89C4;&#x5219;&#x8FDB;&#x884C;&#x9009;&#x4E3E;&#xFF0C;&#x5373;&#x4F7F;&#x51FA;&#x73B0;&#x8111;&#x88C2;&#xFF0C;&#x96C6;&#x7FA4;&#x6700;&#x591A;&#x4E5F;&#x53EA;&#x80FD;&#x51FA;&#x73B0;&#x4E00;&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+</li>
+</ul>
+<h3 id="zab&#x7B97;&#x6CD5;_1"><a name="zab&#x7B97;&#x6CD5;_1" class="anchor-navigation-ex-anchor" href="#zab&#x7B97;&#x6CD5;_1"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.3. ZAB&#x7B97;&#x6CD5;</h3>
+<p>&#x5206;&#x5E03;&#x5F0F;&#x4E00;&#x81F4;&#x6027;&#x534F;&#x8BAE;</p>
+<ul>
+<li><p><code>Paxos</code> &#x504F;&#x5411;&#x4E8E;&#x7406;&#x8BBA;&#x3001;&#x5BF9;&#x5982;&#x4F55;&#x5E94;&#x7528;&#x5230;&#x5DE5;&#x7A0B;&#x5B9E;&#x8DF5;&#x63D0;&#x53CA;&#x8F83;&#x5C11;</p>
+</li>
+<li><p><code>Raft</code> &#x5728;2013&#x5E74;&#x63D0;&#x51FA;&#xFF0C;&#x63D0;&#x51FA;&#x7684;&#x65F6;&#x95F4;&#x867D;&#x7136;&#x4E0D;&#x957F;&#xFF0C;&#x4F46;&#x5DF2;&#x7ECF;&#x6709;&#x5F88;&#x591A;&#x7CFB;&#x7EDF;&#x57FA;&#x4E8E;Raft&#x5B9E;&#x73B0;</p>
+</li>
+<li><p><code>Zab</code> &#x7684;&#x5168;&#x79F0;&#x662F; <strong>Zookeeper atomic broadcast protocol</strong> &#xFF0C;&#x662F;Zookeeper&#x5185;&#x90E8;&#x7528;&#x5230;&#x7684;&#x4E00;&#x81F4;&#x6027;&#x534F;&#x8BAE;&#x3002;&#x76F8;&#x6BD4;Paxos&#xFF0C;Zab&#x6700;&#x5927;&#x7684;&#x7279;&#x70B9;&#x662F;&#x4FDD;&#x8BC1;&#x5F3A;&#x4E00;&#x81F4;&#x6027;(strong consistency&#xFF0C;&#x6216;&#x53EB;&#x7EBF;&#x6027;&#x4E00;&#x81F4;&#x6027;linearizable consistency)&#x3002;Zab&#x534F;&#x8BAE;&#x6709;&#x4E24;&#x79CD;&#x6A21;&#x5F0F;</p>
+<ul>
+<li><p><strong>&#x6062;&#x590D;&#x6A21;&#x5F0F;&#xFF08;&#x9009;&#x4E3B;&#xFF09;</strong></p>
+<p>&#x56E0;&#x4E3A;ZooKeeper&#x4E5F;&#x662F;&#x4E3B;&#x4ECE;&#x67B6;&#x6784;&#xFF0C;&#x5F53;ZooKeeper&#x96C6;&#x7FA4;&#x6CA1;&#x6709;&#x4E3B;&#x7684;&#x89D2;&#x8272;leader&#x65F6;&#xFF0C;&#x4ECE;&#x4F17;&#x591A;&#x670D;&#x52A1;&#x5668;&#x4E2D;&#x9009;&#x4E3E;leader&#x65F6;&#xFF0C;&#x5904;&#x4E8E;&#x6B64;&#x6A21;&#x5F0F;&#x3002;&#x4E3B;&#x8981;&#x5904;&#x7406;&#x5185;&#x90E8;&#x77DB;&#x76FE;&#xFF0C;&#x6211;&#x4EEC;&#x79F0;&#x4E4B;&#x4E3A;<strong>&#x5B89;&#x5185;</strong></p>
+</li>
+<li><p><strong>&#x5E7F;&#x64AD;&#x6A21;&#x5F0F;&#xFF08;&#x540C;&#x6B65;&#xFF09;</strong></p>
+<p>&#x5F53;&#x96C6;&#x7FA4;&#x6709;&#x4E86;leader&#x540E;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x5411;ZooKeeper&#x96C6;&#x7FA4;&#x8BFB;&#x5199;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x96C6;&#x7FA4;&#x5904;&#x4E8E;&#x6B64;&#x6A21;&#x5F0F;&#x3002;&#x4E3B;&#x8981;&#x5904;&#x7406;&#x5916;&#x90E8;&#x77DB;&#x76FE;&#xFF0C;&#x6211;&#x4EEC;&#x79F0;&#x4E4B;&#x4E3A;<strong>&#x6518;&#x5916;</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Zab &#x548C; Raft &#x7B97;&#x6CD5;&#x76F8;&#x4F3C;&#xFF0C;&#x533A;&#x522B;&#x5982;&#x4E0B;</p>
+<ul>
+<li>Zab&#x5FC3;&#x8DF3;&#x4ECE;follower&#x5230;leader&#xFF1B;Raft&#x4ECE;leader&#x5230;follower</li>
+<li>Zab&#x4EFB;&#x671F;&#x79F0;&#x4E3A;epoch&#xFF1B;Raft&#x4EFB;&#x671F;&#x79F0;&#x4E3A;term</li>
+</ul>
+<p>Raft &#x52A8;&#x56FE;&#x6F14;&#x793A;&#x5730;&#x5740;&#xFF1A; <code>http://thesecretlivesofdata.com/raft/</code> </p>
+<h3 id="zookeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;"><a name="zookeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;" class="anchor-navigation-ex-anchor" href="#zookeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;"><i class="fa fa-link" aria-hidden="true"></i></a>5.1.4. ZooKeeper&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;</h3>
+<p><strong>&#x4EF2;&#x88C1;&#x6A21;&#x5F0F;</strong>&#x4E0B;&#xFF0C;&#x670D;&#x52A1;&#x5668;&#x4E2A;&#x6570;&#x9009;&#x62E9;&#x4E3A;<font color="red">&#x5947;&#x6570;</font>&#xFF08;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x8111;&#x88C2;&#x72B6;&#x6001;&#x4E0B;&#xFF0C;&#x81F3;&#x5C11;&#x6709;&#x4E00;&#x4E2A;&#x96C6;&#x7FA4;&#x662F;&#x53EF;&#x7528;&#x7684;&#xFF0C;&#x5373;&#x53EF;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#xFF09;&#x3002;</p>
+<p>zookeeper&#x9009;&#x4E3E;&#x7684;&#x89C4;&#x5219;&#xFF1A;leader&#x9009;&#x4E3E;&#x8981;&#x6C42; <strong>&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; &gt; &#x603B;&#x8282;&#x70B9;&#x6570; / 2</strong> &#x3002;</p>
+<ul>
+<li>&#x9632;&#x6B62;&#x8111;&#x88C2;&#x5BFC;&#x81F4;&#x96C6;&#x7FA4;&#x4E0D;&#x53EF;&#x7528;</li>
+</ul>
+<p>&#x5047;&#x8BBE;5&#x4E2A;&#x8282;&#x70B9;&#x53D1;&#x751F;&#x8111;&#x88C2;&#xFF0C;&#x5212;&#x5206;&#x6210;2&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;</p>
+<table>
+<thead>
+<tr>
+<th>A&#x96C6;&#x7FA4;</th>
+<th>B&#x96C6;&#x7FA4;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>&#x82E5;&#x6EE1;&#x8DB3;leader&#x9009;&#x4E3E;&#x8981;&#x6C42;&#xFF0C;&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; = 5 / 2 + 1 = 3&#xFF0C;&#x6B64;&#x65F6;&#x591A;&#x79CD;&#x8111;&#x88C2;&#x60C5;&#x51B5;&#x90FD;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x3002;</p>
+<p>&#x5047;&#x8BBE;4&#x4E2A;&#x8282;&#x70B9;&#x53D1;&#x751F;&#x8111;&#x88C2;&#xFF0C;&#x5212;&#x5206;&#x6210;2&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;</p>
+<table>
+<thead>
+<tr>
+<th>A&#x96C6;&#x7FA4;</th>
+<th>B&#x96C6;&#x7FA4;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>&#x82E5;&#x6EE1;&#x8DB3;leader&#x9009;&#x4E3E;&#x8981;&#x6C42;&#xFF0C;&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; = 4 / 2 + 1 = 3&#xFF0C;<font color="red">&#x6B64;&#x65F6;&#x82E5;&#x4E24;&#x4E2A;&#x5B50;&#x96C6;&#x7FA4;&#x5747;&#x5300;&#x5212;&#x5206;&#xFF0C;A&#x548C;B&#x96C6;&#x7FA4;&#x90FD;&#x65E0;&#x6CD5;&#x6EE1;&#x8DB3;lead&#x9009;&#x4E3E;&#x7684;&#x8981;&#x6C42;</font>&#x3002;</p>
+<ul>
+<li><p>&#x5728;&#x5BB9;&#x9519;&#x80FD;&#x529B;&#x76F8;&#x540C;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5947;&#x6570;&#x8282;&#x70B9;&#x66F4;&#x8282;&#x7701;&#x8D44;&#x6E90;</p>
+<ul>
+<li><p>&#x5047;&#x8BBE;4&#x4E2A;&#x8282;&#x70B9;</p>
+<p>&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; = 4 / 2 + 1 = 3&#xFF0C;&#x5141;&#x8BB8;1&#x4E2A;&#x8282;&#x70B9;&#x5B95;&#x673A;</p>
+</li>
+<li><p>&#x5047;&#x8BBE;5&#x4E2A;&#x8282;&#x70B9;</p>
+<p>&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; = 5 / 2 + 1 = 3&#xFF0C;<font color="red">&#x5141;&#x8BB8;2&#x4E2A;&#x8282;&#x70B9;&#x5B95;&#x673A;</font></p>
+</li>
+<li><p>&#x5047;&#x8BBE;6&#x4E2A;&#x8282;&#x70B9;</p>
+<p>&#x53EF;&#x7528;&#x8282;&#x70B9;&#x6570; = 6 / 2 + 1 = 4&#xFF0C;<font color="red">&#x5141;&#x8BB8;2&#x4E2A;&#x8282;&#x70B9;&#x5B95;&#x673A;</font></p>
+</li>
+</ul>
+<p><font color="red">5&#x8282;&#x70B9;&#x548C;6&#x8282;&#x70B9;&#x96C6;&#x7FA4;&#x76F8;&#x6BD4;&#xFF0C;&#x5BB9;&#x9519;&#x80FD;&#x529B;&#x76F8;&#x540C;&#xFF0C;&#x90FD;&#x5141;&#x8BB8;&#x6709;2&#x4E2A;&#x8282;&#x70B9;&#x5B95;&#x673A;&#xFF0C;&#x4F46;5&#x8282;&#x70B9;&#x7684;quorum&#x66F4;&#x5C0F;&#xFF0C;&#x54CD;&#x5E94;&#x901F;&#x5EA6;&#x66F4;&#x5FEB;&#x4E14;&#x66F4;&#x8282;&#x7701;&#x8D44;&#x6E90;&#xFF1B;5&#x8282;&#x70B9;&#x548C;4&#x8282;&#x70B9;&#x96C6;&#x7FA4;&#x76F8;&#x6BD4;&#xFF0C;quorum&#x76F8;&#x540C;&#xFF0C;&#x4F46;5&#x8282;&#x70B9;&#x7684;&#x5BB9;&#x9519;&#x80FD;&#x529B;&#x66F4;&#x5F3A;</font>&#x3002;</p>
+</li>
+</ul>
+<h2 id="&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;"><a name="&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;" class="anchor-navigation-ex-anchor" href="#&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;"><i class="fa fa-link" aria-hidden="true"></i></a>5.2. &#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF08;&#x6518;&#x5916;&#xFF09;</h2>
+<h3 id="&#x8BFB;&#x64CD;&#x4F5C;"><a name="&#x8BFB;&#x64CD;&#x4F5C;" class="anchor-navigation-ex-anchor" href="#&#x8BFB;&#x64CD;&#x4F5C;"><i class="fa fa-link" aria-hidden="true"></i></a>5.2.1. &#x8BFB;&#x64CD;&#x4F5C;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_read.png" alt="zookeeper_read"></p>
+<ol>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x4E00;&#x4E2A;follower&#x5EFA;&#x7ACB;Session&#x8FDE;&#x63A5;&#xFF0C;&#x5411;ZooKeeper&#x96C6;&#x7FA4;&#x8BFB;&#x53D6;&#x6570;&#x636E;&#xFF0C;&#x5982; <code>get /test</code></li>
+<li>follower&#x8FD4;&#x56DE;&#x5BA2;&#x6237;&#x7AEF; <code>/test</code> ZNode&#x4FE1;&#x606F;</li>
+</ol>
+<h3 id="&#x5199;&#x64CD;&#x4F5C;"><a name="&#x5199;&#x64CD;&#x4F5C;" class="anchor-navigation-ex-anchor" href="#&#x5199;&#x64CD;&#x4F5C;"><i class="fa fa-link" aria-hidden="true"></i></a>5.2.2. &#x5199;&#x64CD;&#x4F5C;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_write.png" alt="zookeeper_write"></p>
+<ol>
+<li>&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x4E00;&#x4E2A;follower&#x5EFA;&#x7ACB;Session&#x8FDE;&#x63A5;&#xFF0C;&#x5411;ZooKeeper&#x96C6;&#x7FA4;&#x5199;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x5982; <code>create /test test</code>&#xFF1B;&#x5982;&#x679C;&#x5BA2;&#x6237;&#x7AEF;&#x4E0E;&#x4E00;&#x4E2A;leader&#x5EFA;&#x7ACB;Session&#x8FDE;&#x63A5;&#xFF0C;&#x5E76;&#x6536;&#x5230;&#x5199;&#x5165;&#x8BF7;&#x6C42;&#xFF0C;&#x5219;&#x6267;&#x884C;&#x7B2C;3&#x6B65;</li>
+<li>follower&#x201C;&#x6743;&#x9650;&#x201D;&#x4E0D;&#x591F;&#xFF0C;&#x8BE2;&#x95EE;&#x201C;&#x9886;&#x5BFC;&#x201D;leader&#xFF0C;&#x5C06;&#x5199;&#x5165;&#x6570;&#x636E;&#x8BF7;&#x6C42;&#x8F6C;&#x53D1;&#x7ED9;leader</li>
+<li>leader&#x6536;&#x5230;&#x8BF7;&#x6C42;&#x540E;&#x975E;&#x5E38;&#x201C;&#x6C11;&#x4E3B;&#x201D;&#xFF0C;&#x5411;&#x6240;&#x6709;follower&#x53D1;&#x51FA; <code>proposal</code> &#x63D0;&#x6848;&#xFF08;zxid&#xFF09; <code>create /test test</code>&#xFF0C;&#x5305;&#x62EC;leader&#x81EA;&#x5DF1;&#x3002;follower&#x548C;leader&#x6536;&#x5230;&#x63D0;&#x6848;&#x540E;&#x5148;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#xFF08;&#x4FDD;&#x5B58;&#x5728;&#x5386;&#x53F2;&#x961F;&#x5217;&#xFF09;&#xFF0C;&#x8FD4;&#x56DE;ack</li>
+<li>&#x5F53;&#x6709;&#x8D85;&#x8FC7;&#x534A;&#x6570;&#x7684; <code>quorum</code> &#xFF08;&#x5305;&#x62EC;leader&#x81EA;&#x5DF1;&#xFF0C;quorum = N / 2 + 1&#xFF09;&#x540C;&#x610F;&#x63D0;&#x6848;&#xFF0C;&#x5219;leader&#x9996;&#x5148; <code>commit</code> &#x63D0;&#x4EA4;&#x63D0;&#x6848;&#xFF08;&#x6301;&#x4E45;&#x5316;&#xFF09;&#xFF0C;&#x521B;&#x5EFA; <code>/test</code> ZNode</li>
+<li>&#x7136;&#x540E;leader&#x901A;&#x77E5;&#x6240;&#x6709;follower <code>commit</code> &#x63D0;&#x4EA4;&#x63D0;&#x6848;&#xFF0C;follower&#x5404;&#x81EA;&#x521B;&#x5EFA; <code>/test</code> ZNode</li>
+<li>&#x8BF7;&#x6C42;&#x7684;&#x90A3;&#x4E2A;follower&#x6301;&#x4E45;&#x5316;&#x6210;&#x529F;&#x540E;&#xFF0C;&#x54CD;&#x5E94;&#x5BA2;&#x6237;&#x7AEF;&#x5199;&#x5165;&#x6570;&#x636E;&#x6210;&#x529F;</li>
+</ol>
+<h2 id="&#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;"><a name="&#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;" class="anchor-navigation-ex-anchor" href="#&#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;"><i class="fa fa-link" aria-hidden="true"></i></a>5.3. &#x9009;&#x4E3E;&#xFF08;&#x5B89;&#x5185;&#xFF09;</h2>
+<h3 id="&#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;"><a name="&#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;" class="anchor-navigation-ex-anchor" href="#&#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;"><i class="fa fa-link" aria-hidden="true"></i></a>5.3.1. &#x5168;&#x65B0;&#x96C6;&#x7FA4;leader&#x9009;&#x4E3E;</h3>
+<p><img src="ZooKeeper&#x5206;&#x5E03;&#x5F0F;&#x534F;&#x8C03;&#x6846;&#x67B6;.assets/zookeeper_elector_new.png" alt="zookeeper_elector_new"></p>
+<p>&#x4EE5;3&#x53F0;&#x673A;&#x5668;&#x7EC4;&#x6210;ZooKeeper&#x96C6;&#x7FA4;&#x4E3A;&#x4F8B;&#xFF0C;<strong>&#x5F53;&#x96C6;&#x7FA4;&#x4E2D;&#x6709;&#x8D85;&#x8FC7;&#x534A;&#x6570;&#x673A;&#x5668;&#x542F;&#x52A8;&#x540E;&#xFF0C;&#x624D;&#x53EF;&#x4EE5;&#x9009;&#x4E3E;leader</strong>&#x3002;&#x5728;&#x9009;&#x4E3E;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x6BCF;&#x4E2A;Server&#x90FD;&#x8981;&#x5E7F;&#x64AD;&#x6295;&#x7968;&#xFF0C;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x7ED3;&#x6784;&#x4E3A; (sid, zxid)&#x3002;Server&#x63A5;&#x6536;&#x5230;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x540E;&#x5F00;&#x59CB;Player Killing&#xFF0C;PK&#x903B;&#x8F91;&#x662F;&#x5148;&#x6BD4;&#x8F83;zxid&#xFF0C;&#x5927;&#x7684;&#x83B7;&#x80DC;&#xFF1B;&#x5982;&#x679C;&#x76F8;&#x7B49;&#xFF0C;&#x518D;&#x6BD4;&#x8F83;sid&#xFF0C;&#x5927;&#x7684;&#x83B7;&#x80DC;&#x3002;</p>
+<p>ZooKeeper&#x670D;&#x52A1;&#x5668;&#x7684;4&#x4E2D;&#x72B6;&#x6001;</p>
+<ul>
+<li>looking&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x5904;&#x4E8E;&#x5BFB;&#x627E;leader&#x72B6;&#x6001;</li>
+<li>leading&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x4F5C;&#x4E3A;leader&#x7684;&#x72B6;&#x6001;</li>
+<li>following&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x4F5C;&#x4E3A;follower&#x7684;&#x72B6;&#x6001;</li>
+<li>observing&#xFF1A;&#x670D;&#x52A1;&#x5668;&#x4F5C;&#x4E3A;observer&#x7684;&#x72B6;&#x6001;</li>
+</ul>
+<p>&#x9009;&#x4E3E;&#x6D41;&#x7A0B;&#xFF08;&#x5047;&#x8BBE;Server1&#xFF0C;Server2&#xFF0C;Server3&#x4F9D;&#x6B21;&#x542F;&#x52A8;&#xFF09;</p>
+<ol>
+<li>&#x542F;&#x52A8;Server1&#xFF0C;&#x6295;&#x7968;&#x7ED9;&#x81EA;&#x5DF1;&#xFF0C;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x662F;(1, 0)&#xFF0C;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x4E0D;&#x53D8;&#x4E14;&#x6CA1;&#x6709;&#x8FC7;&#x534A;&#x6570;&#xFF0C;&#x6CA1;&#x6709;&#x9009;&#x4E3E;&#x51FA;leader&#xFF0C;&#x4ECD;&#x4E3A;looking&#x72B6;&#x6001;</li>
+<li>&#x542F;&#x52A8;Server2&#xFF0C;Server2&#x5148;&#x5728;&#x96C6;&#x7FA4;&#x4E2D;&#x67E5;&#x627E;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x9009;&#x4E3E;&#x51FA;leader&#xFF0C;&#x82E5;&#x6CA1;&#x6709;&#x9009;&#x4E3E;&#x51FA;leader&#xFF0C;&#x5219;&#x5F00;&#x59CB;&#x8FDB;&#x5165;&#x9009;&#x4E3E;&#x6295;&#x7968;&#x6D41;&#x7A0B;&#xFF0C;Server2&#x7684;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x662F;(2, 0)</li>
+<li>Server1&#xFF0C;Server2&#x5411;&#x96C6;&#x7FA4;&#x4E2D;&#x670D;&#x52A1;&#x5668;&#x5E7F;&#x64AD;&#x81EA;&#x5DF1;&#x7684;&#x6295;&#x7968;&#x4FE1;&#x606F;</li>
+<li><p>&#x5904;&#x7406;&#x6295;&#x7968;</p>
+<ul>
+<li>Server1&#x7ED9;&#x81EA;&#x5DF1;&#x6295;&#x7968;(1, 0)&#xFF0C;&#x63A5;&#x6536;&#x5230;Server2&#x6295;&#x7968;(2, 0)&#xFF0C;PK&#xFF0C;&#x7ED3;&#x679C;&#x662F;(2, 0)&#xFF0C;Server1&#x66F4;&#x65B0;&#x6295;&#x7968;&#x4FE1;&#x606F;&#x662F;(2, 0)</li>
+<li>Server2&#x7ED9;&#x81EA;&#x5DF1;&#x6295;&#x7968;(2, 0)&#xFF0C;&#x63A5;&#x6536;&#x5230;Server1&#x6295;&#x7968;(1, 0)&#xFF0C;PK&#xFF0C;&#x7ED3;&#x679C;&#x662F;(2, 0)&#xFF0C;Server2&#x7ED3;&#x679C;&#x4E0D;&#x53D8;</li>
+</ul>
+</li>
+<li><p>Server1&#xFF0C;Server2&#x5411;&#x96C6;&#x7FA4;&#x4E2D;&#x670D;&#x52A1;&#x5668;&#x5E7F;&#x64AD;&#x81EA;&#x5DF1;&#x7684;&#x6295;&#x7968;&#x7ED3;&#x679C;&#xFF0C;&#x6B64;&#x8F6E;&#x6295;&#x7968;&#x7ED3;&#x675F;</p>
+<ul>
+<li>Server1&#x4E24;&#x7968;&#x90FD;&#x662F;(2, 0)&#xFF0C;&#x7968;&#x6570;&#x8D85;&#x8FC7;&#x534A;&#x6570;&#xFF08;quorum = N / 2 + 1&#xFF09;&#xFF0C;Server2&#x5F53;&#x9009;leader</li>
+<li>Server2&#x4E24;&#x7968;&#x90FD;&#x662F;(2, 0)&#xFF0C;&#x7968;&#x6570;&#x8D85;&#x8FC7;&#x534A;&#x6570;&#xFF0C;Server2&#x5F53;&#x9009;leader</li>
+</ul>
+</li>
+<li>Server2&#x5C06;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;&#x4ECE;looking&#x6539;&#x53D8;&#x4E3A;leading&#xFF0C;&#x6210;&#x4E3A;leader&#xFF0C;&#x540C;&#x65F6;&#x5411;&#x96C6;&#x7FA4;&#x4E2D;&#x670D;&#x52A1;&#x5668;&#x5E7F;&#x64AD;</li>
+<li>Server1&#x6536;&#x5230;&#x5E7F;&#x64AD;&#x4FE1;&#x606F;&#x540E;&#xFF0C;&#x5C06;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;&#x4ECE;looking&#x6539;&#x53D8;&#x4E3A;following&#xFF0C;&#x6210;&#x4E3A;follower</li>
+<li>&#x542F;&#x52A8;Server3&#xFF0C;Server3&#x5148;&#x5728;&#x96C6;&#x7FA4;&#x4E2D;&#x67E5;&#x627E;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x9009;&#x4E3E;&#x51FA;leader&#xFF0C;&#x53D1;&#x73B0;&#x5DF2;&#x9009;&#x4E3E;&#x51FA;leader&#xFF0C;&#x5219;&#x4E0D;&#x518D;&#x9009;&#x4E3E;&#xFF0C;&#x76F4;&#x63A5;&#x5C06;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;&#x4ECE;looking&#x6539;&#x53D8;&#x4E3A;following&#xFF0C;&#x6210;&#x4E3A;follower</li>
+</ol>
+<h2 id="&#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;"><a name="&#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;" class="anchor-navigation-ex-anchor" href="#&#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;"><i class="fa fa-link" aria-hidden="true"></i></a>5.4. &#x9009;&#x4E3E;&#x6210;&#x529F;&#x540E;&#x72B6;&#x6001;&#x540C;&#x6B65;</h2>
+<p><font color="red">&#x5F53;Leader&#x5B8C;&#x6210;&#x9009;&#x4E3E;&#x540E;&#xFF0C;Follower&#x9700;&#x8981;&#x4E0E;&#x65B0;&#x7684;Leader&#x540C;&#x6B65;&#x6570;&#x636E;</font>&#x3002;</p>
+<p>&#x5728;Leader&#x7AEF;&#x505A;&#x5982;&#x4E0B;&#x5DE5;&#x4F5C;</p>
+<ul>
+<li>Leader&#x4F1A;&#x6784;&#x5EFA;&#x4E00;&#x4E2A;NEWLEADER&#x5C01;&#x5305;&#xFF0C;&#x5305;&#x62EC;&#x5F53;&#x524D;&#x6700;&#x5927;&#x7684;zxid&#xFF0C;&#x53D1;&#x9001;&#x7ED9;&#x6240;&#x6709;&#x7684;Follower&#x6216;&#x8005;Observer</li>
+<li>Leader&#x7ED9;&#x6BCF;&#x4E2A;Follower&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;LearnerHandler&#x6765;&#x8D1F;&#x8D23;&#x5904;&#x7406;&#x6BCF;&#x4E2A;Follower&#x7684;&#x6570;&#x636E;&#x540C;&#x6B65;&#x8BF7;&#x6C42;&#xFF0C;<font color="red">&#x540C;&#x65F6;&#x4E3B;&#x7EBF;&#x7A0B;&#x5F00;&#x59CB;&#x963B;&#x585E;&#xFF0C;&#x53EA;&#x6709;&#x8D85;&#x8FC7;&#x4E00;&#x534A;&#x7684;Follower&#x540C;&#x6B65;&#x5B8C;&#x6210;&#xFF0C;&#x540C;&#x6B65;&#x8FC7;&#x7A0B;&#x624D;&#x5B8C;&#x6210;&#xFF0C;Leader&#x624D;&#x80FD;&#x6210;&#x4E3A;&#x771F;&#x6B63;&#x7684;Leader</font></li>
+<li>&#x6839;&#x636E;&#x540C;&#x6B65;&#x7B97;&#x6CD5;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#x64CD;&#x4F5C;</li>
+</ul>
+<p>&#x5728;Follower&#x7AEF;&#x505A;&#x5982;&#x4E0B;&#x5DE5;&#x4F5C;</p>
+<ul>
+<li><p>&#x9009;&#x4E3E;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5C1D;&#x8BD5;&#x4E0E;Leader&#x5EFA;&#x7ACB;&#x540C;&#x6B65;&#x8FDE;&#x63A5;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x6BB5;&#x65F6;&#x95F4;&#x6CA1;&#x6709;&#x8FDE;&#x63A5;&#x4E0A;&#x5C31;&#x62A5;&#x9519;&#x8D85;&#x65F6;&#xFF0C;&#x91CD;&#x65B0;&#x56DE;&#x5230;&#x9009;&#x4E3E;&#x72B6;&#x6001;</p>
+</li>
+<li><p>&#x5411;Leader&#x53D1;&#x9001;FOLLOWERINFO&#x5C01;&#x5305;&#xFF0C;&#x5E26;&#x4E0A;&#x81EA;&#x5DF1;&#x6700;&#x5927;&#x7684;zxid</p>
+</li>
+<li><p>&#x6839;&#x636E;&#x540C;&#x6B65;&#x7B97;&#x6CD5;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#x64CD;&#x4F5C;</p>
+</li>
+</ul>
+<p>&#x5177;&#x4F53;&#x4F7F;&#x7528;&#x54EA;&#x79CD;&#x540C;&#x6B65;&#x7B97;&#x6CD5;&#x53D6;&#x51B3;&#x4E8E;Follower&#x5F53;&#x524D;&#x6700;&#x5927;&#x7684;zxid&#xFF0C;&#x5728;Leader&#x7AEF;&#x4F1A;&#x7EF4;&#x62A4;&#x6700;&#x5C0F;&#x4E8B;&#x52A1;id <code>minCommittedLog</code> &#x548C;&#x6700;&#x5927;&#x4E8B;&#x52A1;id <code>maxCommittedLog</code> &#x4E24;&#x4E2A;zxid&#xFF0C;<code>minComittedLog</code> &#x662F;&#x6CA1;&#x6709;&#x88AB;&#x5FEB;&#x7167;&#x5B58;&#x50A8;&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#xFF08;&#x6BCF;&#x6B21;&#x5FEB;&#x7167;&#x50A8;&#x5B58;&#x5B8C;&#xFF0C;&#x4F1A;&#x91CD;&#x65B0;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#xFF09;&#xFF0C;<code>maxCommittedLog</code> &#x662F;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x4E2D;&#x6700;&#x5927;&#x7684;&#x4E8B;&#x52A1;&#x3002;Zookeeper&#x4E2D;&#x5B9E;&#x73B0;&#x4E86;&#x4EE5;&#x4E0B;&#x6570;&#x636E;&#x540C;&#x6B65;&#x7B97;&#x6CD5;</p>
+<ul>
+<li>&#x76F4;&#x63A5;&#x5DEE;&#x5F02;&#x5316;&#x540C;&#x6B65;&#xFF08;DIFF&#x540C;&#x6B65;&#xFF09;</li>
+<li>&#x4EC5;&#x56DE;&#x6EDA;&#x540C;&#x6B65;&#xFF08;TRUNC&#xFF09;&#xFF0C;&#x5373;&#x5220;&#x9664;&#x591A;&#x4F59;&#x7684;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#xFF0C;&#x6BD4;&#x5982;&#x539F;&#x6765;&#x7684;Leader&#x8282;&#x70B9;&#x5B95;&#x673A;&#x540E;&#x53C8;&#x91CD;&#x65B0;&#x52A0;&#x5165;&#xFF0C;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x5B83;&#x81EA;&#x5DF1;&#x5199;&#x5165;&#x5E76;&#x63D0;&#x4EA4;&#x4F46;&#x662F;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x8FD8;&#x6CA1;&#x6765;&#x5F97;&#x53CA;&#x63D0;&#x4EA4;&#x7684;&#x6570;&#x636E;</li>
+<li>&#x5148;&#x56DE;&#x6EDA;&#xFF08;TRUNC&#xFF09;&#x518D;&#x5DEE;&#x5F02;&#x5316;&#xFF08;DIFF&#xFF09;&#x540C;&#x6B65;</li>
+<li>&#x5168;&#x91CF;&#x540C;&#x6B65;&#xFF08;SNAP&#xFF09;</li>
+</ul>
+<h3 id="diff"><a name="diff" class="anchor-navigation-ex-anchor" href="#diff"><i class="fa fa-link" aria-hidden="true"></i></a>5.4.1. DIFF</h3>
+<p>&#x5047;&#x8BBE;Leader&#x7AEF;&#x672A;&#x88AB;&#x5FEB;&#x7167;&#x5B58;&#x50A8;&#x7684;zxid&#x4E3A;0x500000001&#x3001;0x500000002&#x3001;0x500000003&#x3001;0x500000004&#x3001;0x500000005&#xFF0C;&#x6B64;&#x65F6;Follower&#x7AEF;&#x6700;&#x5927;&#x5DF2;&#x63D0;&#x4EA4;&#x7684;zxid&#xFF08;&#x5373;peerLastZxid&#xFF09;&#x4E3A;0x500000003&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x628A;0x500000004&#x3001;0x500000005&#x540C;&#x6B65;&#x7ED9;Follower&#xFF0C;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x5DEE;&#x5F02;&#x5316;&#x540C;&#x6B65;&#xFF08;DIFF&#xFF09;&#x5373;&#x53EF;&#x3002;</p>
+<p>Follower&#x7AEF;&#x540C;&#x6B65;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>Follower&#x7AEF;&#x9996;&#x5148;&#x6536;&#x5230;DIFF&#x6307;&#x4EE4;&#xFF0C;&#x8FDB;&#x5165;DIFF&#x540C;&#x6B65;&#x9636;&#x6BB5;</li>
+<li>Follower&#x6536;&#x5230;&#x540C;&#x6B65;&#x7684;&#x6570;&#x636E;&#x548C;&#x63D0;&#x4EA4;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x5E94;&#x7528;&#x5230;&#x5185;&#x5B58;&#x6570;&#x636E;&#x5E93;&#x5F53;&#x4E2D;</li>
+<li>&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x540E;&#xFF0C;Leader&#x4F1A;&#x53D1;&#x9001;&#x4E00;&#x4E2A;NEWLEADER&#x6307;&#x4EE4;&#xFF0C;&#x901A;&#x77E5;Follower&#x5DF2;&#x7ECF;&#x5C06;&#x6700;&#x65B0;&#x7684;&#x6570;&#x636E;&#x540C;&#x6B65;&#x7ED9;Follower&#x4E86;&#xFF0C;Follower&#x6536;&#x5230;NEWLEADER&#x6307;&#x4EE4;&#x540E;&#x53CD;&#x9988;&#x4E00;&#x4E2A;ack&#x6D88;&#x606F;&#xFF0C;&#x8868;&#x660E;&#x81EA;&#x5DF1;&#x5DF2;&#x7ECF;&#x540C;&#x6B65;&#x5B8C;&#x6210;</li>
+</ol>
+<p>&#x5355;&#x4E2A;Follower&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x540E;&#xFF0C;Leader&#x4F1A;&#x8FDB;&#x5165;&#x96C6;&#x7FA4;&#x7684;&#x201D;&#x8FC7;&#x534A;&#x7B56;&#x7565;&#x201D;&#x7B49;&#x5F85;&#x72B6;&#x6001;&#xFF0C;&#x5F53;&#x6709;&#x8D85;&#x8FC7;&#x4E00;&#x534A;&#x7684;Follower&#x90FD;&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x4EE5;&#x540E;&#xFF0C;Leader&#x4F1A;&#x5411;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x540C;&#x6B65;&#x7684;Follower&#x53D1;&#x9001;UPTODATE&#x6307;&#x4EE4;&#xFF0C;&#x7528;&#x4E8E;&#x901A;&#x77E5;Follower&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x6570;&#x636E;&#x540C;&#x6B65;&#xFF0C;&#x53EF;&#x4EE5;&#x5BF9;&#x5916;&#x63D0;&#x4F9B;&#x670D;&#x52A1;&#x4E86;&#xFF0C;&#x6700;&#x540E;Follower&#x6536;&#x5230;Leader&#x7684;UPTODATE&#x6307;&#x4EE4;&#x540E;&#xFF0C;&#x4F1A;&#x7EC8;&#x6B62;&#x6570;&#x636E;&#x540C;&#x6B65;&#x6D41;&#x7A0B;&#xFF0C;&#x5411;Leader&#x518D;&#x6B21;&#x53CD;&#x9988;&#x4E00;&#x4E2A;ack&#x6D88;&#x606F;&#x3002;</p>
+<h3 id="trunc--diff"><a name="trunc--diff" class="anchor-navigation-ex-anchor" href="#trunc--diff"><i class="fa fa-link" aria-hidden="true"></i></a>5.4.2. TRUNC + DIFF</h3>
+<p>Leader&#x5728;&#x672C;&#x5730;&#x63D0;&#x4EA4;&#x4E8B;&#x52A1;&#x5B8C;&#x6210;&#xFF0C;&#x8FD8;&#x6CA1;&#x6765;&#x5F97;&#x53CA;&#x628A;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x63D0;&#x8BAE;&#x53D1;&#x9001;&#x7ED9;&#x5176;&#x4ED6;&#x8282;&#x70B9;&#x524D;&#x5B95;&#x673A;&#x4E86;&#x3002;&#x5047;&#x8BBE;&#x96C6;&#x7FA4;&#x6709;&#x4E09;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x5206;&#x522B;&#x662F;A&#x3001;B&#x3001;C&#xFF0C;&#x6CA1;&#x6709;&#x5B95;&#x673A;&#x524D;Leader&#x662F;B&#xFF0C;&#x5DF2;&#x7ECF;&#x53D1;&#x9001;&#x8FC7;0x500000001&#x548C;0x500000002&#x7684;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x63D0;&#x8BAE;&#x548C;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x63D0;&#x8BAE;&#xFF0C;&#x5E76;&#x4E14;&#x53D1;&#x9001;&#x4E86;0x500000003&#x7684;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x63D0;&#x8BAE;&#xFF0C;&#x4F46;&#x5728;B&#x8282;&#x70B9;&#x53D1;&#x9001;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x63D0;&#x8BAE;&#xFF08;leader&#x5DF2;&#x63D0;&#x4EA4;&#xFF09;&#x4E4B;&#x524D;&#xFF0C;B&#x5B95;&#x673A;&#x4E86;&#xFF0C;B&#x6700;&#x65B0;&#x7684;&#x6570;&#x636E;&#x662F;0x500000003&#xFF0C;&#x4F46;&#x53D1;&#x9001;&#x7ED9;A&#x548C;C&#x7684;&#x4E8B;&#x52A1;&#x63D0;&#x8BAE;&#x5931;&#x8D25;&#x4E86;&#xFF0C;A&#x548C;C&#x7684;&#x6700;&#x65B0;&#x6570;&#x636E;&#x4F9D;&#x7136;&#x662F;0x500000002&#xFF0C;B&#x5B95;&#x673A;&#x540E;&#xFF0C;A&#x548C;C&#x4F1A;&#x8FDB;&#x884C;Leader&#x9009;&#x4E3E;&#xFF0C;&#x5047;&#x8BBE;C&#x6210;&#x4E3A;&#x65B0;&#x7684;Leader&#xFF0C;&#x5E76;&#x4E14;&#x8FDB;&#x884C;&#x8FC7;&#x4E24;&#x6B21;&#x6570;&#x636E;&#x4FEE;&#x6539;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;zxid&#x4E3A;0x600000001&#x3001;0x600000002&#xFF08;epoch&#x81EA;&#x589E;&#xFF09;&#xFF0C;&#x7136;&#x800C;&#x6B64;&#x65F6;B&#x673A;&#x5668;&#x6062;&#x590D;&#x540E;&#x52A0;&#x5165;&#x65B0;&#x96C6;&#x7FA4;&#xFF0C;&#x91CD;&#x65B0;&#x8FDB;&#x884C;&#x6570;&#x636E;&#x540C;&#x6B65;&#xFF0C;&#x5BF9;B&#x6765;&#x8BF4;&#xFF0C;peerLastZxid&#x4E3A;0x500000003&#xFF0C;&#x5BF9;&#x4E8E;&#x5F53;&#x524D;&#x7684;Leader C&#x6765;&#x8BF4;&#xFF0C;minCommitedLog=0x500000001, maxCommittedLog=0x600000002&#xFF08;&#x603B;&#x5171;&#x662F;0x500000001&#x3001;0x500000002&#x3001;0x600000001&#x3001;0x600000002&#x672A;&#x88AB;&#x5FEB;&#x7167;&#x7684;&#x4E8B;&#x52A1;&#xFF09;&#x3002;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x4F7F;&#x7528;&#xFF08;TRUNC + DIFF&#xFF09;&#x7684;&#x540C;&#x6B65;&#x65B9;&#x5F0F;&#xFF0C;&#x540C;&#x6B65;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>B&#x6062;&#x590D;&#x5E76;&#x4E14;&#x5411;&#x5DF2;&#x6709;&#x7684;&#x96C6;&#x7FA4;&#xFF08;AC&#xFF09;&#x6CE8;&#x518C;&#x540E;&#xFF0C;&#x5411;C&#x53D1;&#x8D77;&#x540C;&#x6B65;&#x8FDE;&#x63A5;&#x7684;&#x8BF7;&#x6C42;</li>
+<li>B&#x5411;Leader C&#x53D1;&#x9001;FOLLOWERINFO&#x5C01;&#x5305;&#xFF0C;&#x5E26;&#x4E0A;Follower&#x81EA;&#x5DF1;&#x6700;&#x5927;&#x7684;zxid&#xFF08;0x500000003&#xFF09;</li>
+<li>C&#x53D1;&#x73B0;&#x81EA;&#x5DF1;&#x6CA1;&#x6709;0x500000003&#x8FD9;&#x4E2A;&#x4E8B;&#x52A1;&#x63D0;&#x4EA4;&#x8BB0;&#x5F55;&#xFF0C;&#x5C31;&#x5411;B&#x53D1;&#x9001;TRUNC&#x6307;&#x4EE4;&#xFF0C;&#x8BA9;B&#x56DE;&#x6EDA;&#x5230;0x500000002</li>
+<li>B&#x56DE;&#x6EDA;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x5411;C&#x53D1;&#x9001;&#x4FE1;&#x606F;&#x5305;&#xFF0C;&#x786E;&#x8BA4;&#x5B8C;&#x6210;&#xFF0C;&#x5E76;&#x8BF4;&#x660E;&#x5F53;&#x524D;&#x7684;zxid&#x4E3A;0x500000002</li>
+<li>C&#x5411;B&#x53D1;&#x9001;DIFF&#x540C;&#x6B65;&#x6307;&#x4EE4;</li>
+<li>B&#x6536;&#x5230;DIFF&#x6307;&#x4EE4;&#x540E;&#x8FDB;&#x5165;&#x540C;&#x6B65;&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x5411;C&#x53D1;&#x9001;ACK&#x786E;&#x8BA4;&#x5305;</li>
+<li>C&#x9646;&#x7EED;&#x628A;&#x5BF9;&#x5E94;&#x7684;&#x5DEE;&#x5F02;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x63D0;&#x8BAE;&#x548C;Commit&#x63D0;&#x8BAE;&#x53D1;&#x7ED9;B&#xFF0C;&#x5F53;&#x6570;&#x636E;&#x53D1;&#x9001;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x518D;&#x53D1;&#x9001;&#x901A;&#x77E5;&#x5305;&#x7ED9;B</li>
+<li>B&#x5C06;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x63D0;&#x8BAE;&#x5E94;&#x7528;&#x4E8E;&#x5185;&#x5B58;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x5E76;Commit&#xFF0C;&#x5F53;&#x6536;&#x5230;C&#x901A;&#x77E5;&#x5DF2;&#x7ECF;&#x540C;&#x6B65;&#x5B8C;&#x6210;&#x540E;&#xFF0C;B&#x7ED9;&#x56DE;&#x5E94;ACK&#xFF0C;&#x5E76;&#x4E14;&#x7ED3;&#x675F;&#x540C;&#x6B65;</li>
+</ol>
+<h3 id="snap"><a name="snap" class="anchor-navigation-ex-anchor" href="#snap"><i class="fa fa-link" aria-hidden="true"></i></a>5.4.3. SNAP</h3>
+<p>&#x5F53;&#x96C6;&#x7FA4;&#x4E2D;&#x67D0;&#x4E2A;&#x8282;&#x70B9;&#x5B95;&#x673A;&#x65F6;&#x95F4;&#x8FC7;&#x957F;&#xFF0C;&#x5728;&#x6062;&#x590D;&#x5E76;&#x4E14;&#x52A0;&#x5165;&#x96C6;&#x7FA4;&#x65F6;&#xFF0C;&#x96C6;&#x7FA4;&#x4E2D;&#x6570;&#x636E;&#x7684;&#x4E8B;&#x52A1;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x5DF2;&#x7ECF;&#x751F;&#x6210;&#x591A;&#x4E2A;&#xFF0C;&#x6B64;&#x65F6;leader&#x7684;minCommittedLog&#x6BD4;&#x8BE5;&#x8282;&#x70B9;&#x5B95;&#x673A;&#x65F6;&#x7684;&#x6700;&#x5927;zxid&#x8FD8;&#x8981;&#x5927;&#xFF08;leader&#x5DF2;&#x751F;&#x6210;&#x5FEB;&#x7167;&#xFF09;&#x3002;&#x4F8B;&#x5982;&#x5047;&#x8BBE;ABC&#x96C6;&#x7FA4;&#x4E2D;B&#x5B95;&#x673A;&#xFF0C;&#x51E0;&#x5929;&#x540E;&#x624D;&#x6062;&#x590D;&#xFF0C;&#x6B64;&#x65F6;minCommittedLog&#x4E3A;0x6000008731&#xFF0C;&#x800C;peerLastZxid&#x4E3A;0x500000003&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x91C7;&#x7528;&#x5168;&#x91CF;&#x540C;&#x6B65;&#xFF08;SNAP&#xFF09;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x540C;&#x6B65;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ol>
+<li>&#x5F53;Leader C&#x53D1;&#x73B0;B&#x7684;peerLastZxid&#x5C0F;&#x4E8E;minCommittedLog&#x65F6;&#xFF0C;&#x5411;B&#x53D1;&#x9001;SNAP&#x6307;&#x4EE4;</li>
+<li>B&#x6536;&#x5230;&#x540C;&#x6B65;&#x6307;&#x4EE4;&#xFF0C;&#x8FDB;&#x5165;&#x540C;&#x6B65;&#x9636;&#x6BB5;</li>
+<li>Leader C&#x4F1A;&#x4ECE;&#x5185;&#x5B58;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x83B7;&#x53D6;&#x5168;&#x91CF;&#x7684;&#x6570;&#x636E;&#x53D1;&#x9001;&#x7ED9;B</li>
+<li>B&#x83B7;&#x53D6;&#x6570;&#x636E;&#x5904;&#x7406;&#x5B8C;&#x6210;&#x540E;&#xFF0C;C&#x8FD8;&#x4F1A;&#x628A;&#x5168;&#x91CF;&#x540C;&#x6B65;&#x671F;&#x95F4;&#x4EA7;&#x751F;&#x7684;&#x6700;&#x65B0;&#x7684;&#x6570;&#x636E;&#x4FEE;&#x6539;&#x63D0;&#x8BAE;&#x548C;Commit&#x63D0;&#x8BAE;&#x4EE5;&#x589E;&#x91CF;&#xFF08;DIFF&#xFF09;&#x7684;&#x65B9;&#x5F0F;&#x53D1;&#x9001;&#x7ED9;B</li>
+</ol>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2021-02-28 20:16:31
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="ZooKeeper集群安装部署.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ZooKeeper集群安装部署">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ZooKeeper分布式协调框架","level":"1.2.7.2","depth":3,"next":{"title":"Hive","level":"1.2.8","depth":2,"ref":"","articles":[{"title":"Hive安装部署","level":"1.2.8.1","depth":3,"path":"src/develop/hive/Hive安装部署.md","ref":"src/develop/hive/Hive安装部署.md","articles":[]},{"title":"大数据分析利器之Hive","level":"1.2.8.2","depth":3,"path":"src/develop/hive/大数据分析利器之Hive.md","ref":"src/develop/hive/大数据分析利器之Hive.md","articles":[]},{"title":"Hive调优","level":"1.2.8.3","depth":3,"path":"src/develop/hive/Hive调优.md","ref":"src/develop/hive/Hive调优.md","articles":[]}]},"previous":{"title":"ZooKeeper集群安装部署","level":"1.2.7.1","depth":3,"path":"src/develop/zookeeper/ZooKeeper集群安装部署.md","ref":"src/develop/zookeeper/ZooKeeper集群安装部署.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/develop/zookeeper/ZooKeeper分布式协调框架.md","mtime":"2021-02-28T12:16:31.347Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-07T13:19:15.450Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

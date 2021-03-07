@@ -1,0 +1,2624 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>大数据数据库之HBase · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-code/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-splitter/splitter.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search-pro/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-pageview-count/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-tbfed-pagefooter/footer.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-auto-scroll-table/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-donate/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-anchor-navigation-ex/style/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="HBase集群安装部署.html" />
+    
+
+    <style>
+    @media only screen and (max-width: 640px) {
+        .book-header .hidden-mobile {
+            display: none;
+        }
+    }
+    </style>
+    <script>
+        window["gitbook-plugin-github-buttons"] = {"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]};
+    </script>
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Develop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
+                    Java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" >
+            
+                <span>
+            
+                    
+                    JVM
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1.1" data-path="../java/jvm/JVM核心技术.html">
+            
+                <a href="../java/jvm/JVM核心技术.html">
+            
+                    
+                    JVM核心技术
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.1.2" data-path="../java/jvm/JDK工具.html">
+            
+                <a href="../java/jvm/JDK工具.html">
+            
+                    
+                    JDK工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" >
+            
+                <span>
+            
+                    
+                    IO
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.2.1" data-path="../java/io/NIO模型与Netty.html">
+            
+                <a href="../java/io/NIO模型与Netty.html">
+            
+                    
+                    NIO模型与Netty
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" >
+            
+                <span>
+            
+                    
+                    Concurrency
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.3.1" data-path="../java/concurrency/并发编程.html">
+            
+                <a href="../java/concurrency/并发编程.html">
+            
+                    
+                    并发编程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../algorithm/数据结构和算法.html">
+            
+                <a href="../algorithm/数据结构和算法.html">
+            
+                    
+                    数据结构和算法
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" >
+            
+                <span>
+            
+                    
+                    Spring
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../spring/SpringCore核心功能.html">
+            
+                <a href="../spring/SpringCore核心功能.html">
+            
+                    
+                    SpringCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../spring/SpringBoot核心功能.html">
+            
+                <a href="../spring/SpringBoot核心功能.html">
+            
+                    
+                    SpringBoot核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" >
+            
+                <span>
+            
+                    
+                    RPC
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" >
+            
+                <span>
+            
+                    
+                    Dubbo
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1.1" data-path="../rpc/dubbo/Dubbo源码分析.html">
+            
+                <a href="../rpc/dubbo/Dubbo源码分析.html">
+            
+                    
+                    Dubbo源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" >
+            
+                <span>
+            
+                    
+                    MQ
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" >
+            
+                <span>
+            
+                    
+                    Kafka
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1.1" data-path="../mq/kafka/Kafka集群安装部署.html">
+            
+                <a href="../mq/kafka/Kafka集群安装部署.html">
+            
+                    
+                    Kafka集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.2" data-path="../mq/kafka/Kafka监控工具.html">
+            
+                <a href="../mq/kafka/Kafka监控工具.html">
+            
+                    
+                    Kafka监控工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.1.3" data-path="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                <a href="../mq/kafka/Kafka分布式消息流平台.html">
+            
+                    
+                    Kafka分布式消息流平台
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" >
+            
+                <span>
+            
+                    
+                    Hadoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1" >
+            
+                <span>
+            
+                    
+                    HDFS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.1.1" data-path="../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                <a href="../hadoop/hdfs/HDFS核心功能原理.html">
+            
+                    
+                    HDFS核心功能原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.2" data-path="../hadoop/hdfs/HDFS命令.html">
+            
+                <a href="../hadoop/hdfs/HDFS命令.html">
+            
+                    
+                    HDFS命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.1.3" data-path="../hadoop/hdfs/HDFS源码分析.html">
+            
+                <a href="../hadoop/hdfs/HDFS源码分析.html">
+            
+                    
+                    HDFS源码分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.2" >
+            
+                <span>
+            
+                    
+                    MapReduce
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.2.1" data-path="../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                <a href="../hadoop/mapreduce/MapReduce工作原理.html">
+            
+                    
+                    MapReduce工作原理
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.3" >
+            
+                <span>
+            
+                    
+                    YARN
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.6.3.1" data-path="../hadoop/yarn/YARN架构.html">
+            
+                <a href="../hadoop/yarn/YARN架构.html">
+            
+                    
+                    YARN架构
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.4" data-path="../hadoop/Hadoop集群安装部署.html">
+            
+                <a href="../hadoop/Hadoop集群安装部署.html">
+            
+                    
+                    Hadoop集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.5" data-path="../hadoop/Hadoop HA集群安装部署.html">
+            
+                <a href="../hadoop/Hadoop HA集群安装部署.html">
+            
+                    
+                    Hadoop HA集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6.6" data-path="../hadoop/Hadoop企业级调优.html">
+            
+                <a href="../hadoop/Hadoop企业级调优.html">
+            
+                    
+                    Hadoop企业级调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" >
+            
+                <span>
+            
+                    
+                    ZooKeeper
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.7.1" data-path="../zookeeper/ZooKeeper集群安装部署.html">
+            
+                <a href="../zookeeper/ZooKeeper集群安装部署.html">
+            
+                    
+                    ZooKeeper集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7.2" data-path="../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                <a href="../zookeeper/ZooKeeper分布式协调框架.html">
+            
+                    
+                    ZooKeeper分布式协调框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" >
+            
+                <span>
+            
+                    
+                    Hive
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.8.1" data-path="../hive/Hive安装部署.html">
+            
+                <a href="../hive/Hive安装部署.html">
+            
+                    
+                    Hive安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.2" data-path="../hive/大数据分析利器之Hive.html">
+            
+                <a href="../hive/大数据分析利器之Hive.html">
+            
+                    
+                    大数据分析利器之Hive
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8.3" data-path="../hive/Hive调优.html">
+            
+                <a href="../hive/Hive调优.html">
+            
+                    
+                    Hive调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" >
+            
+                <span>
+            
+                    
+                    HBase
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.9.1" data-path="HBase集群安装部署.html">
+            
+                <a href="HBase集群安装部署.html">
+            
+                    
+                    HBase集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.9.2" data-path="大数据数据库之HBase.html">
+            
+                <a href="大数据数据库之HBase.html">
+            
+                    
+                    大数据数据库之HBase
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" >
+            
+                <span>
+            
+                    
+                    Flume
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.10.1" data-path="../flume/Flume安装部署.html">
+            
+                <a href="../flume/Flume安装部署.html">
+            
+                    
+                    Flume安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10.2" data-path="../flume/Flume数据采集.html">
+            
+                <a href="../flume/Flume数据采集.html">
+            
+                    
+                    Flume数据采集
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11" >
+            
+                <span>
+            
+                    
+                    Sqoop
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.11.1" data-path="../sqoop/Sqoop安装部署.html">
+            
+                <a href="../sqoop/Sqoop安装部署.html">
+            
+                    
+                    Sqoop安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.11.2" data-path="../sqoop/Sqoop数据迁移.html">
+            
+                <a href="../sqoop/Sqoop数据迁移.html">
+            
+                    
+                    Sqoop数据迁移
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12" >
+            
+                <span>
+            
+                    
+                    Azkaban
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.12.1" data-path="../azkaban/Azkaban安装部署.html">
+            
+                <a href="../azkaban/Azkaban安装部署.html">
+            
+                    
+                    Azkaban安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.12.2" data-path="../azkaban/Azkaban工作流调度器.html">
+            
+                <a href="../azkaban/Azkaban工作流调度器.html">
+            
+                    
+                    Azkaban工作流调度器
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13" >
+            
+                <span>
+            
+                    
+                    Spark
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1" >
+            
+                <span>
+            
+                    
+                    SparkCore
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.1.1" data-path="../spark/sparkcore/SparkCore核心功能.html">
+            
+                <a href="../spark/sparkcore/SparkCore核心功能.html">
+            
+                    
+                    SparkCore核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.1.2" data-path="../spark/sparkcore/Spark调优.html">
+            
+                <a href="../spark/sparkcore/Spark调优.html">
+            
+                    
+                    Spark调优
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.2" >
+            
+                <span>
+            
+                    
+                    SparkSQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.13.2.1" data-path="../spark/sparksql/SparkSQL核心功能.html">
+            
+                <a href="../spark/sparksql/SparkSQL核心功能.html">
+            
+                    
+                    SparkSQL核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.13.3" data-path="../spark/Spark集群安装部署.html">
+            
+                <a href="../spark/Spark集群安装部署.html">
+            
+                    
+                    Spark集群安装部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Database
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    MySQL
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../database/mysql/MySQL安装.html">
+            
+                <a href="../../database/mysql/MySQL安装.html">
+            
+                    
+                    MySQL安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../database/mysql/MySQL实践.html">
+            
+                <a href="../../database/mysql/MySQL实践.html">
+            
+                    
+                    MySQL实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../database/mysql/SQL经典50题.html">
+            
+                <a href="../../database/mysql/SQL经典50题.html">
+            
+                    
+                    SQL经典50题
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Redis
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../database/redis/Redis核心功能.html">
+            
+                <a href="../../database/redis/Redis核心功能.html">
+            
+                    
+                    Redis核心功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    VersionControl
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                <a href="../../versioncontrol/git/GitBook&GitHub&Typora最佳实践.html">
+            
+                    
+                    GitBook&GitHub&Typora最佳实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../versioncontrol/git/Git命令.html">
+            
+                <a href="../../versioncontrol/git/Git命令.html">
+            
+                    
+                    Git命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../../versioncontrol/git/GitHub日常使用.html">
+            
+                <a href="../../versioncontrol/git/GitHub日常使用.html">
+            
+                    
+                    GitHub日常使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    Virtualization
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" >
+            
+                <span>
+            
+                    
+                    VMware
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1.1" data-path="../../virtualization/vmware/VMware系统安装.html">
+            
+                <a href="../../virtualization/vmware/VMware系统安装.html">
+            
+                    
+                    VMware系统安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" >
+            
+                <span>
+            
+                    
+                    Docker
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../../virtualization/docker/Docker实践.html">
+            
+                <a href="../../virtualization/docker/Docker实践.html">
+            
+                    
+                    Docker实践
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    OS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../os/linux/Linux命令.html">
+            
+                <a href="../../os/linux/Linux命令.html">
+            
+                    
+                    Linux命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" data-path="../../os/linux/iTerm的使用.html">
+            
+                <a href="../../os/linux/iTerm的使用.html">
+            
+                    
+                    iTerm的使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" >
+            
+                <span>
+            
+                    
+                    IDE
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" >
+            
+                <span>
+            
+                    
+                    IntelliJ IDEA
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1.1" data-path="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                <a href="../../ide/intellijidea/IDEA配置开发环境.html">
+            
+                    
+                    IDEA配置开发环境
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.1.2" data-path="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                <a href="../../ide/intellijidea/IDEA创建GitHub项目.html">
+            
+                    
+                    IDEA创建GitHub项目
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" >
+            
+                <span>
+            
+                    
+                    CloudPlatform
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" >
+            
+                <span>
+            
+                    
+                    vultr
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1.1" data-path="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                <a href="../../cloudplatform/vultr/Shadowsocks服务端配置.html">
+            
+                    
+                    Shadowsocks服务端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" >
+            
+                <span>
+            
+                    
+                    [后记]
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >大数据数据库之HBase</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x6838;&#x5FC3;&#x6982;&#x5FF5;"><b>1. </b>&#x6838;&#x5FC3;&#x6982;&#x5FF5;</a></li><ul><li><span class="title-icon "></span><a href="#&#x6982;&#x5FF5;"><b>1.1. </b>&#x6982;&#x5FF5;</a></li><li><span class="title-icon "></span><a href="#&#x7279;&#x70B9;"><b>1.2. </b>&#x7279;&#x70B9;</a></li></ul><li><span class="title-icon "></span><a href="#&#x6570;&#x636E;&#x6A21;&#x578B;"><b>2. </b>&#x6570;&#x636E;&#x6A21;&#x578B;</a></li><li><span class="title-icon "></span><a href="#&#x6574;&#x4F53;&#x67B6;&#x6784;"><b>3. </b>&#x6574;&#x4F53;&#x67B6;&#x6784;</a></li><ul><li><span class="title-icon "></span><a href="#client"><b>3.1. </b>Client</a></li><li><span class="title-icon "></span><a href="#zookeeper&#x96C6;&#x7FA4;"><b>3.2. </b>ZooKeeper&#x96C6;&#x7FA4;</a></li><li><span class="title-icon "></span><a href="#hmaster"><b>3.3. </b>HMaster</a></li><li><span class="title-icon "></span><a href="#hregionserver"><b>3.4. </b>HRegionServer</a></li><li><span class="title-icon "></span><a href="#region"><b>3.5. </b>Region</a></li></ul><li><span class="title-icon "></span><a href="#hbase-shell-&#x547D;&#x4EE4;"><b>4. </b>HBase shell &#x547D;&#x4EE4;</a></li><ul><li><span class="title-icon "></span><a href="#&#x57FA;&#x672C;&#x547D;&#x4EE4;"><b>4.1. </b>&#x57FA;&#x672C;&#x547D;&#x4EE4;</a></li><ul><li><span class="title-icon "></span><a href="#help-&#x663E;&#x793A;&#x5E2E;&#x52A9;"><b>4.1.1. </b>help &#x663E;&#x793A;&#x5E2E;&#x52A9;</a></li><li><span class="title-icon "></span><a href="#exit-&#x9000;&#x51FA;"><b>4.1.2. </b>exit &#x9000;&#x51FA;</a></li><li><span class="title-icon "></span><a href="#create-&#x521B;&#x5EFA;&#x8868;"><b>4.1.3. </b>create &#x521B;&#x5EFA;&#x8868;</a></li><li><span class="title-icon "></span><a href="#put-&#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;"><b>4.1.4. </b>put &#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;</a></li><li><span class="title-icon "></span><a href="#get-&#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;"><b>4.1.5. </b>get &#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;</a></li><li><span class="title-icon "></span><a href="#scan-&#x5168;&#x8868;&#x626B;&#x63CF;"><b>4.1.6. </b>scan &#x5168;&#x8868;&#x626B;&#x63CF;</a></li><li><span class="title-icon "></span><a href="#delete-&#x5220;&#x9664;&#x6570;&#x636E;"><b>4.1.7. </b>delete &#x5220;&#x9664;&#x6570;&#x636E;</a></li></ul><li><span class="title-icon "></span><a href="#&#x7BA1;&#x7406;&#x547D;&#x4EE4;"><b>4.2. </b>&#x7BA1;&#x7406;&#x547D;&#x4EE4;</a></li><ul><li><span class="title-icon "></span><a href="#status-&#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;"><b>4.2.1. </b>status &#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;</a></li><li><span class="title-icon "></span><a href="#whoami-&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;"><b>4.2.2. </b>whoami &#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;</a></li><li><span class="title-icon "></span><a href="#list-&#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;"><b>4.2.3. </b>list &#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;</a></li><li><span class="title-icon "></span><a href="#count-&#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;"><b>4.2.4. </b>count &#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;</a></li><li><span class="title-icon "></span><a href="#describe-&#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;"><b>4.2.5. </b>describe &#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;</a></li><li><span class="title-icon "></span><a href="#exists-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;"><b>4.2.6. </b>exists &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;</a></li><li><span class="title-icon "></span><a href="#isenabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528;--isdisabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;"><b>4.2.7. </b>is_enabled &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528; / is_disabled &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;</a></li><li><span class="title-icon "></span><a href="#alter-&#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;"><b>4.2.8. </b>alter &#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;</a></li><li><span class="title-icon "></span><a href="#enable-&#x542F;&#x7528;&#x8868;--disable-&#x7981;&#x7528;&#x8868;"><b>4.2.9. </b>enable &#x542F;&#x7528;&#x8868; / disable &#x7981;&#x7528;&#x8868;</a></li><li><span class="title-icon "></span><a href="#drop-&#x5220;&#x9664;&#x8868;"><b>4.2.10. </b>drop &#x5220;&#x9664;&#x8868;</a></li><li><span class="title-icon "></span><a href="#truncate-&#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;"><b>4.2.11. </b>truncate &#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x6838;&#x5FC3;&#x539F;&#x7406;"><b>5. </b>&#x6838;&#x5FC3;&#x539F;&#x7406;</a></li><ul><li><span class="title-icon "></span><a href="#hbase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;"><b>5.1. </b>HBase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;</a></li><li><span class="title-icon "></span><a href="#hbase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><b>5.2. </b>HBase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;</a></li><li><span class="title-icon "></span><a href="#hbase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><b>5.3. </b>HBase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;</a></li><li><span class="title-icon "></span><a href="#hbase&#x7684;flush&#x673A;&#x5236;"><b>5.4. </b>HBase&#x7684;flush&#x673A;&#x5236;</a></li><ul><li><span class="title-icon "></span><a href="#flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;"><b>5.4.1. </b>flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;</a></li><li><span class="title-icon "></span><a href="#flush-&#x6D41;&#x7A0B;"><b>5.4.2. </b>flush &#x6D41;&#x7A0B;</a></li></ul><li><span class="title-icon "></span><a href="#hbase&#x7684;compact&#x673A;&#x5236;"><b>5.5. </b>HBase&#x7684;compact&#x673A;&#x5236;</a></li><ul><li><span class="title-icon "></span><a href="#minor-compaction-&#x5C0F;&#x5408;&#x5E76;"><b>5.5.1. </b>minor compaction &#x5C0F;&#x5408;&#x5E76;</a></li><li><span class="title-icon "></span><a href="#major-compaction-&#x5927;&#x5408;&#x5E76;"><b>5.5.2. </b>major compaction &#x5927;&#x5408;&#x5E76;</a></li></ul><li><span class="title-icon "></span><a href="#region&#x5206;&#x88C2;"><b>5.6. </b>Region&#x5206;&#x88C2;</a></li><ul><li><span class="title-icon "></span><a href="#&#x5206;&#x88C2;&#x6D41;&#x7A0B;"><b>5.6.1. </b>&#x5206;&#x88C2;&#x6D41;&#x7A0B;</a></li><li><span class="title-icon "></span><a href="#&#x5206;&#x88C2;&#x7B56;&#x7565;"><b>5.6.2. </b>&#x5206;&#x88C2;&#x7B56;&#x7565;</a></li></ul><li><span class="title-icon "></span><a href="#region&#x5408;&#x5E76;"><b>5.7. </b>Region&#x5408;&#x5E76;</a></li><ul><li><span class="title-icon "></span><a href="#&#x901A;&#x8FC7;merge&#x7C7B;region"><b>5.7.1. </b>&#x901A;&#x8FC7;Merge&#x7C7B;Region</a></li><li><span class="title-icon "></span><a href="#&#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;region"><b>5.7.2. </b>&#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;Region</a></li></ul></ul><li><span class="title-icon "></span><a href="#&#x7CFB;&#x7EDF;&#x96C6;&#x6210;"><b>6. </b>&#x7CFB;&#x7EDF;&#x96C6;&#x6210;</a></li><ul><li><span class="title-icon "></span><a href="#&#x4E0E;mapreduce&#x96C6;&#x6210;"><b>6.1. </b>&#x4E0E;MapReduce&#x96C6;&#x6210;</a></li><li><span class="title-icon "></span><a href="#&#x4E0E;hive&#x96C6;&#x6210;"><b>6.2. </b>&#x4E0E;Hive&#x96C6;&#x6210;</a></li><ul><li><span class="title-icon "></span><a href="#&#x6982;&#x8FF0;"><b>6.2.1. </b>&#x6982;&#x8FF0;</a></li><li><span class="title-icon "></span><a href="#&#x6574;&#x5408;&#x914D;&#x7F6E;"><b>6.2.2. </b>&#x6574;&#x5408;&#x914D;&#x7F6E;</a></li><li><span class="title-icon "></span><a href="#hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;hbase&#x8868;&#xFF08;hive---hbase&#xFF09;"><b>6.2.3. </b>Hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;HBase&#x8868;&#xFF08;hive -&gt; hbase&#xFF09;</a></li><li><span class="title-icon "></span><a href="#hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;hbase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase---hive&#xFF09;"><b>6.2.4. </b>Hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;HBase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase -&gt; hive&#xFF09;</a></li></ul></ul><li><span class="title-icon "></span><a href="#hbase-&#x7684;-rowkey-&#x8BBE;&#x8BA1;"><b>7. </b>HBase &#x7684; RowKey &#x8BBE;&#x8BA1;</a></li><ul><li><span class="title-icon "></span><a href="#&#x8BBE;&#x8BA1;&#x539F;&#x5219;"><b>7.1. </b>&#x8BBE;&#x8BA1;&#x539F;&#x5219;</a></li><ul><li><span class="title-icon "></span><a href="#&#x957F;&#x5EA6;&#x539F;&#x5219;"><b>7.1.1. </b>&#x957F;&#x5EA6;&#x539F;&#x5219;</a></li><li><span class="title-icon "></span><a href="#&#x6563;&#x5217;&#x539F;&#x5219;"><b>7.1.2. </b>&#x6563;&#x5217;&#x539F;&#x5219;</a></li><li><span class="title-icon "></span><a href="#&#x552F;&#x4E00;&#x539F;&#x5219;"><b>7.1.3. </b>&#x552F;&#x4E00;&#x539F;&#x5219;</a></li><li><span class="title-icon "></span><a href="#&#x6392;&#x5E8F;&#x539F;&#x5219;"><b>7.1.4. </b>&#x6392;&#x5E8F;&#x539F;&#x5219;</a></li></ul><li><span class="title-icon "></span><a href="#&#x70ED;&#x70B9;&#x95EE;&#x9898;"><b>7.2. </b>&#x70ED;&#x70B9;&#x95EE;&#x9898;</a></li><ul><li><span class="title-icon "></span><a href="#&#x89E3;&#x51B3;&#x65B9;&#x6848;"><b>7.2.1. </b>&#x89E3;&#x51B3;&#x65B9;&#x6848;</a></li></ul></ul></ul></div><a href="#&#x6838;&#x5FC3;&#x6982;&#x5FF5;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x6838;&#x5FC3;&#x6982;&#x5FF5;"><a name="&#x6838;&#x5FC3;&#x6982;&#x5FF5;" class="anchor-navigation-ex-anchor" href="#&#x6838;&#x5FC3;&#x6982;&#x5FF5;"><i class="fa fa-link" aria-hidden="true"></i></a>1. &#x6838;&#x5FC3;&#x6982;&#x5FF5;</h1>
+<h2 id="&#x6982;&#x5FF5;"><a name="&#x6982;&#x5FF5;" class="anchor-navigation-ex-anchor" href="#&#x6982;&#x5FF5;"><i class="fa fa-link" aria-hidden="true"></i></a>1.1. &#x6982;&#x5FF5;</h2>
+<ul>
+<li>HBase&#x57FA;&#x4E8E;Google&#x7684;BigTable&#x8BBA;&#x6587;&#xFF0C;&#x662F;&#x5EFA;&#x7ACB;&#x7684;HDFS&#x4E4B;&#x4E0A;&#xFF0C;&#x63D0;&#x4F9B;<strong>&#x9AD8;&#x53EF;&#x9760;&#x6027;</strong>&#x3001;<strong>&#x9AD8;&#x6027;&#x80FD;</strong>&#x3001;<strong>&#x5217;&#x5B58;&#x50A8;</strong>&#x3001;<strong>&#x53EF;&#x4F38;&#x7F29;</strong>&#x3001;<strong>&#x5B9E;&#x65F6;&#x8BFB;&#x5199;</strong>&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x6570;&#x636E;&#x5E93;&#x7CFB;&#x7EDF;&#x3002;</li>
+<li>&#x5728;&#x9700;&#x8981;<font color="red">&#x5B9E;&#x65F6;&#x8BFB;&#x5199;&#x968F;&#x673A;&#x8BBF;&#x95EE;</font>&#x8D85;&#x5927;&#x89C4;&#x6A21;&#x6570;&#x636E;&#x96C6;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;HBase&#x3002;</li>
+</ul>
+<h2 id="&#x7279;&#x70B9;"><a name="&#x7279;&#x70B9;" class="anchor-navigation-ex-anchor" href="#&#x7279;&#x70B9;"><i class="fa fa-link" aria-hidden="true"></i></a>1.2. &#x7279;&#x70B9;</h2>
+<ul>
+<li><strong>&#x6D77;&#x91CF;&#x5B58;&#x50A8;</strong><ul>
+<li>&#x53EF;&#x4EE5;&#x5B58;&#x50A8;&#x5927;&#x6279;&#x91CF;&#x7684;&#x6570;&#x636E;</li>
+</ul>
+</li>
+<li><strong>&#x5217;&#x5F0F;&#x5B58;&#x50A8;</strong><ul>
+<li>HBase&#x8868;&#x7684;&#x6570;&#x636E;&#x662F;&#x57FA;&#x4E8E;&#x5217;&#x65CF;&#x8FDB;&#x884C;&#x5B58;&#x50A8;&#x7684;&#xFF0C;&#x5217;&#x65CF;&#x662F;&#x5728;&#x5217;&#x7684;&#x65B9;&#x5411;&#x4E0A;&#x7684;&#x5212;&#x5206;</li>
+</ul>
+</li>
+<li><strong>&#x6781;&#x6613;&#x6269;&#x5C55;</strong><ul>
+<li>&#x5E95;&#x5C42;&#x4F9D;&#x8D56;HDFS&#xFF0C;&#x5F53;&#x78C1;&#x76D8;&#x7A7A;&#x95F4;&#x4E0D;&#x8DB3;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x52A8;&#x6001;&#x589E;&#x52A0;DataNode&#x8282;&#x70B9;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;</li>
+<li>&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x589E;&#x52A0;&#x670D;&#x52A1;&#x5668;&#x6765;&#x5BF9;&#x96C6;&#x7FA4;&#x7684;&#x5B58;&#x50A8;&#x8FDB;&#x884C;&#x6269;&#x5BB9;</li>
+</ul>
+</li>
+<li><strong>&#x9AD8;&#x5E76;&#x53D1;</strong><ul>
+<li>&#x652F;&#x6301;&#x9AD8;&#x5E76;&#x53D1;&#x7684;&#x8BFB;&#x5199;&#x8BF7;&#x6C42;</li>
+</ul>
+</li>
+<li><strong>&#x7A00;&#x758F;</strong><ul>
+<li>&#x7A00;&#x758F;&#x4E3B;&#x8981;&#x662F;&#x9488;&#x5BF9;HBase&#x5217;&#x7684;&#x7075;&#x6D3B;&#x6027;&#xFF0C;&#x5728;&#x5217;&#x65CF;&#x4E2D;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x6307;&#x5B9A;&#x4EFB;&#x610F;&#x591A;&#x7684;&#x5217;&#xFF0C;&#x5728;&#x5217;&#x6570;&#x636E;&#x4E3A;&#x7A7A;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x662F;&#x4E0D;&#x4F1A;&#x5360;&#x7528;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x7684;</li>
+</ul>
+</li>
+<li><strong>&#x6570;&#x636E;&#x7684;&#x591A;&#x7248;&#x672C;</strong><ul>
+<li>HBase&#x8868;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x7248;&#x672C;&#x503C;&#xFF0C;&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x662F;&#x6839;&#x636E;&#x7248;&#x672C;&#x53F7;&#x53BB;&#x533A;&#x5206;&#xFF0C;&#x7248;&#x672C;&#x53F7;&#x5C31;&#x662F;&#x63D2;&#x5165;&#x6570;&#x636E;&#x7684;&#x65F6;&#x95F4;&#x6233;</li>
+</ul>
+</li>
+<li><strong>&#x6570;&#x636E;&#x7C7B;&#x578B;&#x5355;&#x4E00;</strong><ul>
+<li>&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x5728;HBase&#x4E2D;&#x662F;&#x4EE5;&#x5B57;&#x8282;&#x6570;&#x7EC4;&#x8FDB;&#x884C;&#x5B58;&#x50A8;</li>
+</ul>
+</li>
+</ul>
+<h1 id="&#x6570;&#x636E;&#x6A21;&#x578B;"><a name="&#x6570;&#x636E;&#x6A21;&#x578B;" class="anchor-navigation-ex-anchor" href="#&#x6570;&#x636E;&#x6A21;&#x578B;"><i class="fa fa-link" aria-hidden="true"></i></a>2. &#x6570;&#x636E;&#x6A21;&#x578B;</h1>
+<p><img src="&#x5927;&#x6570;&#x636E;&#x6570;&#x636E;&#x5E93;&#x4E4B;HBase.assets/hbase_data_model.png" alt="hbase_data_model"></p>
+<ul>
+<li>rowkey &#x884C;&#x952E;<ul>
+<li>table&#x7684;&#x4E3B;&#x952E;&#xFF0C;table&#x4E2D;&#x7684;&#x8BB0;&#x5F55;&#x6309;&#x7167;rowkey&#x7684;&#x5B57;&#x5178;&#x5E8F;&#x8FDB;&#x884C;&#x6392;&#x5E8F;</li>
+<li>rowkey&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6700;&#x5927;&#x957F;&#x5EA6;&#x662F; 64KB&#xFF0C;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#x957F;&#x5EA6;&#x4E00;&#x822C;&#x4E3A; 10-100bytes&#x3002;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>column family &#x5217;&#x65CF;<ul>
+<li>HBase&#x8868;&#x4E2D;&#x7684;&#x6BCF;&#x4E2A;colum&#x90FD;&#x5F52;&#x5C5E;&#x4E8E;&#x67D0;&#x4E2A;column family</li>
+<li>column family&#x662F;&#x8868;&#x7684;schema&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF08;&#x800C;column&#x4E0D;&#x662F;&#xFF09;&#xFF0C;&#x5373;&#x5EFA;&#x8868;&#x65F6;&#x81F3;&#x5C11;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x5217;&#x65CF;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>timestamp &#x65F6;&#x95F4;&#x6233;<ul>
+<li>&#x53EF;&#x4EE5;&#x5BF9;&#x8868;&#x4E2D;&#x7684;cell&#x591A;&#x6B21;&#x8D4B;&#x503C;&#xFF0C;&#x6BCF;&#x6B21;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#x7684;timestamp&#x53EF;&#x770B;&#x6210;cell&#x503C;&#x7684;&#x7248;&#x672C;&#x53F7;version numbe</li>
+<li>&#x4E00;&#x4E2A;cell&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;&#x7248;&#x672C;&#x7684;&#x503C;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>column qualifier &#x5217;&#x9650;&#x5B9A;<ul>
+<li>&#x5217;&#x9650;&#x5B9A;&#x662F;&#x8868;&#x7684;&#x67D0;&#x4E00;&#x5217;&#x65CF;&#x4E0B;&#x7684;&#x4E00;&#x4E2A;&#x5217;&#xFF0C;&#x7528; <code>&#x5217;&#x65CF;&#x540D;:&#x5217;&#x540D;</code> &#x8868;&#x793A;</li>
+<li>&#x5C5E;&#x4E8E;&#x67D0;&#x4E00;&#x4E2A;column family&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E;mysql&#x5F53;&#x4E2D;&#x521B;&#x5EFA;&#x7684;&#x5177;&#x4F53;&#x7684;&#x5217;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>cell &#x5355;&#x5143;&#x683C;<ul>
+<li>&#x6839;&#x636E; <code>{rowkey, column(=family+qualifier), timestamp}</code> &#x53EF;&#x4EE5;&#x6620;&#x5C04;&#x5230;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;cell&#xFF0C;cell&#x662F;HBase&#x5B58;&#x50A8;&#x6570;&#x636E;&#x7684;&#x5177;&#x4F53;&#x5730;&#x5740;</li>
+<li>cell&#x4E2D;&#x7684;&#x6570;&#x636E;&#x662F;&#x6CA1;&#x6709;&#x7C7B;&#x578B;&#x7684;&#xFF0C;&#x5168;&#x90E8;&#x662F;&#x4EE5;<font color="red">&#x5B57;&#x8282;&#x6570;&#x7EC4;</font>&#x8FDB;&#x884C;&#x5B58;&#x50A8;</li>
+</ul>
+</li>
+</ul>
+<h1 id="&#x6574;&#x4F53;&#x67B6;&#x6784;"><a name="&#x6574;&#x4F53;&#x67B6;&#x6784;" class="anchor-navigation-ex-anchor" href="#&#x6574;&#x4F53;&#x67B6;&#x6784;"><i class="fa fa-link" aria-hidden="true"></i></a>3. &#x6574;&#x4F53;&#x67B6;&#x6784;</h1>
+<p><img src="&#x5927;&#x6570;&#x636E;&#x6570;&#x636E;&#x5E93;&#x4E4B;HBase.assets/hbase_overall_structure.png" alt="hbase_overall_structure"></p>
+<h2 id="client"><a name="client" class="anchor-navigation-ex-anchor" href="#client"><i class="fa fa-link" aria-hidden="true"></i></a>3.1. Client</h2>
+<ul>
+<li>Client&#x662F;&#x64CD;&#x4F5C;HBase&#x96C6;&#x7FA4;&#x7684;&#x5165;&#x53E3;<ul>
+<li>&#x5BF9;&#x4E8E;&#x7BA1;&#x7406;&#x7C7B;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x5982;&#x8868;&#x7684;&#x589E;&#x3001;&#x5220;&#x3001;&#x6539;&#xFF0C;Client&#x901A;&#x8FC7;RPC&#x4E0E;HMaster&#x901A;&#x4FE1;&#x5B8C;&#x6210;</li>
+<li>&#x5BF9;&#x4E8E;&#x8868;&#x6570;&#x636E;&#x7684;&#x8BFB;&#x5199;&#x64CD;&#x4F5C;&#xFF0C;Client&#x901A;&#x8FC7;RPC&#x4E0E;HRegionServer&#x901A;&#x4FE1;&#x8BFB;&#x5199;&#x6570;&#x636E;</li>
+</ul>
+</li>
+<li>Client&#x7C7B;&#x578B;<ul>
+<li>HBase shell</li>
+<li>Java&#x7F16;&#x7A0B;&#x63A5;&#x53E3;</li>
+<li>Thrift&#x3001;Avro&#x3001;Rest&#x7B49;</li>
+</ul>
+</li>
+</ul>
+<h2 id="zookeeper&#x96C6;&#x7FA4;"><a name="zookeeper&#x96C6;&#x7FA4;" class="anchor-navigation-ex-anchor" href="#zookeeper&#x96C6;&#x7FA4;"><i class="fa fa-link" aria-hidden="true"></i></a>3.2. ZooKeeper&#x96C6;&#x7FA4;</h2>
+<ul>
+<li><p>&#x5B9E;&#x73B0;&#x4E86;HMaster&#x7684;&#x9AD8;&#x53EF;&#x7528;&#xFF0C;&#x591A;HMaster&#x95F4;&#x8FDB;&#x884C;&#x4E3B;&#x5907;&#x9009;&#x4E3E;</p>
+</li>
+<li><p>&#x4FDD;&#x5B58;&#x4E86;HBase&#x7684;&#x5143;&#x6570;&#x636E;&#x4FE1;&#x606F;meta&#x8868;&#xFF0C;&#x63D0;&#x4F9B;&#x4E86;HBase&#x8868;&#x4E2D;region&#x5BFB;&#x5740;&#x5165;&#x53E3;&#x6570;&#x636E;</p>
+</li>
+<li>&#x5BF9;HMaster&#x548C;HRegionServer&#x5B9E;&#x73B0;&#x4E86;&#x76D1;&#x63A7;</li>
+<li><font color="red">ZooKeeper&#x5982;&#x4F55;&#x534F;&#x8C03;HMaster&#x548C;HRegionServer&#x5DE5;&#x4F5C;&#xFF1F;</font>
+
+</li>
+</ul>
+<p>&#x591A;HMaster&#x4F1A;&#x7ADE;&#x4E89;&#x521B;&#x5EFA;ephemeral&#x8282;&#x70B9;&#xFF0C;&#x800C;Zookeeper&#x51B3;&#x5B9A;&#x8C01;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x4F5C;&#x4E3A;&#x5728;&#x7EBF;&#x7684;HMaster&#xFF0C;&#x4FDD;&#x8BC1;&#x7EBF;&#x4E0A;&#x53EA;&#x6709;&#x4E00;&#x4E2A; HMaster&#x3002;&#x5728;&#x7EBF;HMaster&#xFF08;<strong>active HMaster</strong>&#xFF09;&#x4F1A;&#x7ED9;Zookeeper&#x53D1;&#x9001;&#x5FC3;&#x8DF3;&#xFF0C;&#x4E0D;&#x5728;&#x7EBF;&#x7684;&#x5F85;&#x673A;HMaster&#xFF08;<strong>inactive HMaster</strong>&#xFF09;&#x4F1A;&#x76D1;&#x542C;active HMaster&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x7684;&#x6545;&#x969C;&#x5E76;&#x968F;&#x65F6;&#x51C6;&#x5907;&#x4E0A;&#x7EBF;&#x3002;</p>
+<p>&#x6BCF;&#x4E2A;HRegionServer&#x90FD;&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;<code>ephemeral</code> &#x8282;&#x70B9;&#x3002;HMaster&#x4F1A;&#x76D1;&#x63A7;&#x8FD9;&#x4E9B;&#x8282;&#x70B9;&#x6765;&#x53D1;&#x73B0;&#x53EF;&#x7528;&#x7684;HRegionServer&#xFF0C;&#x540C;&#x6837;&#x5B83;&#x4E5F;&#x4F1A;&#x76D1;&#x63A7;&#x8FD9;&#x4E9B;&#x8282;&#x70B9;&#x662F;&#x5426;&#x51FA;&#x73B0;&#x6545;&#x969C;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x6709;&#x4E00;&#x4E2A;HRegionServer&#x6216;&#x8005;HMastet&#x51FA;&#x73B0;&#x6545;&#x969C;&#x6216;&#x5404;&#x79CD;&#x539F;&#x56E0;&#x5BFC;&#x81F4;&#x53D1;&#x9001;&#x5FC3;&#x8DF3;&#x5931;&#x8D25;&#xFF0C;&#x5B83;&#x4EEC;&#x4E0E;Zookeeper&#x7684;session&#x5C31;&#x4F1A;&#x8FC7;&#x671F;&#xFF0C;&#x8FD9;&#x4E2A;ephemeral&#x8282;&#x70B9;&#x5C31;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x4E0B;&#x7EBF;&#xFF0C;&#x76D1;&#x542C;&#x8005;&#x4EEC;&#x5C31;&#x4F1A;&#x6536;&#x5230;&#x8FD9;&#x4E2A;&#x6D88;&#x606F;&#x3002;Active HMaster&#x76D1;&#x542C;&#x7684;&#x662F;HRegionServer&#x4E0B;&#x7EBF;&#x7684;&#x6D88;&#x606F;&#xFF0C;&#x7136;&#x540E;&#x4F1A;&#x6062;&#x590D;&#x6545;&#x969C;&#x7684;HRegionServer&#x4EE5;&#x53CA;&#x5B83;&#x6240;&#x8D1F;&#x8D23;&#x7684;Region&#x6570;&#x636E;&#x3002;&#x800C;Inactive HMaster&#x5173;&#x5FC3;&#x7684;&#x5219;&#x662F;active HMaster&#x4E0B;&#x7EBF;&#x7684;&#x6D88;&#x606F;&#xFF0C;&#x7136;&#x540E;&#x7ADE;&#x4E89;&#x4E0A;&#x7EBF;&#x53D8;&#x6210;active HMaster&#x3002;</p>
+<h2 id="hmaster"><a name="hmaster" class="anchor-navigation-ex-anchor" href="#hmaster"><i class="fa fa-link" aria-hidden="true"></i></a>3.3. HMaster</h2>
+<ul>
+<li><p>HBase&#x96C6;&#x7FA4;&#x4E5F;&#x662F;&#x4E3B;&#x4ECE;&#x67B6;&#x6784;&#xFF0C;HMaster&#x662F;&#x4E3B;&#x89D2;&#x8272;</p>
+</li>
+<li><p>&#x8D1F;&#x8D23;Table&#x7684;&#x7BA1;&#x7406;&#x5DE5;&#x4F5C;&#xFF0C;&#x7BA1;&#x7406;Client&#x5BF9;Table&#x7684;&#x589E;&#x5220;&#x6539;&#x64CD;&#x4F5C;</p>
+</li>
+<li><p>&#x8D1F;&#x8D23;Region&#x7684;&#x7BA1;&#x7406;&#x5DE5;&#x4F5C;</p>
+<ul>
+<li>&#x5728;Region&#x5206;&#x88C2;&#x540E;&#xFF0C;&#x8D1F;&#x8D23;&#x5C06;&#x65B0;Region&#x5206;&#x914D;&#x5230;&#x6307;&#x5B9A;&#x7684;HRegionServer</li>
+<li>&#x7BA1;&#x7406;HRegionServer&#x95F4;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF0C;&#x8FC1;&#x79FB;region&#x5206;&#x5E03;</li>
+<li>&#x5F53;HRegionServer&#x5B95;&#x673A;&#x540E;&#xFF0C;&#x8D1F;&#x8D23;&#x5C06;&#x5176;&#x4E0A;&#x7684;region&#x8FC1;&#x79FB;</li>
+</ul>
+</li>
+<li>&#x76D1;&#x63A7;&#x96C6;&#x7FA4;&#x4E2D;&#x6240;&#x6709;HRegionServer&#xFF08;&#x4ECE;Zookeeper&#x83B7;&#x53D6;&#x901A;&#x77E5;&#x4FE1;&#x606F;&#xFF09;</li>
+</ul>
+<h2 id="hregionserver"><a name="hregionserver" class="anchor-navigation-ex-anchor" href="#hregionserver"><i class="fa fa-link" aria-hidden="true"></i></a>3.4. HRegionServer</h2>
+<ul>
+<li><p>HRegionServer&#x662F;&#x4ECE;&#x89D2;&#x8272;&#xFF0C;&#x8D1F;&#x8D23;&#x7BA1;&#x7406;&#x4E00;&#x7CFB;&#x5217;&#x7684;Region&#xFF08;&#x5927;&#x7EA6;&#x53EF;&#x4EE5;&#x7BA1;&#x7406;1000&#x4E2A;Region&#xFF09;</p>
+</li>
+<li><p>&#x54CD;&#x5E94;Client&#x7684;&#x8BFB;&#x5199;&#x6570;&#x636E;&#x8BF7;&#x6C42;&#xFF0C;&#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;HRegionServer&#x540C;DataNode&#x540C;&#x673A;&#x90E8;&#x7F72;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x6570;&#x636E;&#x7684;&#x672C;&#x5730;&#x5316;</p>
+</li>
+<li>&#x5207;&#x5206;&#x5728;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x53D8;&#x5927;&#x7684;Region</li>
+</ul>
+<h2 id="region"><a name="region" class="anchor-navigation-ex-anchor" href="#region"><i class="fa fa-link" aria-hidden="true"></i></a>3.5. Region</h2>
+<ul>
+<li>HBase&#x96C6;&#x7FA4;&#x4E2D;<font color="red">&#x5206;&#x5E03;&#x5F0F;&#x5B58;&#x50A8;&#x7684;&#x6700;&#x5C0F;&#x5355;&#x5143;</font></li>
+<li>&#x4E00;&#x4E2A;Region&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;Table&#x8868;&#x7684;&#x90E8;&#x5206;&#x6570;&#x636E;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x5168;&#x90E8;&#x6570;&#x636E;&#xFF1B;Table&#x8868;&#x6839;&#x636E;rowkey&#x7684;&#x8303;&#x56F4;&#x88AB;&#x6C34;&#x5E73;&#x62C6;&#x5206;&#x4E3A;&#x591A;&#x4E2A;Region&#xFF0C;&#x6BCF;&#x4E2A;Region&#x90FD;&#x5305;&#x542B;&#x4E86;&#x8FD9;&#x4E2A;Region&#x7684;start key&#x548C;end key&#x4E4B;&#x95F4;&#x7684;&#x6240;&#x6709;&#x884C;&#xFF0C;&#x7136;&#x540E;&#x88AB;&#x5206;&#x914D;&#x7ED9;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;HRegionServer&#x6765;&#x7BA1;&#x7406;</li>
+</ul>
+<h1 id="hbase-shell-&#x547D;&#x4EE4;"><a name="hbase-shell-&#x547D;&#x4EE4;" class="anchor-navigation-ex-anchor" href="#hbase-shell-&#x547D;&#x4EE4;"><i class="fa fa-link" aria-hidden="true"></i></a>4. HBase shell &#x547D;&#x4EE4;</h1>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x8FDB;&#x5165; hbase shell &#x4EA4;&#x4E92;&#x5BA2;&#x6237;&#x7AEF;</span>
+hbase shell
+</code></pre>
+<h2 id="&#x57FA;&#x672C;&#x547D;&#x4EE4;"><a name="&#x57FA;&#x672C;&#x547D;&#x4EE4;" class="anchor-navigation-ex-anchor" href="#&#x57FA;&#x672C;&#x547D;&#x4EE4;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1. &#x57FA;&#x672C;&#x547D;&#x4EE4;</h2>
+<h3 id="help-&#x663E;&#x793A;&#x5E2E;&#x52A9;"><a name="help-&#x663E;&#x793A;&#x5E2E;&#x52A9;" class="anchor-navigation-ex-anchor" href="#help-&#x663E;&#x793A;&#x5E2E;&#x52A9;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.1. help &#x663E;&#x793A;&#x5E2E;&#x52A9;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x663E;&#x793A;&#x5E2E;&#x52A9;</span>
+<span class="hljs-built_in">help</span>
+
+<span class="hljs-comment"># &#x67E5;&#x770B;&#x5177;&#x4F53;&#x547D;&#x4EE4;&#x7684;&#x5E2E;&#x52A9;</span>
+<span class="hljs-built_in">help</span> <span class="hljs-string">&apos;create&apos;</span>
+</code></pre>
+<h3 id="exit-&#x9000;&#x51FA;"><a name="exit-&#x9000;&#x51FA;" class="anchor-navigation-ex-anchor" href="#exit-&#x9000;&#x51FA;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.2. exit &#x9000;&#x51FA;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x9000;&#x51FA;shell</span>
+<span class="hljs-built_in">exit</span>
+
+<span class="hljs-comment"># &#x5F53;&#x8F93;&#x5165;&#x8BED;&#x6CD5;&#x9519;&#x8BEF;&#xFF0C;&#x5BFC;&#x81F4;client&#x4E0D;&#x5DE5;&#x4F5C;</span>
+&gt;`
+</code></pre>
+<h3 id="create-&#x521B;&#x5EFA;&#x8868;"><a name="create-&#x521B;&#x5EFA;&#x8868;" class="anchor-navigation-ex-anchor" href="#create-&#x521B;&#x5EFA;&#x8868;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.3. create &#x521B;&#x5EFA;&#x8868;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x521B;&#x5EFA;user&#x8868;&#xFF0C;info&#x548C;data&#x5217;&#x65CF;</span>
+<span class="hljs-comment"># &#x9ED8;&#x8BA4;&#x4E00;&#x4E2A;&#x7248;&#x672C;</span>
+create <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;info&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>
+
+<span class="hljs-comment"># &#x521B;&#x5EFA;user1&#x8868;&#xFF0C;&#x540C;&#x65F6;&#x6307;&#x5B9A;&#x5217;&#x65CF;&#x7684;&#x7248;&#x672C;&#x6570;</span>
+create <span class="hljs-string">&apos;user1&apos;</span>, {NAME =&gt; <span class="hljs-string">&apos;info&apos;</span>, VERSIONS =&gt; 3}, {NAME =&gt; <span class="hljs-string">&apos;data&apos;</span>}
+</code></pre>
+<h3 id="put-&#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;"><a name="put-&#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#put-&#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.4. put &#x63D2;&#x5165;&#x548C;&#x66F4;&#x65B0;&#x5355;&#x884C;&#x6570;&#x636E;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x63D2;&#x5165;&#x6570;&#x636E;</span>
+<span class="hljs-comment"># row key&#x4E3A;rk0001&#xFF0C;&#x5217;&#x65CF;info&#x4E2D;&#x6DFB;&#x52A0;&#x540D;&#x4E3A;name&#x7684;&#x5217;&#xFF0C;&#x503C;&#x4E3A;zhangsan</span>
+<span class="hljs-comment"># column qualifier &#x5728;&#x63D2;&#x5165;&#x6570;&#x636E;&#x65F6;&#x6307;&#x5B9A;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:name&apos;</span>, <span class="hljs-string">&apos;zhangsan&apos;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:gender&apos;</span>, <span class="hljs-string">&apos;female&apos;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:age&apos;</span>, 20
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;data:pic&apos;</span>, <span class="hljs-string">&apos;picture&apos;</span>
+
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0002&apos;</span>, <span class="hljs-string">&apos;info:name&apos;</span>, <span class="hljs-string">&apos;fanbingbing&apos;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0002&apos;</span>, <span class="hljs-string">&apos;info:gender&apos;</span>, <span class="hljs-string">&apos;female&apos;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0002&apos;</span>, <span class="hljs-string">&apos;info:nationality&apos;</span>, <span class="hljs-string">&apos;&#x4E2D;&#x56FD;&apos;</span>
+
+<span class="hljs-comment"># &#x66F4;&#x65B0;&#x6570;&#x636E;</span>
+<span class="hljs-comment"># cell&#x6709;&#x6570;&#x636E;&#x5219;&#x66F4;&#x65B0;&#xFF0C;&#x65E0;&#x6570;&#x636E;&#x5219;&#x63D2;&#x5165;&#xFF1B;&#x672C;&#x8D28;&#x8FD8;&#x662F;&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x67E5;&#x8BE2;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x663E;&#x793A;&#x6700;&#x65B0;&#x7248;&#x672C;&#x53F7;&#x7684;&#x6570;&#x636E;</span>
+put <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:name&apos;</span>, <span class="hljs-string">&apos;lisi&apos;</span>
+</code></pre>
+<h3 id="get-&#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;"><a name="get-&#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#get-&#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.5. get &#x67E5;&#x8BE2;&#x5355;&#x884C;&#x6570;&#x636E;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x83B7;&#x53D6;user&#x8868;&#x4E2D;row key&#x4E3A;rk0001&#x7684;&#x6240;&#x6709; cell &#x4FE1;&#x606F;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;&#x65CF;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info&apos;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, {COLUMN =&gt; [<span class="hljs-string">&apos;info&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>]}
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:age&apos;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:age&apos;</span>, <span class="hljs-string">&quot;info:name&quot;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, {COLUMN =&gt; [<span class="hljs-string">&apos;info:name&apos;</span>, <span class="hljs-string">&apos;data:pic&apos;</span>]}
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x503C;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, {FILTER =&gt; <span class="hljs-string">&quot;ValueFilter(=, &apos;binary:zhangsan&apos;)&quot;</span>}
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x503C;&#x5305;&#x542B;&#x4E2D;&#x6587;</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0002&apos;</span>, {FILTER =&gt; <span class="hljs-string">&quot;ValueFilter(=, &apos;binary:&#x4E2D;&#x56FD;&apos;)&quot;</span>}
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;&#x9650;&#x5B9A;&#x540D;&#x79F0;</span>
+<span class="hljs-comment"># &#x5217;&#x540D;&#x79F0;&#x5305;&#x542B;a</span>
+get <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, {FILTER =&gt; <span class="hljs-string">&quot;QualifierFilter(=,&apos;substring:a&apos;)&quot;</span>}
+</code></pre>
+<h3 id="scan-&#x5168;&#x8868;&#x626B;&#x63CF;"><a name="scan-&#x5168;&#x8868;&#x626B;&#x63CF;" class="anchor-navigation-ex-anchor" href="#scan-&#x5168;&#x8868;&#x626B;&#x63CF;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.6. scan &#x5168;&#x8868;&#x626B;&#x63CF;</h3>
+<ul>
+<li>scan &apos;user&apos;    &#x5168;&#x8868;&#x626B;&#x63CF;</li>
+<li>scan &apos;user&apos;, {COLUMNS =&gt; &apos;info&apos;, STARTROW =&gt; &apos;rk0001&apos;, ENDROW =&gt; &apos;rk0003&apos;}    &#x8303;&#x56F4;&#x626B;&#x63CF;</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x67E5;&#x770B;user&#x8868;&#x7684;&#x6240;&#x6709;&#x6570;&#x636E;</span>
+<span class="hljs-comment"># &#x5168;&#x8868;&#x626B;&#x63CF;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;&#x65CF;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; <span class="hljs-string">&apos;info&apos;</span>}
+<span class="hljs-comment"># RAW =&gt; true &#x5DF2;&#x88AB;&#x6807;&#x8BB0;&#x4E3A;&#x5220;&#x9664;&#xFF0C;&#x4F46;&#x8FD8;&#x6CA1;&#x6709;&#x88AB;&#x5220;&#x9664;</span>
+<span class="hljs-comment"># &#x4E0D;&#x80FD;&#x5305;&#x542B;&#x5217;&#x9650;&#x5B9A;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; <span class="hljs-string">&apos;info&apos;</span>, RAW =&gt; <span class="hljs-literal">true</span>, VERSIONS =&gt; 5}
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; [<span class="hljs-string">&apos;info&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>]}
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; <span class="hljs-string">&apos;info:name&apos;</span>}
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; [<span class="hljs-string">&apos;info:name&apos;</span>, <span class="hljs-string">&apos;data:pic&apos;</span>]}
+<span class="hljs-comment"># &#x7248;&#x672C;&#x6700;&#x65B0;&#x7684;5&#x4E2A;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; <span class="hljs-string">&apos;info:name&apos;</span>, VERSIONS =&gt; 5}
+
+<span class="hljs-comment"># &#x8FC7;&#x6EE4;&#x5217;&#x9650;&#x5B9A;&#x540D;&#x79F0;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; [<span class="hljs-string">&apos;info&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>], FILTER =&gt; <span class="hljs-string">&quot;(QualifierFilter(=,&apos;substring:a&apos;))&quot;</span>}
+
+<span class="hljs-comment"># &#x6307;&#x5B9A;&#x884C;&#x952E;&#x8303;&#x56F4; [rk0001, rk0003)</span>
+<span class="hljs-comment"># &#x8303;&#x56F4;&#x5339;&#x914D;&#xFF0C;&#x8303;&#x56F4; -&gt; Region</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {COLUMNS =&gt; <span class="hljs-string">&apos;info&apos;</span>, STARTROW =&gt; <span class="hljs-string">&apos;rk0001&apos;</span>, ENDROW =&gt; <span class="hljs-string">&apos;rk0003&apos;</span>}
+
+<span class="hljs-comment"># row key &#x6A21;&#x7CCA;&#x67E5;&#x8BE2;</span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {FILTER =&gt; <span class="hljs-string">&quot;PrefixFilter(&apos;rk&apos;)&quot;</span>}
+
+<span class="hljs-comment"># &#x6307;&#x5B9A;&#x65F6;&#x95F4;&#x6233;&#x8303;&#x56F4; [1581477006014, 1581477079033) </span>
+scan <span class="hljs-string">&apos;user&apos;</span>, {TIMERANGE =&gt; [1581477006014, 1581477079033]}
+</code></pre>
+<h3 id="delete-&#x5220;&#x9664;&#x6570;&#x636E;"><a name="delete-&#x5220;&#x9664;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#delete-&#x5220;&#x9664;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>4.1.7. delete &#x5220;&#x9664;&#x6570;&#x636E;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x6CE8;&#x610F;&#x5F53;&#x6709;&#x591A;&#x4E2A;&#x7248;&#x672C;&#x65F6;&#xFF0C;&#x81EA;&#x4E0A;&#x5411;&#x4E0B;&#x9010;&#x4E2A;&#x5220;&#x9664;&#xFF08;&#x903B;&#x8F91;&#x5220;&#x9664;&#xFF0C;&#x6807;&#x8BB0;&#x7C7B;&#x578B;&#x4E3A;Delete&#xFF09;&#xFF1B;&#x5982;&#x4E00;&#x4E2A;cell&#x6709;&#x4E09;&#x4E2A;&#x7248;&#x672C;&#xFF1A;ts3&#x3001;ts2&#x3001;ts1&#xFF0C;&#x7B2C;&#x4E00;&#x6B21;&#x5220;&#x9664;ts3&#x7248;&#x672C;&#xFF0C;get&#x67E5;&#x8BE2;&#x65F6;&#x4F1A;&#x663E;&#x793A;ts2&#x7248;&#x672C;&#x7684;&#x6570;&#x636E;</span>
+<span class="hljs-comment"># &#x53EF;&#x4EE5;&#x901A;&#x8FC7; RAW =&gt; true &#x67E5;&#x8BE2;&#x6807;&#x8BB0;&#x4E3A;&#x5220;&#x9664;&#xFF0C;&#x4F46;&#x6CA1;&#x6709;&#x88AB;&#x7269;&#x7406;&#x5220;&#x9664;&#x7684;&#x6570;&#x636E;</span>
+delete <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:name&apos;</span>
+
+<span class="hljs-comment"># &#x6307;&#x5B9A;&#x5220;&#x9664;&#x7248;&#x672C;&#x53F7;</span>
+delete <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;rk0001&apos;</span>, <span class="hljs-string">&apos;info:name&apos;</span>, 1581489923991
+</code></pre>
+<h2 id="&#x7BA1;&#x7406;&#x547D;&#x4EE4;"><a name="&#x7BA1;&#x7406;&#x547D;&#x4EE4;" class="anchor-navigation-ex-anchor" href="#&#x7BA1;&#x7406;&#x547D;&#x4EE4;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2. &#x7BA1;&#x7406;&#x547D;&#x4EE4;</h2>
+<h3 id="status-&#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;"><a name="status-&#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;" class="anchor-navigation-ex-anchor" href="#status-&#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.1. status &#x663E;&#x793A;&#x670D;&#x52A1;&#x5668;&#x72B6;&#x6001;</h3>
+<pre><code class="lang-bash">status <span class="hljs-string">&apos;node01&apos;</span>
+</code></pre>
+<h3 id="whoami-&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;"><a name="whoami-&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;" class="anchor-navigation-ex-anchor" href="#whoami-&#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.2. whoami &#x663E;&#x793A;&#x5F53;&#x524D;&#x7528;&#x6237;</h3>
+<pre><code class="lang-bash">whoami
+</code></pre>
+<h3 id="list-&#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;"><a name="list-&#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;" class="anchor-navigation-ex-anchor" href="#list-&#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.3. list &#x663E;&#x793A;&#x6570;&#x636E;&#x5E93;</h3>
+<pre><code class="lang-bash">list
+</code></pre>
+<h3 id="count-&#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;"><a name="count-&#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#count-&#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.4. count &#x7EDF;&#x8BA1;&#x8868;&#x884C;&#x6570;&#x636E;</h3>
+<pre><code class="lang-bash">count <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h3 id="describe-&#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;"><a name="describe-&#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;" class="anchor-navigation-ex-anchor" href="#describe-&#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.5. describe &#x663E;&#x793A;&#x8868;&#x7ED3;&#x6784;&#x4FE1;&#x606F;</h3>
+<pre><code class="lang-bash">describe <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h3 id="exists-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;"><a name="exists-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;" class="anchor-navigation-ex-anchor" href="#exists-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.6. exists &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x5B58;&#x5728;</h3>
+<pre><code class="lang-bash">exists <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h3 id="isenabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528;--isdisabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;"><a name="isenabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528;--isdisabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;" class="anchor-navigation-ex-anchor" href="#isenabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528;--isdisabled-&#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.7. is_enabled &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528; / is_disabled &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x542F;&#x7528;</span>
+is_enabled <span class="hljs-string">&apos;user&apos;</span>
+
+<span class="hljs-comment"># &#x663E;&#x793A;&#x8868;&#x662F;&#x5426;&#x7981;&#x7528;</span>
+is_disabled <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h3 id="alter-&#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;"><a name="alter-&#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;" class="anchor-navigation-ex-anchor" href="#alter-&#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.8. alter &#x4FEE;&#x6539;&#x8868;&#x7ED3;&#x6784;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x589E;&#x52A0;&#x5217;&#x65CF;</span>
+alter <span class="hljs-string">&apos;user&apos;</span>, NAME =&gt; <span class="hljs-string">&apos;data&apos;</span>
+<span class="hljs-comment"># &#x7B49;&#x4EF7;</span>
+alter <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;data&apos;</span>
+
+<span class="hljs-comment"># &#x5220;&#x9664;&#x6307;&#x5B9A;&#x5217;&#x65CF;</span>
+alter <span class="hljs-string">&apos;user&apos;</span>, NAME =&gt; <span class="hljs-string">&apos;data&apos;</span>, METHOD =&gt; <span class="hljs-string">&apos;delete&apos;</span> 
+alter <span class="hljs-string">&apos;user&apos;</span>, <span class="hljs-string">&apos;delete&apos;</span> =&gt; <span class="hljs-string">&apos;data&apos;</span>
+
+<span class="hljs-comment"># &#x4FEE;&#x6539;&#x5217;&#x65CF;</span>
+<span class="hljs-comment"># &#x5217;&#x65CF;info&#x7248;&#x672C;&#x6570;&#x4FEE;&#x6539;&#x4E3A;5</span>
+alter <span class="hljs-string">&apos;user&apos;</span>, NAME =&gt; <span class="hljs-string">&apos;info&apos;</span>, VERSIONS =&gt; 5
+</code></pre>
+<h3 id="enable-&#x542F;&#x7528;&#x8868;--disable-&#x7981;&#x7528;&#x8868;"><a name="enable-&#x542F;&#x7528;&#x8868;--disable-&#x7981;&#x7528;&#x8868;" class="anchor-navigation-ex-anchor" href="#enable-&#x542F;&#x7528;&#x8868;--disable-&#x7981;&#x7528;&#x8868;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.9. enable &#x542F;&#x7528;&#x8868; / disable &#x7981;&#x7528;&#x8868;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x7981;&#x7528;&#x8868;</span>
+<span class="hljs-built_in">disable</span> <span class="hljs-string">&apos;user&apos;</span>
+
+<span class="hljs-comment"># &#x542F;&#x7528;&#x8868;</span>
+<span class="hljs-built_in">enable</span> <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h3 id="drop-&#x5220;&#x9664;&#x8868;"><a name="drop-&#x5220;&#x9664;&#x8868;" class="anchor-navigation-ex-anchor" href="#drop-&#x5220;&#x9664;&#x8868;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.10. drop &#x5220;&#x9664;&#x8868;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x5148;&#x7981;&#x7528;&#xFF0C;&#x518D;&#x5220;&#x9664;</span>
+<span class="hljs-built_in">disable</span> <span class="hljs-string">&apos;user1&apos;</span>
+drop <span class="hljs-string">&apos;user1&apos;</span>
+</code></pre>
+<h3 id="truncate-&#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;"><a name="truncate-&#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;" class="anchor-navigation-ex-anchor" href="#truncate-&#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;"><i class="fa fa-link" aria-hidden="true"></i></a>4.2.11. truncate &#x6E05;&#x7A7A;&#x8868;&#x6570;&#x636E;</h3>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x7981;&#x7528;&#x8868; -&gt; &#x5220;&#x9664;&#x8868; -&gt; &#x521B;&#x5EFA;&#x8868;</span>
+truncate <span class="hljs-string">&apos;user&apos;</span>
+</code></pre>
+<h1 id="&#x6838;&#x5FC3;&#x539F;&#x7406;"><a name="&#x6838;&#x5FC3;&#x539F;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x6838;&#x5FC3;&#x539F;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>5. &#x6838;&#x5FC3;&#x539F;&#x7406;</h1>
+<h2 id="hbase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;"><a name="hbase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;" class="anchor-navigation-ex-anchor" href="#hbase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>5.1. HBase&#x6570;&#x636E;&#x5B58;&#x50A8;&#x539F;&#x7406;</h2>
+<p><img src="&#x5927;&#x6570;&#x636E;&#x6570;&#x636E;&#x5E93;&#x4E4B;HBase.assets/hbase_data_store.png" alt="hbase_data_store"></p>
+<ul>
+<li>Region<ul>
+<li>&#x4E00;&#x4E2A;HRegionServer&#x8D1F;&#x8D23;&#x7BA1;&#x7406;&#x591A;&#x4E2A;Region</li>
+<li>&#x521D;&#x59CB;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E00;&#x4E2A;&#x8868;&#x53EA;&#x6709;&#x4E00;&#x4E2A;Region&#x6216;&#x76F4;&#x63A5;&#x5BF9;&#x8868;&#x9884;&#x5206;&#x533A;&#x3002;&#x5F53;&#x968F;&#x7740;&#x6570;&#x636E;&#x589E;&#x5927;&#xFF0C;&#x4E00;&#x4E2A;Region&#x4F1A;&#x5206;&#x88C2;&#x4E3A;&#x4E24;&#x4E2A;Region</li>
+<li>&#x4E00;&#x4E2A;Region&#x53EA;&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;&#x8868;&#xFF0C;&#x800C;&#x4E00;&#x4E2A;&#x8868;&#x53EF;&#x4EE5;&#x6709;&#x591A;&#x4E2A;Region</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>Store</p>
+<ul>
+<li>&#x4E00;&#x4E2A;Region&#x5305;&#x542B;&#x591A;&#x4E2A;Store&#xFF0C;&#x800C;&#x4E00;&#x4E2A;column family&#x5BF9;&#x5E94;&#x4E00;&#x4E2A;Store</li>
+<li>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x8868;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x4E2A;column family&#xFF0C;&#x90A3;&#x4E48;Region&#x4E2D;&#x53EA;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;Store&#xFF1B;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x8868;&#x6709;N&#x4E2A;column family&#xFF0C;&#x90A3;&#x4E48;Region&#x4E2D;&#x4F1A;&#x6709;N&#x4E2A;Store</li>
+</ul>
+</li>
+</ul>
+  <font color="red">&#x4E3A;&#x4EC0;&#x4E48;column family&#x4E0D;&#x5E94;&#x8BBE;&#x7F6E;&#x8FC7;&#x591A;&#xFF0C;&#x6700;&#x5C11;&#x4E00;&#x4E2A;&#xFF0C;&#x6700;&#x591A;&#x4E0D;&#x8D85;&#x8FC7;&#x4E24;&#x4E2A;&#xFF1F;</font>
+
+<ol>
+<li>&#x5F53;&#x5217;&#x65CF;&#x8FC7;&#x591A;&#x4E14;&#x6570;&#x636E;&#x4E0D;&#x5747;&#x6216;&#x5747;&#x5300;&#x65F6;&#xFF0C;Region&#x5206;&#x88C2;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5217;&#x65CF;&#x4F1A;&#x5206;&#x88C2;&#x5230;&#x591A;&#x4E2A;Region&#x4E0A;&#x9020;&#x6210;&#x67D0;&#x4E00;&#x5217;&#x65CF;&#x6570;&#x636E;&#x8FC7;&#x5C11;&#xFF0C;&#x5BFC;&#x81F4;&#x67E5;&#x8BE2;&#x6B64;&#x5217;&#x65CF;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x53EF;&#x80FD;&#x4F1A;&#x8DE8;&#x8D8A;&#x591A;&#x4E2A;Region&#xFF0C;&#x67E5;&#x8BE2;&#x6548;&#x7387;&#x964D;&#x4F4E;&#x3002;</li>
+<li>&#x6BCF;&#x4E00;&#x4E2A;&#x5217;&#x65CF;&#x90FD;&#x6709;&#x4E00;&#x4E2A;MemoStore&#xFF0C;&#x5BFC;&#x81F4;&#x5185;&#x5B58;&#x6D88;&#x8017;&#x8FC7;&#x591A;&#x3002;</li>
+<li>&#x5F53;&#x4E00;&#x4E2A;Region&#x4E2D;&#x7684;Store&#x5237;&#x5199;&#x7F13;&#x5B58;&#x6216;&#x538B;&#x7F29;&#x65F6;&#xFF0C;&#x5176;&#x4ED6;Store&#x4F1A;&#x8DDF;&#x7740;&#x4E00;&#x540C;&#x64CD;&#x4F5C;&#xFF0C;&#x5BFC;&#x81F4;IO&#x9891;&#x7E41;&#x3002;</li>
+</ol>
+<ul>
+<li>MemStore<ul>
+<li>&#x4E00;&#x4E2A;Store&#x4EC5;&#x5305;&#x542B;&#x4E00;&#x4E2A;MemStore</li>
+<li>&#x5199;&#x7F13;&#x5B58;&#x3002;&#x5728;&#x5199;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x4F1A;&#x5148;&#x5199;&#x5165;MemStore&#x7F13;&#x5B58;&#xFF0C;&#x5F53;MemoStore&#x8FBE;&#x5230;&#x67D0;&#x4E00;&#x4E2A;&#x9608;&#x503C;&#x540E;&#xFF0C;&#x4F1A;&#x628A;&#x6570;&#x636E;&#x5237;&#x5199;&#x5230;&#x78C1;&#x76D8;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>HFile<ul>
+<li>&#x4E00;&#x4E2A;Store&#x5305;&#x542B;&#x591A;&#x4E2A;HFile&#x3002;&#x5176;&#x4E2D;&#xFF0C;StoreFile&#x662F;HFile&#x7684;&#x62BD;&#x8C61;&#xFF0C;&#x6700;&#x540E;&#x662F;&#x4EE5;HFile&#x6570;&#x636E;&#x7ED3;&#x6784;&#xFF08;&#x6709;&#x5E8F;KeyValue&#xFF09;&#x5B58;&#x50A8;&#x5728;HDFS&#x4E0A;</li>
+<li>&#x5F53;&#x6BCF;&#x6B21;MemStore&#x8D85;&#x8FC7;&#x4E00;&#x4E2A;&#x9608;&#x503C;&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x6EA2;&#x5199;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x5BF9;&#x5E94;&#x5C31;&#x662F;&#x751F;&#x6210;&#x4E00;&#x4E2A;HFile&#x6587;&#x4EF6;</li>
+</ul>
+</li>
+</ul>
+<h2 id="hbase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><a name="hbase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;" class="anchor-navigation-ex-anchor" href="#hbase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><i class="fa fa-link" aria-hidden="true"></i></a>5.2. HBase&#x8BFB;&#x6570;&#x636E;&#x6D41;&#x7A0B;</h2>
+<p><img src="&#x5927;&#x6570;&#x636E;&#x6570;&#x636E;&#x5E93;&#x4E4B;HBase.assets/hbase_read.png" alt="hbase_read"></p>
+<ol>
+<li><p>Client&#x4E0E;Zookeeper&#x8FDE;&#x63A5;&#xFF0C;&#x83B7;&#x53D6;Meta&#x8868;&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x5373;Meta&#x8868;&#x5B58;&#x50A8;&#x5728;&#x54EA;&#x4E00;&#x4E2A;HRegionServer&#x4E0A;&#x3002;</p>
+<ul>
+<li><p>HBase&#x96C6;&#x7FA4;&#x53EA;&#x6709;&#x4E00;&#x5F20;Meta&#x8868;&#xFF08;B Tree&#xFF09;&#xFF0C;&#x6B64;&#x8868;&#x53EA;&#x6709;&#x4E00;&#x4E2A;Region&#x3002;<font color="red">&#x4FDD;&#x5B58;&#x4E86;&#x7CFB;&#x7EDF;&#x4E2D;&#x6240;&#x6709;Region&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;</font>&#x3002;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>Key&#xFF1A;table, region start key, region id
+Value&#xFF1A;region server</p>
+</li>
+<li><p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <code>scan &apos;hbase:meta&apos;</code> &#x6765;&#x67E5;&#x770B;Meta&#x8868;&#x4FE1;&#x606F;</p>
+</li>
+</ul>
+</li>
+<li><p>Client&#x4E0E;Meta&#x8868;&#x6240;&#x5728;&#x7684;HRegionServer&#x8FDE;&#x63A5;&#xFF0C;&#x8FDB;&#x800C;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;rowkey&#x6240;&#x5728;Region&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;</p>
+<ul>
+<li>&#x5728;Client&#x7F13;&#x5B58;Meta&#x8868;&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x53CA;rowkey&#x6240;&#x5728;Region&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x540E;&#x7EED;&#x8BF7;&#x6C42;&#x76F4;&#x63A5;&#x4F7F;&#x7528;Meta Cache&#x5373;&#x53EF;&#x3002;&#x9664;&#x975E;Region&#x8FC1;&#x79FB;&#x5BFC;&#x81F4;&#x7F13;&#x5B58;&#x5931;&#x6548;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x91CD;&#x65B0;&#x83B7;&#x53D6;&#x76F8;&#x5173;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x5E76;&#x66F4;&#x65B0;Client&#x7684;Meta Cache&#x3002;</li>
+</ul>
+</li>
+<li><p>Client&#x540C;rowkey&#x6240;&#x5728;Region&#x7684;HRegionServer&#x8FDE;&#x63A5;&#xFF0C;&#x67E5;&#x627E;&#x5E76;&#x5B9A;&#x4F4D;&#x6240;&#x5728;&#x7684;Region&#x3002;&#x9996;&#x5148;&#x5728;MemStore&#x67E5;&#x627E;&#x6570;&#x636E;&#xFF1B;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x518D;&#x4ECE;BlockCache&#x4E0A;&#x67E5;&#x627E;&#xFF1B;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x518D;&#x5230;HFile&#x4E0A;&#x8FDB;&#x884C;&#x67E5;&#x627E;&#x3002;</p>
+<ul>
+<li>MemStore &#x5199;&#x7F13;&#x5B58;  &#x2014;&#x2014;  &#x5199;&#x5165;MemoStore&#xFF0C;&#x4F46;&#x8FD8;&#x672A;&#x5237;&#x5199;&#x5230;&#x78C1;&#x76D8;</li>
+<li>BlockCache &#x8BFB;&#x7F13;&#x5B58;&#xFF0C;&#x662F; LRU&#xFF08;Least Recently Used&#xFF09;&#x7F13;&#x5B58;  &#x2014;&#x2014;  &#x5DF2;&#x5237;&#x5199;&#x5230;&#x78C1;&#x76D8;&#xFF0C;&#x8FD1;&#x671F;&#x8BFB;&#x53D6;&#x8FC7;</li>
+</ul>
+</li>
+<li><p>HFile &#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;  &#x2014;&#x2014;  &#x8FD1;&#x671F;&#x672A;&#x8BFB;&#x53D6;&#xFF0C;&#x4ECE;&#x6301;&#x4E45;&#x5316;&#x6570;&#x636E;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#xFF0C;&#x540C;&#x65F6;&#x653E;&#x5230;BlockCache&#x4E00;&#x4EFD;</p>
+</li>
+<li><p>&#x4ECE;HFile&#x8BFB;&#x53D6;&#x5230;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x5148;&#x5199;&#x5165;&#x5230;BlockCache&#x4E2D;&#x52A0;&#x5FEB;&#x540E;&#x7EED;&#x67E5;&#x627E;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5C06;&#x7ED3;&#x679C;&#x8FD4;&#x56DE;&#x7ED9;Client&#x3002;</p>
+</li>
+</ol>
+<h2 id="hbase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><a name="hbase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;" class="anchor-navigation-ex-anchor" href="#hbase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;"><i class="fa fa-link" aria-hidden="true"></i></a>5.3. HBase&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;</h2>
+<p><img src="&#x5927;&#x6570;&#x636E;&#x6570;&#x636E;&#x5E93;&#x4E4B;HBase.assets/hbase_write.png" alt="hbase_write"></p>
+<ol>
+<li>Client&#x4E0E;Zookeeper&#x8FDE;&#x63A5;&#xFF0C;&#x83B7;&#x53D6;Meta&#x8868;&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#xFF0C;&#x5373;Meta&#x8868;&#x5B58;&#x50A8;&#x5728;&#x54EA;&#x4E00;&#x4E2A;HRegionServer&#x4E0A;&#x3002;</li>
+<li>Client&#x4E0E;Meta&#x8868;&#x6240;&#x5728;&#x7684;HRegionServer&#x8FDE;&#x63A5;&#xFF0C;&#x8FDB;&#x800C;&#x83B7;&#x53D6;&#x8BF7;&#x6C42;rowkey&#x6240;&#x5728;Region&#x7684;&#x4F4D;&#x7F6E;&#x4FE1;&#x606F;&#x3002;&#xFF08;&#x5199;/&#x66F4;&#x65B0;&#x6570;&#x636E;&#xFF0C;&#x9700;&#x8981;&#x627E;&#x5230;&#x6240;&#x5728;region&#x7684;startkey&#x8303;&#x56F4;&#xFF09;</li>
+<li><p>Client&#x540C;rowkey&#x6240;&#x5728;Region&#x7684;HRegionServer&#x8FDE;&#x63A5;&#xFF0C;&#x67E5;&#x627E;&#x5E76;&#x5B9A;&#x4F4D;&#x6240;&#x5728;&#x7684;Region&#x3002;&#x9996;&#x5148;&#x5728;HLog&#x4E0A;&#x9884;&#x5199;&#x65E5;&#x5FD7;&#xFF0C;&#x7136;&#x540E;&#x5199;&#x5165;MemStore&#x7F13;&#x5B58;&#x3002;</p>
+<ul>
+<li>HLog&#x4E5F;&#x79F0;&#x4E3A;WAL&#xFF0C;&#x610F;&#x4E3A;Write ahead log&#x3002;&#x7C7B;&#x4F3C;mysql&#x4E2D;&#x7684;binlog&#xFF0C;&#x7528;&#x6765;&#x505A;&#x707E;&#x96BE;&#x6062;&#x590D;&#x65F6;&#x7528;&#xFF0C;HLog&#x8BB0;&#x5F55;&#x6570;&#x636E;&#x7684;&#x6240;&#x6709;&#x53D8;&#x66F4;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E;MemStore&#x7684;&#x4E00;&#x4EFD;&#x5FEB;&#x7167;&#x3002;&#x4E00;&#x65E6;MemStore&#x6570;&#x636E;&#x4E22;&#x5931;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x4ECE;HLog&#x4E2D;&#x6062;&#x590D;&#x3002;</li>
+<li>&#x9884;&#x5199;&#x65E5;&#x5FD7;&#x548C;&#x5199;&#x5165;MemStore&#x7684;&#x987A;&#x5E8F;&#x4E0D;&#x53EF;&#x8C03;&#x6362;&#xFF0C;&#x5426;&#x5219;&#x5185;&#x5B58;&#x6570;&#x636E;&#x4E00;&#x65E6;&#x4E22;&#x5931;&#x5C06;&#x65E0;&#x6CD5;&#x6062;&#x590D;&#x3002;</li>
+<li>HLog&#x4EE5;SequenceFile&#x7684;&#x5F62;&#x5F0F;&#x5B58;&#x50A8;&#xFF0C;&#x4FEE;&#x6539;&#x548C;&#x5220;&#x9664;&#x6570;&#x636E;&#x672C;&#x8D28;&#x90FD;&#x662F;&#x589E;&#x52A0;&#xFF0C;&#x5E76;&#x4E14;&#x662F;&#x5728;&#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x987A;&#x5E8F;&#x8FFD;&#x52A0;&#xFF0C;&#x56E0;&#x6B64;&#x78C1;&#x76D8;&#x54CD;&#x5E94;&#x901F;&#x5EA6;&#x5F88;&#x5FEB;&#xFF0C;&#x540C;&#x65F6;&#x4E5F;&#x53EF;&#x4EE5;&#x89E3;&#x51B3;HRegionServer&#x5D29;&#x6E83;&#x5BFC;&#x81F4;MemStore&#x6570;&#x636E;&#x4E22;&#x5931;&#x7684;&#x95EE;&#x9898;&#x3002;</li>
+</ul>
+</li>
+<li><p>&#x8FD4;&#x56DE;Client&#x786E;&#x8BA4;&#x5199;&#x5165;&#x6210;&#x529F;&#x3002;&#x4E4B;&#x540E;&#x4FBF;&#x53EF;&#x4EE5;&#x67E5;&#x8BE2;&#x6B64;&#x6570;&#x636E;&#x3002;</p>
+</li>
+<li>&#x5F53;MemStore&#x8FBE;&#x5230;&#x9608;&#x503C;&#x540E;&#xFF0C;&#x4F1A;&#x5C06;&#x6570;&#x636E;&#x5237;&#x5199;&#x5230;&#x78C1;&#x76D8;&#x6301;&#x4E45;&#x5316;&#xFF0C;&#x751F;&#x6210;&#x76F8;&#x5E94;&#x7684;HFile&#x6587;&#x4EF6;&#x3002;&#x540C;&#x65F6;&#xFF0C;&#x5C06;HLog&#x4E2D;&#x7684;&#x5386;&#x53F2;&#x6570;&#x636E;&#x5220;&#x9664;&#x3002;</li>
+</ol>
+<h2 id="hbase&#x7684;flush&#x673A;&#x5236;"><a name="hbase&#x7684;flush&#x673A;&#x5236;" class="anchor-navigation-ex-anchor" href="#hbase&#x7684;flush&#x673A;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>5.4. HBase&#x7684;flush&#x673A;&#x5236;</h2>
+<p>MemStore &#x4E2D;&#x7D2F;&#x79EF;&#x4E86;&#x8DB3;&#x591F;&#x591A;&#x7684;&#x7684;&#x6570;&#x636E;&#x540E;&#xFF0C;&#x6574;&#x4E2A;<font color="red">&#x6709;&#x5E8F;&#x6570;&#x636E;&#x96C6;</font>&#x5C31;&#x4F1A;&#x88AB;&#x5199;&#x5165;&#x4E00;&#x4E2A;&#x65B0;&#x7684; HFile &#x6587;&#x4EF6;&#x5230; HDFS &#x4E0A;&#x3002;<strong>HBase &#x4E3A;&#x6BCF;&#x4E2A; Column Family &#x90FD;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; HFile</strong>&#xFF0C;&#x91CC;&#x9762;&#x5B58;&#x50A8;&#x4E86;&#x5177;&#x4F53;&#x7684; <strong>Cell</strong>&#xFF0C;&#x4E5F;&#x5373; KeyValue &#x6570;&#x636E;&#x3002;&#x968F;&#x7740;&#x65F6;&#x95F4;&#x63A8;&#x79FB;&#xFF0C;HFile &#x4F1A;&#x4E0D;&#x65AD;&#x4EA7;&#x751F;&#xFF0C;&#x56E0;&#x4E3A; KeyValue &#x4F1A;&#x4E0D;&#x65AD;&#x5730;&#x4ECE; MemStore &#x4E2D;&#x88AB;&#x5237;&#x5199;&#x5230;&#x786C;&#x76D8;&#x4E0A;&#x3002;</p>
+<p>&#x6CE8;&#x610F;&#x8FD9;&#x4E5F;&#x662F;&#x4E3A;&#x4EC0;&#x4E48; HBase &#x8981;&#x9650;&#x5236; Column Family &#x6570;&#x91CF;&#x7684;&#x4E00;&#x4E2A;&#x539F;&#x56E0;&#x3002;&#x6BCF;&#x4E2A; Column Family &#x90FD;&#x6709;&#x4E00;&#x4E2A; MemStore&#xFF1B;&#x5982;&#x679C;Region&#x7684;&#x4E00;&#x4E2A; MemStore &#x6EE1;&#x4E86;&#xFF0C;&#x8BE5;Region&#x7684;&#x6240;&#x6709;&#x7684; MemStore &#x90FD;&#x4F1A;&#x88AB;&#x5237;&#x5199;&#x5230;&#x786C;&#x76D8;&#x3002;<font color="red">&#x6CE8;&#x610F;&#xFF0C;&#x5237;&#x5199;&#x78C1;&#x76D8;&#x7684;&#x57FA;&#x672C;&#x5355;&#x5143;&#x662F;Region</font>&#x3002;</p>
+<p>&#x540C;&#x65F6;&#xFF0C;&#x5B83;&#x4E5F;&#x4F1A;&#x8BB0;&#x5F55;&#x6700;&#x540E;&#x5199;&#x5165;&#x7684;&#x6570;&#x636E;&#x7684;<strong>&#x6700;&#x5927;&#x5E8F;&#x5217;&#x53F7;</strong>&#xFF08;<strong>sequence number</strong>&#xFF09;&#xFF0C;&#x8FD9;&#x6837;&#x7CFB;&#x7EDF;&#x5C31;&#x80FD;&#x77E5;&#x9053;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#x54EA;&#x4E9B;&#x6570;&#x636E;&#x5DF2;&#x7ECF;&#x88AB;&#x6301;&#x4E45;&#x5316;&#x4E86;&#x3002;&#x6700;&#x5927;&#x5E8F;&#x5217;&#x53F7;&#x662F;&#x4E00;&#x4E2A; meta &#x4FE1;&#x606F;&#xFF0C;&#x88AB;&#x5B58;&#x50A8;&#x5728;&#x6BCF;&#x4E2A; HFile &#x4E2D;&#xFF0C;&#x6765;&#x8868;&#x793A;&#x6301;&#x4E45;&#x5316;&#x8FDB;&#x884C;&#x5230;&#x54EA;&#x6761;&#x6570;&#x636E;&#x4E86;&#xFF0C;&#x5E94;&#x8BE5;&#x4ECE;&#x54EA;&#x91CC;&#x7EE7;&#x7EED;&#x3002;&#x5F53; Region &#x542F;&#x52A8;&#x65F6;&#xFF0C;&#x8FD9;&#x4E9B;&#x5E8F;&#x5217;&#x53F7;&#x4F1A;&#x88AB;&#x8BFB;&#x53D6;&#xFF0C;&#x53D6;&#x5176;&#x4E2D;&#x6700;&#x5927;&#x7684;&#x4E00;&#x4E2A;&#xFF0C;&#x4F5C;&#x4E3A;&#x57FA;&#x7840;&#x5E8F;&#x5217;&#x53F7;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x65B0;&#x7684;&#x6570;&#x636E;&#x66F4;&#x65B0;&#x5C31;&#x4F1A;&#x5728;&#x8BE5;&#x503C;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x9012;&#x589E;&#x4EA7;&#x751F;&#x65B0;&#x7684;&#x5E8F;&#x5217;&#x53F7;&#x3002;&#x8FD9;&#x4E2A;&#x5E8F;&#x5217;&#x53F7;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x4ECE;HLog&#x4E2D;&#x7684;&#x4EC0;&#x4E48;&#x4F4D;&#x7F6E;&#x5F00;&#x59CB;&#x6062;&#x590D;&#x6570;&#x636E;&#x3002;</p>
+<h3 id="flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;"><a name="flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;" class="anchor-navigation-ex-anchor" href="#flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;"><i class="fa fa-link" aria-hidden="true"></i></a>5.4.1. flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;</h3>
+<h4 id="memostore&#x7EA7;&#x522B;&#x9650;&#x5236;"><a name="memostore&#x7EA7;&#x522B;&#x9650;&#x5236;" class="anchor-navigation-ex-anchor" href="#memostore&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="memostore&#x7EA7;&#x522B;&#x9650;&#x5236;" class="plugin-anchor" href="#memostore&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>MemoStore&#x7EA7;&#x522B;&#x9650;&#x5236;</h4>
+<ul>
+<li>&#x5F53;<font color="red">Region&#x4E2D;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;MemStore</font>&#x7684;&#x5927;&#x5C0F;&#x8FBE;&#x5230;&#x4E86;&#x4E0A;&#x9650;&#xFF08;hbase.hregion.memstore.flush.size&#xFF0C;&#x9ED8;&#x8BA4;128MB&#xFF09;&#xFF0C;&#x4F1A;&#x89E6;&#x53D1;MemStore&#x5237;&#x65B0;&#x3002;</li>
+</ul>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hregion.memstore.flush.size<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>134217728<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<h4 id="region&#x7EA7;&#x522B;&#x9650;&#x5236;"><a name="region&#x7EA7;&#x522B;&#x9650;&#x5236;" class="anchor-navigation-ex-anchor" href="#region&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="region&#x7EA7;&#x522B;&#x9650;&#x5236;" class="plugin-anchor" href="#region&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>region&#x7EA7;&#x522B;&#x9650;&#x5236;</h4>
+<ul>
+<li>&#x5F53;<font color="red">Region&#x4E2D;&#x6240;&#x6709;MemoStore</font>&#x7684;&#x5927;&#x5C0F;&#x603B;&#x548C;&#x8FBE;&#x5230;&#x4E86;&#x4E0A;&#x9650;&#xFF08;hbase.hregion.memstore.block.multiplier <em> hbase.hregion.memstore.flush.size&#xFF0C;&#x9ED8;&#x8BA4; 2</em> 128M = 256M&#xFF09;&#xFF0C;&#x4F1A;&#x89E6;&#x53D1;MemStore&#x5237;&#x65B0;&#x3002;</li>
+</ul>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hregion.memstore.flush.size<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>134217728<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hregion.memstore.block.multiplier<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>2<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<h4 id="region-server&#x7EA7;&#x522B;&#x9650;&#x5236;"><a name="region-server&#x7EA7;&#x522B;&#x9650;&#x5236;" class="anchor-navigation-ex-anchor" href="#region-server&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="region-server&#x7EA7;&#x522B;&#x9650;&#x5236;" class="plugin-anchor" href="#region-server&#x7EA7;&#x522B;&#x9650;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>Region Server&#x7EA7;&#x522B;&#x9650;&#x5236;</h4>
+<ul>
+<li>&#x5F53;<font color="red">HRegionServer&#x4E2D;&#x6240;&#x6709;MemStore</font>&#x7684;&#x5927;&#x5C0F;&#x603B;&#x548C;&#x8D85;&#x8FC7;&#x4F4E;&#x6C34;&#x4F4D;&#x9608;&#x503C;hbase.regionserver.global.memstore.size.lower.limit*hbase.regionserver.global.memstore.size&#xFF08;&#x524D;&#x8005;&#x9ED8;&#x8BA4;&#x503C;0.95&#xFF09;&#xFF0C;HRegionServer&#x5F00;&#x59CB;&#x5F3A;&#x5236;flush&#xFF1B;&#x9996;&#x5148;&#x5237;&#x65B0;MemStore&#x6700;&#x5927;&#x7684;Region&#xFF0C;&#x518D;&#x6267;&#x884C;&#x6B21;&#x5927;&#x7684;&#xFF0C;&#x4F9D;&#x6B21;&#x6267;&#x884C;&#x3002;</li>
+<li>&#x5982;&#x5199;&#x5165;&#x901F;&#x5EA6;&#x5927;&#x4E8E;flush&#x7684;&#x901F;&#x5EA6;&#xFF0C;&#x5BFC;&#x81F4;&#x603B;MemStore&#x5927;&#x5C0F;&#x8D85;&#x8FC7;&#x9AD8;&#x6C34;&#x4F4D;&#x9608;&#x503C;hbase.regionserver.global.memstore.size&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A;JVM&#x5185;&#x5B58;&#x7684;40%&#xFF09;&#xFF0C;&#x6B64;&#x65F6;HRegionServer&#x4F1A;&#x963B;&#x585E;&#x66F4;&#x65B0;&#x5E76;&#x5F3A;&#x5236;&#x6267;&#x884C;flush&#xFF0C;&#x76F4;&#x5230;&#x603B;MemStore&#x5927;&#x5C0F;&#x4F4E;&#x4E8E;&#x4F4E;&#x6C34;&#x4F4D;&#x9608;&#x503C;&#x3002;</li>
+</ul>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.regionserver.global.memstore.size.lower.limit<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>0.95<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.regionserver.global.memstore.size<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>0.4<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<h4 id="hlog&#x6570;&#x91CF;&#x4E0A;&#x9650;"><a name="hlog&#x6570;&#x91CF;&#x4E0A;&#x9650;" class="anchor-navigation-ex-anchor" href="#hlog&#x6570;&#x91CF;&#x4E0A;&#x9650;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="hlog&#x6570;&#x91CF;&#x4E0A;&#x9650;" class="plugin-anchor" href="#hlog&#x6570;&#x91CF;&#x4E0A;&#x9650;"><i class="fa fa-link" aria-hidden="true"></i></a>HLog&#x6570;&#x91CF;&#x4E0A;&#x9650;</h4>
+<ul>
+<li>&#x5F53;&#x4E00;&#x4E2A;HRegionServer&#x4E2D;HLog&#x6570;&#x91CF;&#x8FBE;&#x5230;&#x4E0A;&#x9650;&#xFF08;&#x53EF;&#x901A;&#x8FC7;&#x53C2;&#x6570;hbase.regionserver.maxlogs&#x914D;&#x7F6E;&#xFF09;&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x4F1A;&#x9009;&#x53D6;&#x6700;&#x65E9;&#x7684;&#x4E00;&#x4E2A; HLog&#x5BF9;&#x5E94;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;Region&#x8FDB;&#x884C;flush&#x3002;</li>
+</ul>
+<h4 id="&#x5B9A;&#x671F;&#x5237;&#x65B0;"><a name="&#x5B9A;&#x671F;&#x5237;&#x65B0;" class="anchor-navigation-ex-anchor" href="#&#x5B9A;&#x671F;&#x5237;&#x65B0;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x5B9A;&#x671F;&#x5237;&#x65B0;" class="plugin-anchor" href="#&#x5B9A;&#x671F;&#x5237;&#x65B0;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5B9A;&#x671F;&#x5237;&#x65B0;</h4>
+<ul>
+<li>&#x9ED8;&#x8BA4;&#x5468;&#x671F;&#x4E3A;1&#x5C0F;&#x65F6;&#xFF0C;&#x786E;&#x4FDD;MemStore&#x4E0D;&#x4F1A;&#x957F;&#x65F6;&#x95F4;&#x6CA1;&#x6709;&#x6301;&#x4E45;&#x5316;&#x3002;&#x4E3A;&#x907F;&#x514D;&#x6240;&#x6709;&#x7684;MemStore&#x5728;&#x540C;&#x4E00;&#x65F6;&#x95F4;&#x90FD;&#x8FDB;&#x884C;flush&#x5BFC;&#x81F4;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x5B9A;&#x671F;&#x7684;flush&#x64CD;&#x4F5C;&#x6709;20000&#x5DE6;&#x53F3;&#x7684;&#x968F;&#x673A;&#x5EF6;&#x65F6;&#x3002;</li>
+</ul>
+<h4 id="&#x624B;&#x52A8;flush"><a name="&#x624B;&#x52A8;flush" class="anchor-navigation-ex-anchor" href="#&#x624B;&#x52A8;flush"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x624B;&#x52A8;flush" class="plugin-anchor" href="#&#x624B;&#x52A8;flush"><i class="fa fa-link" aria-hidden="true"></i></a>&#x624B;&#x52A8;flush</h4>
+<ul>
+<li>&#x7528;&#x6237;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;shell&#x547D;&#x4EE4; <code>flush &#x2018;tablename&#x2019;</code> &#x6216;&#x8005; <code>flush &#x2018;region name&#x2019;</code> &#x5206;&#x522B;&#x5BF9;&#x4E00;&#x4E2A;&#x8868;&#x6216;&#x8005;&#x4E00;&#x4E2A;Region&#x8FDB;&#x884C;flush&#x3002;</li>
+</ul>
+<h3 id="flush-&#x6D41;&#x7A0B;"><a name="flush-&#x6D41;&#x7A0B;" class="anchor-navigation-ex-anchor" href="#flush-&#x6D41;&#x7A0B;"><i class="fa fa-link" aria-hidden="true"></i></a>5.4.2. flush &#x6D41;&#x7A0B;</h3>
+<p>&#x4E3A;&#x4E86;&#x51CF;&#x5C11;flush&#x8FC7;&#x7A0B;&#x5BF9;&#x8BFB;&#x5199;&#x7684;&#x5F71;&#x54CD;&#xFF0C;&#x5C06;&#x6574;&#x4E2A;flush&#x8FC7;&#x7A0B;&#x5206;&#x4E3A;&#x4E09;&#x4E2A;&#x9636;&#x6BB5;&#xFF1A;</p>
+<ul>
+<li><p>prepare&#x9636;&#x6BB5;&#xFF08;&#x5199;&#x963B;&#x585E;&#xFF0C;&#x5185;&#x5B58;&#x64CD;&#x4F5C;&#xFF0C;&#x65F6;&#x95F4;&#x77ED;&#xFF09;&#xFF1A;&#x904D;&#x5386;&#x5F53;&#x524D;Region&#x4E2D;&#x6240;&#x6709;&#x7684;MemStore&#xFF0C;&#x5C06;MemStore&#x4E2D;&#x5F53;&#x524D;&#x6570;&#x636E;&#x96C6;CellSkipListSet&#x505A;&#x4E00;&#x4E2A;<strong>&#x5FEB;&#x7167;snapshot</strong>&#xFF1B;&#x7136;&#x540E;&#x518D;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;CellSkipListSet&#x3002;&#x540E;&#x671F;&#x5199;&#x5165;&#x7684;&#x6570;&#x636E;&#x90FD;&#x4F1A;&#x5199;&#x5165;&#x65B0;&#x7684;CellSkipListSet&#x4E2D;&#x3002;prepare&#x9636;&#x6BB5;&#x9700;&#x8981;&#x52A0;&#x9501;updateLock&#x5BF9;<strong>&#x5199;&#x8BF7;&#x6C42;&#x963B;&#x585E;</strong>&#xFF0C;&#x7ED3;&#x675F;&#x4E4B;&#x540E;&#x4F1A;&#x91CA;&#x653E;&#x8BE5;&#x9501;&#x3002;&#x56E0;&#x4E3A;&#x6B64;&#x9636;&#x6BB5;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x8D39;&#x65F6;&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#x6301;&#x9501;&#x65F6;&#x95F4;&#x5F88;&#x77ED;&#x3002;</p>
+</li>
+<li><p>flush&#x9636;&#x6BB5;&#xFF08;&#x6D89;&#x53CA;&#x5230;&#x78C1;&#x76D8;IO&#xFF0C;&#x8017;&#x65F6;&#xFF09;&#xFF1A;&#x904D;&#x5386;&#x6240;&#x6709;MemStore&#xFF0C;&#x5C06;prepare&#x9636;&#x6BB5;&#x751F;&#x6210;&#x7684;snapshot&#x6301;&#x4E45;&#x5316;&#x4E3A;<strong>&#x4E34;&#x65F6;&#x6587;&#x4EF6;</strong>&#xFF0C;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x4F1A;&#x7EDF;&#x4E00;&#x653E;&#x5230;&#x76EE;&#x5F55;.tmp&#x4E0B;&#x3002;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x56E0;&#x4E3A;&#x6D89;&#x53CA;&#x5230;&#x78C1;&#x76D8;IO&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x6B64;&#x76F8;&#x5BF9;&#x6BD4;&#x8F83;&#x8017;&#x65F6;&#x3002;</p>
+</li>
+<li>commit&#x9636;&#x6BB5;&#xFF08;&#x8017;&#x65F6;&#xFF09;&#xFF1A;&#x904D;&#x5386;&#x6240;&#x6709;MemStore&#xFF0C;&#x5C06;flush&#x9636;&#x6BB5;&#x751F;&#x6210;&#x7684;&#x4E34;&#x65F6;&#x6587;&#x4EF6;&#x79FB;&#x5230;&#x6307;&#x5B9A;&#x7684;ColumnFamily&#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x9488;&#x5BF9;HFile&#x751F;&#x6210;&#x5BF9;&#x5E94;&#x7684;storefile&#x548C;Reader&#xFF0C;&#x628A;storefile&#x6DFB;&#x52A0;&#x5230;HStore&#x7684;storefiles&#x5217;&#x8868;&#x4E2D;&#xFF0C;&#x6700;&#x540E;&#x518D;<strong>&#x6E05;&#x7A7A;</strong>prepare&#x9636;&#x6BB5;&#x751F;&#x6210;&#x7684;snapshot&#x3002;</li>
+</ul>
+<h2 id="hbase&#x7684;compact&#x673A;&#x5236;"><a name="hbase&#x7684;compact&#x673A;&#x5236;" class="anchor-navigation-ex-anchor" href="#hbase&#x7684;compact&#x673A;&#x5236;"><i class="fa fa-link" aria-hidden="true"></i></a>5.5. HBase&#x7684;compact&#x673A;&#x5236;</h2>
+<p>hbase&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x5C0F;&#x6587;&#x4EF6;&#x8FC7;&#x591A;&#xFF0C;&#x4EE5;&#x4FDD;&#x8BC1;&#x67E5;&#x8BE2;&#x6548;&#x7387;&#xFF0C;hbase&#x9700;&#x8981;&#x5728;&#x5FC5;&#x8981;&#x7684;&#x65F6;&#x5019;&#x5C06;&#x8FD9;&#x4E9B;&#x5C0F;&#x7684;store file&#x5408;&#x5E76;&#x6210;&#x76F8;&#x5BF9;&#x8F83;&#x5927;&#x7684;store file&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x5C31;&#x79F0;&#x4E4B;&#x4E3A;compaction&#x3002;&#x5728;hbase&#x4E2D;&#x4E3B;&#x8981;&#x5B58;&#x5728;&#x4E24;&#x79CD;&#x7C7B;&#x578B;&#x7684;compaction&#x5408;&#x5E76;&#xFF1A;</p>
+<ul>
+<li><p>minor compaction &#x5C0F;&#x5408;&#x5E76;</p>
+</li>
+<li><p>major compaction &#x5927;&#x5408;&#x5E76;</p>
+</li>
+</ul>
+<h3 id="minor-compaction-&#x5C0F;&#x5408;&#x5E76;"><a name="minor-compaction-&#x5C0F;&#x5408;&#x5E76;" class="anchor-navigation-ex-anchor" href="#minor-compaction-&#x5C0F;&#x5408;&#x5E76;"><i class="fa fa-link" aria-hidden="true"></i></a>5.5.1. minor compaction &#x5C0F;&#x5408;&#x5E76;</h3>
+<ul>
+<li><p>&#x5C06;Store&#x4E2D;&#x591A;&#x4E2A;HFile&#x5408;&#x5E76;&#x4E3A;&#x4E00;&#x4E2A;HFile</p>
+<p>&#x5728;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#x4F1A;&#x9009;&#x53D6;&#x4E00;&#x4E9B;&#x5C0F;&#x7684;&#x3001;&#x76F8;&#x90BB;&#x7684;StoreFile&#x5C06;&#x4ED6;&#x4EEC;&#x5408;&#x5E76;&#x6210;&#x4E00;&#x4E2A;&#x66F4;&#x5927;&#x7684;StoreFile&#xFF0C;&#x5BF9;&#x4E8E;TTL&#x8FC7;&#x671F;&#x6570;&#x636E;&#x3001;&#x66F4;&#x65B0;&#x7684;&#x6570;&#x636E;&#x3001;&#x5220;&#x9664;&#x7684;&#x6570;&#x636E;&#x4EC5;&#x4EC5;&#x53EA;&#x662F;&#x505A;&#x4E86;&#x6807;&#x8BB0;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x8FDB;&#x884C;&#x7269;&#x7406;&#x5220;&#x9664;&#x3002;&#x4E00;&#x6B21;Minor Compaction&#x7684;&#x7ED3;&#x679C;&#x662F;&#x66F4;&#x5C11;&#x5E76;&#x4E14;&#x66F4;&#x5927;&#x7684;StoreFile&#x3002;<strong>&#x8FD9;&#x79CD;&#x5408;&#x5E76;&#x7684;&#x89E6;&#x53D1;&#x9891;&#x7387;&#x5F88;&#x9AD8;</strong>&#x3002;</p>
+</li>
+<li><p>minor compaction&#x89E6;&#x53D1;&#x6761;&#x4EF6;&#x7531;&#x4EE5;&#x4E0B;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#x5171;&#x540C;&#x51B3;&#x5B9A;</p>
+<pre><code class="lang-xml"><span class="hljs-comment">&lt;!--&#x8868;&#x793A;&#x81F3;&#x5C11;&#x9700;&#x8981;&#x4E09;&#x4E2A;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;store file&#x65F6;&#xFF0C;minor compaction&#x624D;&#x4F1A;&#x542F;&#x52A8;--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hstore.compactionThreshold<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>3<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--&#x8868;&#x793A;&#x4E00;&#x6B21;minor compaction&#x4E2D;&#x6700;&#x591A;&#x9009;&#x53D6;10&#x4E2A;store file--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hstore.compaction.max<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>10<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;128m&#xFF0C;&#x8868;&#x793A;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x5C0F;&#x4E8E;&#x8BE5;&#x503C;&#x7684;store file&#x4E00;&#x5B9A;&#x4F1A;&#x52A0;&#x5165;&#x5230;minor compaction&#x7684;store file&#x4E2D;--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hstore.compaction.min.size<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>134217728<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;LONG.MAX_VALUE&#xFF0C;&#x8868;&#x793A;&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#x5927;&#x4E8E;&#x8BE5;&#x503C;&#x7684;store file&#x4E00;&#x5B9A;&#x4F1A;&#x88AB;minor compaction&#x6392;&#x9664;--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hstore.compaction.max.size<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>9223372036854775807<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+</li>
+</ul>
+<h3 id="major-compaction-&#x5927;&#x5408;&#x5E76;"><a name="major-compaction-&#x5927;&#x5408;&#x5E76;" class="anchor-navigation-ex-anchor" href="#major-compaction-&#x5927;&#x5408;&#x5E76;"><i class="fa fa-link" aria-hidden="true"></i></a>5.5.2. major compaction &#x5927;&#x5408;&#x5E76;</h3>
+<ul>
+<li><p>&#x5408;&#x5E76;Store&#x4E2D;&#x6240;&#x6709;&#x7684;HFile&#x4E3A;&#x4E00;&#x4E2A;HFile</p>
+<p>&#x5C06;&#x6240;&#x6709;&#x7684;StoreFile&#x5408;&#x5E76;&#x6210;&#x4E00;&#x4E2A;StoreFile&#xFF0C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;<font color="red">&#x8FD8;&#x4F1A;&#x6E05;&#x7406;&#x4E09;&#x7C7B;&#x65E0;&#x610F;&#x4E49;&#x6570;&#x636E;&#xFF1A;&#x88AB;&#x5220;&#x9664;&#x7684;&#x6570;&#x636E;&#x3001;TTL&#xFF08;time to live&#xFF09;&#x8FC7;&#x671F;&#x6570;&#x636E;&#x3001;&#x7248;&#x672C;&#x53F7;&#x8D85;&#x8FC7;&#x8BBE;&#x5B9A;&#x7248;&#x672C;&#x53F7;&#x7684;&#x6570;&#x636E;</font>&#x3002;<strong>&#x5408;&#x5E76;&#x9891;&#x7387;&#x6BD4;&#x8F83;&#x4F4E;</strong>&#xFF0C;&#x9ED8;&#x8BA4;<strong>7&#x5929;</strong>&#x6267;&#x884C;&#x4E00;&#x6B21;&#xFF0C;&#x5E76;&#x4E14;<strong>&#x6027;&#x80FD;&#x6D88;&#x8017;&#x975E;&#x5E38;&#x5927;</strong>&#xFF08;&#x4F1A;&#x904D;&#x5386;&#x6240;&#x6709;&#x6570;&#x636E;&#xFF09;&#x3002;&#x5EFA;&#x8BAE;&#x751F;&#x4EA7;&#x5173;&#x95ED;&#xFF0C;&#x5728;&#x5E94;&#x7528;&#x7A7A;&#x95F2;&#x65F6;&#x95F4;&#x624B;&#x52A8;&#x89E6;&#x53D1;&#xFF0C;&#x9632;&#x6B62;&#x51FA;&#x73B0;&#x5728;&#x4E1A;&#x52A1;&#x9AD8;&#x5CF0;&#x671F;&#x3002;</p>
+</li>
+<li><p>major compaction&#x89E6;&#x53D1;&#x65F6;&#x95F4;&#x6761;&#x4EF6;</p>
+<pre><code class="lang-xml"><span class="hljs-comment">&lt;!--&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;7&#x5929;&#x8FDB;&#x884C;&#x4E00;&#x6B21;&#x5927;&#x5408;&#x5E76;&#xFF0C;&#x751F;&#x4EA7;&#x5173;&#x95ED;&#x8BBE;&#x7F6E;&#x4E3A;0--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hregion.majorcompaction<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>604800000<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+</li>
+<li><p>&#x624B;&#x52A8;&#x89E6;&#x53D1;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x4F7F;&#x7528;major_compact&#x547D;&#x4EE4;</span>
+major_compact &#x2018;tableName&#x2019;
+</code></pre>
+</li>
+</ul>
+<h2 id="region&#x5206;&#x88C2;"><a name="region&#x5206;&#x88C2;" class="anchor-navigation-ex-anchor" href="#region&#x5206;&#x88C2;"><i class="fa fa-link" aria-hidden="true"></i></a>5.6. Region&#x5206;&#x88C2;</h2>
+<h3 id="&#x5206;&#x88C2;&#x6D41;&#x7A0B;"><a name="&#x5206;&#x88C2;&#x6D41;&#x7A0B;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x88C2;&#x6D41;&#x7A0B;"><i class="fa fa-link" aria-hidden="true"></i></a>5.6.1. &#x5206;&#x88C2;&#x6D41;&#x7A0B;</h3>
+<p>&#x4E00;&#x5F00;&#x59CB;&#x6BCF;&#x4E2A; table &#x9ED8;&#x8BA4;&#x53EA;&#x6709;&#x4E00;&#x4E2A; Region&#x3002;&#x5F53;&#x4E00;&#x4E2A; Region &#x9010;&#x6E10;&#x53D8;&#x5F97;&#x5927;&#x65F6;&#xFF0C;&#x5927;&#x5C0F;&#x5927;&#x4E8E; <code>hbase.hregion.max.filesize</code> &#xFF0C;&#x4F1A;&#x5206;&#x88C2;&#xFF08;<strong>split</strong>&#xFF09;&#x6210;&#x4E24;&#x4E2A;&#x5B50; Region&#xFF0C;<font color="red">&#x6BCF;&#x4E2A;&#x5B50; Region &#x90FD;&#x5305;&#x542B;&#x4E86;&#x539F;&#x6765; Region &#x4E00;&#x534A;&#x7684;&#x6570;&#x636E;</font>&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x5B50; Region &#x5E76;&#x884C;&#x5730;&#x5728;&#x539F;&#x6765;&#x8FD9;&#x4E2A; HRegionServer &#x4E0A;&#x521B;&#x5EFA;&#xFF0C;&#x8FD9;&#x4E2A;&#x5206;&#x88C2;&#x52A8;&#x4F5C;&#x4F1A;&#x88AB;&#x62A5;&#x544A;&#x7ED9; HMaster&#x3002;&#x51FA;&#x4E8E;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7684;&#x76EE;&#x7684;&#xFF0C;HMaster &#x53EF;&#x80FD;&#x4F1A;&#x5C06;&#x65B0;&#x7684; Region &#x8FC1;&#x79FB;&#x7ED9;&#x5176;&#x5B83; HRegionServer&#x3002;</p>
+<pre><code class="lang-xml"><span class="hljs-comment">&lt;!--&#x6700;&#x5927;HStoreFile&#x5927;&#x5C0F;&#x3002;&#x82E5;&#x67D0;&#x4E2A;&#x5217;&#x65CF;&#x7684;HStoreFile&#x589E;&#x957F;&#x8FBE;&#x5230;&#x8FD9;&#x4E2A;&#x503C;&#xFF0C;&#x8FD9;&#x4E2A;Hegion&#x4F1A;&#x88AB;&#x5207;&#x5272;&#x6210;&#x4E24;&#x4E2A;&#x3002; &#x9ED8;&#x8BA4;: 10G--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.hregion.max.filesize<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>10737418240<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<p><strong>Splitting</strong> &#x4E00;&#x5F00;&#x59CB;&#x662F;&#x53D1;&#x751F;&#x5728;&#x540C;&#x4E00;&#x53F0; HRegionServer &#x4E0A;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x51FA;&#x4E8E;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7684;&#x539F;&#x56E0;&#xFF0C;HMaster &#x53EF;&#x80FD;&#x4F1A;&#x5C06;&#x65B0;&#x7684; Region <strong>&#x8FC1;&#x79FB;</strong> &#xFF08;<font color="red">&#x6CE8;&#x610F;&#x662F;&#x903B;&#x8F91;&#x4E0A;&#x7684;&#x8FC1;&#x79FB;&#xFF0C;&#x5373;&#x5C06;&#x67D0;&#x4E2A;Region&#x7ED9;&#x53E6;&#x4E00;&#x4E2A;HRegionServer&#x7BA1;&#x7406;</font>&#xFF09;&#x5230;&#x5176;&#x4ED6; HRegionServer&#xFF0C;&#x8FD9;&#x4F1A;&#x5BFC;&#x81F4;&#x6B64;&#x65F6;&#x8FC1;&#x79FB;&#x5230;&#x7684;HRegionServer&#x9700;&#x8981;&#x8BBF;&#x95EE;&#x79BB;&#x5B83;&#x6BD4;&#x8F83;&#x8FDC;&#x7684; HDFS &#x6570;&#x636E;&#xFF0C;&#x76F4;&#x5230; <strong>major compaction</strong> &#x7684;&#x5230;&#x6765;&#xFF0C;&#x5B83;&#x4F1A;&#x5C06;&#x90A3;&#x4E9B;&#x8FDC;&#x65B9;&#x7684;&#x6570;&#x636E;&#x91CD;&#x65B0;&#x79FB;&#x56DE;&#x5230;&#x79BB;HRegionServer&#x8282;&#x70B9;&#x9644;&#x8FD1;&#x7684;&#x5730;&#x65B9;&#x3002;</p>
+<h3 id="&#x5206;&#x88C2;&#x7B56;&#x7565;"><a name="&#x5206;&#x88C2;&#x7B56;&#x7565;" class="anchor-navigation-ex-anchor" href="#&#x5206;&#x88C2;&#x7B56;&#x7565;"><i class="fa fa-link" aria-hidden="true"></i></a>5.6.2. &#x5206;&#x88C2;&#x7B56;&#x7565;</h3>
+<h4 id="&#x624B;&#x52A8;&#x6307;&#x5B9A;"><a name="&#x624B;&#x52A8;&#x6307;&#x5B9A;" class="anchor-navigation-ex-anchor" href="#&#x624B;&#x52A8;&#x6307;&#x5B9A;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x624B;&#x52A8;&#x6307;&#x5B9A;" class="plugin-anchor" href="#&#x624B;&#x52A8;&#x6307;&#x5B9A;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x624B;&#x52A8;&#x6307;&#x5B9A;</h4>
+<p>&#x5F53;&#x4E00;&#x4E2A;table&#x521A;&#x88AB;&#x521B;&#x5EFA;&#x7684;&#x65F6;&#x5019;&#xFF0C;Hbase&#x9ED8;&#x8BA4;&#x5206;&#x914D;&#x4E00;&#x4E2A;Region&#x7ED9;table&#x3002;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x8BFB;&#x5199;&#x8BF7;&#x6C42;&#x90FD;&#x4F1A;&#x8BBF;&#x95EE;&#x5230;&#x540C;&#x4E00;&#x4E2A;HRegionServer&#x7684;&#x540C;&#x4E00;&#x4E2A;Region&#x4E2D;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x5C31;&#x8FBE;&#x4E0D;&#x5230;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5176;&#x4ED6;HRegionServer&#x5C31;&#x53EF;&#x80FD;&#x4F1A;&#x5904;&#x4E8E;&#x7A7A;&#x95F2;&#x7684;&#x72B6;&#x6001;&#x3002;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x53EF;&#x4EE5;&#x7528;<strong>pre-splitting</strong>&#xFF0C;&#x5728;&#x521B;&#x5EFA;table&#x7684;&#x65F6;&#x5019;&#x5C31;&#x914D;&#x7F6E;&#x751F;&#x6210;&#x591A;&#x4E2A;Region&#x3002;</p>
+<h5 id="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;"><a name="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;" class="anchor-navigation-ex-anchor" href="#&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;" class="plugin-anchor" href="#&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x9884;&#x5206;&#x533A;&#xFF1F;</h5>
+<ul>
+<li>&#x589E;&#x52A0;&#x6570;&#x636E;&#x8BFB;&#x5199;&#x6548;&#x7387;</li>
+<li>&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF0C;&#x9632;&#x6B62;&#x6570;&#x636E;&#x503E;&#x659C;</li>
+<li>&#x65B9;&#x4FBF;&#x96C6;&#x7FA4;&#x5BB9;&#x707E;&#x8C03;&#x5EA6;Region</li>
+<li>&#x4F18;&#x5316;Map&#x6570;&#x91CF;</li>
+</ul>
+<h5 id="&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;"><a name="&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;" class="anchor-navigation-ex-anchor" href="#&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;" class="plugin-anchor" href="#&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x9884;&#x5206;&#x533A;&#x539F;&#x7406;</h5>
+<p>&#x6BCF;&#x4E00;&#x4E2A;Region&#x7EF4;&#x62A4;&#x7740;startRowKey&#x4E0E;endRowKey&#xFF0C;&#x5982;&#x679C;&#x52A0;&#x5165;&#x7684;&#x6570;&#x636E;&#x7B26;&#x5408;&#x67D0;&#x4E2A;Region&#x7EF4;&#x62A4;&#x7684;rowKey&#x8303;&#x56F4;&#xFF0C;&#x5219;&#x8BE5;&#x6570;&#x636E;&#x4EA4;&#x7ED9;&#x8FD9;&#x4E2A;Region&#x7EF4;&#x62A4;&#x3002;</p>
+<h5 id="&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;"><a name="&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;" class="anchor-navigation-ex-anchor" href="#&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;" class="plugin-anchor" href="#&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x624B;&#x52A8;&#x6307;&#x5B9A;&#x9884;&#x5206;&#x533A;</h5>
+<ul>
+<li><p>&#x65B9;&#x5F0F;&#x4E00;</p>
+<pre><code class="lang-ruby">create <span class="hljs-string">&apos;person&apos;</span>,<span class="hljs-string">&apos;info1&apos;</span>,<span class="hljs-string">&apos;info2&apos;</span>,SPLITS =&gt; [<span class="hljs-string">&apos;1000&apos;</span>,<span class="hljs-string">&apos;2000&apos;</span>,<span class="hljs-string">&apos;3000&apos;</span>,<span class="hljs-string">&apos;4000&apos;</span>]
+</code></pre>
+<p>&#x5171;&#x6709;5&#x4E2A;Region</p>
+<p>| name    | start key | end key | range        |
+| ------- | --------- | ------- | ------------ |
+| Region1 |           | 1000    | [, 1000)     |
+| Region2 | 1000      | 2000    | [1000, 2000) |
+| Region3 | 2000      | 3000    | [2000, 3000) |
+| Region4 | 3000      | 4000    | [3000, 4000) |
+| Region5 | 4000      |         | [4000, )     |</p>
+<p>&#x6CE8;&#x610F;&#xFF1A;</p>
+<ol>
+<li>&#x9996;&#x884C;&#x7684;<code>start key</code>&#x548C;&#x5C3E;&#x884C;&#x7684;<code>end key</code>&#x662F;&#x7A7A;&#x4E32;&#xFF0C;&#x8868;&#x793A;&#x4E00;&#x5F20;&#x8868;&#x7684;&#x5F00;&#x59CB;&#x548C;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;</li>
+<li>Region&#x7684;rowkey&#x8303;&#x56F4;&#x5305;&#x62EC;start key&#xFF0C;&#x4E0D;&#x5305;&#x62EC;end key&#xFF0C;&#x7B26;&#x5408;&#x5DE6;&#x95ED;&#x53F3;&#x5F00;</li>
+</ol>
+</li>
+<li><p>&#x65B9;&#x5F0F;&#x4E8C;</p>
+<p>&#x5C06;&#x5206;&#x533A;&#x89C4;&#x5219;&#x521B;&#x5EFA;&#x4E8E;&#x6587;&#x4EF6;&#x4E2D;</p>
+<pre><code class="lang-bash"><span class="hljs-built_in">cd</span> /bigdata/install
+vi splits
+
+<span class="hljs-comment"># &#x6587;&#x4EF6;&#x5185;&#x5BB9;</span>
+aaa
+bbb
+ccc
+ddd
+</code></pre>
+<p>shell&#x6267;&#x884C;&#x547D;&#x4EE4;</p>
+<pre><code class="lang-ruby">create <span class="hljs-string">&apos;student&apos;</span>, <span class="hljs-string">&apos;info&apos;</span>, SPLITS_FILE =&gt; <span class="hljs-string">&apos;/bigdata/install/splits&apos;</span>
+</code></pre>
+</li>
+<li><p>&#x65B9;&#x5F0F;&#x4E09;</p>
+<p>HexStringSplit&#x4F1A;&#x5C06;&#x6570;&#x636E;&#x4ECE; &#x201C;00000000&#x201D; &#x5230; &#x201C;FFFFFFFF&#x201D; &#x4E4B;&#x95F4;&#x7684;&#x6570;&#x636E;&#x957F;&#x5EA6;&#x6309;&#x7167;<strong>n&#x7B49;&#x5206;</strong>&#x4E4B;&#x540E;&#x7B97;&#x51FA;&#x6BCF;&#x4E00;&#x6BB5;&#x5F00;&#x59CB;rowkey&#x548C;&#x7ED3;&#x675F;rowkey&#xFF0C;&#x4EE5;&#x6B64;&#x4F5C;&#x4E3A;&#x62C6;&#x5206;&#x70B9;&#x3002;</p>
+<pre><code class="lang-ruby">create <span class="hljs-string">&apos;mytable&apos;</span>, <span class="hljs-string">&apos;base_info&apos;</span>, <span class="hljs-string">&apos;extra_info&apos;</span>, {NUMREGIONS =&gt; <span class="hljs-number">15</span>, SPLITALGO =&gt; <span class="hljs-string">&apos;HexStringSplit&apos;</span>}
+</code></pre>
+</li>
+</ul>
+<h4 id="&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;"><a name="&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;" class="anchor-navigation-ex-anchor" href="#&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;"><i class="fa fa-link" aria-hidden="true"></i></a><a name="&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;" class="plugin-anchor" href="#&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x7CFB;&#x7EDF;&#x81EA;&#x52A8;</h4>
+<h5 id="constantsizeregionsplitpolicy"><a name="constantsizeregionsplitpolicy" class="anchor-navigation-ex-anchor" href="#constantsizeregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="constantsizeregionsplitpolicy" class="plugin-anchor" href="#constantsizeregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>ConstantSizeRegionSplitPolicy</h5>
+<ul>
+<li><p>0.94&#x7248;&#x672C;&#x524D;&#xFF0C;HBase region&#x7684;&#x9ED8;&#x8BA4;&#x5207;&#x5206;&#x7B56;&#x7565;</p>
+</li>
+<li><p>&#x5F53;region&#x4E2D;<strong>&#x6700;&#x5927;&#x7684;store</strong>&#x5927;&#x5C0F;&#x8D85;&#x8FC7;&#x67D0;&#x4E2A;&#x9608;&#x503C;(hbase.hregion.max.filesize=10G)&#x4E4B;&#x540E;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x5207;&#x5206;&#xFF0C;&#x4E00;&#x4E2A;region&#x7B49;&#x5206;&#x4E3A;2&#x4E2A;region&#x3002;</p>
+</li>
+<li>&#x4F46;&#x662F;&#x5728;&#x751F;&#x4EA7;&#x7EBF;&#x4E0A;&#x8FD9;&#x79CD;&#x5207;&#x5206;&#x7B56;&#x7565;&#x5374;&#x6709;&#x76F8;&#x5F53;&#x5927;&#x7684;&#x5F0A;&#x7AEF;&#xFF1A;<ul>
+<li>&#x5207;&#x5206;&#x7B56;&#x7565;&#x5BF9;&#x4E8E;&#x5927;&#x8868;&#x548C;&#x5C0F;&#x8868;&#xFF08;&#x6307;HFile&#x6587;&#x4EF6;&#x5927;&#x5C0F;&#xFF09;&#x6CA1;&#x6709;&#x660E;&#x663E;&#x7684;&#x533A;&#x5206;&#x3002;</li>
+<li>&#x9608;&#x503C;(hbase.hregion.max.filesize)&#x8BBE;&#x7F6E;&#x8F83;&#x5927;&#x5BF9;&#x5927;&#x8868;&#x6BD4;&#x8F83;&#x53CB;&#x597D;&#xFF0C;&#x4F46;&#x662F;&#x5C0F;&#x8868;&#x5C31;&#x6709;&#x53EF;&#x80FD;&#x4E0D;&#x4F1A;&#x89E6;&#x53D1;&#x5206;&#x88C2;&#xFF0C;&#x6781;&#x7AEF;&#x60C5;&#x51B5;&#x4E0B;&#x53EF;&#x80FD;&#x5C31;1&#x4E2A;&#xFF0C;&#x5F62;&#x6210;&#x70ED;&#x70B9;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E1A;&#x52A1;&#x6765;&#x8BF4;&#x5E76;&#x4E0D;&#x662F;&#x4EC0;&#x4E48;&#x597D;&#x4E8B;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x8F83;&#x5C0F;&#x5219;&#x5BF9;&#x5C0F;&#x8868;&#x53CB;&#x597D;&#xFF0C;&#x4F46;&#x4E00;&#x4E2A;&#x5927;&#x8868;&#x5C31;&#x4F1A;&#x5728;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x7684;region&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E;&#x96C6;&#x7FA4;&#x7684;&#x7BA1;&#x7406;&#x3001;&#x8D44;&#x6E90;&#x4F7F;&#x7528;&#x3001;failover&#x6765;&#x8BF4;&#x90FD;&#x4E0D;&#x662F;&#x4E00;&#x4EF6;&#x597D;&#x4E8B;&#x3002;</li>
+</ul>
+</li>
+</ul>
+<h5 id="increasingtoupperboundregionsplitpolicy"><a name="increasingtoupperboundregionsplitpolicy" class="anchor-navigation-ex-anchor" href="#increasingtoupperboundregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="increasingtoupperboundregionsplitpolicy" class="plugin-anchor" href="#increasingtoupperboundregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>IncreasingToUpperBoundRegionSplitPolicy</h5>
+<ul>
+<li><p>0.94&#x7248;&#x672C;~2.0&#x7248;&#x672C;&#x9ED8;&#x8BA4;&#x5207;&#x5206;&#x7B56;&#x7565;</p>
+</li>
+<li><p>&#x603B;&#x4F53;&#x770B;&#x548C;ConstantSizeRegionSplitPolicy&#x601D;&#x8DEF;&#x76F8;&#x540C;</p>
+<ul>
+<li>&#x4E00;&#x4E2A;region&#x4E2D;&#x6700;&#x5927;&#x7684;store&#x5927;&#x5C0F;&#x5927;&#x4E8E;&#x8BBE;&#x7F6E;&#x9608;&#x503C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x5207;&#x5206;&#x3002;</li>
+<li>&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x9608;&#x503C;&#x5E76;&#x4E0D;&#x50CF;ConstantSizeRegionSplitPolicy&#x662F;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x7684;&#x503C;&#xFF0C;&#x800C;&#x662F;&#x4F1A;&#x5728;&#x4E00;&#x5B9A;&#x6761;&#x4EF6;&#x4E0B;&#x4E0D;&#x65AD;&#x8C03;&#x6574;&#xFF0C;&#x8C03;&#x6574;&#x89C4;&#x5219;&#x548C;region&#x6240;&#x5C5E;&#x8868;&#x5728;&#x5F53;&#x524D;regionserver&#x4E0A;&#x7684;region&#x4E2A;&#x6570;&#x6709;&#x5173;&#x7CFB;.</li>
+</ul>
+</li>
+<li><p>region split&#x9608;&#x503C;&#x7684;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#x662F;&#xFF1A;</p>
+<ul>
+<li><p>&#x8BBE;regioncount&#xFF1A;&#x662F;<font color="red">region&#x6240;&#x5C5E;&#x8868;&#x5728;&#x5F53;&#x524D;regionserver&#x4E0A;&#x7684;region&#x7684;&#x4E2A;&#x6570;</font></p>
+</li>
+<li><p>&#x9608;&#x503C; = regioncount^3 <em> 128M </em> 2&#xFF0C;&#x5F53;&#x7136;&#x9608;&#x503C;&#x5E76;&#x4E0D;&#x4F1A;&#x65E0;&#x9650;&#x589E;&#x957F;&#xFF0C;&#x6700;&#x5927;&#x4E0D;&#x8D85;&#x8FC7;MaxRegionFileSize&#xFF08;10G&#xFF09;&#xFF1B;&#x5F53;<font color="red">region&#x4E2D;&#x6700;&#x5927;&#x7684;store</font>&#x7684;&#x5927;&#x5C0F;&#x8FBE;&#x5230;&#x8BE5;&#x9608;&#x503C;&#x7684;&#x65F6;&#x5019;&#x8FDB;&#x884C;region split</p>
+</li>
+<li><p>&#x4F8B;&#x5982;&#xFF1A;
+&#x7B2C;&#x4E00;&#x6B21;split&#x9608;&#x503C; = 1^3 <em> 256 = 256MB 
+&#x7B2C;&#x4E8C;&#x6B21;split&#x9608;&#x503C; = 2^3 </em> 256 = 2048MB&#xFF08;&#x5F53;&#x4E24;&#x4E2A;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;region&#x7387;&#x5148;&#x8D85;&#x8FC7;2048MB&#xFF0C;&#x5219;&#x6B64;region&#x89E6;&#x53D1;split&#xFF09;
+&#x7B2C;&#x4E09;&#x6B21;split&#x9608;&#x503C; = 3^3 <em> 256 = 6912MB 
+&#x7B2C;&#x56DB;&#x6B21;split&#x9608;&#x503C; = 4^3 </em> 256 = 16384MB &gt; 10GB&#xFF0C;&#x56E0;&#x6B64;&#x53D6;&#x8F83;&#x5C0F;&#x7684;&#x503C;10GB 
+&#x540E;&#x9762;&#x6BCF;&#x6B21;split&#x7684;size&#x90FD;&#x662F;10GB&#x4E86;</p>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x524D;&#x4E09;&#x6B21;&#x89E6;&#x53D1;&#x5207;&#x5206;&#x7684;&#x9608;&#x503C;&#x6BD4;&#x8F83;&#x9002;&#x5408;&#x5C0F;&#x8868;&#xFF0C;&#x907F;&#x514D;&#x70ED;&#x70B9;&#x95EE;&#x9898;&#xFF0C;&#x5206;&#x53D1;&#x7ED9;&#x4E09;&#x4E2A;HRegionServer&#x7BA1;&#x7406;&#x3002;&#x5F53;&#x6EE1;&#x8DB3;&#x7B2C;&#x56DB;&#x6B21;&#x5207;&#x5206;&#x6761;&#x4EF6;&#x65F6;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x6EE1;&#x8DB3;&#x5927;&#x8868;&#x6761;&#x4EF6;&#x3002;</p>
+</li>
+<li><p>&#x7279;&#x70B9;</p>
+<ul>
+<li>&#x76F8;&#x6BD4;ConstantSizeRegionSplitPolicy&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x9002;&#x5E94;&#x5927;&#x8868;&#x3001;&#x5C0F;&#x8868;&#xFF1B;</li>
+<li>&#x5728;&#x96C6;&#x7FA4;&#x89C4;&#x6A21;&#x6BD4;&#x8F83;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5BF9;&#x5927;&#x8868;&#x7684;&#x8868;&#x73B0;&#x6BD4;&#x8F83;&#x4F18;&#x79C0;</li>
+<li>&#x4F46;&#x662F;&#xFF0C;&#x5B83;&#x5E76;&#x4E0D;&#x5B8C;&#x7F8E;&#xFF0C;&#x5C0F;&#x8868;&#x53EF;&#x80FD;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x7684;&#x5C0F;region&#xFF0C;&#x5206;&#x6563;&#x5728;&#x5404;regionserver&#x4E0A;&#xFF08;&#x5927;&#x5408;&#x5E76;&#x540E;Region&#x4F1A;&#x8FC1;&#x79FB;&#x5230;&#x5176;&#x4ED6;&#x7684;HRegionServer&#x4E0A;&#xFF09;</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="steppingsplitpolicy"><a name="steppingsplitpolicy" class="anchor-navigation-ex-anchor" href="#steppingsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="steppingsplitpolicy" class="plugin-anchor" href="#steppingsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>SteppingSplitPolicy</h5>
+<ul>
+<li>2.0&#x7248;&#x672C;&#x9ED8;&#x8BA4;&#x5207;&#x5206;&#x7B56;&#x7565;</li>
+<li>&#x76F8;&#x6BD4; IncreasingToUpperBoundRegionSplitPolicy &#x7B80;&#x5355;&#x4E86;&#x4E00;&#x4E9B;</li>
+<li>region&#x5207;&#x5206;&#x7684;&#x9608;&#x503C;&#x4F9D;&#x7136;&#x548C;&#x5F85;&#x5206;&#x88C2;region&#x6240;&#x5C5E;&#x8868;&#x5728;&#x5F53;&#x524D;regionserver&#x4E0A;&#x7684;region&#x4E2A;&#x6570;&#x6709;&#x5173;&#x7CFB;<ul>
+<li>&#x5982;&#x679C;region&#x4E2A;&#x6570;&#x7B49;&#x4E8E;1&#xFF0C;&#x5207;&#x5206;&#x9608;&#x503C;&#x4E3A;flush size 128M * 2</li>
+<li>&#x5426;&#x5219;&#x4E3A;MaxRegionFileSize&#x3002;</li>
+</ul>
+</li>
+<li>&#x8FD9;&#x79CD;&#x5207;&#x5206;&#x7B56;&#x7565;&#x5BF9;&#x4E8E;&#x5927;&#x96C6;&#x7FA4;&#x4E2D;&#x7684;&#x5927;&#x8868;&#x3001;&#x5C0F;&#x8868;&#x4F1A;&#x6BD4; IncreasingToUpperBoundRegionSplitPolicy &#x66F4;&#x52A0;&#x53CB;&#x597D;&#xFF0C;&#x5C0F;&#x8868;&#x4E0D;&#x4F1A;&#x518D;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x7684;&#x5C0F;region&#xFF0C;&#x800C;&#x662F;&#x9002;&#x53EF;&#x800C;&#x6B62;&#x3002;</li>
+</ul>
+<h5 id="keyprefixregionsplitpolicy"><a name="keyprefixregionsplitpolicy" class="anchor-navigation-ex-anchor" href="#keyprefixregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="keyprefixregionsplitpolicy" class="plugin-anchor" href="#keyprefixregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>KeyPrefixRegionSplitPolicy</h5>
+<ul>
+<li>&#x6839;&#x636E;rowKey&#x7684;&#x524D;&#x7F00;&#x5BF9;&#x6570;&#x636E;&#x8FDB;&#x884C;&#x5206;&#x533A;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x6307;&#x5B9A;rowKey&#x7684;&#x524D;&#x591A;&#x5C11;&#x4F4D;&#x4F5C;&#x4E3A;&#x524D;&#x7F00;&#xFF0C;&#x6BD4;&#x5982;rowKey&#x90FD;&#x662F;16&#x4F4D;&#x7684;&#xFF0C;&#x6307;&#x5B9A;&#x524D;5&#x4F4D;&#x662F;&#x524D;&#x7F00;&#xFF0C;&#x90A3;&#x4E48;&#x524D;5&#x4F4D;&#x76F8;&#x540C;&#x7684;rowKey&#x5728;&#x76F8;&#x540C;&#x7684;region&#x4E2D;&#x3002;</li>
+</ul>
+<h5 id="delimitedkeyprefixregionsplitpolicy"><a name="delimitedkeyprefixregionsplitpolicy" class="anchor-navigation-ex-anchor" href="#delimitedkeyprefixregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="delimitedkeyprefixregionsplitpolicy" class="plugin-anchor" href="#delimitedkeyprefixregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>DelimitedKeyPrefixRegionSplitPolicy</h5>
+<ul>
+<li>&#x4FDD;&#x8BC1;&#x76F8;&#x540C;&#x524D;&#x7F00;&#x7684;&#x6570;&#x636E;&#x5728;&#x540C;&#x4E00;&#x4E2A;region&#x4E2D;&#xFF0C;&#x4F8B;&#x5982;rowKey&#x7684;&#x683C;&#x5F0F;&#x4E3A;&#xFF1A;userid<em>eventtype_eventid&#xFF0C;&#x6307;&#x5B9A;&#x7684;delimiter&#x4E3A; </em> &#xFF0C;&#x5219;split&#x7684;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x786E;&#x4FDD;userid&#x76F8;&#x540C;&#x7684;&#x6570;&#x636E;&#x5728;&#x540C;&#x4E00;&#x4E2A;region&#x4E2D;&#x3002;</li>
+</ul>
+<h5 id="disabledregionsplitpolicy"><a name="disabledregionsplitpolicy" class="anchor-navigation-ex-anchor" href="#disabledregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a><a name="disabledregionsplitpolicy" class="plugin-anchor" href="#disabledregionsplitpolicy"><i class="fa fa-link" aria-hidden="true"></i></a>DisabledRegionSplitPolicy</h5>
+<ul>
+<li>&#x4E0D;&#x542F;&#x7528;&#x81EA;&#x52A8;&#x62C6;&#x5206;&#xFF0C; &#x9700;&#x8981;&#x6307;&#x5B9A;&#x624B;&#x52A8;&#x62C6;&#x5206;</li>
+</ul>
+<h2 id="region&#x5408;&#x5E76;"><a name="region&#x5408;&#x5E76;" class="anchor-navigation-ex-anchor" href="#region&#x5408;&#x5E76;"><i class="fa fa-link" aria-hidden="true"></i></a>5.7. Region&#x5408;&#x5E76;</h2>
+<p>Region&#x7684;&#x5408;&#x5E76;&#x4E0D;&#x662F;&#x4E3A;&#x4E86;&#x6027;&#x80FD;&#xFF0C;&#x800C;&#x662F;&#x51FA;&#x4E8E;&#x7EF4;&#x62A4;&#x7684;&#x76EE;&#x7684;&#x3002;&#x5982;&#x5220;&#x9664;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6BCF;&#x4E2A;Region&#x90FD;&#x53D8;&#x5F97;&#x5F88;&#x5C0F;&#xFF0C;&#x5B58;&#x50A8;&#x591A;&#x4E2A;Region&#x6D6A;&#x8D39;&#x8D44;&#x6E90;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x628A;Region&#x5408;&#x5E76;&#x8D77;&#x6765;&#xFF0C;&#x8FDB;&#x800C;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x4E00;&#x4E9B;Region&#x670D;&#x52A1;&#x5668;&#x8282;&#x70B9;&#x3002;</p>
+<h3 id="&#x901A;&#x8FC7;merge&#x7C7B;region"><a name="&#x901A;&#x8FC7;merge&#x7C7B;region" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;merge&#x7C7B;region"><i class="fa fa-link" aria-hidden="true"></i></a>5.7.1. &#x901A;&#x8FC7;Merge&#x7C7B;Region</h3>
+<ul>
+<li><p>&#x521B;&#x5EFA;&#x4E00;&#x5F20;hbase&#x8868;</p>
+<pre><code class="lang-ruby">create <span class="hljs-string">&apos;test&apos;</span>, <span class="hljs-string">&apos;info1&apos;</span>, SPLITS =&gt; [<span class="hljs-string">&apos;1000&apos;</span>,<span class="hljs-string">&apos;2000&apos;</span>,<span class="hljs-string">&apos;3000&apos;</span>]
+</code></pre>
+</li>
+<li><p>&#x5173;&#x95ED;&#x96C6;&#x7FA4; <code>stop-hbase.sh</code></p>
+</li>
+<li><p>&#x6267;&#x884C;&#x547D;&#x4EE4;</p>
+<pre><code class="lang-bash">hbase org.apache.hadoop.hbase.util.Merge <span class="hljs-built_in">test</span> region1 region2
+</code></pre>
+</li>
+</ul>
+<h3 id="&#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;region"><a name="&#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;region" class="anchor-navigation-ex-anchor" href="#&#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;region"><i class="fa fa-link" aria-hidden="true"></i></a>5.7.2. &#x901A;&#x8FC7;online&#x547D;&#x4EE4;&#x70ED;&#x5408;&#x5E76;Region</h3>
+<ul>
+<li><p>&#x4E0E;&#x51B7;&#x5408;&#x5E76;&#x4E0D;&#x540C;&#x7684;&#x662F;&#xFF0C;online_merge&#x7684;&#x4F20;&#x53C2;&#x662F;Region&#x7684;hash&#x503C;&#xFF0C;&#x800C;Region&#x7684;hash&#x503C;&#x5C31;&#x662F;Region&#x540D;&#x79F0;&#x6700;&#x540E;&#x4E24;&#x4E2A;.&#x4E4B;&#x95F4;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x90E8;&#x5206;</p>
+</li>
+<li><p>hbase shell &#x6267;&#x884C;&#x547D;&#x4EE4;</p>
+<pre><code class="lang-ruby">merge_region <span class="hljs-string">&apos;region1_hash&apos;</span>, <span class="hljs-string">&apos;region2_hash&apos;</span>
+</code></pre>
+</li>
+</ul>
+<h1 id="&#x7CFB;&#x7EDF;&#x96C6;&#x6210;"><a name="&#x7CFB;&#x7EDF;&#x96C6;&#x6210;" class="anchor-navigation-ex-anchor" href="#&#x7CFB;&#x7EDF;&#x96C6;&#x6210;"><i class="fa fa-link" aria-hidden="true"></i></a>6. &#x7CFB;&#x7EDF;&#x96C6;&#x6210;</h1>
+<h2 id="&#x4E0E;mapreduce&#x96C6;&#x6210;"><a name="&#x4E0E;mapreduce&#x96C6;&#x6210;" class="anchor-navigation-ex-anchor" href="#&#x4E0E;mapreduce&#x96C6;&#x6210;"><i class="fa fa-link" aria-hidden="true"></i></a>6.1. &#x4E0E;MapReduce&#x96C6;&#x6210;</h2>
+<p>&#x5229;&#x7528;MapReduce&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#xFF0C;&#x63D0;&#x9AD8;&#x6570;&#x636E;&#x5BFC;&#x5165;HBase&#x8868;&#x6548;&#x7387;</p>
+<ol>
+<li><p>&#x4E0E;HRegionServer&#x4EA4;&#x4E92;&#xFF0C;&#x901A;&#x8FC7;&#x96C6;&#x6210;HBase&#x6846;&#x67B6;&#x7684;TableMapper&#x548C;TableReducer&#x5B9E;&#x73B0;&#x3002;</p>
+<ul>
+<li>HBase&#x8868;&#x5230;HBase&#x8868;</li>
+<li>Hdfs&#x6587;&#x4EF6;&#x5230;HBase&#x8868;</li>
+</ul>
+<p>&#x5199;&#x5165;HBase&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x540C;&#x76F4;&#x63A5;&#x8C03;&#x7528;API&#x5199;&#x6570;&#x636E;&#x6D41;&#x7A0B;&#x7C7B;&#x4F3C;&#xFF0C;&#x4ECD;&#x9700;&#x8981;&#x5360;&#x7528;HRegionServer&#x5927;&#x91CF;&#x8D44;&#x6E90;&#x3002;</p>
+</li>
+</ol>
+<ol>
+<li><p>&#x4E0D;&#x4E0E;HRegionServer&#x4EA4;&#x4E92;&#xFF0C;&#x901A;&#x8FC7;MapReduce&#x76F4;&#x63A5;&#x5C06;&#x6570;&#x636E;&#x8F93;&#x51FA;&#x4E3A;HBase&#x8BC6;&#x522B;&#x7684;HFile&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x901A;&#x8FC7;<font color="red">BulkLoad</font>&#x7684;&#x65B9;&#x5F0F;&#x52A0;&#x8F7D;&#x5230;HBase&#x8868;&#x4E2D;&#x3002;</p>
+<ul>
+<li><p><font color="red">hadoop jar &#x5728;&#x96C6;&#x7FA4;&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#x65F6;&#x53EF;&#x80FD;&#x4F1A;&#x627E;&#x4E0D;&#x5230;hbase&#x7C7B;</font>&#xFF0C;&#x5219;&#x9700;&#x8981;&#x505A;&#x5982;&#x4E0B;&#x914D;&#x7F6E;</p>
+<p>&#x4E00;&#x6B21;&#x751F;&#x6548;&#xFF08;&#x5EFA;&#x8BAE;&#xFF09;</p>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> HBASE_HOME=/bigdata/install/hbase-1.2.0-cdh5.14.2/
+<span class="hljs-built_in">export</span> HADOOP_HOME=/bigdata/install/hadoop-2.6.0-cdh5.14.2/
+<span class="hljs-built_in">export</span> HADOOP_CLASSPATH=`<span class="hljs-variable">${HBASE_HOME}</span>/bin/hbase mapredcp`
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code> &#x6C38;&#x4E45;&#x751F;&#x6548;
+
+ ```bash
+ # &#x4FEE;&#x6539;hadoop-env.sh
+ # add hbase lib
+ if [ -z $HBASE_HOME  ];
+ then
+    export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}
+ else
+    export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${HBASE_HOME}/lib&apos;/*&apos;
+ fi 
+
+ # &#x914D;&#x7F6E;&#x5373;&#x65F6;&#x751F;&#x6548;
+ source hadoop-env.sh
+ ```
+</code></pre><ul>
+<li><p>&#x6267;&#x884C; <code>com.sciatta.hadoop.hbase.example.mr.bulkload.HdfsToHBase</code> &#xFF0C;&#x501F;&#x52A9; <code>HFileOutputFormat2</code> &#x8F93;&#x51FA;hdfs&#x6587;&#x4EF6; <code>/test/hbase/huser/cf/21dc0757cbfe41a7bb8552818d0478ba</code> &#x4F1A;&#x751F;&#x6210;&#x76EE;&#x6807;&#x6307;&#x5B9A;&#x5217;&#x65CF; <code>cf</code> &#x4E0B;&#x7684;HFile</p>
+<ul>
+<li>HBase&#x5728;hdfs&#x5B58;&#x50A8;&#x8868;&#x9ED8;&#x8BA4;&#x5728; /hbase/data/default &#x76EE;&#x5F55;&#x4E0B;&#xFF0C;&#x5982; <code>/hbase/data/default/user/36c7b176416c41bb1534676a2b50fdf9/info/03ccf327a86649ba9fee7ed734eafe56</code></li>
+<li>user &#x4E3A;&#x8868;&#x540D;<ul>
+<li>36c7b176416c41bb1534676a2b50fdf9 &#x4E3A;RegionId</li>
+<li>info &#x4E3A;&#x5217;&#x65CF;&#x540D;</li>
+<li>03ccf327a86649ba9fee7ed734eafe56 &#x662F;HFile</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&#x5229;&#x7528;bulkload&#x52A0;&#x8F7D;&#x5230;&#x8868;&#x3002;&#x6E05;&#x7A7A; <code>/test/hbase/huser/cf</code> &#x76EE;&#x5F55;&#x4E0B;&#x6570;&#x636E;&#xFF0C;&#x8F6C;&#x79FB;&#x5230;&#x8868;&#x76F8;&#x5E94;Region&#x7684;&#x5217;&#x65CF;&#x4E0B; <code>/hbase/data/default/user1/031ed91d57c19615d009b21fde809f57/cf/ae8b0ffabb374946922ef704b9f4a918_SeqId_5_</code> </li>
+</ul>
+<h2 id="&#x4E0E;hive&#x96C6;&#x6210;"><a name="&#x4E0E;hive&#x96C6;&#x6210;" class="anchor-navigation-ex-anchor" href="#&#x4E0E;hive&#x96C6;&#x6210;"><i class="fa fa-link" aria-hidden="true"></i></a>6.2. &#x4E0E;Hive&#x96C6;&#x6210;</h2>
+<h3 id="&#x6982;&#x8FF0;"><a name="&#x6982;&#x8FF0;" class="anchor-navigation-ex-anchor" href="#&#x6982;&#x8FF0;"><i class="fa fa-link" aria-hidden="true"></i></a>6.2.1. &#x6982;&#x8FF0;</h3>
+<ul>
+<li>Hive<ul>
+<li>&#x6570;&#x636E;&#x4ED3;&#x5E93;
+Hive&#x7684;&#x672C;&#x8D28;&#x76F8;&#x5F53;&#x4E8E;&#x5C06;HDFS&#x4E2D;&#x5DF2;&#x7ECF;&#x5B58;&#x50A8;&#x7684;&#x6587;&#x4EF6;&#x5728;Mysql&#x4E2D;&#x505A;&#x4E86;&#x4E00;&#x4E2A;&#x6620;&#x5C04;&#xFF0C;&#x4EE5;&#x65B9;&#x4FBF;&#x4F7F;&#x7528;HQL&#x53BB;&#x7BA1;&#x7406;&#x67E5;&#x8BE2;</li>
+<li>&#x7528;&#x4E8E;&#x6570;&#x636E;&#x5206;&#x6790;&#x3001;&#x6E05;&#x6D17;
+Hive&#x9002;&#x7528;&#x4E8E;&#x79BB;&#x7EBF;&#x7684;&#x6570;&#x636E;&#x5206;&#x6790;&#x548C;&#x6E05;&#x6D17;&#xFF0C;&#x5EF6;&#x8FDF;&#x8F83;&#x9AD8;</li>
+<li>&#x57FA;&#x4E8E;HDFS&#x3001;MapReduce
+Hive&#x5B58;&#x50A8;&#x7684;&#x6570;&#x636E;&#x4F9D;&#x65E7;&#x5728;DataNode&#x4E0A;&#xFF0C;&#x7F16;&#x5199;&#x7684;HQL&#x8BED;&#x53E5;&#x6700;&#x7EC8;&#x8F6C;&#x6362;&#x4E3A;MapReduce&#x4EE3;&#x7801;&#x6267;&#x884C;</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>HBase<ul>
+<li>&#x6570;&#x636E;&#x5E93;
+&#x662F;&#x4E00;&#x79CD;&#x9762;&#x5411;&#x5217;&#x5B58;&#x50A8;&#x7684;&#x975E;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;</li>
+<li>&#x7528;&#x4E8E;&#x5B58;&#x50A8;&#x7ED3;&#x6784;&#x5316;&#x548C;&#x975E;&#x7ED3;&#x6784;&#x5316;&#x7684;&#x6570;&#x636E;
+&#x9002;&#x7528;&#x4E8E;&#x5355;&#x8868;&#x975E;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x7684;&#x5B58;&#x50A8;&#xFF0C;&#x4E0D;&#x9002;&#x5408;&#x505A;&#x5173;&#x8054;&#x67E5;&#x8BE2;&#xFF0C;&#x7C7B;&#x4F3C;JOIN&#x7B49;&#x64CD;&#x4F5C;</li>
+<li>&#x57FA;&#x4E8E;HDFS
+&#x6570;&#x636E;&#x6301;&#x4E45;&#x5316;&#x5B58;&#x50A8;&#x7684;&#x4F53;&#x73B0;&#x5F62;&#x5F0F;&#x662F;Hfile&#xFF0C;&#x5B58;&#x653E;&#x4E8E;DataNode&#x4E2D;&#xFF0C;&#x88AB;ResionServer&#x4EE5;region&#x7684;&#x5F62;&#x5F0F;&#x8FDB;&#x884C;&#x7BA1;&#x7406;</li>
+<li>&#x5EF6;&#x8FDF;&#x8F83;&#x4F4E;&#xFF0C;&#x63A5;&#x5165;&#x5728;&#x7EBF;&#x4E1A;&#x52A1;&#x4F7F;&#x7528;
+&#x9762;&#x5BF9;&#x5927;&#x91CF;&#x7684;&#x4F01;&#x4E1A;&#x6570;&#x636E;&#xFF0C;HBase&#x53EF;&#x4EE5;&#x652F;&#x6301;&#x5355;&#x8868;&#x5927;&#x91CF;&#x6570;&#x636E;&#x7684;&#x5B58;&#x50A8;&#xFF0C;&#x540C;&#x65F6;&#x63D0;&#x4F9B;&#x4E86;&#x9AD8;&#x6548;&#x7684;&#x6570;&#x636E;&#x8BBF;&#x95EE;&#x901F;&#x5EA6;</li>
+</ul>
+</li>
+</ul>
+<p>&#x603B;&#x7ED3;&#xFF1A;Hive&#x548C;HBase&#x662F;&#x4E24;&#x79CD;&#x57FA;&#x4E8E;Hadoop&#x7684;&#x4E0D;&#x540C;&#x6280;&#x672F;&#xFF0C;Hive&#x662F;&#x4E00;&#x79CD;&#x7C7B;SQL&#x7684;&#x5F15;&#x64CE;&#xFF0C;&#x5E76;&#x4E14;&#x8FD0;&#x884C;MapReduce&#x4EFB;&#x52A1;&#xFF0C;HBase&#x662F;&#x4E00;&#x79CD;&#x5728;Hadoop&#x4E4B;&#x4E0A;&#x7684; NoSQL &#x7684;Key/vale&#x6570;&#x636E;&#x5E93;&#x3002;&#x8FD9;&#x4E24;&#x79CD;&#x5DE5;&#x5177;&#x662F;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x7684;&#x3002;Hive&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;&#x67E5;&#x8BE2;&#xFF0C;HBase&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8FDB;&#x884C;&#x5B9E;&#x65F6;&#x67E5;&#x8BE2;&#xFF0C;&#x6570;&#x636E;&#x4E5F;&#x53EF;&#x4EE5;&#x4ECE;Hive&#x5199;&#x5230;HBase&#xFF0C;&#x6216;&#x8005;&#x4ECE;HBase&#x5199;&#x56DE;Hive&#x3002;</p>
+<h3 id="&#x6574;&#x5408;&#x914D;&#x7F6E;"><a name="&#x6574;&#x5408;&#x914D;&#x7F6E;" class="anchor-navigation-ex-anchor" href="#&#x6574;&#x5408;&#x914D;&#x7F6E;"><i class="fa fa-link" aria-hidden="true"></i></a>6.2.2. &#x6574;&#x5408;&#x914D;&#x7F6E;</h3>
+<ul>
+<li><p>HBase jar&#x5EFA;&#x7ACB;&#x8F6F;&#x8FDE;&#x63A5;&#x5230;Hive&#x7684;lib&#x76EE;&#x5F55;&#x4E0B;</p>
+<p>node03&#x6267;&#x884C;</p>
+<pre><code class="lang-bash">ln <span class="hljs-_">-s</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-client-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-client-1.2.0-cdh5.14.2.jar
+
+ln <span class="hljs-_">-s</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-hadoop2-compat-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-hadoop2-compat-1.2.0-cdh5.14.2.jar
+
+ln <span class="hljs-_">-s</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-hadoop-compat-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-hadoop-compat-1.2.0-cdh5.14.2.jar
+
+ln <span class="hljs-_">-s</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-it-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-it-1.2.0-cdh5.14.2.jar
+
+ln <span class="hljs-_">-s</span> /bigdata/install/hbase-1.2.0-cdh5.14.2/lib/hbase-server-1.2.0-cdh5.14.2.jar /bigdata/install/hive-1.1.0-cdh5.14.2/lib/hbase-server-1.2.0-cdh5.14.2.jar
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x4FEE;&#x6539;&#x914D;&#x7F6E;</p>
+<p>node03&#x6267;&#x884C;</p>
+<ul>
+<li>hive-site.xml</li>
+</ul>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hive.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01,node02,node03<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hbase.zookeeper.quorum<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>node01,node02,node03<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<ul>
+<li>hive-env.sh</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> HBASE_HOME=/bigdata/install/hbase-1.2.0-cdh5.14.2/
+</code></pre>
+</li>
+</ul>
+<h3 id="hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;hbase&#x8868;&#xFF08;hive---hbase&#xFF09;"><a name="hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;hbase&#x8868;&#xFF08;hive---hbase&#xFF09;" class="anchor-navigation-ex-anchor" href="#hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;hbase&#x8868;&#xFF08;hive---hbase&#xFF09;"><i class="fa fa-link" aria-hidden="true"></i></a>6.2.3. Hive&#x5206;&#x6790;&#x7ED3;&#x679C;&#x4FDD;&#x5B58;&#x5230;HBase&#x8868;&#xFF08;hive -&gt; hbase&#xFF09;</h3>
+<ul>
+<li><p>Hive&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;&#x548C;&#x8868;</p>
+<pre><code class="lang-mysql">create database course;
+use course;
+
+create external table if not exists course.score(id int, cname string, score int) 
+row format delimited fields terminated by &apos;\t&apos; 
+stored as textfile;
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x51C6;&#x5907;&#x6570;&#x636E;</p>
+<p>hive-hbase</p>
+<pre><code class="lang-txt">1    zhangsan    80
+2    lisi    60
+3    wangwu    30
+4    zhaoliu    70
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>Hive&#x52A0;&#x8F7D;&#x6570;&#x636E;</p>
+<pre><code class="lang-mysql">load data local inpath &apos;/home/hadoop/hivedatas/hive-hbase&apos; into table score;
+select * from score;
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x521B;&#x5EFA;Hive&#x5185;&#x90E8;&#x8868;&#x4E0E;HBase&#x6620;&#x5C04;</p>
+<pre><code class="lang-mysql">-- hbase.columns.mapping hbase&#x8868;&#x7684;column&#x8981;&#x548C;hive&#x8868;&#x7684;field&#x4E00;&#x4E00;&#x5BF9;&#x5E94;
+create table course.hbase_score(id int, cname string, score int) 
+stored by &apos;org.apache.hadoop.hive.hbase.HBaseStorageHandler&apos; 
+with serdeproperties(&quot;hbase.columns.mapping&quot; = &quot;:key, cf:name, cf:score&quot;) tblproperties(&quot;hbase.table.name&quot; = &quot;hbase_score&quot;);
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x5411;Hive&#x5185;&#x90E8;&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;</p>
+<pre><code class="lang-mysql">insert overwrite table course.hbase_score select id, cname, score from course.score;
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x5411;HBase&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;</p>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x5982;&#x679C;&#x6CA1;&#x6709;&#x5411;hive&#x6620;&#x5C04;&#x7684;field&#x8D4B;&#x503C;&#xFF0C;&#x5219;&#x4E3A;null</span>
+put <span class="hljs-string">&apos;hbase_score&apos;</span>, <span class="hljs-string">&apos;10&apos;</span>, <span class="hljs-string">&apos;cf:name&apos;</span>, <span class="hljs-string">&apos;rain&apos;</span>
+put <span class="hljs-string">&apos;hbase_score&apos;</span>, <span class="hljs-string">&apos;10&apos;</span>, <span class="hljs-string">&apos;cf:score&apos;</span>, 10
+</code></pre>
+</li>
+</ul>
+<p>&#x603B;&#x7ED3;</p>
+<ul>
+<li><p>&#x5B58;&#x50A8;</p>
+<p>&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728;HBase&#x7AEF;&#xFF0C;&#x8282;&#x7701;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;&#x6570;&#x636E;&#x91CF;&#x5C0F;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5B58;&#x50A8;&#x5728;MemStore&#x4E2D;&#xFF0C;&#x6267;&#x884C; <code>flush &apos;hbase_score&apos;</code> &#x5237;&#x5199;&#x5230;&#x78C1;&#x76D8;</p>
+</li>
+<li><p>&#x540C;&#x6B65;</p>
+<p>&#x5F53;&#x5411;Hive&#x5185;&#x90E8;&#x8868;&#x6216;HBase&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x4E24;&#x8FB9;&#x90FD;&#x4F1A;&#x540C;&#x6B65;&#x6570;&#x636E;</p>
+</li>
+<li><p>&#x5220;&#x9664;</p>
+<p>&#x5220;&#x9664;Hive&#x5185;&#x90E8;&#x8868;&#xFF0C;HBase&#x6620;&#x5C04;&#x8868;&#x540C;&#x6B65;&#x5220;&#x9664;&#xFF1B;&#x4F46;&#x5220;&#x9664;HBase&#x6620;&#x5C04;&#x8868;&#xFF0C;Hive&#x5185;&#x90E8;&#x8868;&#x4E0D;&#x4F1A;&#x540C;&#x6B65;&#x5220;&#x9664;&#xFF0C;&#x4F46;&#x67E5;&#x8BE2;&#x65F6;&#x4F1A;&#x63D0;&#x793A;HBase&#x6620;&#x5C04;&#x8868;&#x4E0D;&#x5B58;&#x5728;</p>
+</li>
+</ul>
+<h3 id="hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;hbase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase---hive&#xFF09;"><a name="hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;hbase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase---hive&#xFF09;" class="anchor-navigation-ex-anchor" href="#hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;hbase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase---hive&#xFF09;"><i class="fa fa-link" aria-hidden="true"></i></a>6.2.4. Hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;HBase&#x5DF2;&#x5B58;&#x8868;&#x8FDB;&#x884C;&#x5206;&#x6790;&#xFF08;hbase -&gt; hive&#xFF09;</h3>
+<ul>
+<li><p>&#x521B;&#x5EFA;Hive&#x5916;&#x90E8;&#x8868;&#x6620;&#x5C04;HBase&#x8868;</p>
+<pre><code class="lang-mysql">CREATE external TABLE course.hbase2hive(id int, name string, age int) 
+STORED BY &apos;org.apache.hadoop.hive.hbase.HBaseStorageHandler&apos; 
+WITH SERDEPROPERTIES (&quot;hbase.columns.mapping&quot; = &quot;:key, info:name, info:age&quot;) TBLPROPERTIES(&quot;hbase.table.name&quot; =&quot;user&quot;);
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x67E5;&#x8BE2;Hive&#x5916;&#x90E8;&#x8868;</p>
+<pre><code class="lang-mysql">select * from course.hbase2hive;
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x5411;Hive&#x5916;&#x90E8;&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;</p>
+<pre><code class="lang-mysql">insert into table hbase2hive values(00000012, &apos;cat&apos;, 2);
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><p>&#x5411;Hbase&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;</p>
+<pre><code class="lang-bash">put <span class="hljs-string">&apos;user&apos;</span>,<span class="hljs-string">&apos;00000011&apos;</span>,<span class="hljs-string">&apos;info:name&apos;</span>,<span class="hljs-string">&apos;wizard&apos;</span>
+</code></pre>
+</li>
+</ul>
+<p>&#x603B;&#x7ED3;</p>
+<ul>
+<li><p>&#x5B58;&#x50A8;</p>
+<p>&#x56E0;&#x4E3A;Hbase&#x8868;&#x6620;&#x5C04;&#x7684;&#x662F;Hive&#x5916;&#x90E8;&#x8868;&#xFF0C;&#x6240;&#x4EE5;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5728;HBase&#x7AEF;</p>
+</li>
+<li><p>&#x540C;&#x6B65;</p>
+<p>&#x5F53;&#x5411;Hive&#x5916;&#x90E8;&#x8868;&#x6216;HBase&#x8868;&#x63D2;&#x5165;&#x6570;&#x636E;&#x65F6;&#xFF0C;&#x4E24;&#x8FB9;&#x90FD;&#x4F1A;&#x540C;&#x6B65;&#x6570;&#x636E;</p>
+</li>
+<li><p>&#x5220;&#x9664;</p>
+<p>&#x5220;&#x9664;Hive&#x5916;&#x90E8;&#x8868;&#xFF0C;&#x4E0D;&#x5F71;&#x54CD;Hbase&#x8868;&#xFF1B;&#x5220;&#x9664;Hbase&#x8868;&#xFF0C;&#x4E0D;&#x4F1A;&#x5220;&#x9664;Hive&#x5916;&#x90E8;&#x8868;&#xFF0C;&#x4F46;&#x67E5;&#x8BE2;&#x65F6;&#x4F1A;&#x63D0;&#x793A;HBase&#x8868;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x9700;&#x8981;&#x624B;&#x52A8;&#x5220;&#x9664;</p>
+</li>
+</ul>
+<h1 id="hbase-&#x7684;-rowkey-&#x8BBE;&#x8BA1;"><a name="hbase-&#x7684;-rowkey-&#x8BBE;&#x8BA1;" class="anchor-navigation-ex-anchor" href="#hbase-&#x7684;-rowkey-&#x8BBE;&#x8BA1;"><i class="fa fa-link" aria-hidden="true"></i></a>7. HBase &#x7684; RowKey &#x8BBE;&#x8BA1;</h1>
+<h2 id="&#x8BBE;&#x8BA1;&#x539F;&#x5219;"><a name="&#x8BBE;&#x8BA1;&#x539F;&#x5219;" class="anchor-navigation-ex-anchor" href="#&#x8BBE;&#x8BA1;&#x539F;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>7.1. &#x8BBE;&#x8BA1;&#x539F;&#x5219;</h2>
+<h3 id="&#x957F;&#x5EA6;&#x539F;&#x5219;"><a name="&#x957F;&#x5EA6;&#x539F;&#x5219;" class="anchor-navigation-ex-anchor" href="#&#x957F;&#x5EA6;&#x539F;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>7.1.1. &#x957F;&#x5EA6;&#x539F;&#x5219;</h3>
+<ul>
+<li><p>RowKey &#x662F;&#x4E00;&#x4E2A;&#x4E8C;&#x8FDB;&#x5236;&#x5B57;&#x8282;&#x6D41;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x6700;&#x5927;&#x957F;&#x5EA6;64kb&#xFF0C;&#x5B9E;&#x9645;&#x5E94;&#x7528;&#x4E2D;&#x4E00;&#x822C;&#x4E3A;<font color="red">10-100bytes</font>&#xFF0C;&#x4EE5;byte[]&#x5F62;&#x5F0F;&#x4FDD;&#x5B58;&#xFF0C;&#x4E00;&#x822C;&#x8BBE;&#x8BA1;&#x6210;<font color="red">&#x5B9A;&#x957F;</font>&#x3002;&#x5EFA;&#x8BAE;&#x8D8A;&#x77ED;&#x8D8A;&#x597D;&#xFF0C;&#x4E0D;&#x8981;&#x8D85;&#x8FC7;16&#x4E2A;&#x5B57;&#x8282;&#x3002;</p>
+</li>
+<li><p>&#x5EFA;&#x8BAE;&#x5C3D;&#x53EF;&#x80FD;&#x77ED;&#xFF08;&#x63D0;&#x9AD8;&#x68C0;&#x7D22;&#x6548;&#x7387;&#xFF09;&#xFF0C;&#x4F46;&#x4E5F;&#x4E0D;&#x80FD;&#x592A;&#x77ED;&#xFF0C;&#x5426;&#x5219; RowKey &#x524D;&#x7F00;&#x91CD;&#x590D;&#x7684;&#x6982;&#x7387;&#x589E;&#x5927;</p>
+</li>
+<li>&#x8BBE;&#x8BA1;&#x8FC7;&#x957F;&#x4F1A;&#x964D;&#x4F4E; MemStore &#x5185;&#x5B58;&#x7684;&#x5229;&#x7528;&#x7387;&#xFF08;key/value&#xFF0C;RowKey&#x662F;key&#x7684;&#x4E00;&#x90E8;&#x5206;&#xFF09;&#x548C;HFile&#x5B58;&#x50A8;&#x6570;&#x636E;&#x7684;&#x6548;&#x7387;</li>
+</ul>
+<h3 id="&#x6563;&#x5217;&#x539F;&#x5219;"><a name="&#x6563;&#x5217;&#x539F;&#x5219;" class="anchor-navigation-ex-anchor" href="#&#x6563;&#x5217;&#x539F;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>7.1.2. &#x6563;&#x5217;&#x539F;&#x5219;</h3>
+<ul>
+<li>&#x5EFA;&#x8BAE;&#x5C06; RowKey &#x7684;&#x9AD8;&#x4F4D;&#x4F5C;&#x4E3A;<strong>&#x6563;&#x5217;&#x5B57;&#x6BB5;</strong>&#xFF0C;&#x8FD9;&#x6837;&#x5C06;&#x63D0;&#x9AD8;&#x6570;&#x636E;&#x5747;&#x8861;&#x5206;&#x5E03;&#x5728;&#x6BCF;&#x4E2A; RegionServer &#xFF0C;&#x4EE5;&#x5B9E;&#x73B0;&#x8D1F;&#x8F7D;&#x5747;&#x8861;</li>
+<li>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x6563;&#x5217;&#x5B57;&#x6BB5;&#xFF0C;&#x9996;&#x5B57;&#x6BB5;&#x76F4;&#x63A5;&#x662F;&#x65F6;&#x95F4;&#x4FE1;&#x606F;&#x3002;&#x6240;&#x6709;&#x7684;&#x6570;&#x636E;&#x90FD;&#x4F1A;&#x96C6;&#x4E2D;&#x5728;&#x4E00;&#x4E2A; RegionServer &#x4E0A;&#xFF0C;&#x8FD9;&#x6837;&#x5728;&#x6570;&#x636E;&#x68C0;&#x7D22;&#x7684;&#x65F6;&#x5019;&#x8D1F;&#x8F7D;&#x4F1A;&#x96C6;&#x4E2D;&#x5728;&#x4E2A;&#x522B;&#x7684; RegionServer &#x4E0A;&#xFF0C;&#x9020;&#x6210;&#x70ED;&#x70B9;&#x95EE;&#x9898;&#xFF0C;&#x4F1A;&#x964D;&#x4F4E;&#x67E5;&#x8BE2;&#x6548;&#x7387;</li>
+</ul>
+<h3 id="&#x552F;&#x4E00;&#x539F;&#x5219;"><a name="&#x552F;&#x4E00;&#x539F;&#x5219;" class="anchor-navigation-ex-anchor" href="#&#x552F;&#x4E00;&#x539F;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>7.1.3. &#x552F;&#x4E00;&#x539F;&#x5219;</h3>
+<ul>
+<li>&#x5FC5;&#x987B;&#x5728;&#x8BBE;&#x8BA1;&#x4E0A;&#x4FDD;&#x8BC1;&#x5176;&#x552F;&#x4E00;&#x6027;&#xFF0C;&#x6570;&#x636E;&#x4EE5;key-value&#x5F62;&#x5F0F;&#x5B58;&#x50A8;&#xFF0C;&#x76F8;&#x540C;rowkey&#x4F1A;&#x5BFC;&#x81F4;&#x8986;&#x76D6;&#x539F;&#x6709;&#x6570;&#x636E;</li>
+</ul>
+<h3 id="&#x6392;&#x5E8F;&#x539F;&#x5219;"><a name="&#x6392;&#x5E8F;&#x539F;&#x5219;" class="anchor-navigation-ex-anchor" href="#&#x6392;&#x5E8F;&#x539F;&#x5219;"><i class="fa fa-link" aria-hidden="true"></i></a>7.1.4. &#x6392;&#x5E8F;&#x539F;&#x5219;</h3>
+<ul>
+<li>RowKey &#x662F;&#x6309;&#x7167;&#x5B57;&#x5178;&#x987A;&#x5E8F;&#x6392;&#x5E8F;&#x5B58;&#x50A8;&#x7684;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x8BBE;&#x8BA1; RowKey &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8981;&#x5145;&#x5206;&#x5229;&#x7528;&#x8FD9;&#x4E2A;&#x6392;&#x5E8F;&#x7684;&#x7279;&#x70B9;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x7ECF;&#x5E38;&#x8BFB;&#x53D6;&#x7684;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5230;&#x4E00;&#x5757;&#xFF0C;&#x5C06;&#x6700;&#x8FD1;&#x53EF;&#x80FD;&#x4F1A;&#x88AB;&#x8BBF;&#x95EE;&#x7684;&#x6570;&#x636E;&#x5B58;&#x50A8;&#x5230;&#x4E00;&#x5757;</li>
+</ul>
+<h2 id="&#x70ED;&#x70B9;&#x95EE;&#x9898;"><a name="&#x70ED;&#x70B9;&#x95EE;&#x9898;" class="anchor-navigation-ex-anchor" href="#&#x70ED;&#x70B9;&#x95EE;&#x9898;"><i class="fa fa-link" aria-hidden="true"></i></a>7.2. &#x70ED;&#x70B9;&#x95EE;&#x9898;</h2>
+<p>&#x68C0;&#x7D22; HBase &#x8BB0;&#x5F55;&#x9996;&#x5148;&#x8981;&#x901A;&#x8FC7; RowKey &#x6765;&#x5B9A;&#x4F4D;&#x6570;&#x636E;&#x884C;&#x3002;&#x5F53;&#x5927;&#x91CF;&#x7684; Client &#x8BBF;&#x95EE; HBase &#x96C6;&#x7FA4;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x5C11;&#x6570;&#x51E0;&#x4E2A;&#x8282;&#x70B9;&#xFF0C;&#x9020;&#x6210;&#x5C11;&#x6570; RegionServer &#x7684;&#x8BFB;/&#x5199;&#x8BF7;&#x6C42;&#x8FC7;&#x591A;&#x3001;&#x8D1F;&#x8F7D;&#x8FC7;&#x5927;&#xFF0C;&#x800C;&#x5176;&#x4ED6; RegionServer &#x8D1F;&#x8F7D;&#x5374;&#x5F88;&#x5C0F;&#xFF0C;&#x5C31;&#x9020;&#x6210;&#x4E86;&#x201C;&#x70ED;&#x70B9;&#x201D;&#x73B0;&#x8C61;&#x3002;</p>
+<h3 id="&#x89E3;&#x51B3;&#x65B9;&#x6848;"><a name="&#x89E3;&#x51B3;&#x65B9;&#x6848;" class="anchor-navigation-ex-anchor" href="#&#x89E3;&#x51B3;&#x65B9;&#x6848;"><i class="fa fa-link" aria-hidden="true"></i></a>7.2.1. &#x89E3;&#x51B3;&#x65B9;&#x6848;</h3>
+<ul>
+<li><p>&#x9884;&#x5206;&#x533A;
+&#x9884;&#x5206;&#x533A;&#x7684;&#x76EE;&#x7684;&#x8BA9;&#x8868;&#x7684;&#x6570;&#x636E;&#x53EF;&#x4EE5;&#x5747;&#x8861;&#x7684;&#x5206;&#x6563;&#x5728;&#x96C6;&#x7FA4;&#x4E2D;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x9ED8;&#x8BA4;&#x53EA;&#x6709;&#x4E00;&#x4E2A; Region &#x5206;&#x5E03;&#x5728;&#x96C6;&#x7FA4;&#x7684;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x4E0A;&#x3002;</p>
+</li>
+<li><p>&#x52A0;&#x76D0;</p>
+<p>&#x8FD9;&#x91CC;&#x6240;&#x8BF4;&#x7684;&#x52A0;&#x76D0;&#x4E0D;&#x662F;&#x5BC6;&#x7801;&#x5B66;&#x4E2D;&#x7684;&#x52A0;&#x76D0;&#xFF0C;&#x800C;&#x662F;&#x5728; RowKey &#x7684;&#x524D;&#x9762;&#x589E;&#x52A0;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x5177;&#x4F53;&#x5C31;&#x662F;&#x7ED9; RowKey &#x5206;&#x914D;&#x4E00;&#x4E2A;&#x968F;&#x673A;&#x524D;&#x7F00;&#x4EE5;&#x4F7F;&#x5F97;&#x5B83;&#x548C;&#x4E4B;&#x524D;&#x7684; RowKey &#x7684;&#x524D;&#x7F00;&#x4E0D;&#x540C;&#xFF0C;&#x4FDD;&#x969C;&#x6570;&#x636E;&#x5728;Regions&#x95F4;&#x7684;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x3002;</p>
+<p>&#x7F3A;&#x70B9;&#xFF1A;&#x56E0;&#x4E3A;&#x6DFB;&#x52A0;&#x7684;&#x662F;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x57FA;&#x4E8E;&#x539F;RowKey&#x67E5;&#x8BE2;&#x65F6;&#x65E0;&#x6CD5;&#x77E5;&#x9053;&#x968F;&#x673A;&#x6570;&#x662F;&#x4EC0;&#x4E48;&#xFF0C;&#x90A3;&#x6837;&#x5728;&#x67E5;&#x8BE2;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x9700;&#x8981;&#x53BB;&#x5404;&#x4E2A;&#x53EF;&#x80FD;&#x7684;Regions&#x4E2D;&#x67E5;&#x627E;&#xFF08;&#x5168;&#x8868;&#x626B;&#x63CF;&#xFF09;&#xFF0C;Salting&#x5BF9;&#x4E8E;&#x8BFB;&#x53D6;&#x662F;&#x5229;&#x7A7A;&#x7684;&#x3002;&#x5E76;&#x4E14;&#x52A0;&#x76D0;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x589E;&#x52A0;&#x4E86;&#x8BFB;&#x5199;&#x65F6;&#x7684;&#x541E;&#x5410;&#x91CF;&#x3002;</p>
+</li>
+</ul>
+<ul>
+<li><p>&#x54C8;&#x5E0C;</p>
+<p>&#x54C8;&#x5E0C;&#x4F1A;&#x4F7F;&#x540C;&#x4E00;&#x884C;&#x6C38;&#x8FDC;&#x7528;&#x4E00;&#x4E2A;&#x524D;&#x7F00;&#x52A0;&#x76D0;&#x3002;&#x54C8;&#x5E0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x8D1F;&#x8F7D;&#x5206;&#x6563;&#x5230;&#x6574;&#x4E2A;&#x96C6;&#x7FA4;&#xFF0C;&#x4F46;&#x662F;&#x8BFB;&#x5374;&#x662F;&#x53EF;&#x4EE5;&#x9884;&#x6D4B;&#x7684;&#x3002;&#x4F7F;&#x7528;&#x786E;&#x5B9A;&#x7684;&#x54C8;&#x5E0C;&#x53EF;&#x4EE5;&#x8BA9; Client &#x91CD;&#x6784;&#x5B8C;&#x6574;&#x7684; RowKey&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <code>get</code> &#x64CD;&#x4F5C;&#x51C6;&#x786E;&#x83B7;&#x53D6;&#x67D0;&#x4E00;&#x4E2A;&#x884C;&#x6570;&#x636E;&#xFF0C;&#x5982; <code>rowkey=MD5(username).subString(0,10)+&#x65F6;&#x95F4;&#x6233;</code> </p>
+<p>&#x7F3A;&#x70B9;&#xFF1A;&#x4E0E; Reversing &#x7C7B;&#x4F3C;&#xFF0C;Hashing &#x4E5F;&#x4E0D;&#x5229;&#x4E8E; Scan&#xFF0C;&#x56E0;&#x4E3A;&#x6253;&#x4E71;&#x4E86;&#x539F;RowKey&#x7684;&#x81EA;&#x7136;&#x987A;&#x5E8F;&#x3002;</p>
+</li>
+</ul>
+<ul>
+<li><p>&#x53CD;&#x8F6C;
+&#x53CD;&#x8F6C;&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#x6216;&#x8005;&#x6570;&#x5B57;&#x683C;&#x5F0F;&#x7684; RowKey&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x4F7F;&#x5F97; RowKey &#x4E2D;&#x7ECF;&#x5E38;&#x6539;&#x53D8;&#x7684;&#x90E8;&#x5206;&#xFF08;&#x6700;&#x6CA1;&#x6709;&#x610F;&#x4E49;&#x7684;&#x90E8;&#x5206;&#xFF09;&#x653E;&#x5728;&#x524D;&#x9762;&#x3002;&#x53EF;&#x4EE5;&#x6709;&#x6548;&#x7684;&#x968F;&#x673A; RowKey&#xFF0C;&#x4F46;&#x727A;&#x7272;&#x4E86;RowKey &#x7684;&#x6709;&#x5E8F;&#x6027;&#x3002;</p>
+<p>&#x7F3A;&#x70B9;&#xFF1A;&#x5229;&#x4E8E;Get&#x64CD;&#x4F5C;&#xFF0C;&#x4F46;&#x4E0D;&#x5229;&#x4E8E;Scan&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x4E3A;&#x6570;&#x636E;&#x5728;&#x539F;RowKey&#x4E0A;&#x7684;&#x81EA;&#x7136;&#x987A;&#x5E8F;&#x5DF2;&#x7ECF;&#x88AB;&#x6253;&#x4E71;&#x3002;</p>
+</li>
+</ul>
+<footer class="page-footer"><span class="copyright">Copyright &#xA9; sciatta.com 2020 all right reserved&#xFF0C;powered by Gitbook</span><span class="footer-modification">&#x4FEE;&#x8BA2;&#x65F6;&#x95F4;: 
+2021-02-28 20:16:31
+</span></footer>
+<script>console.log("plugin-popup....");document.onclick = function(e){ e.target.tagName === "IMG" && window.open(e.target.src,e.target.src)}</script><style>img{cursor:pointer}</style>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="HBase集群安装部署.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: HBase集群安装部署">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"大数据数据库之HBase","level":"1.2.9.2","depth":3,"next":{"title":"Flume","level":"1.2.10","depth":2,"ref":"","articles":[{"title":"Flume安装部署","level":"1.2.10.1","depth":3,"path":"src/develop/flume/Flume安装部署.md","ref":"src/develop/flume/Flume安装部署.md","articles":[]},{"title":"Flume数据采集","level":"1.2.10.2","depth":3,"path":"src/develop/flume/Flume数据采集.md","ref":"src/develop/flume/Flume数据采集.md","articles":[]}]},"previous":{"title":"HBase集群安装部署","level":"1.2.9.1","depth":3,"path":"src/develop/hbase/HBase集群安装部署.md","ref":"src/develop/hbase/HBase集群安装部署.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["hide-element","expandable-chapters","code","splitter","-lunr","-search","search-pro","pageview-count","tbfed-pagefooter","popup","auto-scroll-table","-sharing","github","github-buttons","ga","baidu-v3","donate","anchors","anchor-navigation-ex","sitemap"],"pluginsConfig":{"tbfed-pagefooter":{"copyright":"Copyright &copy sciatta.com 2020","modify_label":"修订时间: ","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/sciatta"},"splitter":{},"search-pro":{},"auto-scroll-table":{},"popup":{},"code":{"copyButtons":true},"donate":{"alipay":"/develop-stack/assets/alipay.jpg","alipayText":" ","button":"捐赠","title":"","wechat":"/develop-stack/assets/wechat.jpg","wechatText":" "},"baidu-v3":{},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":false,"float":{"floatIcon":"fa fa-navicon","level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"fa fa-hand-o-right","level2Icon":"fa fa-hand-o-right","level3Icon":"fa fa-hand-o-right","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":true},"sitemap":{"hostname":"http://www.sciatta.com/"},"pageview-count":{},"github-buttons":{"buttons":[{"user":"sciatta","repo":"develop-stack","type":"star","count":true,"size":"small"}]},"ga":{"configuration":"auto","token":"UA-156491400-1"},"baidu":{"token":"c6612709c010da681bbd4b785968a638"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{},"expandable-chapters":{}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"src/develop/hbase/大数据数据库之HBase.md","mtime":"2021-02-28T12:16:31.324Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-03-07T13:19:15.450Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-hide-element/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-code/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-splitter/splitter.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search-pro/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-pageview-count/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-auto-scroll-table/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github-buttons/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-baidu-v3/baidu-tongji.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-donate/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
