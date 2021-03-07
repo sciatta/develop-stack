@@ -17,7 +17,6 @@
             * [SpringBoot核心功能](src/language/java/spring/SpringBoot核心功能.md)
         * Dubbo
             * [Dubbo源码分析](src/language/java/dubbo/Dubbo源码分析.md)
-    * scala
 * Bigdata
     * Hadoop
         * HDFS
