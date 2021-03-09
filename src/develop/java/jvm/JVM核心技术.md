@@ -848,7 +848,7 @@ CMS有单独收集老年代的行为
 1. 如果创建一个大对象，Eden区放不下这个大对象，会直接保存在老年代，如果老年代空间也不足，就会触发Full GC。
 
 2. 如果有持久代空间的话，系统当中需要加载的类，调用的方法很多，同时持久代当中没有足够的空间，就触发一次Full GC。
-3. 在发生Minor GC之前，虚拟机会先检查老年代的最大的连续内存空间是否大于新生代的所有对象的空间，如果这个条件成立，Minor GC是安全的。如果不成立虚拟机会查看HanlerPromotionFailure设置值是否允许担当失败，如果允许，那么会继续检查老年代最大可用的连续内存空间是否大于历次晋级到老年代对象的平均大小，如果大于就尝试一次Minor GC， 如果小于，或者HanlerPromotionFailure 不愿承担风险就要进行一次Full GC 。
+3. 在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlerPromotionFailure设置（**jdk 6 update 24 之后不判断此参数**）是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小。如果大于，将尝试着进行一次Monitor GC，尽管这次GC是有风险的。如果小于，或者HandlerPromotionFailure设置不允许冒险（**老年代空间分配担保**），那这时也要改为进行一次Full GC
 4. promotion failure发生在Young GC，如果Survivor区当中存活对象的年龄达到了设定值，会就将Survivor区当中的对象拷贝到老年代，如果老年代的空间不足，就会发生promotion failure， 接下去就会发生Full GC。
 5. 显式调用System.gc。但不会马上触发Full GC。
 
@@ -1119,6 +1119,144 @@ G1的改进版本，跟ZGC类似。
 | NewRatio=2       | new:old=1:2         |                                                              |
 | SurvivorRatio=8  | survivor:eden=1:1:8 |                                                              |
 | G1HeapRegionSize |                     | max((MinHeapSize+MaxHeapSize)/2/2048, 1)<br />注：2048是目标region数量，1是最小RegionSize |
+
+
+
+## 内存分配与回收实战
+
+### 对象优先分配到Eden区
+
+- 新生代10M，老年代10M，eden8M，so和s1各1M
+- a1，a2，a3，共6M，优先分配到Eden区，当存入a4时，内存大小不满足，触发minor GC；a1，a2，a3仍在使用，因此要复制到s0中，但s0只有1M放不下，只好通过**分配担保机制**将a1，a2，a3提前晋升到老年代，然后Eden存入a4
+
+```java
+// -XX:+UseSerialGC -Xms20m -Xmx20m -Xmn10m -XX:+PrintGCDetails -XX:SurvivorRatio=8
+public class MinorGC {
+    public static final int _1M = 1024 * 1024;    // 1MB
+    
+    public static void main(String[] args) {
+        byte[] a1, a2, a3, a4;  // 字节数组->大对象
+        
+        a1 = new byte[2 * _1M];
+        a2 = new byte[2 * _1M];
+        a3 = new byte[2 * _1M];
+    
+        a4 = new byte[4 * _1M]; // young gc
+    }
+}
+```
+
+```shell
+# gc时的内存快照
+[GC (Allocation Failure) [DefNew: 7570K->380K(9216K), 0.0055710 secs] 7570K->6524K(19456K), 0.0056127 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+# 最后程序的内存快照
+Heap
+ def new generation   total 9216K, used 4640K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)
+ # eden 52% -> a4
+  eden space 8192K,  52% used [0x00000007bec00000, 0x00000007bf0290f0, 0x00000007bf400000)
+  from space 1024K,  37% used [0x00000007bf500000, 0x00000007bf55f0e0, 0x00000007bf600000)
+  to   space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)
+ tenured generation   total 10240K, used 6144K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)
+ # old 60% -> a1, a2, a3
+   the space 10240K,  60% used [0x00000007bf600000, 0x00000007bfc00030, 0x00000007bfc00200, 0x00000007c0000000)
+ Metaspace       used 2964K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 326K, capacity 388K, committed 512K, reserved 1048576K
+```
+
+
+
+### 大对象直接进入老年代
+
+```java
+// -XX:+UseSerialGC -Xms20m -Xmx20m -Xmn10m -XX:+PrintGCDetails -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=3145728
+public class BigObjectToOld {
+    public static void main(String[] args) {
+        byte[] a1 = new byte[MinorGC._1M * 4];  // -XX:PretenureSizeThreshold=3145728 大于此值，直接晋升老年代
+    }
+}
+```
+
+```shell
+Heap
+ def new generation   total 9216K, used 1590K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)
+  eden space 8192K,  19% used [0x00000007bec00000, 0x00000007bed8d8f0, 0x00000007bf400000)
+  from space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400000, 0x00000007bf500000)
+  to   space 1024K,   0% used [0x00000007bf500000, 0x00000007bf500000, 0x00000007bf600000)
+ tenured generation   total 10240K, used 4096K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)
+ # 直接进入老年代
+   the space 10240K,  40% used [0x00000007bf600000, 0x00000007bfa00010, 0x00000007bfa00200, 0x00000007c0000000)
+ Metaspace       used 2944K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 320K, capacity 388K, committed 512K, reserved 1048576K
+```
+
+
+
+### 长期存活对象进入老年代
+
+- 第一次young gc，a1的年龄为1，进入s0
+- 第二次young gc，a1的年龄为2，超过了MaxTenuringThreshold阈值，晋升到老年代
+
+```java
+// -XX:+UseSerialGC -Xms20m -Xmx20m -Xmn10m -XX:+PrintGCDetails -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=1 -XX:+PrintTenuringDistribution
+public class ToOld {
+    public static void main(String[] args) {
+        byte[] a1, a2, a3;
+        // 注意：如果Survivor中相同年龄对象的大小之和大于Survivor空间的一半，则大于等于该年龄的对象直接晋升，MaxTenuringThreshold不起作用
+        a1 = new byte[MinorGC._1M / 8];
+        
+        a2 = new byte[4 * MinorGC._1M];
+        a2 = null;
+        a3 = new byte[4 * MinorGC._1M]; // eden 8m，a1（0->1），第一次gc
+        
+        a3 = null;
+        a3 = new byte[4 * MinorGC._1M]; // 第二次gc，a1（1->2）晋升到old
+    }
+}
+```
+
+```shell
+# 第一次minor gc，只剩下a1
+[GC (Allocation Failure) [DefNew
+Desired survivor size 524288 bytes, new threshold 1 (max 1)
+- age   1:     529960 bytes,     529960 total
+: 5979K->517K(9216K), 0.0016938 secs] 5979K->517K(19456K), 0.0017407 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+# 第二次minor gc，新生代清空，a1晋升到老年代
+[GC (Allocation Failure) [DefNew
+Desired survivor size 524288 bytes, new threshold 1 (max 1)
+- age   1:        576 bytes,        576 total
+: 4697K->0K(9216K), 0.0018345 secs] 4697K->502K(19456K), 0.0018639 secs] [Times: user=0.00 sys=0.00, real=0.01 secs] 
+Heap
+ def new generation   total 9216K, used 4234K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)
+  eden space 8192K,  51% used [0x00000007bec00000, 0x00000007bf022748, 0x00000007bf400000)
+  from space 1024K,   0% used [0x00000007bf400000, 0x00000007bf400240, 0x00000007bf500000)
+  to   space 1024K,   0% used [0x00000007bf500000, 0x00000007bf500000, 0x00000007bf600000)
+ tenured generation   total 10240K, used 502K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)
+   the space 10240K,   4% used [0x00000007bf600000, 0x00000007bf67d9b0, 0x00000007bf67da00, 0x00000007c0000000)
+ Metaspace       used 3068K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 335K, capacity 388K, committed 512K, reserved 1048576K
+```
+
+```shell
+# 当 -XX:MaxTenuringThreshold=15
+# age增加，没有晋升
+[GC (Allocation Failure) [DefNew
+Desired survivor size 524288 bytes, new threshold 15 (max 15)
+- age   1:     520552 bytes,     520552 total
+: 5650K->508K(9216K), 0.0017342 secs] 5650K->508K(19456K), 0.0017717 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+[GC (Allocation Failure) [DefNew
+Desired survivor size 524288 bytes, new threshold 15 (max 15)
+- age   2:     505320 bytes,     505320 total
+: 4604K->493K(9216K), 0.0011549 secs] 4604K->493K(19456K), 0.0011774 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+Heap
+ def new generation   total 9216K, used 4917K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)
+  eden space 8192K,  54% used [0x00000007bec00000, 0x00000007bf052060, 0x00000007bf400000)
+  from space 1024K,  48% used [0x00000007bf400000, 0x00000007bf47b5e8, 0x00000007bf500000)
+  to   space 1024K,   0% used [0x00000007bf500000, 0x00000007bf500000, 0x00000007bf600000)
+ tenured generation   total 10240K, used 0K [0x00000007bf600000, 0x00000007c0000000, 0x00000007c0000000)
+   the space 10240K,   0% used [0x00000007bf600000, 0x00000007bf600000, 0x00000007bf600200, 0x00000007c0000000)
+ Metaspace       used 2970K, capacity 4496K, committed 4864K, reserved 1056768K
+  class space    used 327K, capacity 388K, committed 512K, reserved 1048576K
+```
 
 
 
