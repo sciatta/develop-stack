@@ -777,39 +777,45 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 ### 垃圾回收算法
 
-- Mark-Sweep（标记清除算法）
+- Mark-Sweep（标记清除）
 
   算法：标记阶段标记出所有要回收的对象；清除阶段清除被标记对象的空间。
 
   优缺点：实现简单，容易产生碎片。
 
-- Mark-Copy（标记复制算法）
+- Mark-Copy（标记复制）
 
-  算法：将可用内存划分为大小相等的两块，每次只使用其中的一块。当进行垃圾回收时，把其中存活的对象全部负责到另一块中，然后把已使用的空间一次清除。（遍历“GC Roots”的过程就可以向另一块复制）
+  算法：将可用内存划分为大小相等的两块，每次只使用其中的一块。当进行垃圾回收时，把其中存活的对象全部复制到另一块中，然后把已使用的空间一次清除。（遍历“GC Roots”的过程就可以向另一块复制）
 
-  优缺点：不容易产生碎片；当有大量存活对象时，空间利用率低
+  优缺点：不容易产生碎片；当有大量存活对象时，复制效率低；只可使用一半内存，空间利用率低。
 
-- Mark-Compact（标记整理算法）
+- Mark-Compact（标记整理）
 
   算法：先标记存活对象，然后把存活对象向一边移动，然后清理边界以外的内存（先遍历“GC Roots”标记存活对象，然后再向一边移动；遍历的过程不可移动，否则可能会替换未遍历的对象）。
 
   优缺点：不容易产生碎片；内存利用率高；存活对象少且较分散时，移动次数多，效率低
 
-- 分代收集算法
+- <font color=red>分代收集算法</font>
 
-  分代假设：大部分新生对象很快无用；存活较长时间的对象，可能存活更长时间。
+  分代假设
 
-  算法：
-
-  1. 由于新生代每次垃圾回收都要回收大部分对象，因此采用Coping算法。新生代分成一块较大的Eden空间和两块较小的Survivor空间。每次只使用Eden和其中一块Survivor空间。当垃圾回收时，把存活对象放到未使用的Survivor空间，清空Eden和之前使用过的Survivor空间。
-  2. 由于老年代每次只回收少量对象，因此采用Mark-Compact算法。
+  1. 大部分新生对象很快无用，朝生夕灭
+2. 存活较长时间的对象，可能存活更长时间
+  3. 跨代引用对于同代引用仅占极少数
+  
+  算法
+  
+  1. 由于新生代每次垃圾回收都要回收大部分对象（朝生夕灭），因此采用Mark-Copy算法。新生代分成一块较大的Eden空间和两块较小的Survivor空间。每次只使用Eden和其中一块Survivor空间。当垃圾回收时，把存活对象放到未使用的Survivor空间，清空Eden和之前使用过的Survivor空间。
+  2. 由于老年代每次只回收少量对象（存活更长时间），因此采用Mark-Compact算法。
 
 
 
 
 ### 垃圾回收过程
 
-**Minor GC**
+**Minor GC / Young GC**
+
+新生代GC
 
 1. 新创建对象被分配到Eden，两个Survivor是空的
 2. 当Eden空间第一次被**填满**了，触发Minor GC；将Eden标记存活的对象复制到S0，对象的age+1，然后清空Eden
@@ -817,13 +823,34 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 4. Minor GC不断重复，S0和S1的角色也会随之切换。
 5. 在一次Minor GC后，当对象的age（基本是Survivor区的对象）达到某一个阈值，则此对象会从年轻代晋升到老年代，同时对象的age+1。之后，会有源源不断的对象晋升到老年代。
 
+
+
+**Major GC / Old GC**
+
+老年代GC
+
+CMS有单独收集老年代的行为
+
+
+
+**Mixed GC**
+
+混合GC
+
+收集新生代和部分老年代，G1GC
+
+
+
 **Full GC**
 
-  3. 如果创建一个大对象，Eden区放不下这个大对象，会直接保存在老年代，如果老年代空间也不足，就会触发Full GC。
-    2. 如果有持久代空间的话，系统当中需要加载的类，调用的方法很多，同时持久代当中没有足够的空间，就触发一次Full GC。
-    3. 在发生Minor GC之前，虚拟机会先检查老年代的最大的连续内存空间是否大于新生代的所有对象的空间，如果这个条件成立，Minor GC是安全的。如果不成立虚拟机会查看HanlerPromotionFailure设置值是否允许担当失败，如果允许，那么会继续检查老年代最大可用的连续内存空间是否大于历次晋级到老年代对象的平均大小，如果大于就尝试一次Minor GC， 如果小于，或者HanlerPromotionFailure 不愿承担风险就要进行一次Full GC 。
-    4. promotion failure发生在Young GC，如果Survivor区当中存活对象的年龄达到了设定值，会就将Survivor区当中的对象拷贝到老年代，如果老年代的空间不足，就会发生promotion failure， 接下去就会发生Full GC。
-    5. 显式调用System.gc。但不会马上触发Full GC。
+整堆GC，收集整个堆和方法区
+
+1. 如果创建一个大对象，Eden区放不下这个大对象，会直接保存在老年代，如果老年代空间也不足，就会触发Full GC。
+
+2. 如果有持久代空间的话，系统当中需要加载的类，调用的方法很多，同时持久代当中没有足够的空间，就触发一次Full GC。
+3. 在发生Minor GC之前，虚拟机会先检查老年代的最大的连续内存空间是否大于新生代的所有对象的空间，如果这个条件成立，Minor GC是安全的。如果不成立虚拟机会查看HanlerPromotionFailure设置值是否允许担当失败，如果允许，那么会继续检查老年代最大可用的连续内存空间是否大于历次晋级到老年代对象的平均大小，如果大于就尝试一次Minor GC， 如果小于，或者HanlerPromotionFailure 不愿承担风险就要进行一次Full GC 。
+4. promotion failure发生在Young GC，如果Survivor区当中存活对象的年龄达到了设定值，会就将Survivor区当中的对象拷贝到老年代，如果老年代的空间不足，就会发生promotion failure， 接下去就会发生Full GC。
+5. 显式调用System.gc。但不会马上触发Full GC。
 
 
 
@@ -847,11 +874,13 @@ CPU利用率高，暂停时间长。适用于几百MB堆内存的JVM，而且是
 
 ParNew + Serial Old
 
-改进版本的Serial GC，可以配合CMS使用。当使用 `-XX:+UseConcMarkSweepGC` 时，该选项自动可用。
+改进版本的**多线程**Serial GC，可以配合CMS使用。当使用 `-XX:+UseConcMarkSweepGC` 时，该选项自动可用。
 
 
 
 #### 并行GC（Parallel GC）
+
+<font color=red>可控吞吐量</font>
 
 **`-XX:+UseParallelGC`**（<font color=red>JDK8默认；注意如果是单核线程会退化为Mark Sweep Compact GC</font>）
 
@@ -875,6 +904,8 @@ Parallel Scavenge + Parallel Old
 
 
 #### 并发CMS GC
+
+<font color=red>响应时间优先，但不可控，可能会退化为Serial Old</font>
 
 Mostly Concurrency Mark and Sweep Garbage Collector
 
@@ -906,7 +937,7 @@ ParNew + CMS + Serial Old（备用）
 
 #### G1 GC
 
-Garbage First
+Garbage First <font color=red>延迟可控，可预测停顿时间</font>
 
 **`-XX:+UseG1GC`**（JDK9默认） 
 
@@ -1078,16 +1109,16 @@ G1的改进版本，跟ZGC类似。
 
 ### GC参数占比
 
-| 参数             | 并行GC占比        | G1GC                                                         |
-| ---------------- | ----------------- | ------------------------------------------------------------ |
-| MinHeapSize      | 物理内存1/64      | 物理内存1/64                                                 |
-| MaxHeapSize      | 物理内存1/4       | 物理内存1/4                                                  |
-| NewSize          | MinHeapSize/3     | MinHeapSize*5%                                               |
-| MaxNewSize       | MaxHeapSize/3     | MaxHeapSize*60%                                              |
-| OldSize          | NewSize*2         |                                                              |
-| NewRatio=2       | new:old=1:2       |                                                              |
-| SurvivorRatio=8  | survivor:eden=2:8 |                                                              |
-| G1HeapRegionSize |                   | max((MinHeapSize+MaxHeapSize)/2/2048, 1)<br />注：2048是目标region数量，1是最小RegionSize |
+| 参数             | 并行GC占比          | G1GC                                                         |
+| ---------------- | ------------------- | ------------------------------------------------------------ |
+| MinHeapSize      | 物理内存1/64        | 物理内存1/64                                                 |
+| MaxHeapSize      | 物理内存1/4         | 物理内存1/4                                                  |
+| NewSize          | MinHeapSize/3       | MinHeapSize*5%                                               |
+| MaxNewSize       | MaxHeapSize/3       | MaxHeapSize*60%                                              |
+| OldSize          | NewSize*2           |                                                              |
+| NewRatio=2       | new:old=1:2         |                                                              |
+| SurvivorRatio=8  | survivor:eden=1:1:8 |                                                              |
+| G1HeapRegionSize |                     | max((MinHeapSize+MaxHeapSize)/2/2048, 1)<br />注：2048是目标region数量，1是最小RegionSize |
 
 
 
