@@ -1,8 +1,33 @@
 # JDK内置命令行工具
 
+基于openjdk8u282
+
+```shell
+# 下载镜像
+docker pull openjdk:8u282-oracle
+
+# 启动镜像
+# 添加 --cap-add=SYS_PTRACE =解决=》 Can't attach to the process: ptrace(PTRACE_ATTACH, ..) failed for 253: Operation not permitted
+docker run --cap-add=SYS_PTRACE --name openjdk8 -it \
+-v /Users/yangxiaoyu/work/test/javadatas/exchange:/exchange \
+-d openjdk:8u282-oracle /bin/bash
+
+# 进入环境
+docker exec -it openjdk8 /bin/bash
+
+# 运行测试程序
+java -cp dev-java-jvm-1.0-SNAPSHOT.jar com.sciatta.dev.java.jvm.gc.GCLogAnalysis 3600 1000 1000
+```
+
+
+
 ## jps
 
+Jvm process status tool
+
 Lists the instrumented Java Virtual Machines (JVMs) on the target system. This command is experimental and unsupported.
+
+- jps -mlv
 
 ```shell
 # -m Displays the arguments passed to the main method. The output may be null for embedded JVMs.
@@ -15,6 +40,8 @@ jps -mlv
 
 ## jinfo
 
+Configuration info for java
+
 Generates configuration information. This command is experimental and unsupported.
 
 ```shell
@@ -25,12 +52,17 @@ jinfo <pid>
 
 ## jstat*
 
+Jvm statistics monitoring tool
+
 Monitors Java Virtual Machine (JVM) statistics. This command is experimental and unsupported.
 
 `-gc` 需要重点关注OU（老年代的使用量）、YGCT（年轻代GC消耗的总时间）、FGCT（Full GC 消耗的时间）
 
+- jstat -gc
+- jstat -gcutil
+
 ```shell
-# -gcutil Displays a summary about garbage collection statistics.
+# -gcutil Displays a summary about garbage collection statistics. 已使用空间占比
 # 1000 间隔时间 默认毫秒
 # 3 显示次数
 # -t 第一列显示自启动以来的时间戳，单位秒
@@ -53,7 +85,7 @@ jstat -gcutil -t <pid> 1000 3
          2540.3   1.75   0.00  35.78  60.57  98.26  97.02     38    0.222     2    0.199    0.422
          
 
-# -gc Garbage-collected heap statistics.
+# -gc Garbage-collected heap statistics. 监视java堆
 # jstat -gc -t 7534  1000 3
 jstat -gc -t <pid> 1000 3
 
@@ -84,7 +116,13 @@ Timestamp        S0C    S1C    S0U    S1U      EC       EU        OC         OU 
 
 ## jmap
 
+Memory map for java
+
 Prints shared object memory maps or heap memory details for a process, core file, or remote debug server. This command is experimental and unsupported.
+
+- jmap -heap
+- jmap -histo
+- jmap -dump
 
 ```shell
 # -heap 打印堆内存的配置和使用信息
@@ -146,6 +184,8 @@ jmap -dump:format=b,file=7534.hprof 7534
 
 Prints Java thread stack traces for a Java process, core file, or remote debug server. This command is experimental and unsupported.
 
+- jstack -l
+
 ```shell
 # 长列表模式，将线程相关的locks信息一起输出，比如持有的锁，等待的锁
 jstack -l 7534
@@ -177,9 +217,29 @@ jrunscript
 
 
 
-## jhat 
+## jhat*
 
-内存Dump分析工具
+Java Heap Analysis Tool 内存Dump分析工具
+
+Field Type对应表
+
+| BaseType Character | Type       | 解释     |
+| ------------------ | ---------- | -------- |
+| B                  | byte       |          |
+| C                  | char       |          |
+| D                  | double     |          |
+| F                  | float      |          |
+| I                  | int        |          |
+| J                  | long       |          |
+| L                  | ClassName; | 类的实例 |
+| S                  | short      |          |
+| Z                  | boolean    |          |
+| [                  | reference  | 一维数组 |
+| [[                 | reference  | 二维数组 |
+
+
+
+
 
 
 
