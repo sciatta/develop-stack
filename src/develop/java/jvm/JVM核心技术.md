@@ -582,7 +582,7 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 # 类加载器
 
-## 类的声明周期
+## 类的生命周期
 
 ![jvm_class_lifecycle](JVM核心技术.assets/jvm_class_lifecycle.png)
 
