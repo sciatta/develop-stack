@@ -26,7 +26,7 @@
 
 ![io_blocking](NIO模型与Netty.assets/io_blocking.png)
 
-应用进程一次recvfrom指令调用，内核的两个阶段 **准备数据** 和 **复制数据** 都被阻塞。
+<font color=red>应用进程一次recvfrom指令调用，内核的两个阶段 **准备数据** 和 **复制数据** 都被阻塞。</font>
 
 
 
@@ -42,13 +42,13 @@
 
 ![io_multiplexing](NIO模型与Netty.assets/io_multiplexing.png)
 
-IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，由内核负责查询是否准备好数据的轮询操作。看似比非阻塞IO还多了一个select指令调用开销，但是可以同时处理多个网络连接的IO。<font color=red>Server端优化的终极目标：Server端使用尽量上的线程，来处理尽量多的Client请求。</font>
+IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，由内核负责查询是否准备好数据的轮询操作。看似比非阻塞IO还多了一个select指令调用开销，但是可以同时处理多个网络连接的IO。<font color=red>Server端优化的终极目标：Server端使用尽量少的线程，来处理尽量多的Client请求。</font>
 
 当用户进程调用了select指令，应用进程会被阻塞；而同时，内核会“监视”所有select负责的socket，当任何一个socket中的数据准备好时，select就会返回。此时应用进程再调用recvfrom指令。
 
 同多线程 + blocking I/O相比，select可以同时处理多个网络连接
 
-- 多路复用的优势不是为了处理连接更快，而是为了支持更多的连接。比如网络连接是长连接或IO阻塞时间长的话，多线程 + blocking I/O的方式会大量使用线程资源，在任务未完成之前或Client未关闭前，无法将空闲线程归还到线程池中，可能的结果就是导致大量连接请求无法及时响应；而多路复用则可以使用单进程就可以同时处理多个链接请求。
+- <font color=red>多路复用的优势不是为了处理连接更快，而是为了支持更多的连接。</font>比如网络连接是长连接或IO阻塞时间长的话，多线程 + blocking I/O的方式会大量使用线程资源，在任务未完成之前或Client未关闭前，无法将空闲线程归还到线程池中，可能的结果就是导致大量连接请求无法及时响应；而多路复用则可以使用单进程就可以同时处理多个链接请求。
 - 当链接数不是很大，多线程 + blocking I/O的方式性能会更好一些，因为只有一次系统调用；而多路复用是两次系统调用。
 
 **对于一次读取数据请求分为两个阶段：数据准备和数据复制。对于数据准备的时间是不确定性的，因为客户端什么时候发送数据不确定，而对于数据复制的时间是有限的。多路复用就是利于一个监视线程监听多个连接是否完成数据准备，当某一个连接完成数据准备，select恢复，将任务分配给一个工作线程处理，而工作线程读取数据，内核数据复制阻塞的时间是非常小的，从而使得工作任务大部分时间可以充分利用CPU进行计算工作，而不是阻塞等待IO完成浪费CPU资源**。
@@ -68,6 +68,89 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
 
 # NIO
+
+## java NIO
+
+### 核心概念
+
+- Channel
+
+  Channel的数据可以读到Buffer中，Buffer中的数据也可以写入到Channel。
+
+  - FileChannel
+
+    基于File
+
+  - DatagramChannel
+
+    基于UDP
+
+  - SocketChannel
+
+    基于TCP
+
+  - ServerSocketChannel
+
+    监听TCP连接
+
+  Channel和Stream的区别
+
+  - Channel是双向的读写；而Stream是单向的，要么读，要么写
+  - Channel支持异步读写
+  - Channel的读写需借助Buffer
+
+- Buffer
+
+  Buffer覆盖了可以通过IO发送的基本数据类型。
+
+  - ByteBuffer
+  - CharBuffer
+  - DoubleBuffer
+  - FloatBuffer
+  - IntBuffer
+  - LongBuffer
+  - ShortBuffer
+
+- Selector
+
+  一个Selector支持一个单一的线程处理多个Channel。适用于应用包含许多连接，但每个连接的流量都很少的场景。为了监听一个Channel，需要向Selector注册。
+
+
+
+### Buffer
+
+#### Capacity, Position 和 Limit
+
+- flip 切换为读模式
+  - 初始处于写模式，capacity和limit指向Buffer最大容量，position指向0位置
+  - 每put数据一次，position下标下移一位；即position总是指向待插入数据位置
+  - `flip` 切换为读模式，limit指向原position位置，表示最大可读取位置，position指向0位置，表示起始可读取位置
+
+![nio_bytebuffer_flip](NIO模型与Netty.assets/nio_bytebuffer_flip.png)
+
+
+
+- rewind 重读数据
+  - 切换为读模式读取数据后，`rewind` 可重读已经读取过的数据，即将position指向0位置，limit不变
+
+
+
+- clear 清空Buffer
+  - 切换为写模式，`clear` 只是重置标志位，内部数据不会操作；即将position指向0位置，limit指向capacity位置
+
+
+
+- compact
+  - 由读模式切换为写模式，未读元素前置到0位置开始，position指向未读元素的最后一个元素之后，limit指向capacity位置
+
+![nio_bytebuffer_compact](NIO模型与Netty.assets/nio_bytebuffer_compact.png)
+
+
+
+- mark & reset
+  - 读模式下 `mark` 记录当前position位置，之后继续向后读取；`reset` 会重新将position指向 `mark` 标记的位置，可重新读取标记位置之后的数据
+
+
 
 ## Reactor模型
 
