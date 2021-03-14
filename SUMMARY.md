@@ -10,7 +10,6 @@
         * [Netty核心与源码解析](src/develop/io/Netty核心与源码解析.md)
     * Concurrency
         * [并发编程](src/develop/concurrency/并发编程.md)
-
     * Algorithm
         * [数据结构和算法](src/develop/algorithm/数据结构和算法.md)
     * Spring
@@ -24,7 +23,6 @@
             * [Kafka集群安装部署](src/develop/mq/kafka/Kafka集群安装部署.md)
             * [Kafka监控工具](src/develop/mq/kafka/Kafka监控工具.md)
             * [Kafka分布式消息流平台](src/develop/mq/kafka/Kafka分布式消息流平台.md)
-
     * Hadoop
         * HDFS
             * [HDFS核心功能原理](src/develop/hadoop/hdfs/HDFS核心功能原理.md)
