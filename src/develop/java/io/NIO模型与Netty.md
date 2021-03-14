@@ -79,7 +79,7 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
   - FileChannel
 
-    基于File
+    基于File，不支持非阻塞模式
 
   - DatagramChannel
 
@@ -113,7 +113,12 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
 - Selector
 
-  一个Selector支持一个单一的线程处理多个Channel。适用于应用包含许多连接，但每个连接的流量都很少的场景。为了监听一个Channel，需要向Selector注册。
+  <font color=red>一个Selector支持一个单一的线程处理多个Channel</font>。适用于应用包含许多连接，但每个连接的流量都很少的场景。为了监听一个Channel，需要向Selector注册。
+
+  - 线程上下文切换代价高
+  - 线程需要占用系统资源（内存）
+
+  注册的Channel必须是**非阻塞**模式。
 
 
 
@@ -149,6 +154,75 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
 - mark & reset
   - 读模式下 `mark` 记录当前position位置，之后继续向后读取；`reset` 会重新将position指向 `mark` 标记的位置，可重新读取标记位置之后的数据
+
+
+
+### Selector
+
+- channel必须是非阻塞，才能使用selector
+- SelectionKey可供监听的四种事件
+  - OP_CONNECT Channel连接Server成功（客户端）
+  - OP_ACCEPT ServerSocketChannel接收到一个客户端请求（服务端）
+  - OP_READ 数据准备好可读
+  - OP_WRITE Channel准备好可以用于写数据
+- channel向selector注册，并添加感兴趣的事件 `selectionKey.attach(theObject);`，可以向返回的SelectionKey对象附加有用的对象；在selector触发事件后，可以通过 `selector.selectedKeys()` 获得同register时返回一致的SelectionKey，然后可以通过 `Object attachedObj = selectionKey.attachment();` 使用注册时附加的对象
+- `select()`
+  - `int select()` selector阻塞，直到注册的一个channel的事件准备好
+  - `int select(long timeout)` 阻塞，指定超时时间
+  - `int selectNow()` 不阻塞，立即返回，不管channel是否准备好
+- selector不会主动移除处理过的channel，需要手动移除
+
+```java
+// 创建一个selector
+Selector selector = Selector.open();
+
+// channel必须是非阻塞，才能使用selector
+channel.configureBlocking(false);
+
+// channel向selector注册，并添加感兴趣的事件
+// 可以向返回的SelectionKey对象附加有用的对象，在selector触发事件后，可以使用附加的对象 selectionKey.attach(theObject);
+SelectionKey key = channel.register(selector, SelectionKey.OP_READ);
+
+while(true) {
+	// 准备监听事件，readyChannels有多少个channel准备好
+  int readyChannels = selector.selectNow();
+
+  if(readyChannels == 0) continue;
+
+  // 访问准备好的channel，同register时返回的SelectionKey一致
+  Set<SelectionKey> selectedKeys = selector.selectedKeys();
+
+  Iterator<SelectionKey> keyIterator = selectedKeys.iterator();
+	// 迭代准备好的channel
+  while(keyIterator.hasNext()) {
+
+    SelectionKey key = keyIterator.next();
+    Channel channel = key.channel();	// 可以转换为需要的实际channel，如 ServerSocketChannel or SocketChannel 
+
+    if(key.isAcceptable()) {
+        // a connection was accepted by a ServerSocketChannel.
+
+    } else if (key.isConnectable()) {
+        // a connection was established with a remote server.
+
+    } else if (key.isReadable()) {
+        // a channel is ready for reading
+
+    } else if (key.isWritable()) {
+        // a channel is ready for writing
+    }
+
+    // selector不会主动移除处理过的channel，需要手动移除
+    keyIterator.remove();
+  }
+}
+```
+
+
+
+### Channel
+
+#### SocketChannel 和ServerSocketChannel
 
 
 
