@@ -24,7 +24,7 @@
 
 ## 阻塞IO（blocking I/O）
 
-![io_blocking](NIO模型与Netty.assets/io_blocking.png)
+![io_blocking](NIO模型.assets/io_blocking.png)
 
 <font color=red>应用进程一次recvfrom指令调用，内核的两个阶段 **准备数据** 和 **复制数据** 都被阻塞。</font>
 
@@ -32,7 +32,7 @@
 
 ## 非阻塞IO（noblocking I/O）
 
-![io_noblocking](NIO模型与Netty.assets/io_noblocking.png)
+![io_noblocking](NIO模型.assets/io_noblocking.png)
 
 应用进程多次recvfrom指令调用，当内核没有准备好数据时，不会阻塞，而是返回一个Error。当内核准备好数据时，此时应用进程的recvfrom指令调用被阻塞，直到数据拷贝到应用进程的缓冲区。
 
@@ -40,7 +40,7 @@
 
 ## IO多路复用（I/O multiplexing）
 
-![io_multiplexing](NIO模型与Netty.assets/io_multiplexing.png)
+![io_multiplexing](NIO模型.assets/io_multiplexing.png)
 
 IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，由内核负责查询是否准备好数据的轮询操作。看似比非阻塞IO还多了一个select指令调用开销，但是可以同时处理多个网络连接的IO。<font color=red>Server端优化的终极目标：Server端使用尽量少的线程，来处理尽量多的Client请求。</font>
 
@@ -57,13 +57,13 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
 ## 信号驱动IO（signal blocking I/O）
 
-![io_signalblocking](NIO模型与Netty.assets/io_signalblocking.png)
+![io_signalblocking](NIO模型.assets/io_signalblocking.png)
 
 
 
 ## 异步IO（asynchronous I/O）
 
-![io_asynchronous](NIO模型与Netty.assets/io_asynchronous.png)
+![io_asynchronous](NIO模型.assets/io_asynchronous.png)
 
 
 
@@ -131,7 +131,7 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
   - 每put数据一次，position下标下移一位；即position总是指向待插入数据位置
   - `flip` 切换为读模式，limit指向原position位置，表示最大可读取位置，position指向0位置，表示起始可读取位置
 
-![nio_bytebuffer_flip](NIO模型与Netty.assets/nio_bytebuffer_flip.png)
+![nio_bytebuffer_flip](NIO模型.assets/nio_bytebuffer_flip.png)
 
 
 
@@ -148,7 +148,7 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 - compact
   - 由读模式切换为写模式，未读元素前置到0位置开始，position指向未读元素的最后一个元素之后，limit指向capacity位置
 
-![nio_bytebuffer_compact](NIO模型与Netty.assets/nio_bytebuffer_compact.png)
+![nio_bytebuffer_compact](NIO模型.assets/nio_bytebuffer_compact.png)
 
 
 
@@ -243,19 +243,19 @@ while(true) {
 
 ### 单Reactor单线程模型
 
-![nio_reactor_single_thread](NIO模型与Netty.assets/nio_reactor_single_thread.png)
+![nio_reactor_single_thread](NIO模型.assets/nio_reactor_single_thread.png)
 
 
 
 ### 单Reactor多线程模型
 
-![nio_reactor_threadpool](NIO模型与Netty.assets/nio_reactor_threadpool.png)
+![nio_reactor_threadpool](NIO模型.assets/nio_reactor_threadpool.png)
 
 
 
 ### 主从Reactor模型
 
-![nio_reactor_master_slave](NIO模型与Netty.assets/nio_reactor_master_slave.png)
+![nio_reactor_master_slave](NIO模型.assets/nio_reactor_master_slave.png)
 
 
 
