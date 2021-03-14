@@ -222,7 +222,20 @@ while(true) {
 
 ### Channel
 
+#### FileChannel
+
+- FileChannel不能设置为非阻塞模式
+
+
+
 #### SocketChannel 和ServerSocketChannel
+
+- SocketChannel
+  - 可以设置SocketChannel为非阻塞模式，异步模式调用 `connect()`, `read()` 和 `write()` 
+  - 非阻塞模式下，配合selector使用，由selector监听注册的channel事件是否准备好
+- ServerSocketChannel
+  - 阻塞模式 `ServerSocketChannel.accept()` 类似于 `SocketChannel.accept()` 
+  - 非阻塞模式 `serverSocketChannel.configureBlocking(false);` 方法 `ServerSocketChannel.accept()` 会立即返回
 
 
 
