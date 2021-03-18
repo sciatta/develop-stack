@@ -1000,6 +1000,36 @@ ssh root@172.16.92.132
 
 
 
+## nc
+
+```shell
+# 扫描tcp端口
+# -v 显示指令执行过程
+# -z 使用0输入/输出模式，只在扫描通信端口时使用
+# -w<超时秒数> 设置等待连线的时间
+nc -v -z -w2 localhost 8888-8890
+
+# -u 使用UDP传输协议
+nc -u -z -w2 localhost 1-10
+
+# 连接到指定主机端口，可以交互发送数据
+nc localhost 8888
+```
+
+
+
+## curl
+
+```shell
+# get 请求
+curl http://localhost:8888/abc\?a\=3
+
+# post 请求
+curl -d 'a=123' http://localhost:8888/hello\?f\=11
+```
+
+
+
 # 系统管理
 
 ## useradd
