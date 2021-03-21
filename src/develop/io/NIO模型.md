@@ -1,4 +1,6 @@
-# IO模型
+# 通信模式
+
+## IO模型
 
 |          | 阻塞                         | 非阻塞                         |
 | -------- | ---------------------------- | ------------------------------ |
@@ -22,7 +24,7 @@
 
 
 
-## 阻塞IO（blocking I/O）
+### 阻塞IO（blocking I/O）
 
 ![io_blocking](NIO模型.assets/io_blocking.png)
 
@@ -30,7 +32,7 @@
 
 
 
-## 非阻塞IO（noblocking I/O）
+### 非阻塞IO（noblocking I/O）
 
 ![io_noblocking](NIO模型.assets/io_noblocking.png)
 
@@ -38,7 +40,7 @@
 
 
 
-## IO多路复用（I/O multiplexing）
+### IO多路复用（I/O multiplexing）
 
 ![io_multiplexing](NIO模型.assets/io_multiplexing.png)
 
@@ -55,15 +57,273 @@ IO复用同非阻塞IO本质一样，但其利用了新的select系统调用，�
 
 
 
-## 信号驱动IO（signal blocking I/O）
+### 信号驱动IO（signal blocking I/O）
 
 ![io_signalblocking](NIO模型.assets/io_signalblocking.png)
 
 
 
-## 异步IO（asynchronous I/O）
+### 异步IO（asynchronous I/O）
 
 ![io_asynchronous](NIO模型.assets/io_asynchronous.png)
+
+
+
+## 内核指令调用实践
+
+**内核需要自我保护不可直接访问，同时还需要对外提供服务支持。应用通过向CPU发送中断指令来访问内核函数。CPU收到应用的中断指令后，会查询中断向量表，然后调用对应的内核回调函数。晶振会定时向CPU发送中断指令，从而使多线程轮换，但会产生线程上下文切换成本。**
+
+
+
+- 准备基础环境
+
+  ```shell
+  # 下载镜像
+  docker pull centos:7
+  
+  # 启动镜像
+  # 添加 --cap-add=SYS_PTRACE =解决=》 Can't attach to the process: ptrace(PTRACE_ATTACH, ..) failed for 253: Operation not permitted
+  docker run --cap-add=SYS_PTRACE --name develop -it \
+  -v /Users/yangxiaoyu/work/test/javadatas/exchange:/exchange \
+  -d centos:7 /bin/bash
+  
+  # 进入环境
+  docker exec -it develop /bin/bash
+  
+  # 内核指令追踪
+  yum -y install strace
+  
+  # netcat
+  yum -y install nc
+  
+  # 网络追踪 netstat
+  yum -y install net-tools
+  ```
+
+
+
+- Jdk1.5环境
+
+  [官方jdk下载地址](https://www.oracle.com/java/technologies/oracle-java-archive-downloads.html)
+
+  ```shell
+  # 安装jdk5
+  sh jdk-1_5_0_22-linux-amd64.bin
+  
+  # 设置环境变量
+  vi /etc/profile
+  export JAVA_HOME=/exchange/jdk1.5.0_22
+  export PATH=:$JAVA_HOME/bin:$PATH
+  
+  # 立即生效
+  source /etc/profile
+  
+  # 验证
+  java -version
+  ```
+
+
+
+- Jdk1.8环境
+
+  ```shell
+  # 安装jdk8
+  tar -xzvf jdk-8u271-linux-x64.tar.gz
+  
+  # 设置环境变量
+  vi /etc/profile
+  export JAVA_HOME=/exchange/jdk1.8.0_271
+  export PATH=:$JAVA_HOME/bin:$PATH
+  
+  # 立即生效
+  source /etc/profile
+  
+  # 验证
+  java -version
+  ```
+
+  
+
+### BIO
+
+#### 单线程
+
+基于jdk5运行程序
+
+```shell
+# jdk5 编译
+javac com/sciatta/dev/java/example/io/server/BIO.java
+
+# -ff            follow forks with output into separate files
+# -o file        send trace output to FILE instead of stderr
+strace -ff -o bio java com.sciatta.dev.java.example.io.server.BIO
+```
+
+分析日志 `tail -F bio.570`
+
+```shell
+# 创建fd3
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 3
+# 绑定端口
+bind(3, {sa_family=AF_INET, sin_port=htons(8888), sin_addr=inet_addr("0.0.0.0")}, 16) = 0
+# 监听
+listen(3, 50)
+# accept阻塞
+accept(3,
+
+# 客户端建立连接，创建fd5
+accept(3, {sa_family=AF_INET, sin_port=htons(57358), sin_addr=inet_addr("127.0.0.1")}, [16]) = 5
+# recvfrom阻塞
+recvfrom(5,
+
+# 客户端发送请求数据
+recvfrom(5, "hello\n", 8192, 0, NULL, NULL) = 6
+# 关闭客户端连接
+close(5)
+# accept阻塞
+accept(3,
+```
+
+总结
+
+- BIO模式下，服务端在等待客户端连接时调用accept阻塞，当有客户端连接时，调用recvfrom阻塞。如果是单线程模式下，阻塞于recvfrom，<font color=red>此时服务端无法接受其他客户端请求</font>
+- 为了改进使得服务端接受更多的客户端请求，采用线程池模式，当accept接受到客户端socket后，将socket交给线程池处理与客户端的读写请求，而服务端主线程则继续调用accept，响应客户端请求
+
+
+
+#### 多线程改进版
+
+基于jdk8运行程序
+
+```shell
+strace -ff -o Bootstrap java -cp bifrost-core-0.1.0-SNAPSHOT.jar com.sciatta.bifrost.core.Bootstrap
+```
+
+分析日志
+
+```shell
+# 创建ServerSocket监听
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 6
+bind(6, {sa_family=AF_INET, sin_port=htons(8888), sin_addr=inet_addr("0.0.0.0")}, 16) = 0
+listen(6, 50)
+# poll阻塞 同步IO多路复用
+poll([{fd=6, events=POLLIN|POLLERR}], 1, -1
+
+# 接收到客户端连接，客户端socket fd 7
+poll([{fd=6, events=POLLIN|POLLERR}], 1, -1) = 1 ([{fd=6, revents=POLLIN}])
+accept(6, {sa_family=AF_INET, sin_port=htons(57364), sin_addr=inet_addr("127.0.0.1")}, [16]) = 7
+# 马上阻塞
+poll([{fd=6, events=POLLIN|POLLERR}], 1, -1
+
+# 客户端请求递交给新的线程处理；创建线程（Linux是进程） fd 888
+clone(child_stack=0x7f9b89c8cfb0, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0x7f9b89c8d9d0, tls=0x7f9b89c8d700, child_tidptr=0x7f9b89c8d9d0) = 888
+
+# 读请求阻塞
+recvfrom(7,
+# 收到读请求
+recvfrom(7, "1234567\n", 8192, 0, NULL, NULL) = 8
+
+# 关闭客户端连接
+close(7)
+```
+
+总结
+
+- jkd8采用的是poll+accept模式处理客户端连接
+- 在Linux环境下，java创建的线程就是创建一个子进程，处理读请求仍然是调用recvfrom函数
+- <font color=red>虽然可以处理一定数量的客户端请求，但创建过多的系统进程，会导致内存浪费，CPU轮询上下文切换，以及系统本身对进程数量的限制，都导致了系统资源的浪费。因此需要使用比较少的线程来处理更多的客户端连接请求</font>
+
+
+
+### NIO
+
+基于jdk8运行程序
+
+```shell
+strace -ff -o Bootstrap java -cp bifrost-core-0.1.0-SNAPSHOT.jar com.sciatta.bifrost.core.Bootstrap
+```
+
+分析日志
+
+``` shell
+# 创建server socket fd5，绑定端口，监听
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 5
+bind(5, {sa_family=AF_INET, sin_port=htons(8888), sin_addr=inet_addr("0.0.0.0")}, 16) = 0
+listen(5, 50)
+# 设置为非阻塞模式
+fcntl(5, F_SETFL, O_RDWR|O_NONBLOCK)    = 0
+    
+# 循环 返回-1，表示没有客户端连接，不阻塞
+accept(5, 0x7feffc09fbe0, [16])         = -1 EAGAIN (Resource temporarily unavailable)
+
+# 接收到客户端连接 fd7
+accept(5, {sa_family=AF_INET, sin_port=htons(57464), sin_addr=inet_addr("127.0.0.1")}, [16]) = 7
+# 设置为非阻塞模式
+fcntl(7, F_SETFL, O_RDWR|O_NONBLOCK)    = 0
+
+# 读取数据
+read(7, "GET / HTTP/1.1\r\nUser-Agent: curl"..., 1024) = 78
+
+# 关闭客户端连接
+close(7)                                = 0
+```
+
+总结
+
+- accept为非阻塞模式，单一线程就可以实现同时处理客户端连接请求和读写数据
+- <font color=red>NIO模式会不断调用内核函数，浪费系统资源，用户态、内核态切换</font>
+
+
+
+### MIO
+
+基于jdk8运行程序
+
+```shell
+strace -ff -o Bootstrap java -cp bifrost-core-0.1.0-SNAPSHOT.jar com.sciatta.bifrost.core.Bootstrap
+```
+
+分析日志
+
+```shell
+# 创建server socket fd5，绑定端口，监听，设置为非阻塞
+socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 5
+bind(5, {sa_family=AF_INET, sin_port=htons(8888), sin_addr=inet_addr("0.0.0.0")}, 16) = 0
+listen(5, 50)
+fcntl(5, F_SETFL, O_RDWR|O_NONBLOCK)    = 0
+
+# 内核创建空间fd9，放置缓存注册的fd
+epoll_create(256)                       = 9
+# 注册fd5
+epoll_ctl(9, EPOLL_CTL_ADD, 5, {EPOLLIN, {u32=5, u64=139728171040773}}) = 0
+# 阻塞等待事件
+epoll_wait(9,
+
+# 收到accept事件，创建fd10
+epoll_wait(9, [{EPOLLIN, {u32=5, u64=139728171040773}}], 8192, -1) = 1
+accept(5, {sa_family=AF_INET, sin_port=htons(57472), sin_addr=inet_addr("127.0.0.1")}, [16]) = 10
+fcntl(10, F_SETFL, O_RDWR|O_NONBLOCK)   = 0
+# 注册fd10
+epoll_ctl(9, EPOLL_CTL_ADD, 10, {EPOLLIN, {u32=10, u64=139728171040778}}) = 0
+
+# 阻塞等待事件
+epoll_wait(9,
+
+# 收到read事件
+read(10, "GET / HTTP/1.1\r\nUser-Agent: curl"..., 1024) = 78
+# 关闭连接
+close(10)
+```
+
+总结
+
+- 单一线程就可以实现同时处理客户端连接请求和读写数据，select可以配置为阻塞模式等待客户端事件
+- 多路复用
+  - select 限制fd数量是1024，同步IO多路复用
+  - poll 对fd没有限制，同步IO多路复用，每次调用需要传入检测的fd（1）来确认是否IO准备就绪，同时内核会遍历这些fd（2）
+  - epoll
+    - epoll_create、epoll_ctl、epoll_wait
+    - <font color=red>每次调用不需要传入检测的fd，因为事先已经注册到内核空间中，同时也不需要遍历检测的所有fd，内核基于事件通知机制告知监听的哪一个fd准备就绪</font>
 
 
 
