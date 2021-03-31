@@ -42,6 +42,12 @@ source ~/.zshrc
 
 
 
+## 插件
+
+- jclasslib Bytecode viewer 反编译
+
+
+
 # Scala环境
 
 ## 配置SDK环境变量
