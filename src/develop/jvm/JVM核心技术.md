@@ -1170,6 +1170,10 @@ Heap
 
 ### 大对象直接进入老年代
 
+- java -XX:+PrintFlagsInitial -version 默认参数
+- java -XX:+PrintFlagsFinal -version 最终参数
+- 当PretenureSizeThreshold为0时，先在Eden区分配内存，不够的话，再到old区分配内存
+
 ```java
 // -XX:+UseSerialGC -Xms20m -Xmx20m -Xmn10m -XX:+PrintGCDetails -XX:SurvivorRatio=8 -XX:PretenureSizeThreshold=3145728
 public class BigObjectToOld {
