@@ -44,6 +44,8 @@ Configuration info for java
 
 Generates configuration information. This command is experimental and unsupported.
 
+- `jinfo -flag [+|-]name vmid` 开启或者关闭对应名称的参数。不重启虚拟机，动态调整jvm参数。`jinfo -flag +PrintGC pid`
+
 ```shell
 jinfo <pid>
 ```
