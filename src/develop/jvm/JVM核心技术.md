@@ -642,12 +642,28 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
    - 类完全限定名加载二进制字节流
    - 静态元数据加载为方法区运行的元数据
    - 内存堆中生成Class对象
+   
 2. 验证：验证格式、依赖
+
 3. 准备：静态字段分配内存，初始化零值
+
 4. 解析：符号引用解析为直接引用
+
 5. 初始化：静态变量、静态代码块
+
+   - 初始化阶段是执行初始化方法 `<clinit> ()`方法的过程
+
 6. 使用
+
 7. 卸载
+
+   卸载类即该类的Class对象被GC，卸载类需要满足3个要求:
+
+   1. 该类的所有的实例对象都已被GC，也就是说堆不存在该类的实例对象。
+   2. 该类没有在其他任何地方被引用
+   3. 该类的类加载器的实例已被GC
+
+   所以，在JVM生命周期类，由jvm自带的类加载器加载的类是不会被卸载的。但是由我们自定义的类加载器加载的类是可能被卸载的。
 
 
 
@@ -698,9 +714,11 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 **双亲委托**
 
-1. 当加载一个class时，首先从指定ClassLoader中查找，如AppClassLoader的缓存中查找，若找到则直接返回；否则，向上查找父ClassLoader，如ExtClassLoader和BootstrapClassLoader的缓存
+1. 当加载一个class时，首先从指定ClassLoader中查找，如AppClassLoader的缓存中查找，**若找到则直接返回**；否则，向上查找父ClassLoader，如ExtClassLoader和BootstrapClassLoader的缓存
 2. 若缓存中没有找到，则自上至下委托给父ClassLoader查找class
 3. 所有class延迟加载
+
+双亲委派模型保证了Java程序的稳定运行，可以避免类的重复加载（JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类），也保证了 Java 的核心 API 不被篡改。如果没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 `java.lang.Object` 类的话，那么程序运行的时候，系统就会出现多个不同的 `Object` 类。
 
 
 
@@ -745,11 +763,13 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
   - 线程独有
   - 记录字节码运行位置
+    - 实现逻辑跳转、循环、异常
+    - 线程恢复时原来程序执行的位置
 
 - 虚拟机栈
 
   - 线程独有
-  - 调用Java方法，都会创建栈帧
+  - 调用Java方法，都会创建栈帧，包括本地变量表、操作数栈、动态链表和返回值
 
 - 本地方法栈 Native Method Stack
 
@@ -778,7 +798,7 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
     - jdk1.7的方法区实现是永久代+堆，将字符串常量池和静态变量迁移到堆中
     - jdk1.8的方法区实现是MetaSpace+堆，用MetaSpace代替永久代，其是一块**本地内存**，不受jdk本身内存限制
       - 当类加载到内存中后，JVM会将<font color=red>class文件常量池</font>中的内容存放到<font color=red>运行时常量池</font>中，由此可知，运行时常量池也是每个类都有一个。class文件常量池中存的是字面量和符号引用，也就是说他们存的并不是对象的实例，而是对象的符号引用值。而经过解析（resolve）之后，也就是把符号引用替换为直接引用，**解析的过程会去查询字符串常量池**StringTable，以保证运行时常量池所引用的字符串与**字符串常量池**中所引用的是一致的。
-        - 字面量包括：文本字符串、声明final的常量值、基本数据类型的值
+        - 字面量包括：基本数据类型的值、文本字符串、声明<font color=red>final</font>的常量值
         - 符号引用包括：类完全限定名、字段名称和描述符、方法名称和描述符
 
 - 直接内存（堆外内存） Direct Memory
@@ -789,7 +809,49 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 # JVM启动参数
 
+## 重要参数
+
 具体Java8启动参数说明可以查看 https://docs.oracle.com/javase/8/docs/technotes/tools/unix/java.html 
+
+- 堆内存
+  - `-Xms` 初始堆内存
+  - `-Xmx` 最大堆内存（建议 Xms 和 Xmx 配置相同，防止性能抖动）
+  - `-XX:NewSize` 新生代初始内存大小
+  - `-XX:MaxNewSize` 新生代最大内存大小
+  - `-Xmn` 新生代内存大小（NewSize 和 MaxNewSize 大小相同）
+  - `-XX:NewRatio` 新生代和老年代内存占比，默认是2，即 新生代:老年代=1:2
+  - `-XX:SurvivorRatio` Survivor区和Eden区内存占比，默认是8，即 Survivor:Eden=1:8
+  - `-XX:PermSize` 永久代初始内存大小<font color=red>（1.7）</font>
+  - `-XX:MaxPermSize` 永久代最大内存大小<font color=red>（1.7）</font>
+  - `-XX:MetaspaceSize` 元空间初始内存大小<font color=red>（1.8）</font>
+  - `-XX:MaxMetaspaceSize` 元空间最大内存大小<font color=red>（1.8）</font>
+  - `-Xss` 单个线程栈大小
+  - `-XX:ThreadStackSize` 单个线程栈大小
+
+- GC相关
+  - `-XX:+UseSerialGC` 年轻代使用串行GC
+  - `-XX:+UseParNewGC` 年轻代使用并行GC，配置CMS使用
+  - `-XX:+UseParallelGC` 年轻代使用并行GC
+  - `-XX:+UseParallelOldGC` 老年代使用并行GC
+  - `-XX:ParallelGCThreads` 并行GC的线程数
+  - `-XX:+UseConcMarkSweepGC ` 老年代使用并发 CMS GC
+  - `-XX:+UseG1GC ` 使用G1GC
+  - `-XX:MaxGCPauseMillis` 预期G1每次执行GC操作的暂停时间
+  - `-XX:PretenureSizeThreshold` 控制晋级老年代大对象大小
+  - `-XX:TargetSurvivorRatio` 年轻代向老年代晋升的动态年龄计算
+  - `-XX:MaxTenuringThreshold` 年轻代向老年代晋升的年龄阈值
+  - `-Xloggc:gc.serial.log` GC日志路径
+  - `-XX:+PrintGCDetails` 每次GC打印日志
+  - `-XX:+PrintGCDateStamps` 每次GC打印日志增加时间戳
+  - `-XX:+HeapDumpOnOutOfMemoryError` 当发生OOM时dump堆到一个文件
+  - `-XX:HeapDumpPath=./GCLogAnalysis_dump.hprof` 指定dump路径
+  - `-XX:+UseCompressedClassPointers`  压缩类型指针
+  - `-XX:+UseCompressedOops` 压缩对象引用指针
+
+- jvm参数
+  - `-XX:+PrintFlagsInitial` jvm默认参数
+  - `-XX:+PrintFlagsFinal` jvm最终参数
+  - `-XX:+PrintCommandLineFlags` 命令行jvm参数
 
 
 
@@ -815,18 +877,22 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
   以下对象被认为是“GC Roots”对象：
 
-  1. 当前正在执行的方法里的局部变量和输入参数
+  1. 虚拟机栈(栈帧中的本地变量表)中引用的对象
+  2. 本地方法栈(Native 方法)中引用的对象
+  3. 方法区中类静态属性引用的对象
+  4. 方法区中常量引用的对象
+  5. 被同步锁持有的对象
+  6. 已启动的且未终止的Java线程
 
-  2. 活动线程
 
-  3. 所有类的静态字段
 
-  4. JNI引用
 
-  判断对象是否可回收：
-  
-  1. 可达性分析
-  2. 当对象没有重写finalize()方法或finalize()方法被调用过，JVM认为该对象不可以被救活，因此需要回收该对象
+### 对象是否可回收
+
+判断一个对象的死亡至少需要两次标记
+
+1. 如果对象进行可达性分析之后没发现与GC Roots相连的引用链，那它将会第一次标记并且进行一次筛选。判断的条件是决定这个对象是否有必要执行finalize()方法。如果对象有必要执行finalize()方法（有且未被调用），则被放入F-Queue队列中。
+2. GC对F-Queue队列中的对象进行二次标记。如果对象在finalize()方法中重新与引用链上的任何一个对象建立了关联，那么二次标记时则会将它移出“即将回收”集合。如果此时对象还没成功逃脱，那么只能被回收了。
 
 
 
@@ -855,7 +921,7 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
   分代假设
 
   1. 大部分新生对象很快无用，朝生夕灭
-2. 存活较长时间的对象，可能存活更长时间
+  2. 存活较长时间的对象，可能存活更长时间
   3. 跨代引用对于同代引用仅占极少数
   
   算法
@@ -870,13 +936,24 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
 
 **Minor GC / Young GC**
 
-新生代GC
+**新生代GC**
 
 1. 新创建对象被分配到Eden，两个Survivor是空的
 2. 当Eden空间第一次被**填满**了，触发Minor GC；将Eden标记存活的对象复制到S0，对象的age+1，然后清空Eden
 3. 接着下一次Eden空间被填满了，触发Minor GC；此时是将Eden标记存活的对象复制到S1，对象的age+1；同时，S0存活的对象也会复制到S1，对象的age+1。最后将Eden和S0全部清空。注意，此时S1中包括S0和Eden的存活对象，他们的age是不相同的
 4. Minor GC不断重复，S0和S1的角色也会随之切换。
 5. 在一次Minor GC后，当对象的age（基本是Survivor区的对象）达到某一个阈值，则此对象会从年轻代晋升到老年代，同时对象的age+1。之后，会有源源不断的对象晋升到老年代。
+   - parallel GC 默认15
+   - CMS GC 默认6
+
+
+
+**新生代晋升老年代**
+
+- 大对象直接晋升到老年代，避免复制成本
+- 新生代存活的对象年龄达到阈值-XX:MaxTenuringThreshold后，晋升老年代
+- young gc后，对象无法复制到survivor区，晋升到老年代
+- 动态年龄计算Hotspot 遍历所有对象时，按照年龄从小到大对其所占用的大小进行累积，当累积的某个年龄大小超过了 survivor 区容量的一半时（-XX:TargetSurvivorRatio参数控制，默认50），取这个年龄和 MaxTenuringThreshold 中更小的一个值，作为新的晋升年龄阈值
 
 
 
@@ -903,7 +980,7 @@ CMS有单独收集老年代的行为
 1. 如果创建一个大对象，Eden区放不下这个大对象，会直接保存在老年代，如果老年代空间也不足，就会触发Full GC。
 
 2. 如果有持久代空间的话，系统当中需要加载的类，调用的方法很多，同时持久代当中没有足够的空间，就触发一次Full GC。
-3. 在发生Minor GC之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间。如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlerPromotionFailure设置（**jdk 6 update 24 之后不判断此参数**）是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小。如果大于，将尝试着进行一次Monitor GC，尽管这次GC是有风险的。如果小于，或者HandlerPromotionFailure设置不允许冒险（**老年代空间分配担保**），那这时也要改为进行一次Full GC
+3. **在发生Minor GC之前**，虚拟机会先检查老年代**最大可用的连续空间**是否大于新生代所有对象总空间。如果这个条件成立，那么Minor GC可以确保是安全的。如果不成立，则虚拟机会查看HandlerPromotionFailure设置（**jdk 6 update 24 之后不判断此参数**）是否允许担保失败。如果允许，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小。如果大于，将尝试着进行一次Monitor GC，尽管这次GC是有风险的。如果小于，或者HandlerPromotionFailure设置不允许冒险，那这时改为进行一次Full GC（包括young gc）
 4. promotion failure发生在Young GC，如果Survivor区当中存活对象的年龄达到了设定值，会就将Survivor区当中的对象拷贝到老年代，如果老年代的空间不足，就会发生promotion failure， 接下去就会发生Full GC。
 5. 显式调用System.gc。但不会马上触发Full GC。
 
@@ -1260,7 +1337,7 @@ Heap
 public class ToOld {
     public static void main(String[] args) {
         byte[] a1, a2, a3;
-        // 注意：如果Survivor中相同年龄对象的大小之和大于Survivor空间的一半，则大于等于该年龄的对象直接晋升，MaxTenuringThreshold不起作用
+        // 注意：动态年龄计算Hotspot 遍历所有对象时，按照年龄从小到大对其所占用的大小进行累积，当累积的某个年龄大小超过了 survivor 区容量的一半时（-XX:TargetSurvivorRatio参数控制，默认50），取这个年龄和 MaxTenuringThreshold 中更小的一个值，作为新的晋升年龄阈值
         a1 = new byte[MinorGC._1M / 8];
         
         a2 = new byte[4 * MinorGC._1M];
@@ -1325,7 +1402,7 @@ Heap
 
 ### 对象头和对象引用
 
-在64位JVM中，对象头占用12byte，但需要以8字节（64bit）对齐，因此一个空类的实例至少占用**16字节**。
+在64位JVM中，对象头占用12byte（Markword占8字节，CP开启指针压缩占4字节），但需要以8字节（64bit）对齐，因此一个空类的实例至少占用**16字节**。
 
 在32位JVM中，对象头占用**8byte**，以4字节对齐。
 
