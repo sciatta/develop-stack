@@ -1633,3 +1633,118 @@ java -XX:+UseG1GC -Xms512m -Xmx512m -Xloggc:gc.g1.log -XX:+PrintGC -XX:+PrintGCD
 
 测试命令 `wrk -t8 -c40 -d30s http://localhost:8088/api/hello`
 
+
+
+## 实战
+
+### ScheduledThreadPoolExecutor导致内存泄露
+
+- 程序
+
+  ```java
+  public class FullGCLeak {
+      private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(50,
+              new ThreadPoolExecutor.DiscardOldestPolicy());
+      
+      private static class CardInfo {
+          BigDecimal price = new BigDecimal(0.0);
+          String name = "张三丰";
+          int age = 5;
+          Date birthday = new Date();
+          
+          public void m() {
+              // System.out.println(this);
+          }
+      }
+      
+      private static List<CardInfo> getAllCardInfo() {
+          List<CardInfo> taskList = new ArrayList<>();
+          
+          int num = 100;
+          for (int i = 0; i < num; i++) {
+              CardInfo cardInfo = new CardInfo();
+              taskList.add(cardInfo);
+          }
+          
+          return taskList;
+      }
+      
+      private static void modelFit() {
+          List<CardInfo> taskList = getAllCardInfo();
+          taskList.forEach(cardInfo -> {
+              executor.scheduleWithFixedDelay(() -> {
+                  cardInfo.m();
+              }, 2, 3, TimeUnit.SECONDS);
+          });
+      }
+      
+      public static void main(String[] args) throws InterruptedException {
+          executor.setMaximumPoolSize(50);
+          
+          for (; ; ) {
+              modelFit();
+              Thread.sleep(100);
+          }
+      }
+      
+  }
+  ```
+
+  
+
+- 执行启动程序命令
+
+  ```shell
+  java -Xms50m -Xmx50m \
+  -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log \
+  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=FullGCLeak_dump.hprof \
+  -cp dev-java-jvm-1.0-SNAPSHOT.jar com.sciatta.dev.java.jvm.gc.leak.FullGCLeak
+  ```
+
+- 监控命令
+
+  - 如果监控命令对生产环境系统性能有影响的话，需要开启jvm参数或在测试环境下重现问题，再进行修复
+
+  ```shell
+  # 发现内存持续上升，一直没有下降
+  top
+  
+  # 查询java进程id
+  jps
+  
+  # 查询堆配置是否正确
+  jmap -heap id
+  
+  # 每隔1s查看堆内存使用情况，发现young gc很少，每次young gc后，old区的使用量就会明显增大，持续增大到连续空闲空间小于年轻代历次平均晋升大小的话，就会发生full gc；发生full gc后，old区空间没有明显减少，young区减少一部分数据；程序继续运行后，当young区和old都装满对象后，开始频繁full gc，直到出现异常 java.lang.OutOfMemoryError: Java heap space
+  jstat -gc id 1000
+  ```
+
+- 开启jvm参数分析日志
+
+  ```shell
+  # 输出GC日志
+  -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log
+  
+  # 当出现OOM时，dump当前heap
+  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=FullGCLeak_dump.hprof
+  ```
+
+- 分析GC日志 `gc.log`
+
+  和 `jstat -gc` 命令分析结果一致
+
+- 分析Dump日志 `FullGCLeak_dump.hprof`
+
+  ```shell
+  # 使用jhat分析内存dump
+  jhat FullGCLeak_dump.hprof
+  
+  # 分析完成后访问
+  http://localhost:7000
+  
+  # 发现Card实例资源没有释放
+  # 原因：ScheduledThreadPoolExecutor是一个无界队列，如果周期运行的话，持有的对象不会释放，如果一直添加会出现OOM
+  # 修复：根据业务语义使得周期性执行的任务数量可控
+  ```
+
+  
