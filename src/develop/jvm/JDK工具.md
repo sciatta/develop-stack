@@ -1,19 +1,19 @@
 # JDK内置命令行工具
 
-基于openjdk8u282
+基于centos7
 
 ```shell
 # 下载镜像
-docker pull openjdk:8u282-oracle
+docker pull centos:7
 
 # 启动镜像
 # 添加 --cap-add=SYS_PTRACE =解决=》 Can't attach to the process: ptrace(PTRACE_ATTACH, ..) failed for 253: Operation not permitted
-docker run --cap-add=SYS_PTRACE --name openjdk8 -it \
+docker run --cap-add=SYS_PTRACE --name develop -it \
 -v /Users/yangxiaoyu/work/test/javadatas/exchange:/exchange \
--d openjdk:8u282-oracle /bin/bash
+-d centos:7 /bin/bash
 
 # 进入环境
-docker exec -it openjdk8 /bin/bash
+docker exec -it develop /bin/bash
 
 # 运行测试程序
 java -cp dev-java-jvm-1.0-SNAPSHOT.jar com.sciatta.dev.java.jvm.gc.GCLogAnalysis 3600 1000 1000
@@ -258,4 +258,134 @@ Visually monitors, troubleshoots, and profiles Java applications.
 ## jmc
 
 Java Mission Control is a Profiling, Monitoring, and Diagnostics Tools Suite.
+
+
+
+# 第三方工具
+
+## arthas
+
+### 启动
+
+```shell
+java -jar arthas-boot.jar
+
+# [1]: 1196 com.sciatta.dev.java.jvm.gc.leak.FullGCLeak
+# 选择要分析的程序：1
+```
+
+
+
+### 命令
+
+- help 
+
+  Display Arthas Help
+
+  ```shell
+  # 查看具体命令的帮助信息
+  help sc
+  ```
+
+  
+
+- sc
+
+  Search all the classes loaded by JVM 
+
+  - **查找具有某一特征的完全限定类名**
+  - **可以查找动态生成的java类，然后反编译查看源码**
+
+  ```shell
+  # 查找指定类
+  # -d 显示类的详细信息
+  sc -d *.FullGCLeak
+  ```
+
+  
+
+- jad
+
+  Decompile class
+
+  - **反编译**
+
+  ```shell
+  jad com.sciatta.dev.java.jvm.gc.leak.FullGCLeak
+  
+  # 输出反编译的源码到本地目录
+  jad --source-only com.sciatta.dev.java.jvm.gc.leak.FullGCLeak > /exchange/test/FullGCLeak.java
+  ```
+
+
+
+- thread
+
+  Display thread info, thread stack
+
+  - **分析死锁**
+
+  ```shell
+  # 显示死锁线程
+  thread -b
+  ```
+
+  
+
+- jvm
+
+  Display the target JVM information
+
+  ```shell
+  jvm
+  ```
+
+
+
+- mc
+
+  Memory compiler, compiles java files into bytecode and class files in memory.
+
+  - **编译java文件**
+
+  ```shell
+  # -c The hash code of the special ClassLoader
+  # -d Sets the destination directory for class files
+  mc -c 7852e922 /exchange/test/FullGCLeak.java -d /exchange/test
+  ```
+
+  
+
+- redefine 
+
+  Redefine classes.
+
+  - **热加载**
+
+  ```shell
+  # 反编译class将源码输出到指定文件
+  jad --source-only com.sciatta.dev.java.jvm.gc.leak.FullGCLeak > /exchange/test/FullGCLeak.java
+  
+  # 编辑修改
+  vi FullGCLeak.java
+  
+  # 获取指定类的类加载器的hashcode
+  # classLoaderHash   7852e922
+  sc -d *.FullGCLeak | grep classLoaderHash
+  
+  # 内存编译java->class
+  mc -c 7852e922 /exchange/test/FullGCLeak.java -d /exchange/test
+  
+  # 热加载
+  redefine /exchange/test/com/sciatta/dev/java/jvm/gc/leak/FullGCLeak$CardInfo.class
+  ```
+
+  
+
+### 场景
+
+- 阅读动态代理生成类源码，如dubbo
+- 线上不停机更新系统补丁
+- 分析死锁
+- 系统监控诊断
 
