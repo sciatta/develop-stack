@@ -283,18 +283,14 @@ CGLIB的限制
    - XML Bean的 init-method 属性 / @Bean 的 initMethod 属性
 
    - Lifecycle#start
-
 2. 销毁Bean扩展
    - @PreDestroy（推荐）
    - DisposableBean#destroy()
    - 实现了 java.lang.AutoCloseable / java.io.Closeable 接口
    - XML Bean的 destroy-method属性 / @Bean 的 destroyMethod 属性
    - Lifecycle#stop
-
 3. 容器注入
-  
-- ApplicationContextAware#setApplicationContext
-  
+  - ApplicationContextAware#setApplicationContext
 4. 容器扩展
 
    - BeanPostProcessor
@@ -317,7 +313,7 @@ CGLIB的限制
 
 - Join point
 
-  程序执行时的一个点。例如一个方法的执行或异常处理。在Spring中，Join point表示的是一个执行方法。
+  程序执行时的一个点。例如一个方法的执行或异常处理。在Spring中，**Join point表示的是一个执行方法**。
 
 - Advice
 
@@ -382,7 +378,7 @@ CGLIB
 
   
 
-### 基于 @AspectJ
+### 基于 @AspectJ 注解
 
 <font color=blue>@AspectJ 做为AspectJ 5 release样式引入。Spring像AspectJ 5一样解析注解，使用AspectJ提供的library用于pointcut的解析和匹配。但注意AOP运行时，仍然使用Spring AOP，不会依赖AspectJ的compiler或weaver</font>。
 
@@ -392,22 +388,23 @@ CGLIB
 
 @AspectJ支持生效，自动检测@Aspect注解
 
-- Java-style
+- 配置
+  - Java-style
 
-  ```java
-  @Configuration
-  @ComponentScan({"com.sciatta.hadoop.java.spring.core.aop.log",
-                  "com.sciatta.hadoop.java.spring.core.aop.biz"})
-  @EnableAspectJAutoProxy
-  public class SameAspectDifferentAdvice {
-  }
-  ```
+    ```java
+    @Configuration
+    @ComponentScan({"com.sciatta.hadoop.java.spring.core.aop.log",
+                    "com.sciatta.hadoop.java.spring.core.aop.biz"})
+    @EnableAspectJAutoProxy
+    public class SameAspectDifferentAdvice {
+    }
+    ```
 
-- XML
+  - XML
 
-  ```xml
-  <aop:aspectj-autoproxy/>
-  ```
+    ```xml
+    <aop:aspectj-autoproxy/>
+    ```
 
 - 引入依赖jar
 
