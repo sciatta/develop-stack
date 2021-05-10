@@ -223,6 +223,18 @@ git commit --amend
 git reset HEAD README
 ```
 
+取消push的内容
+
+```shell
+# 误提交远程版本
+git checkout 5.0.x
+# 查看待回滚的版本号
+git log
+# 本地回滚
+git reset --soft d159cb65915840b2dc2297ee6b40309b8aa5d2aa
+# 提交远程更新
+git push –-force 
+
 
 
 ## git rm
