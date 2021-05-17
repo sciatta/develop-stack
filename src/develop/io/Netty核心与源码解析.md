@@ -1,10 +1,8 @@
-## Netty
-
-### Netty运行原理
+# Netty运行原理
 
 
 
-### Netty优化
+# Netty优化
 
 - 不要阻塞 EventLoop
 
@@ -38,7 +36,7 @@
 
 
 
-### 网络程序优化
+# 网络程序优化
 
 - 粘包与拆包
 
@@ -59,36 +57,7 @@
 
 - 连接优化
 
-  TCP建立连接（3次握手）
+  - 缩短2MSL等待周期
 
-  1. `Client -> Server` SYN（你在吗？）
-
-  2. `Server -> Client` ACK（我在！） + SYN（你在吗？）
-
-     Client收到ACK后，状态变为ESTABLISHED
-
-  3. `Client -> Server` ACK（我在！）
-
-     Server收到ACK后，状态变为ESTABLISHED
-
-  TCP关闭连接（4次挥手）
-
-  1. `Client -> Server` FIN（我要离开！）
-
-  2. `Server -> Client` ACK（第一次确认！）
-
-     Server状态变为CLOSE_WAIT
-
-  3. `Server -> Client` FIN（我要离开！） + ACK（第二次确认！）
-
-     Client状态变为TIME_WAIT，**需要等待2MSL后**，状态变为CLOSED
-
-  4. `Client -> Server` ACK（确认！）
-
-     Server状态变为CLOSED
-
-  优化条件
-
-  1. 缩短2MSL等待周期
-  2. 开启端口复用
+  - 开启端口复用
 
