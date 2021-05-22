@@ -494,6 +494,16 @@ public class SpringSecurityJwtGuideApplication {
 ### @Autowired
 
 - 自动导入对象到类中，被注入进的类同样要被 Spring 容器管理。比如：Service 类注入到 Controller 类中。
+- 按类型注入
+- 同 @Qualifier 使用，可以按名称注入
+
+
+
+### @Resource
+
+- 默认按名称注入
+- name 按名称注入
+- type 按类型注入
 
 
 
