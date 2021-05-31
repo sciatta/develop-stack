@@ -4,15 +4,15 @@
 
 - 第一范式（1NF）关系 R 属于第一范式，当且仅当R中的每一个属性A的值域只包含原子项
 
-  **消除重复数据**，即每一列都是不可再分的基本数据项；每个列都是原子的。
+  **消除重复数据**，即每一列都是不可再分的基本数据项；<font color=red>每个列都是原子的，不可再分</font>。
 
 - 第二范式（2NF）在满足 1NF 的基础上，消除非主属性对码的部分函数依赖
 
-  **消除部分依赖**，表中没有列只与主键的部分相关，即每一行都被主键唯一标识；每个列都有主键。
+  **消除部分依赖**，表中没有列只与主键的部分相关，即每一行都被主键唯一标识；每个列都有主键。<font color=red>主键约束</font>。
 
 - 第三范式（3NF）在满足 2NF 的基础上，消除非主属性对码的传递函数依赖
 
-  **消除传递依赖**，消除表中列不依赖主键，而是依赖表中的非主键列的情况，即没有列是与主键不相关的。从表只引用主表的主键，即表中每列都和主键相关。
+  **消除传递依赖**，消除表中列不依赖主键，而是依赖表中的非主键列的情况，即没有列是与主键不相关的。从表只引用主表的主键，即表中每列都和主键相关。<font color=red>外键约束</font>。
 
 - BC 范式（BCNF）在满足 3NF 的基础上，消除主属性对码的部分和传递函数依赖
 
@@ -272,10 +272,12 @@ update记录执行流程
 
 
 - 连接器：管理连接，权限验证
+  - 主要负责用户登录数据库，进行用户的**身份认证**，包括校验账户密码，权限等操作，如果用户账户密码已通过，连接器会到权限表中查询该用户的所有**权限**，之后在这个连接里的权限逻辑判断都是会依赖此时读取到的权限数据
+  - 连接建立后，执行查询语句的时候，会先查询缓存，MySQL 会先校验这个 sql 是否执行过，以 Key-Value 的形式缓存在内存中，Key 是查询预计，Value 是结果集。如果缓存 key 被命中，就会直接返回给客户端，如果没有命中，就会执行后续的操作，完成后也会把结果缓存起来，方便下一次调用。**MySQL 8.0 版本后删除了缓存的功能**。
 - 分析器：词法分析、语法分析
 - 优化器：索引确定，执行计划生成
 - 执行器：和引擎交互，返回结果
-
+  - **执行前会校验该用户有没有权限**，如果没有权限，就会返回错误信息，如果有权限，就会去调用引擎的接口，返回接口执行的结果
 - undo log：用于回滚，崩溃恢复，MVCC；存储回滚段指针和事务id，通过回滚段指针找到对应undo log记录，通过事务id判断记录的可见性
 - 记录所在页存在于内存中
   - 存在
@@ -284,8 +286,8 @@ update记录执行流程
   - 不存在
     - 唯一索引：将数据页从磁盘读入内存，判断数据冲突与否，更新内存
     - 普通索引：在change buffer更新记录，change buffer异步将更新同步到磁盘，通过change buffer降低磁盘IO次数
-- redo log：WAL 用于事务崩溃恢复，以及将随机写变成顺序写，提过性能
-- binlog：用于备份，主从同步
+- redo log：WAL 用于<font color=red>事务崩溃恢复</font>，以及将随机写变成顺序写，提高性能
+- binlog：用于<font color=red>备份</font>，主从同步
 - 刷写 redo log：处于commit-prepare阶段
 - 刷写 binlog：处于commit-commit阶段
 
@@ -301,6 +303,12 @@ update记录执行流程
 | archive  | 无       | -    | -    | 行锁     | 支持     | -    |
 
 - myisam 适用于对读写性能要求高，但对数据一致性要求低的场景。
+- innodb使用聚集索引，而myisam使用非聚集索引。
+  - 聚集索引：数据文件和索引绑定在一起，必须要有主键，通过主键索引查询效率很高；使用辅助索引需要两次查询：1、辅助索引查询主键；2、主键查询数据
+  - 非聚集索引：数据文件分离，索引保存的是数据文件的指针。主键索引和辅助索引独立。
+- 保存表行数
+  - innodb 全表扫描
+  - myisam 变量保存
 
 
 
@@ -461,13 +469,14 @@ show index from users;
 
 ## 事务
 
-<font color=red>解决并发问题。</font>
+多条SQL要么全部成功，要么全部失败。<font color=red>需要解决读写冲突的并发问题。</font>
 
 - 问题
 
-  - 脏读(dirty read)：使用到从未被确认的数据(例如：早期版本、回滚)
-  - 不可重复读：其他事务 update 或 delete 会对结果集有影响
-  - 幻读(Phantom)：相同的查询语句，在不同的时间点执行时产生不同的结果集
+  - 脏读(dirty read)：使用到从未被确认的数据(例如：早期版本、回滚)；读到未提交事务的数据。
+  - 丢失修改：后一个事务提交的数据覆盖前一个事务提交的数据。
+  - 不可重复读：因为其他事务 update 或 delete 会对结果有影响，导致在一个事务内的两次读取数据不一样。
+  - 幻读(Phantom)：相同的查询语句，在不同的时间点执行时产生不同的结果集，另一个事务在结果集中插入或删除了数据。
 
 - 解决
 
@@ -477,21 +486,48 @@ show index from users;
 
 - Atomicity
 
-  原子性，一次事务中的操作要么全部成功，要么全部失败
+  原子性，一次事务中的操作要么全部成功，要么全部失败。
+
+  使用 **undo log(回滚日志)** 来保证事务的**原子性**。
 
 - Consistency
 
-  一致性，跨表、跨行、跨事务，数据库始终保持一致状态
+  一致性，跨表、跨行、跨事务，数据库始终保持一致状态。
+
+  保证了事务的持久性、原子性、隔离性之后，一致性才能得到保障。
 
 - Isolation
 
-  隔离性，可见性，保护事务不会互相干扰，包含4种隔离级别
+  隔离性，可见性，保护事务不会互相干扰，包含4种隔离级别。
+
+  通过 **锁机制**、**MVCC** 等手段来保证事务的隔离性。默认支持的隔离级别是 **`REPEATABLE-READ`**
 
 - Durability
 
-  持久性，事务提交成功后，不会丢数据。如电源故障，系统崩溃
+  持久性，事务提交成功后，不会丢数据。如电源故障，系统崩溃。
+  
+  使用 **redo log(重做日志)** 保证事务的**持久性**。
 
-### 锁
+
+
+### 原子性
+
+#### undo log 回滚日志
+
+- <font color=red>保证事务的原子性</font>
+- 用处：事务回滚，一致性读、崩溃恢复
+- 记录事务回滚时所需的撤消操作
+- 一条 INSERT 语句，对应一条 DELETE 的 undo log
+- 每个 UPDATE 语句，对应一条相反 UPDATE 的 undo log
+- 保存位置
+  - system tablespace (MySQL 5.7默认)
+  - undo tablespaces (MySQL 8.0默认)
+
+
+
+### 隔离性
+
+#### 锁
 
 加锁采用当前读，不加锁采用快照读。
 
@@ -531,16 +567,48 @@ show index from users;
          - session2 对 t1 阻塞 insert/delete/update/select
          - session2 对 t2 正常 insert/delete/update/select
 
-- innodb 行级锁
+- innodb 支持表级锁和行级锁，默认是行级锁
 
   - <font color=red>记录锁(Record)</font>：始终锁定索引记录，**锁加在索引上，而不是行上**，innodb一定存在聚簇索引，因此行锁会落在聚簇索引上。
+    - **单个行记录上的锁**
     - `select * from table where id = ? lock in share mode;` 读取记录加S锁
     - `select * from table where id = ? for update` 读取记录加X锁
   - <font color=red>间隙锁(Gap)</font>：对索引的间隙加锁，**目的是为了防止其他事务插入数据**；其中，READ UNCOMMITTED 和 READ COMMITTED 不会出现间隙锁；REPEATABLE READ 和 SERIALIZABLE 会出现间隙锁。
+    - **锁定一个范围，不包括记录本身**
   - <font color=red>临键锁(Next-Key)</font>：记录锁+间隙锁的组合
-  - 谓词锁(Predicat)：空间索引
+    - **锁定一个范围，包含记录本身**
 
-### 隔离级别
+
+
+- 锁升级
+  - MySQL不走索引，行锁升级为表锁
+  - 非唯一索引记录数超过一定数量（>=表记录的1/2），行锁升级为表锁
+
+
+
+#### MVCC 多版本并发控制
+
+解决读写冲突的无锁并发控制，为事务分配单向增长的时间戳，为每个修改保存一个版本。版本与事务时间戳关联，读操作只读该事务开始前的数据库快照，这样在读操作不用阻塞写操作，写操作不用阻塞读操作的同时，避免脏读和不可重复读。
+
+- 使 InnoDB 支持一致性读：READ COMMITTED 和 REPEATABLE READ
+- 让查询不被阻塞、无需等待被其他事务持有的锁，这种技术手段可以增加并发性能
+- InnoDB 保留被修改行的旧版本
+- 查询正在被其他事务更新的数据时，会读取更新之前的版本
+- 每行数据都存在一个版本号，每次更新时都更新该版本
+- 这种技术在数据库领域的使用并不普遍。 某些数据库，以及某些 MySQL 存储引擎都不支持
+- 实现机制
+  - 隐藏列
+    - DB_TRX_ID | 6-byte | 指示最后插入或更新该行的事务 ID
+    - DB_ROLL_PTR | 7-byte | 回滚指针。指向回滚段中写入的undo log 记录
+    - DB_ROW_ID | 6-byte | 聚簇 row ID/聚簇索引
+  - 事务链表，保存还未提交的事务，事务提交则会从链表中摘除
+  - Read view：每个 SQL 一个，包括 rw_trx_ids，low_limit_id，up_limit_id，low_limit_no 等
+  - 回滚段：通过 undo log 动态构建旧版本数据
+  - 
+
+
+
+#### 隔离级别
 
 <font  color=red>平衡一致性和性能。</font>
 
@@ -668,30 +736,28 @@ show index from users;
 
 - 可重复读：REPEATABLE READ
 
-  - <font color=red>InnoDB 的默认隔离级别</font>
+  - <font color=red>InnoDB 的默认隔离级别，使用临键锁实现，可避免幻读。</font>
 
   - 使用事务第一次读取时创建的快照
-
-  - 多版本技术
 
   - 锁
 
     - 间隙锁因为可以防止插入数据，因此可以部分解决幻读问题
-    - 使用唯一索引的唯一查询条件时，只锁定查找到的索引记录，不锁定间隙
+  - 使用唯一索引的唯一查询条件时，只锁定查找到的索引记录，不锁定间隙
     - 其他查询条件，会锁定扫描到的索引范围，通过间隙锁或临键锁来阻止其他会话在这个范围中插入值
     - 可能的问题：幻读
-
+  
   - 演示
 
     - 聚簇索引：当锁定精确记录时，索引上只有记录锁；当锁定范围时，索引上除了记录锁，索引间还会有间隙锁
-    - 非聚簇索引
+  - 非聚簇索引
       - 唯一索引：聚簇索引和非聚簇索引上都会有记录锁，对于锁定范围时，非聚簇索引上会有间隙锁
       - 普通索引：聚簇索引和非聚簇索引上都会有记录锁，对于精确记录或范围，非聚簇索引上会有间隙锁
     - 非索引：对于精确记录或范围，所有记录的聚簇索引会有记录锁，所有范围会有间隙锁，**相当于锁表**
     - 在一个事务内对表作update/delete**范围**操作，查询条件是索引，会加记录锁+间隙锁（<font color=red>~~禁止~~</font>），<font color=red>要尽量缩小范围并在索引上查询</font>
-
+  
     ```mysql
-    # 设置隔离级别
+  # 设置隔离级别
     set session transaction isolation level REPEATABLE READ;
     
     -- 聚簇索引	
@@ -741,48 +807,25 @@ show index from users;
     -- (-∞,1) (1,2) (2,3) (3,8) (8,+∞) +间隙锁
     begin;select * from locks where num=20 for update;
     ```
-
+  
     
 
 - 可串行化：SERIALIZABLE
 
   - 最严格的级别，事务串行执行，资源消耗最大
 
-### 支撑
 
-- undo log 撤销日志
-  - <font color=red>保证事务的原子性</font>
-  - 用处：事务回滚，一致性读、崩溃恢复
-  - 记录事务回滚时所需的撤消操作
-  - 一条 INSERT 语句，对应一条 DELETE 的 undo log
-  - 每个 UPDATE 语句，对应一条相反 UPDATE 的 undo log
-  - 保存位置
-    - system tablespace (MySQL 5.7默认)
-    - undo tablespaces (MySQL 8.0默认)
 
-- redo log 重做日志
-  - <font color=red>确保事务的持久性</font>，防止事务提交后数据未刷新到磁盘就掉电或崩溃
-  - 事务执行过程中写入 redo log，记录事务对数据页做了哪些修改
-  - 提升性能：WAL(Write-Ahead Logging) 技术，先写日志（顺序写提供性能），再写磁盘
-  - 日志文件：ib_logfile0，ib_logfile1
-  - 日志缓冲：innodb_log_buffer_size
-  - 强刷：fsync()
+### 持久性
 
-- MVCC 多版本并发控制
-  - 使 InnoDB 支持一致性读：READ COMMITTED 和 REPEATABLE READ
-  - 让查询不被阻塞、无需等待被其他事务持有的锁，这种技术手段可以增加并发性能
-  - InnoDB 保留被修改行的旧版本
-  - 查询正在被其他事务更新的数据时，会读取更新之前的版本
-  - 每行数据都存在一个版本号，每次更新时都更新该版本
-  - 这种技术在数据库领域的使用并不普遍。 某些数据库，以及某些 MySQL 存储引擎都不支持
-  - 实现机制
-    - 隐藏列
-      - DB_TRX_ID | 6-byte | 指示最后插入或更新该行的事务 ID
-      - DB_ROLL_PTR | 7-byte | 回滚指针。指向回滚段中写入的undo log 记录
-      - DB_ROW_ID | 6-byte | 聚簇 row ID/聚簇索引
-    - 事务链表，保存还未提交的事务，事务提交则会从链表中摘除
-    - Read view：每个 SQL 一个，包括 rw_trx_ids，low_limit_id，up_limit_id，low_limit_no 等
-    - 回滚段：通过 undo log 动态构建旧版本数据
+#### redo log 重做日志
+
+- <font color=red>确保事务的持久性</font>，防止事务提交后数据未刷新到磁盘就掉电或崩溃
+- 事务执行过程中写入 redo log，记录事务对数据页做了哪些修改
+- 提升性能：WAL(Write-Ahead Logging) 技术，先写日志（顺序写提供性能），再写磁盘
+- 日志文件：ib_logfile0，ib_logfile1
+- 日志缓冲：innodb_log_buffer_size
+- 强刷：fsync()
 
 
 
@@ -1080,7 +1123,7 @@ docker run -itd -v /Users/yangxiaoyu/work/test/mysqldatas/exchange:/exchange -v 
 - `gtid_mode=ON` 开启gtid全局事务
 - `enforce_gtid_consistency=ON` 强制GTID的一致性
 - `master_info_repository=TABLE` 将master.info元数据保存在系统表中
-- `relay_log_info_repository=TABLE` 将relay.info元数据保存中系统表中
+- `relay_log_info_repository=TABLE` 将relay.info元数据保存在系统表中
 - `transaction_write_set_extraction=XXHASH64` 使用哈希算法将其编码为散列
 - **`loose-group_replication_group_name="7c160b7a-fc0f-11ea-9e8c-00163e08fe16"` 加入的组名，有效的UUID，不同实例的配置文件中该参数相同**
 - `loose-group_replication_start_on_boot=off` 在启动服务器时不自动启动组复制
