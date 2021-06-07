@@ -48,6 +48,33 @@ source ~/.zshrc
 
 
 
+## 自定义文件格式
+
+- Preferences | Editor  | File and Code Templates
+
+  1. 新建Template，name：Schema File，extension：xsd
+
+  2. 创建模板
+
+     ```xml
+     <?xml version="1.0" encoding="UTF-8"?>
+     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns="http://www.sciatta.com/schema"
+              targetNamespace="http://www.sciatta.com/schema"
+              elementFormDefault="qualified">
+     </xsd:schema>
+     ```
+
+  3. 注意修改 `xmlns` 和 `targetNamespace` 为实际的Namespace
+
+  4. 解决问题
+
+     - `idea  lineNumber: 1; columnNumber: 1; 前言中不允许有内容` 
+
+       需要按照UTF-8无BOM方式编码。确认idea配置 `Preferences | Editor  | File Encodings` with NO BOM
+
+
+
 # Scala环境
 
 ## 配置SDK环境变量
