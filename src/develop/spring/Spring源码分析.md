@@ -85,6 +85,8 @@
 
 #### 数据准备
 
+##### 解析默认命名空间
+
 委托给 <font color=red>`XmlBeanDefinitionReader`</font>，调用其loadBeanDefinitions方法
 
 - 委托 `DefaultDocumentLoader` 读取，将Resource文件转换为Document
@@ -92,6 +94,41 @@
   - 委托 `BeanDefinitionParserDelegate` 解析Document**默认命名空间**的元素，创建 **GenericBeanDefinition** 填充XML元数据，并包装为BeanDefinitionHolder
     - 有三类自定义元素：1、同beans同级的根节点；2、同bean同级的节点；3、bean的自定义属性，或自定义的嵌套元素，装饰bean节点
   - 委托 `BeanDefinitionReaderUtils` ，调用 `DefaultListableBeanFactory` 的registerBeanDefinition方法向BeanFactory注册BeanDefinition
+
+
+
+##### 自定义标签解析
+
+- 验证解析XML，生成Document对象
+
+  - 由 `ResourceEntityResolver` 通过 publicId 和 SystemId 获取 XML 规约
+
+    ```bash
+    # URI
+    http://www.sciatta.com/schema/user 
+    # URL / systemId
+    http://www.sciatta.com/schema/user/user.xsd
+    ```
+
+    - 查找 **META-INF/spring.schemas** 通过SystemId 获取**本地配置**
+
+      ```properties
+      http\://www.sciatta.com/schema/user/user.xsd=META-INF/user.xsd
+      ```
+
+- 分析Document解析自定义元素，生成BeanDefinition
+
+  - 由  `BeanDefinitionParserDelegate` 解析自定义元素
+
+    - `DefaultNamespaceHandlerResolver` 通过 URI 查找**META-INF/spring.handlers** 获取 NamespaceHandler **扩展实现**，并调用init方法注册自定义元素和与之对应的**解析器实现**用于后续解析元素
+
+      ```properties
+      http\://www.sciatta.com/schema/user=com.sciatta.spring.beans.tests.BeanFactoryTests.UserNamespaceHandler
+      ```
+
+    - 调用 NamespaceHandler 解析自定义元素
+
+      - 委托 `BeanDefinitionParser` 自定义解析器解析元素
 
 
 
