@@ -241,7 +241,7 @@ git push –-force
 
 从已跟踪文件清单中移除
 
-```shell
+​```shell
 # 从已跟踪文件清单中移除，同时清除工作目录文件
 git rm README
 
@@ -297,6 +297,9 @@ git branch -a
 
 # 删除分支
 git branch -d abc
+
+# 设置默认push分支
+git branch --set-upstream-to=origin/5.0.x-notes 5.0.x-notes
 ```
 
 
@@ -309,6 +312,9 @@ git checkout abc
 
 # 创建分支，之后立即切换到此分支
 git checkout -b abc
+
+# 以5.0.x分支为基础，创建5.0.x-notes分支并切换
+git checkout -b 5.0.x-notes 5.0.x
 ```
 
 
