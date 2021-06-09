@@ -143,3 +143,25 @@
 
 ### Bean获取
 
+#### 核心流程
+
+![spring_core_ioc_getbean](Spring源码分析.assets/spring_core_ioc_getbean.png)
+
+####三级缓存
+
+A引用B，B引用A，形成循环依赖
+
+- 循环调用（方法）不支持
+- 循环依赖
+  - 构造器不支持
+  - setter支持
+
+
+
+三级缓存
+
+- 一级缓存 `singletonObjects` 缓存完全初始化的bean
+- 二级缓存 `earlySingletonObjects` 缓存未完全填充属性的bean，解决循环依赖问题
+- 三级缓存 `singletonFactories` 缓存可以获取未完全填充属性bean的ObjectFactory，前提是bean已经实例化，解决循环依赖问题
+
+![spring_core_ioc_getbean_3cache](Spring源码分析.assets/spring_core_ioc_getbean_3cache.png)
