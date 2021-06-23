@@ -630,6 +630,78 @@ JVM是一台基于**栈**的计算机器。每个线程都有一个独属于自�
   SourceFile: "ForLoop.java"
   ```
 
+
+
+
+### LazyWithEnum
+
+枚举类分析
+
+- 源码
+
+  ```java
+  public enum LazyWithEnum {
+      instance;   // public static final 属于类，类范围唯一
+  }
+  ```
+
+  
+
+- 分析
+
+  ```shell
+  # 使用jclasslib分析
+   
+  # <clinit> 类初始化
+  # -> ref
+   0 new #4 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum>
+  # -> ref ref
+   3 dup
+  # -> ref ref str
+   4 ldc #7 <instance>
+  # -> ref ref str 0
+   6 iconst_0
+  # 调用LazyWithEnum的构造函数 ref str 0 出栈，同时进入下一个栈帧的局部变量表
+  # -> ref
+   7 invokespecial #8 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum.<init>>
+  # ref 出栈，设置静态变量instance
+  # ->
+  10 putstatic #9 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum.instance>
+  # -> 1
+  13 iconst_1
+  # 创建长度为1的数组
+  # -> arrayref
+  14 anewarray #4 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum>
+  # -> arrayref arrayref
+  17 dup
+  # -> arrayref arrayref 0
+  18 iconst_0
+  # 静态变量入栈
+  # -> arrayref arrayref 0 ref
+  19 getstatic #9 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum.instance>
+  # 设置数组arrayref的0位为值ref，arrayref 0 ref 出栈
+  # -> arrayref
+  22 aastore
+  # arrayref 出栈，设置静态变量VALUES
+  # ->
+  23 putstatic #1 <com/sciatta/dev/java/designpattern/creative/singleton/LazyWithEnum.$VALUES>
+  # 返回
+  26 return
+  
+  # <init> 构造函数
+  # -> ref
+  0 aload_0
+  # -> ref str
+  1 aload_1
+  # -> ref str 0
+  2 iload_2
+  # 调用父类的构造函数 ref str 0 出栈
+  # ->
+  3 invokespecial #6 <java/lang/Enum.<init>>
+  # 返回前，保证操作数栈为空
+  6 return
+  ```
+
   
 
 # 类加载器
