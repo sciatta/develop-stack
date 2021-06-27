@@ -45,9 +45,7 @@
 
 # spring-beans
 
-## DefaultListableBeanFactory
-
-### 核心类
+## 核心类
 
 ![DefaultListableBeanFactory](Spring源码分析.assets/DefaultListableBeanFactory.png)
 
@@ -81,11 +79,11 @@
 
 
 
-### Bean加载
+## Bean加载
 
-#### 数据准备
+### 数据准备
 
-##### 解析默认命名空间
+#### 解析默认命名空间
 
 委托给 <font color=red>`XmlBeanDefinitionReader`</font>，调用其loadBeanDefinitions方法
 
@@ -97,7 +95,7 @@
 
 
 
-##### 自定义标签解析
+#### 自定义标签解析
 
 - 验证解析XML，生成Document对象
 
@@ -132,7 +130,7 @@
 
 
 
-#### 注册
+### 注册
 
 - 调用 `DefaultListableBeanFactory` 的registerBeanDefinition方法注册BeanDefinition
   - 对GenericBeanDefinition作必要的验证，如有Override方法，必须要有factoryMethodName
@@ -141,13 +139,15 @@
 
 
 
-### Bean获取
+## Bean获取
 
-#### 核心流程
+### 核心流程
 
 ![spring_core_ioc_getbean](Spring源码分析.assets/spring_core_ioc_getbean.png)
 
-####三级缓存
+
+
+###三级缓存
 
 A引用B，B引用A，形成循环依赖
 
@@ -165,3 +165,126 @@ A引用B，B引用A，形成循环依赖
 - 三级缓存 `singletonFactories` 缓存可以获取未完全填充属性bean的ObjectFactory，前提是bean已经实例化，解决循环依赖问题
 
 ![spring_core_ioc_getbean_3cache](Spring源码分析.assets/spring_core_ioc_getbean_3cache.png)
+
+
+
+# spring-context
+
+## 核心类
+
+![ClassPathXmlApplicationContext](Spring源码分析.assets/ClassPathXmlApplicationContext.png)
+
+
+
+## 核心流程
+
+分析ClassPathXmlApplicationContext创建核心流程。
+
+
+
+### 环境准备
+
+- 调用 `initPropertySources` 初始化自定义属性源
+  - 可以调用 `getEnvironment()` 获取Environment，调用customizePropertySources方法初始化自定义属性源
+  - 可以调用 `getEnvironment()` 获取Environment，调用setRequiredProperties方法设置必须检验环境变量
+- 调用 `getEnvironment().validateRequiredProperties()` 校验必须存在的环境变量，若不存在，提前抛出异常
+
+
+
+### 加载BeanFactory
+
+- 创建DefaultListableBeanFactory，委托XmlBeanDefinitionReader**加载所有BeanDefinition**，然后将beanFactory赋值给ApplicationContext的私有变量持有
+
+
+
+### 扩展BeanFactory
+
+- SPEL支持
+- 注册自定义属性编辑器
+  - 调用BeanFactory的addPropertyEditorRegistrar方法，为BeanFactory增加ResourceEditorRegistrar，其重要的方法就是registerCustomEditors方法，可以注册自定义属性编辑器
+    - 在Bean实例化后，会调用BeanFactory的registerCustomEditors，会遍历所有ResourceEditorRegistrar，批量向PropertyEditorRegistry（BeanWrapperImpl）注册PropertyEditor
+    - 会遍历customEditors向PropertyEditorRegistry注册PropertyEditor
+  - 扩展自定义属性编辑器，在配置文件中注册CustomEditorConfigurer，其实现了**BeanFactoryPostProcessor**接口
+    - 向propertyEditorRegistrars注入自定义PropertyEditorRegistrar
+    - 向customEditors注入自定义PropertyEditor
+- 注册ApplicationContextAwareProcessor，其实现了**BeanPostProcessor**接口，若Bean实现了Aware相关的接口，则为其注入相应的Bean，如实现了ApplicationContextAware接口，为Bean注入applicationContext
+- 设置忽略自动装配接口，会在ApplicationContextAwareProcessor中设置
+- 设置自动装配接口
+- 向BeanFactory注册环境变量相关Bean
+
+
+
+### 自定义扩展BeanFactory
+
+- postProcessBeanFactory方法可以由子类实现
+
+
+
+### 激活BeanFactoryPostProcessor
+
+- 通过硬编码或配置文件方式**获取**BeanFactoryPostProcessor，并通过**调用**其方法实现自定义BeanDefinition
+- BeanFactoryPost包括硬编码和配置文件两种设置方式
+  - 硬编码按照注册顺序执行
+  - 配置文件按照实现排序接口排序，实现了PriorityOrdered优先于实现了Ordered先执行，实现了Ordered优先于没有实现排序接口的先执行
+  - 硬编码执行优先于配置文件方式
+- BeanDefinitionRegistryPostProcessor继承BeanFactoryPostProcessor
+  - BeanDefinitionRegistryPostProcessor类优先于BeanFactoryPostProcessor类执行
+  - postProcessBeanDefinitionRegistry方法先于postProcessBeanFactory方法执行
+
+
+
+### 注册BeanPostProcessor
+
+- 通过硬编码注册BeanPostProcessor，按照注册顺序执行
+- 通过配置文件注册BeanPostProcessor
+  - 按照实现排序接口排序，实现了PriorityOrdered优先于实现了Ordered先执行，实现了Ordered优先于没有实现排序接口的先执行
+  - 注册MergedBeanDefinitionPostProcessor（继承BeanPostProcessor接口），如果之前已经注册，则移除，之后一律注册到list尾部
+- 硬编码执行优先于配置文件方式
+
+
+
+### 初始化消息资源
+
+- bean的name规定为messageSource
+  - 从配置文件获得
+    - 一种实现ResourceBundleMessageSource，设置basenames
+  - 未定义，提供默认实现DelegatingMessageSource，支持委托给parent获得message
+- 通过ApplicationContext的getMessage方法获取消息，其委托给MessageSource实现类，其委托给ResourceBundle实现类，对于properties文件，实现类是PropertyResourceBundle
+
+
+
+### 初始化ApplicationEventMulticaster和注册监听器
+
+- 初始化ApplicationEventMulticaster
+  - bean的name规定为applicationEventMulticaster
+  - 从配置文件获得
+  - 未定义，提供默认实现SimpleApplicationEventMulticaster
+- 向ApplicationEventMulticaster注册监听器
+  - 通过硬编码注册ApplicationListener
+  - 通过配置文件注册listenerBeanName
+- 通过ApplicationContext的publishEvent方法广播事件
+  - 调用ApplicationEventMulticaster的multicastEvent方法
+  - 遍历监听器，调用监听器的onApplicationEvent方法，由特定的监听器处理事件
+    - 异步非阻塞调用，由线程池调用
+    - 同步调用
+
+
+
+### 实例化所有非延迟初始化单例Bean
+
+- 调用BeanFactory的freezeConfiguration方法，冻结所有配置定义
+- 调用BeanFactory的preInstantiateSingletons方法，实例化所有非延迟初始化的单例Bean
+
+
+
+### 完成Refresh
+
+- 初始化LifecycleProcessor
+  - bean的name规定为lifecycleProcessor
+  - 从配置文件获得，需要实现LifecycleProcessor接口
+  - 未定义，提供默认实现DefaultLifecycleProcessor
+- 刷新LifecycleProcessor
+  - 获取实现Lifecycle或SmartLifecycle接口的Bean
+  - 按节点启动Lifecycle
+- 向ApplicationEventMulticaster发布ContextRefreshedEvent事件
+
