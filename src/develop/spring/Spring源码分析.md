@@ -288,3 +288,129 @@ A引用B，B引用A，形成循环依赖
   - 按节点启动Lifecycle
 - 向ApplicationEventMulticaster发布ContextRefreshedEvent事件
 
+
+
+# spring-aop
+
+## 标签解析
+
+- `spring-aop/resources/META-INF/spring.schemas` 是URL同本地xsd对应关系，用于验证aop标签
+
+- `spring-aop/resources/META-INF/spring.handlers` 是URI同NamespaceHandler对应关系，org.springframework.aop.config.AopNamespaceHandler负责注册aop元素相应的解析器
+
+  - <font color=red>`aspectj-autoproxy` 对应 AspectJAutoProxyBeanDefinitionParser</font>，目的是为了创建并注册AnnotationAwareAspectJAutoProxyCreator这个BeanPostProcessor，为Bean创建动态代理
+
+    - 创建BeanDefinition
+
+      name=org.springframework.aop.config.internalAutoProxyCreator
+
+      class=**AnnotationAwareAspectJAutoProxyCreator**
+
+    - 设置proxy-target-class和expose-proxy属性
+
+    - 注册BeanDefinition
+
+
+
+## 模型
+
+- AnnotationAwareAspectJAutoProxyCreator对应ProxyConfig，包含多个Advisor
+- Advisor对应Aspect，包含一个Pointcut，和一个与其对应的Advice
+- Advice有的实现了MethodIntercept；如果没有实现，则需要相应的Adapter适配为MethodIntercept
+- Joinpoint对应调用的目标方法，调用前会执行MethodInvocation内的MethodInterceptor拦截器链，MethodInvocation实现了责任链模式
+
+
+
+## 创建AOP代理
+
+###ApplicationContext注册AOP核心类
+
+- **AnnotationAwareAspectJAutoProxyCreator**实现了BeanPostProcessor接口
+- ApplicationContext初始化过程中，创建AnnotationAwareAspectJAutoProxyCreator类型的Bean，然后向BeanFactory注册BeanPostProcessor
+  - 其实现了InstantiationAwareBeanPostProcessor接口，设置BeanFactory的**hasInstantiationAwareBeanPostProcessors**属性为true
+
+
+
+### ApplicationContext实例化所有单例Bean
+
+- AnnotationAwareAspectJAutoProxyCreator
+
+  - Bean已经创建，从一级缓存中直接获取
+
+- 待功能增强的业务类UserService创建代理
+
+  - 在实例化前调用resolveBeforeInstantiation方法，参数hasInstantiationAwareBeanPostProcessors为true
+
+    - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessBeforeInstantiation方法
+
+      1. 判断UserService是否是需要被代理
+
+         如果是基础设施（Advice、Pointcut、Advisor、AopInfrastructureBean），或者有@Aspect注解，不需要被代理；
+
+         <font color=red>找出所有的Advisor（包括配置文件Advisor和@Aspect注解包含的Advisor，会被缓存）</font>遍历，如果是AspectJPointcutAdvisor，并且所属advice的AspectName是BeanName，也不需要被代理。
+
+      2. **TargetSourceCreator存在，才会在此处创建代理；否则，不会创建bean**
+
+    - 如果bean创建成功了，则会执行注册的BeanPostProcessor的postProcessAfterInitialization方法；代理创建成功，返回；否则，继续走后续的doCreateBean创建流程
+
+  - 实例化Bean包装为BeanWrapper
+
+  - 装配Bean属性
+
+  - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessBeforeInitialization方法
+
+    - 是的，什么都没有做
+
+  - 调用init初始化方法
+
+  - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessAfterInitialization方法
+
+    - 创建custom TargetSource，已经被代理过
+    - 不需要被代理，直接返回
+    - 如果是基础设施，或是AspectJPointcutAdvisor，不需要被代理，直接返回
+    - 获取可以匹配bean的所有Advisor
+      1. 在所有候选Advisor中，用Pointcut表达式匹配class的类和方法，只要类匹配，方法有一个匹配，则此Advisor为可以匹配bean的Advisor
+      2. 在Advisor列表首添加DefaultPointcutAdvisor
+    - **创建代理**
+      - 构建ProxyFactory
+      - 委托DefaultAopProxyFactory创建代理
+        - 创建JdkDynamicAopProxy，基于JDK动态代理，<font color=red>实现了InvocationHandler接口</font>
+          - 代理接口增加SpringProxy、Advised、DecoratingProxy
+          - 委托java.lang.reflect.Proxy的newProxyInstance方法创建代理类
+        - 创建ObjenesisCglibAopProxy
+
+- @Aspect定义的UserServiceAspect
+
+  - 在实例化前调用resolveBeforeInstantiation方法，参数hasInstantiationAwareBeanPostProcessors为true
+
+    - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessBeforeInstantiation方法
+
+      1. 判断UserServiceAspect是否是需要被代理
+
+         @Aspect注解是基础设施，**不需要被代理**
+
+    - 继续走后续的doCreateBean创建流程
+
+  - 实例化Bean包装为BeanWrapper
+
+  - 装配Bean属性
+
+  - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessBeforeInitialization方法
+
+  - 调用init初始化方法
+
+  - 调用AnnotationAwareAspectJAutoProxyCreator的postProcessAfterInitialization方法
+
+    - 不需要被代理，直接返回
+
+
+
+### 调用代理对象的方法
+
+- 调用JdkDynamicAopProxy的invoke方法，传入proxy，method，args
+  - 遍历Advisor集合，判断是否和调用method匹配，如果匹配，从Advisor中获取Advice，Advice即MethodInterceptor（或适配为MethodInterceptor），即获取MethodInterceptor拦截器链
+    - 如果Advice是MethodInterceptor的实例，则返回；包括：AspectJAfterAdvice，AspectJAroundAdvice
+    - 否则，需要将Advice适配为相应的MethodInterceptor，包括：AfterReturningAdvice（适配为AfterReturningAdviceInterceptor），MethodBeforeAdvice（适配为MethodBeforeAdviceInterceptor），ThrowsAdvice（适配为ThrowsAdviceInterceptor）
+  - 创建MethodInvocation，实现类是ReflectiveMethodInvocation（责任链模式，递归方式实现），调用proceed方法
+    - 逐个调用MethodInterceptor
+
