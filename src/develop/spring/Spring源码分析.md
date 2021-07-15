@@ -414,3 +414,35 @@ A引用B，B引用A，形成循环依赖
   - 创建MethodInvocation，实现类是ReflectiveMethodInvocation（责任链模式，递归方式实现），调用proceed方法
     - 逐个调用MethodInterceptor
 
+
+
+# spring-jdbc
+
+## 更新操作
+
+- 初始化JdbcTemplate，必须使用DataSource初始化
+- 调用JdbcTemplate的**update**方法
+  - 把参数封装为ArgumentPreparedStatementSetter
+  - 把SQL封装为SimplePreparedStatementCreator
+  - 执行execute核心模板方法
+    - 从DataSource获取Connection
+    - 通过SimplePreparedStatementCreator创建PreparedStatement
+    - 设置PreparedStatement参数，设置FetchSize、MaxRows、QueryTimeout
+    - <font color=red>调用PreparedStatementCallback回调扩展</font>
+      - 通过ArgumentPreparedStatementSetter设置PreparedStatement参数
+      - **调用PreparedStatement的executeUpdate执行SQL**
+    - 处理PreparedStatement的Warning，默认只输出日志；否则，可以抛出SQLWarningException运行时异常
+    - 关闭PreparedStatement
+    - 关闭Connection
+
+
+
+## 查询操作
+
+- 调用JdbcTemplate的**query**方法
+  - execute核心逻辑和调用update方法一致，区别被封装在了<font color=red>QueryStatementCallback回调扩展</font>中
+    - **调用Statement的executeQuery执行SQL**
+    - 返回的ResultSet由RowMapperResultSetExtractor解析，其封装了ResultSet的遍历过程
+      - <font color=red>每一行记录由RowMapper负责解析</font>，RowMapper是客户端传入的回调扩展，封装了将单行记录转换为POJO的逻辑
+    - 关闭ResultSet
+
