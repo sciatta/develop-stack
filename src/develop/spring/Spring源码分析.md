@@ -443,6 +443,87 @@ A引用B，B引用A，形成循环依赖
   - execute核心逻辑和调用update方法一致，区别被封装在了<font color=red>QueryStatementCallback回调扩展</font>中
     - **调用Statement的executeQuery执行SQL**
     - 返回的ResultSet由RowMapperResultSetExtractor解析，其封装了ResultSet的遍历过程
-      - <font color=red>每一行记录由RowMapper负责解析</font>，RowMapper是客户端传入的回调扩展，封装了将单行记录转换为POJO的逻辑
+      - <font color=red>每一行记录由RowMapper负责解析</font>，RowMapper是客户端传入的<font color=red>回调扩展</font>，封装了将单行记录转换为POJO的逻辑
     - 关闭ResultSet
+
+
+
+# spring-tx
+
+## 自定义标签
+
+### 注册解析类
+
+`org.springframework.transaction.config.TxNamespaceHandler` 负责解析 `http://www.springframework.org/schema/tx` 命名空间，注册`annotation-driven` 标签的自定义标签解析类 `AnnotationDrivenBeanDefinitionParser`
+
+
+
+### 向容器注册组件
+
+- 注册 `org.springframework.aop.config.internalAutoProxyCreator` InfrastructureAdvisorAutoProxyCreator，实现了<font color=red>BeanPostProcessor</font>接口，负责为Bean自动织入事务代理
+
+- 注册 `org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0` org.springframework.transaction.annotation.AnnotationTransactionAttributeSource，负责判断实现类的方法、实现类、接口的方法，接口上是否有事务声明
+
+- 注册 `org.springframework.transaction.interceptor.TransactionInterceptor#0` TransactionInterceptor，负责事务功能增强
+  - 向其属性transactionManagerBeanName注入transactionManager（已在容器中声明）
+  - 向其属性transactionAttributeSource注入org.springframework.transaction.annotation.AnnotationTransactionAttributeSource
+- 注册 `org.springframework.transaction.config.internalTransactionAdvisor` BeanFactoryTransactionAttributeSourceAdvisor，实现了<font color=red>Advisor</font>接口，委托AnnotationTransactionAttributeSource进行方法匹配确认目标Bean是否需要代理；同时提供事务拦截功能，委托给TransactionInterceptor
+  - 向其属性transactionAttributeSource注入org.springframework.transaction.annotation.AnnotationTransactionAttributeSource
+  - 向其属性adviceBeanName注入TransactionInterceptor
+
+
+
+## 织入事务
+
+### 初始化BeanPostProcessor
+
+向容器注入 `org.springframework.aop.config.internalAutoProxyCreator` InfrastructureAdvisorAutoProxyCreator
+
+
+
+### 实例化容器中的Bean
+
+在**初始化容器中第一个Bean**时，在调用完**init**方法后，会调用InfrastructureAdvisorAutoProxyCreator的postProcessAfterInitialization方法确认这个Bean是否需要被代理
+
+- 在容器中**初始化所有备选**Advisor，包括BeanFactoryTransactionAttributeSourceAdvisor，初始化其所有属性
+  - 初始化AnnotationTransactionAttributeSource
+  - 初始化TransactionInterceptor
+- 遍历备选Advisor，确认目标Bean是否需要被代理
+
+
+
+在容器中创建TransactionInterceptor
+
+- 初始化transactionManager
+- 初始化AnnotationTransactionAttributeSource
+
+
+
+在容器中创建DataSourceTransactionManager
+
+- 初始化dataSource，在容器中创建SimpleDriverDataSource
+
+
+
+**在容器中创建UserService，此类需要被代理**
+
+- 获得所有备选Advisor
+- 遍历备选Advisor，确认目标Bean是否需要被代理，通过BeanFactoryTransactionAttributeSourceAdvisor的Pointcut判断
+  - 判断Class是否匹配，默认直接返回true
+  - 判断Method是否匹配
+    - 获得目标Bean的Class和实现的所有Interface的所有方法进行匹配，委托给AnnotationTransactionAttributeSource进行匹配，只要有一个方法匹配即匹配此Advisor，然后缓存
+      - 实现类的方法上有没有 `@Transactional` 注解
+      - 实现类上有没有注解
+      - 实现类接口的方法上有没有注解
+      - 实现类接口上有没有注解
+- 为UserService创建代理类，如果是JDK动态代理的话，InvocationHandler保存了一份AdvisedSupport，AdvisedSupport是一份config，持有所有的Advisor
+
+
+
+## 事务处理
+
+- 调用代理 `userService.insertUser` ，会委托给JdkDynamicAopProxy的invoke方法
+- 遍历所有匹配的Advisor，获得Advice，对于BeanFactoryTransactionAttributeSourceAdvisor的Advice是TransactionInterceptor
+- 调用拦截器链进行事务处理
+  - 调用TransactionInterceptor的invoke方法
 
