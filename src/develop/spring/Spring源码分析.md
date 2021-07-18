@@ -450,15 +450,17 @@ A引用B，B引用A，形成循环依赖
 
 # spring-tx
 
-## 自定义标签
+## 核心流程
 
-### 注册解析类
+### 自定义标签
+
+#### 注册解析类
 
 `org.springframework.transaction.config.TxNamespaceHandler` 负责解析 `http://www.springframework.org/schema/tx` 命名空间，注册`annotation-driven` 标签的自定义标签解析类 `AnnotationDrivenBeanDefinitionParser`
 
 
 
-### 向容器注册组件
+#### 向容器注册组件
 
 - 注册 `org.springframework.aop.config.internalAutoProxyCreator` InfrastructureAdvisorAutoProxyCreator，实现了<font color=red>BeanPostProcessor</font>接口，负责为Bean自动织入事务代理
 
@@ -473,15 +475,15 @@ A引用B，B引用A，形成循环依赖
 
 
 
-## 织入事务
+### 织入事务
 
-### 初始化BeanPostProcessor
+#### 初始化BeanPostProcessor
 
 向容器注入 `org.springframework.aop.config.internalAutoProxyCreator` InfrastructureAdvisorAutoProxyCreator
 
 
 
-### 实例化容器中的Bean
+#### 实例化容器中的Bean
 
 在**初始化容器中第一个Bean**时，在调用完**init**方法后，会调用InfrastructureAdvisorAutoProxyCreator的postProcessAfterInitialization方法确认这个Bean是否需要被代理
 
@@ -520,10 +522,49 @@ A引用B，B引用A，形成循环依赖
 
 
 
-## 事务处理
+### 事务处理
 
 - 调用代理 `userService.insertUser` ，会委托给JdkDynamicAopProxy的invoke方法
 - 遍历所有匹配的Advisor，获得Advice，对于BeanFactoryTransactionAttributeSourceAdvisor的Advice是TransactionInterceptor
 - 调用拦截器链进行事务处理
   - 调用TransactionInterceptor的invoke方法
+    - 开启事务
+    - 处理业务逻辑
+    - 处理正常，则提交事务
+      - 如果抛出异常是RuntimeException或Error，才会回滚；否则，默认继续提交
+
+
+
+## 事务传播机制
+
+- 如果当前不存在事务
+  - `PROPAGATION_MANDATORY` 
+    - 抛出异常IllegalTransactionStateException
+  - `PROPAGATION_REQUIRED`、`PROPAGATION_REQUIRES_NEW`、`PROPAGATION_NESTED`
+    - 从DataSource获取Connection，缓存之
+    - 设置Connection的ReadOnly、TransactionIsolation、<font color=red>AutoCommit（false，开启事务，关闭自动提交事务）</font>
+    - 创建一个**事务对象**
+  - `PROPAGATION_SUPPORTS`、`PROPAGATION_NOT_SUPPORTED`、`PROPAGATION_NEVER`
+    - 不会创建事务
+- 如果当前已经存在事务，传播级别是 `REQUIRED`
+  - `PROPAGATION_NEVER`
+    - 执行业务逻辑前，抛出异常IllegalTransactionStateException，已经存在的事务回滚
+  - `PROPAGATION_NOT_SUPPORTED`
+    - 挂起当前事务；
+    - 不会创建事务；
+    - 嵌套事务如果写入数据后抛出异常，数据不会回滚；当前事务如果写入数据后收到嵌套事务抛出的异常，数据会回滚
+    - 嵌套事务如果写入数据正常，数据正常入库；当前事务如果写入数据后，自己抛出异常，数据会回滚
+  - `PROPAGATION_REQUIRES_NEW`
+    - 挂起当前事务
+    - 创建一个新事务（**本质是创建一个新的connection**）
+    - 嵌套事务如果写入数据后抛出异常，数据会回滚；当前事务如果写入数据后收到嵌套事务抛出的异常，数据会回滚
+    - <font color=red>嵌套事务如果写入数据正常，数据正常入库（嵌套事务是独立事务）；当前事务如果写入数据后，自己抛出异常，数据会回滚</font>
+  - `PROPAGATION_NESTED`
+    - 如果使用Savepoint，则为当前connection创建Savepoint
+    - 嵌套事务如果写入数据后抛出异常，数据会恢复到检查点位置，同时需要处理异常，不再抛出异常；此时，当前事务数据正常入库（**嵌套事务是否异常不会影响到当前事务**）
+    - <font color=red>嵌套事务如果写入数据正常；当前事务如果写入数据后，自己抛出异常，嵌套事务和当前事务的数据都会回滚</font>（**当前事务是否异常会影响到嵌套事务**）
+  - `PROPAGATION_MANDATORY` 、`PROPAGATION_REQUIRED`、`PROPAGATION_SUPPORTS`
+    - 共用原事务
+    - 嵌套事务如果写入数据后抛出异常，数据会回滚；当前事务如果写入数据后收到嵌套事务抛出的异常，数据会回滚
+    - 嵌套事务如果写入数据正常；当前事务如果写入数据后，自己抛出异常，嵌套事务和当前事务的数据都会回滚
 
