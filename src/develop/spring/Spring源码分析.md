@@ -1,6 +1,8 @@
 # 源码编译
 
-## 下载源码
+## spring-framework
+
+### 下载源码
 
 初始下载
 
@@ -21,7 +23,7 @@
 
 
 
-## 编译
+### 编译
 
 - `gradlew :spring-oxm:compileTestJava` 下载jar，时间较长
 
@@ -40,6 +42,29 @@
   - 构建完成后 git Rollback 恢复build.gradle
 
 - 如果加载到后面发现 spring-aspects 模块依赖报错，spring-aspects 右键 | unload module
+
+
+
+## spring-boot
+
+### 源码编译
+
+- `git clone git@github.com:yxyyyt/spring-boot.git`
+- `cd spring-boot`
+- `git checkout -b 2.1.x-notes remotes/origin/2.1.x`
+- `git push -u origin 2.1.x-notes`
+- idea打开spring-boot项目，解析maven依赖
+- 选择 Spring Boot Build(root) 执行 Reload All Maven Projects
+- spring-boot-project | spring-boot-tools | spring-boot-gradle-plugin 右键 build.gradle 点击 import gradle project
+- `./mvnw clean install -DskipTests -Pfast`
+
+
+
+### 问题
+
+- 运行Application时，Kotlin: Language version 1.1 is no longer supported; please, use version 1.3 or greater.
+  - spring-boot-gradle-plugin | Unload Modules
+  - spring-boot | Open Module Settings | Kotlin | Language/api version 选择1.5
 
 
 
@@ -568,3 +593,12 @@ A引用B，B引用A，形成循环依赖
     - 嵌套事务如果写入数据后抛出异常，数据会回滚；当前事务如果写入数据后收到嵌套事务抛出的异常，数据会回滚
     - 嵌套事务如果写入数据正常；当前事务如果写入数据后，自己抛出异常，嵌套事务和当前事务的数据都会回滚
 
+
+
+# spring-boot
+
+
+
+
+
+`ConfigurationClassPostProcessor`
