@@ -83,7 +83,7 @@ content root: /Users/yangxiaoyu/work/bigdata/project/hadoop-main/hadoop-hdfs/had
 
 - Preferences | Build, Execution, Deployment | Build Tools | Maven | Ignored Files
 
-  反向勾选被选中的pom.xml
+  <font color=red>反向勾选被选中的pom.xml</font>
 
 - Reload project
 
